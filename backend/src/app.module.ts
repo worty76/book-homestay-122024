@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -17,9 +17,7 @@ import { UsersModule } from './users/users.module';
       }),
       inject: [ConfigService], // Inject the ConfigService to get env variables
     }),
-
-    UsersModule,
-
+    UserModule,
   ],
 })
 export class AppModule {}
