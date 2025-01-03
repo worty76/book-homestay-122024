@@ -12,11 +12,6 @@ const slides = [
 ];
 
 export function Hero() {
-  // const [currentImage, setCurrentImage] = useState(0);
-
-  // const nextImage = () => setCurrentImage((prev) => (prev + 1) % images.length);
-  // const prevImage = () =>
-  //   setCurrentImage((prev) => (prev - 1 + images.length) % images.length);
 
   return (
     <section className="relative h-screen">

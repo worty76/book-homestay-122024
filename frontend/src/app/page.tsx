@@ -7,6 +7,7 @@ import { Header } from "@/components/LandingPage/Header";
 import { Hero } from "@/components/LandingPage/Hero";
 import { ImageGallery } from "@/components/LandingPage/ImageGallery";
 import { Pricing } from "@/components/LandingPage/Pricing";
+import { Testimonials } from "@/components/LandingPage/Testimonials";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
         <Amenities />
         <Pricing />
         <ImageGallery />
+        <Testimonials />
         <BookingForm />
       </main>
       <Footer />

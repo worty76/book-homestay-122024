@@ -15,9 +15,8 @@ export function Button({
   const baseStyles = "transition-colors";
   const variantStyles = {
     default: "",
-    outline:
-      "border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black",
-    ghost: "text-yellow-500 hover:bg-yellow-500 hover:text-black",
+    outline: "border border-yellow-500 text-yellow-500 ",
+    ghost: "text-yellow-500 ",
   };
   const sizeStyles = {
     default: "px-4 py-2",
