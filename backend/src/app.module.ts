@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UserModule } from './user/user.module';
+import { UserModule } from './users/user.module';
+import { reviewModule } from './reviews/review.module';
+import { HomestayModule } from './homestays/homestay.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { UserModule } from './user/user.module';
       inject: [ConfigService], // Inject the ConfigService to get env variables
     }),
     UserModule,
+    reviewModule,
+    HomestayModule
   ],
 })
 export class AppModule {}
