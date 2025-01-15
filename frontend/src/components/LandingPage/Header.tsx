@@ -4,8 +4,8 @@ import Image from "next/image";
 
 export function Header() {
   return (
-    <header className="px-[120px] z-50 bg-black/50 text-white border-b-[3px] border-primary">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+    <header className="px-[120px] z-50 bg-black text-white border-b-[3px] border-primary">
+      <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/">
           <Image src="/images/logo.png" alt="Logo" width={204} height={40.13} />
         </Link>
