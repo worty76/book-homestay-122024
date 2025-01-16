@@ -12,7 +12,7 @@ export function BookingForm() {
         />
         <div className="absolute inset-0 bg-black opacity-50"></div>
       </div>
-      <div className="relative z-10 container mx-auto px-4 py-16">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-16">
         <form className="flex justify-center flex-col md:flex-row gap-2 mx-auto font-sans">
           <Input
             type="text"

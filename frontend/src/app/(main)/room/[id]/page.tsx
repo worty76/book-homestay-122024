@@ -9,7 +9,7 @@ import { Calendar } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="pb-3">
+    <div className="px-6 py-6">
       <PropertyHeader />
       <PropertyGallery />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

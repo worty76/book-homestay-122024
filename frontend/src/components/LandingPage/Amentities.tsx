@@ -31,7 +31,7 @@ const amenities = [
 export function Amenities() {
   return (
     <section className="py-20 bg-black text-white">
-      <div className="container mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="my-[80px]">
           <Title subtitle="luxury" title="TIỆN ÍCH HOMESTAY" />
         </div>

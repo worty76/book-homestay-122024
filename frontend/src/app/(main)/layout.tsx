@@ -20,7 +20,7 @@ export default function RootLayout({
         className={`${roboto.variable} ${openSans.variable} ${playFair.variable} ${pinyonScript.variable} `}
       >
         <Header />
-        <main className="max-w-7xl mx-auto px-6 py-6">{children}</main>
+        <main className="mx-auto">{children}</main>
         <Footer />
       </body>
     </html>
