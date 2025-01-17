@@ -1,7 +1,7 @@
 export function About() {
   return (
     <section id="about" className="py-20 bg-black">
-      <div className="container mx-auto px-4 my-[80px]">
+      <div className="max-w-7xl  mx-auto px-4 my-[80px]">
         <div className="relative text-center">
           <h1 className="absolute inset-0 text-8xl text-[#A2AAB1] leading-none font-pinyon top-[-55px]">
             Welcome

@@ -32,9 +32,15 @@ const Carousel: React.FC<CarouselProps> = ({
     <div className="relative flex items-center">
       <button
         onClick={prev}
-        className="absolute left-[-34px] p-2 text-gray-800 rounded-full shadow-md -translate-x-1/2 z-10"
+        className="absolute left-[-20px] sm:left-[-34px] p-1 sm:p-2 text-gray-800 rounded-full shadow-md -translate-x-1/2 z-10"
       >
-        <Image src="/icons/Prev.svg" width={36} height={36} alt="Next" />
+        <Image
+          src="/icons/Prev.svg"
+          width={24}
+          height={24}
+          alt="Previous"
+          className="w-7 h-7 sm:w-9 sm:h-9"
+        />
       </button>
 
       <div className="overflow-hidden w-full">
@@ -45,9 +51,9 @@ const Carousel: React.FC<CarouselProps> = ({
           {slides.map((slide, index) => (
             <div
               key={index}
-              className="min-w-full flex justify-center items-center p-2"
+              className="min-w-full flex justify-center items-center p-1 sm:p-2"
             >
-              <div className="border-2 border-[#0D0D0D]">{slide}</div>
+              <div className="border-2 border-[#0D0D0D] w-full">{slide}</div>
             </div>
           ))}
         </div>
@@ -55,9 +61,15 @@ const Carousel: React.FC<CarouselProps> = ({
 
       <button
         onClick={next}
-        className="absolute right-[-34px] p-2 text-gray-800 rounded-full shadow-md translate-x-1/2 z-10"
+        className="absolute right-[-20px] sm:right-[-34px] p-1 sm:p-2 text-gray-800 rounded-full shadow-md translate-x-1/2 z-10"
       >
-        <Image src="/icons/Next.svg" width={36} height={36} alt="Next" />
+        <Image
+          src="/icons/Next.svg"
+          width={24}
+          height={24}
+          alt="Next"
+          className="w-7 h-7 sm:w-9 sm:h-9"
+        />
       </button>
     </div>
   );
