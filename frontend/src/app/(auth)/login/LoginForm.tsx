@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { handleLogin } from "@/lib/actions";
-import apiService from "@/services/apiService";
+// import { handleLogin } from "@/lib/actions";
+// import apiService from "@/services/apiService";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -20,20 +20,20 @@ export function LoginForm({
   const [errors, setErrors] = useState<string[]>([]);
 
   const submitLogin = async () => {
-    const formData = {
-      email: email,
-      password: password,
-    };
-    const response = await apiService.postWithoutToken(
-      "/api/auth/login/",
-      JSON.stringify(formData)
-    );
-    if (response.access) {
-      handleLogin(response.user.pk, response.access, response.refresh);
-      router.push("/");
-    } else {
-      setErrors(response.non_field_errors);
-    }
+    // const formData = {
+    //   email: email,
+    //   password: password,
+    // };
+    // // const response = await apiService.postWithoutToken(
+    // //   "/api/auth/login/",
+    // //   JSON.stringify(formData)
+    // // );
+    // if (response.access) {
+    //   // handleLogin(response.user.pk, response.access, response.refresh);
+    //   router.push("/");
+    // } else {
+    //   setErrors(response.non_field_errors);
+    // }
   };
 
   return (

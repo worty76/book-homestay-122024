@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Title } from "./Title";
@@ -44,36 +44,50 @@ export function Testimonials() {
   };
 
   return (
-    <section className="py-20 bg-white text-black">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="mb-[60px]">
-          <Title subtitle="Luxury" title="Ý KIẾN KHÁCH HÀNG" />
+    <section className="py-20 text-white bg-[#344E41] px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-[60px] text-center">
+          <Title
+            subtitle="Giúp chúng tôi cải thiện"
+            title="Ý KIẾN KHÁCH HÀNG"
+            subtitleColor="#5d8b3f"
+            titleColor="#F3ECDC"
+            opacity="40"
+          />
         </div>
         <div className="relative max-w-5xl mx-auto">
           <div className="text-center max-w-3xl mx-auto">
-            <p className="text-lg mb-4">
-              {testimonials[currentTestimonial].content}
-            </p>
-            <p className="text-yellow-500 font-semibold">
-              — {testimonials[currentTestimonial].author}
-            </p>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={testimonials[currentTestimonial].id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.5 }}
+              >
+                <p className="text-lg mb-4">
+                  {testimonials[currentTestimonial].content}
+                </p>
+                <p className="text-[#F3ECDC] font-semibold">
+                  — {testimonials[currentTestimonial].author}
+                </p>
+              </motion.div>
+            </AnimatePresence>
           </div>
-          {/* Adjusted button positioning */}
+          {/* Navigation Buttons */}
           <Button
             variant="ghost"
-            size="lg"
-            className="absolute left-0 top-1/2 -translate-y-1/2 text-black"
+            className="absolute left-2 sm:left-4 lg:top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-[#8a9a5b] hover:bg-[#758a4b] text-white rounded-full shadow-md"
             onClick={prevTestimonial}
           >
-            <ChevronLeft className="h-14 w-14 text-black" />
+            <ChevronLeft className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
           </Button>
           <Button
             variant="ghost"
-            size="lg"
-            className="absolute right-0 top-1/2 -translate-y-1/2 text-black"
+            className="absolute right-2 sm:right-4 lg:top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-[#8a9a5b] hover:bg-[#758a4b] text-white rounded-full shadow-md"
             onClick={nextTestimonial}
           >
-            <ChevronRight className="h-14 w-14 text-black" />
+            <ChevronRight className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
           </Button>
         </div>
       </div>

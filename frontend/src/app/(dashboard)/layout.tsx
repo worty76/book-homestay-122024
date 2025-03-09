@@ -13,12 +13,10 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${roboto.variable} ${openSans.variable} ${playFair.variable} ${pinyonScript.variable}`}
-      >
-        {children}
-      </body>
-    </html>
+    <div
+      className={`${roboto.variable} ${openSans.variable} ${playFair.variable} ${pinyonScript.variable}`}
+    >
+      {children}
+    </div>
   );
 }

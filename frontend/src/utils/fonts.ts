@@ -6,7 +6,7 @@ import {
 } from "next/font/google";
 
 export const roboto = Roboto({
-  weight: ["500", "900", "700"],
+  weight: ["500", "900", "700", "400"],
   subsets: ["vietnamese"],
   variable: "--font-roboto",
 });

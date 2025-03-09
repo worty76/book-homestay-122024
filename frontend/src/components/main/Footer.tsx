@@ -222,7 +222,7 @@ export function Footer() {
               </div>
 
               {/* Opening Hours */}
-              <div className="flex justify-end items-start">
+              <div className="flex justify-end items-start ms-4">
                 <div className="flex flex-col justify-end items-start">
                   <h3 className="text-lg font-bold mb-4">Giờ mở cửa</h3>
                   <p className="mb-2">Thứ 2 - Thứ 6: 6:00AM - 23:00PM</p>
