@@ -63,6 +63,7 @@ export default function ApartmentGallery() {
             titleColor="#5a8d69"
             subtitle="Luxury"
             subtitleColor="#9C6B4A"
+            opacity="20"
           />
         </motion.div>
 

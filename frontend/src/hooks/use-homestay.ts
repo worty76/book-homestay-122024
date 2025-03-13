@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { homestayApi, type HomestayData } from "@/api/homestay-api";
+import { homestayApi, type HomestayData } from "@/lib/api/homestay-api";
 import { toast } from "sonner";
 
 export function useHomestay() {

@@ -1,7 +1,4 @@
-import { About } from "@/components/main/About";
-import { Advantage } from "@/components/main/Advantage";
 import { Hero } from "@/components/main/Hero";
-import MonthlyChampions from "@/components/main/News";
 import { Properties } from "@/components/main/Properties";
 import { Testimonials } from "@/components/main/Testimonials";
 import ApartmentGallery from "@/components/main/ApartmentGallery";

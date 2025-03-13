@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 
 // Sample image data with local images from public/images directory
 const generateImages = (startIndex: number, count: number) => {
-  const categories = ["nature", "architecture", "travel", "food", "people"];
+  const categories = ["View bên ngoài", "View phòng"];
   const widths = [300, 350, 400, 450, 500];
   const heights = [200, 250, 300, 350, 400, 450, 500];
 
@@ -61,14 +61,7 @@ export default function GalleryPage() {
   const [selectedImage, setSelectedImage] = useState<any | null>(null);
   const [activeCategory, setActiveCategory] = useState("Tất cả ảnh");
 
-  const categories = [
-    "Tất cả ảnh",
-    "View bên ",
-    "architecture",
-    "travel",
-    "food",
-    "people",
-  ];
+  const categories = ["View bên ngoài", "View phòng"];
 
   // Infinite scroll setup
   const { ref, inView } = useInView({
