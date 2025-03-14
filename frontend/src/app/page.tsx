@@ -19,7 +19,7 @@ export default function Home() {
       {/* <MonthlyChampions /> */}
       <ApartmentGallery />
       <ApartmentTestimonial />
-      <Properties />
+      {/* <Properties /> */}
       <FacilitiesGrid />
       <BlogSection />
       <Testimonials />

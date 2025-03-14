@@ -4,6 +4,9 @@ import "./globals.css";
 import { openSans, pinyonScript, playFair, roboto } from "@/utils/fonts";
 import { TanstackProvider } from "@/providers/tanstack-provider";
 import { Footer } from "@/components/main/Footer";
+import QueryProvider from "@/providers/query-provider";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,7 +24,9 @@ export default function RootLayout({
         className={`${roboto.variable} ${openSans.variable} ${playFair.variable} ${pinyonScript.variable} antialiased`}
         suppressHydrationWarning={true}
       >
-        <TanstackProvider>{children}</TanstackProvider>
+        <QueryProvider>
+          <TanstackProvider>{children}</TanstackProvider>
+        </QueryProvider>
         <Footer />
       </body>
     </html>
