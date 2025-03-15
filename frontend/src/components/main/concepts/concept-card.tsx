@@ -50,8 +50,7 @@ export default function ConceptCard({ concept, index = 0 }: ConceptCardProps) {
               <div
                 key={i}
                 className={`text-xs px-2 py-1 rounded ${
-                  colorMap[color as keyof typeof colorMap] ||
-                  "bg-muted text-muted-foreground"
+                  colorMap[color as keyof typeof colorMap]
                 }`}
               >
                 {color}

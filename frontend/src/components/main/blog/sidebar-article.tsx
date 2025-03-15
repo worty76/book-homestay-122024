@@ -1,31 +1,32 @@
-import Image from "next/image"
-import Link from "next/link"
+import Link from "next/link";
+import Image from "next/image";
+import { BlogArticle } from "@/data/blogs";
 
-interface SidebarArticleProps {
-  title: string
-  date: string
-  image: string
-  slug: string
-}
-
-export default function SidebarArticle({ title, date, image, slug }: SidebarArticleProps) {
+export default function SidebarArticle({
+  slug,
+  title,
+  coverImage,
+  date,
+}: BlogArticle) {
   return (
-    <article className="group flex gap-4">
-      <Link href={`/blog/${slug}`} className="relative w-24 h-24 flex-shrink-0 overflow-hidden rounded-lg">
+    <Link href={`/blog/${slug}`} className="flex gap-4 group">
+      <div className="relative w-24 h-24 flex-shrink-0">
         <Image
-          src={image || "/placeholder.svg"}
+          src={coverImage}
           alt={title}
           fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          sizes="96px"
+          className="object-cover rounded-md"
         />
-      </Link>
-      <div className="flex-1">
-        <time className="text-sm text-gray-500 mb-1 block">{date}</time>
-        <Link href={`/blog/${slug}`}>
-          <h3 className="font-medium leading-snug group-hover:text-[#ff5533] transition-colors">{title}</h3>
-        </Link>
       </div>
-    </article>
-  )
+      <div className="flex-1">
+        <h3 className="font-medium line-clamp-2 group-hover:text-[#5a8d69] transition-colors">
+          {title}
+        </h3>
+        <p className="text-sm text-gray-500 mt-1">
+          {new Date(date).toLocaleDateString("vi-VN")}
+        </p>
+      </div>
+    </Link>
+  );
 }
-

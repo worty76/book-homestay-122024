@@ -35,7 +35,6 @@ export default function RoomCard({ room }: RoomCardProps) {
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
-      {/* Room Image */}
       <div className="relative aspect-[4/3] overflow-hidden">
         <Image
           src={room.images[0]}
@@ -46,19 +45,10 @@ export default function RoomCard({ room }: RoomCardProps) {
           priority={false}
         />
 
-        {/* Concept Badge */}
-        <div className="absolute top-3 left-3">
-          <Badge className="bg-primary/90 text-primary-foreground hover:bg-primary/90">
-            {room.concept}
-          </Badge>
-        </div>
-
-        {/* Price Badge */}
         <div className="absolute bottom-3 left-3 bg-background/90 text-foreground px-3 py-1 rounded-full text-sm font-medium">
           {formatCurrency(room.price)} / đêm
         </div>
 
-        {/* Quick Book Button (appears on hover) */}
         <div
           className={`
           absolute bottom-3 right-3 transition-opacity duration-300
@@ -80,7 +70,6 @@ export default function RoomCard({ room }: RoomCardProps) {
         </div>
       </div>
 
-      {/* Room Details */}
       <div className="p-4">
         <h3 className="text-lg font-semibold mb-2 truncate">{room.name}</h3>
 

@@ -40,7 +40,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
               <AnimatedImage
-                src="/images/about-story.jpg"
+                src="/images/langque.jpg"
                 alt="Câu chuyện của chúng tôi"
               />
             </div>
@@ -66,7 +66,6 @@ export default function AboutPage() {
 
         <Separator className="my-16" />
 
-        {/* Our Values Section */}
         <Section
           title="Giá Trị Cốt Lõi"
           subtitle="Những nguyên tắc định hướng mọi hoạt động của chúng tôi"
@@ -245,7 +244,7 @@ export default function AboutPage() {
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <AnimatedTeamCard
-              image="/images/team-1.jpg"
+              image="/images/img1.jpg"
               name="Nguyễn Minh Tuấn"
               role="Founder & CEO"
               bio="Với hơn 10 năm kinh nghiệm trong ngành du lịch và khách sạn, anh Tuấn là người đặt nền móng cho ý tưởng homestay kết hợp văn hóa truyền thống và tiện nghi hiện đại."
@@ -253,7 +252,7 @@ export default function AboutPage() {
             />
 
             <AnimatedTeamCard
-              image="/images/team-2.jpg"
+              image="/images/img2.jpg"
               name="Trần Thị Mai Anh"
               role="Design Director"
               bio="Tốt nghiệp ngành Thiết kế Nội thất, chị Mai Anh là người chịu trách nhiệm cho mọi concept thiết kế độc đáo tại homestay, mang đậm dấu ấn văn hóa Việt Nam."
@@ -261,7 +260,7 @@ export default function AboutPage() {
             />
 
             <AnimatedTeamCard
-              image="/images/team-3.jpg"
+              image="/images/img3.jpg"
               name="Lê Văn Hoàng"
               role="Operations Manager"
               bio="Với tính cách tỉ mỉ và khả năng quản lý xuất sắc, anh Hoàng đảm bảo mọi hoạt động tại homestay đều diễn ra suôn sẻ, mang đến trải nghiệm tốt nhất cho khách hàng."

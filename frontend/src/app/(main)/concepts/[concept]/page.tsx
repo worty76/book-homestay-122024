@@ -68,15 +68,15 @@ export default function ConceptDetailPage({
       <div className="container mx-auto px-4 py-12">
         <div className="mb-12">
           <motion.h1
-            className="text-3xl font-bold mb-2"
+            className="text-3xl font-bold mb-2 text-[#0a3b33]"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Concept {conceptData.name}
+            Chủ đề {conceptData.name}
           </motion.h1>
           <motion.p
-            className="text-muted-foreground max-w-3xl"
+            className="text-muted-foreground max-w-3xl text-[#5a8d69]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -92,14 +92,16 @@ export default function ConceptDetailPage({
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <h2 className="text-xl font-semibold mb-4">
+              <h2 className="text-xl font-semibold mb-4 text-[#0a3b33]">
                 Câu chuyện thiết kế
               </h2>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
+              <p className="text-muted-foreground mb-6 leading-relaxed text-[#5a8d69] ">
                 {conceptData.story}
               </p>
 
-              <h3 className="text-lg font-medium mb-3">Màu sắc chủ đạo</h3>
+              <h3 className="text-lg font-medium mb-3 text-[#0a3b33]">
+                Màu sắc chủ đạo
+              </h3>
               <div className="flex flex-wrap gap-2 mb-6">
                 {conceptData.mainColors.map((color, i) => {
                   return (
@@ -116,11 +118,13 @@ export default function ConceptDetailPage({
                 })}
               </div>
 
-              <h3 className="text-lg font-medium mb-3">Tiện nghi nổi bật</h3>
+              <h3 className="text-lg font-medium mb-3 text-[#0a3b33]">
+                Tiện nghi nổi bật
+              </h3>
               <div className="space-y-2 mb-6">
                 {conceptData.amenities.slice(0, 4).map((amenity, index) => (
                   <div key={index} className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5 text-[#50C878]" />
                     <span>{amenity}</span>
                   </div>
                 ))}
@@ -152,7 +156,6 @@ export default function ConceptDetailPage({
                 ))}
               </div>
 
-              {/* View All button - Only show if we have more than 4 images */}
               {hasMoreImages && (
                 <div className="mt-4 flex justify-end">
                   <ConceptGalleryModal
@@ -178,7 +181,7 @@ export default function ConceptDetailPage({
 
         <div className="mb-12">
           <h2 className="text-2xl font-bold mb-6">
-            Phòng theo concept {conceptData.name}
+            Phòng theo chủ đề {conceptData.name}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {conceptRooms.map((room, index) => (

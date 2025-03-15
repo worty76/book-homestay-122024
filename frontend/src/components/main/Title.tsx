@@ -3,7 +3,7 @@ interface TitleProps {
   title: string;
   subtitleColor: string;
   titleColor: string;
-  opacity: string;
+  opacity?: string;
 }
 
 export function Title({
@@ -11,12 +11,12 @@ export function Title({
   title,
   subtitleColor,
   titleColor,
-  opacity,
+  opacity = "70",
 }: TitleProps) {
   return (
     <div className="relative text-center">
       <h1
-        className={`absolute inset-0 text-7xl leading-none font-pinyon top-[-35px] opacity-${opacity}`}
+        className={`absolute inset-0 text-8xl leading-none font-pinyon top-[-70px] opacity-70`}
         style={{ color: subtitleColor }}
       >
         {subtitle}
