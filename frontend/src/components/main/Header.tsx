@@ -3,17 +3,17 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuItems = [
     { name: "TRANG CHỦ", url: "/" },
-    { name: "GIỚI THIỆU", url: "/gioi-thieu" },
-    { name: "PHÒNG", url: "/phong" },
-    { name: "BÀI VIẾT", url: "/tin-tuc" },
-    { name: "LIÊN HỆ", url: "/lien-he" },
+    { name: "GIỚI THIỆU", url: "/about" },
+    { name: "ĐẶT PHÒNG", url: "/concepts" },
+    { name: "BÀI VIẾT", url: "/blog" },
+    { name: "LIÊN HỆ", url: "/contact" },
   ];
 
   return (
@@ -21,7 +21,7 @@ export function Header() {
       <header className="relative z-10 flex items-center justify-between px-8 py-2 bg-[rgba(249,245,227,1)] rounded-b-3xl">
         <Link href="/">
           <Image
-            src="/images/Logo Kén-03.png"
+            src="/images/LogoKén-03.png"
             alt="Logo"
             width={110}
             height={110}
@@ -29,9 +29,8 @@ export function Header() {
           />
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:block">
-          <ul className="flex items-center space-x-8 text-[#9C6B4A] font-bold">
+        <nav className="hidden md:flex items-center">
+          <ul className="flex items-center space-x-8 text-[#9C6B4A] font-bold mr-6">
             {menuItems.map((item) => (
               <li key={item.name}>
                 <Link
@@ -43,10 +42,25 @@ export function Header() {
               </li>
             ))}
           </ul>
+
+          <Link
+            href="/login"
+            className="flex items-center gap-2 bg-[#9C6B4A] hover:bg-[#7A5230] text-white py-2 px-4 rounded-full text-sm font-medium transition-colors"
+          >
+            <User className="h-4 w-4" />
+            <span>Đăng nhập</span>
+          </Link>
         </nav>
 
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-4">
+          <Link
+            href="/login"
+            className="flex items-center justify-center bg-[#9C6B4A] hover:bg-[#7A5230] text-white p-2 rounded-full transition-colors"
+            aria-label="Đăng nhập"
+          >
+            <User className="h-4 w-4" />
+          </Link>
+
           <button
             onClick={() => setMobileMenuOpen(true)}
             aria-label="Open mobile menu"
@@ -56,7 +70,6 @@ export function Header() {
         </div>
       </header>
 
-      {/* Mobile Navigation Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -75,7 +88,7 @@ export function Header() {
               <div className="flex items-center justify-between mb-8">
                 <Link href="/">
                   <Image
-                    src="/images/Logo Kén-03.png"
+                    src="/images/Logo Kén-03.png"
                     alt="Logo"
                     width={80}
                     height={80}
@@ -102,6 +115,17 @@ export function Header() {
                       </Link>
                     </li>
                   ))}
+
+                  <li className="pt-4 border-t border-gray-100">
+                    <Link
+                      href="/login"
+                      className="flex items-center gap-2 text-[#9C6B4A] hover:text-[#7A5230]"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <User className="h-4 w-4" />
+                      <span className="font-bold text-sm">ĐĂNG NHẬP</span>
+                    </Link>
+                  </li>
                 </ul>
               </nav>
             </motion.div>

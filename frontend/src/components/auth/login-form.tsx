@@ -29,7 +29,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, Eye, EyeOff, Loader2 } from "lucide-react";
 import { useLogin } from "@/api/auth";
 
-// Define the form validation schema
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
   password: z
@@ -46,7 +45,6 @@ export function LoginForm() {
 
   const loginMutation = useLogin();
 
-  // Initialize the form
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -55,14 +53,13 @@ export function LoginForm() {
     },
   });
 
-  // Handle form submission
   async function onSubmit(data: LoginFormValues) {
-    setError(null); // Clear any previous errors
+    setError(null);
 
     try {
       await loginMutation.mutateAsync(data);
       console.log("thành công", data);
-      router.push("/dashboard"); // Redirect to dashboard after successful login
+      router.push("/dashboard");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         // Handle Axios errors
@@ -71,7 +68,6 @@ export function LoginForm() {
           "Login failed. Please check your credentials.";
         setError(errorMessage);
       } else {
-        // Handle unexpected errors
         setError("An unexpected error occurred. Please try again.");
         console.error(error);
       }

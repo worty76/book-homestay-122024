@@ -29,7 +29,7 @@ const carouselImages = [
 
 export function Hero() {
   const handleScrollDown = () => {
-    const nextSection = document.getElementById("about");
+    const nextSection = document.getElementById("conceptlist");
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: "smooth" });
     }
@@ -40,7 +40,6 @@ export function Hero() {
       <BackgroundCarousel images={carouselImages} />
       <Header />
 
-      {/* Reservation Info - hiển thị chỉ trên md trở lên */}
       <div className="absolute hidden md:flex flex-col left-[-20px] top-1/2 -translate-y-1/2 text-white">
         <div className="flex space-x-5 -rotate-90">
           <div className="w-14 h-14 flex items-center justify-center border border-white rounded-full animate-zoom">
@@ -53,7 +52,6 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Social Links - hiển thị chỉ trên md trở lên */}
       <div className="absolute hidden md:flex flex-col right-[80px] top-1/2 -translate-y-1/2 space-y-4 text-white z-50">
         <div className="absolute top-[-75px] left-1/2 -translate-x-1/2 w-[2px] h-[80px] bg-white"></div>
         <div className="flex flex-col space-y-4">
@@ -80,7 +78,6 @@ export function Hero() {
         <div className="absolute bottom-[-90px] left-1/2 -translate-x-1/2 w-[2px] h-[80px] bg-white"></div>
       </div>
 
-      {/* Nội dung chính */}
       <main className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
         <div className="space-y-6">
           <p className="text-white text-sm tracking-widest">

@@ -4,9 +4,9 @@ import { useState } from "react";
 import { Calendar, Minus, Plus, Users, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import RoomCard from "./room-card";
-import FacilitiesSection from "./facilities-section";
-import MapSection from "./map-section";
+import RoomCard from "./roomCard";
+import FacilitiesSection from "./facilitiesSection";
+import MapSection from "./mapSection";
 
 export default function RoomBooking() {
   const [guests, setGuests] = useState(2);

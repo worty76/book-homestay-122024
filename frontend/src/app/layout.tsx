@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { openSans, pinyonScript, playFair, roboto } from "@/utils/fonts";
-import { TanstackProvider } from "@/providers/tanstack-provider";
+import { openSans, pinyonScript, playFair, roboto } from "@/lib/fonts";
 import { Footer } from "@/components/main/Footer";
 import QueryProvider from "@/providers/query-provider";
 
@@ -24,9 +23,7 @@ export default function RootLayout({
         className={`${roboto.variable} ${openSans.variable} ${playFair.variable} ${pinyonScript.variable} antialiased`}
         suppressHydrationWarning={true}
       >
-        <QueryProvider>
-          <TanstackProvider>{children}</TanstackProvider>
-        </QueryProvider>
+        <QueryProvider>{children}</QueryProvider>
         <Footer />
       </body>
     </html>

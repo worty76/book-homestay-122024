@@ -26,7 +26,6 @@ export function UserProfile() {
     router.push("/login");
   };
 
-  // Get user initials for avatar fallback
   const getInitials = () => {
     if (!user?.email) return "U";
     return user.email.charAt(0).toUpperCase();

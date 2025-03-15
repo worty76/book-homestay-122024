@@ -26,27 +26,21 @@ export default function BookingSidebar({
   serviceFee = 750000,
   currency = "VNĐ",
 }: BookingSidebarProps) {
-  // States cho ngày check-in, check-out
   const [checkIn, setCheckIn] = useState<Date | undefined>(new Date());
   const [checkOut, setCheckOut] = useState<Date | undefined>(
     addDays(new Date(), 7)
   );
 
-  // Tách riêng từng loại khách
   const [adultCount, setAdultCount] = useState(1);
   const [childrenCount, setChildrenCount] = useState(0);
   const [infantCount, setInfantCount] = useState(0);
   const [petCount, setPetCount] = useState(0);
 
-  // State quản lý Popover khách
   const [openGuestPopover, setOpenGuestPopover] = useState(false);
 
-  // Tính số đêm ở
   const [nights, setNights] = useState<number>(7);
-  // Tính tổng giá
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
-  // Cập nhật total price khi có thay đổi
   useEffect(() => {
     if (checkIn && checkOut) {
       const nightsCount = differenceInDays(checkOut, checkIn);
@@ -58,12 +52,10 @@ export default function BookingSidebar({
     }
   }, [checkIn, checkOut, pricePerNight, cleaningFee, serviceFee]);
 
-  // Format tiền tệ
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("vi-VN").format(amount);
   };
 
-  // Tổng khách (có thể tùy chỉnh thêm logic)
   const totalGuests = adultCount + childrenCount;
 
   return (
@@ -77,10 +69,8 @@ export default function BookingSidebar({
         </div>
       </div>
 
-      {/* Chọn ngày */}
       <div className="mb-4 overflow-hidden rounded-lg border">
         <div className="grid grid-cols-2 divide-x">
-          {/* Check-in */}
           <div className="p-3">
             <p className="text-xs font-bold">CHECK-IN</p>
             <Popover>
@@ -118,7 +108,6 @@ export default function BookingSidebar({
             </Popover>
           </div>
 
-          {/* Check-out */}
           <div className="p-3">
             <p className="text-xs font-bold">CHECKOUT</p>
             <Popover>
@@ -153,7 +142,6 @@ export default function BookingSidebar({
           </div>
         </div>
 
-        {/* GUESTS */}
         <div className="border-t p-3">
           <p className="text-xs font-bold">GUESTS</p>
           <Popover open={openGuestPopover} onOpenChange={setOpenGuestPopover}>
@@ -173,7 +161,6 @@ export default function BookingSidebar({
 
             <PopoverContent className="w-72 p-4">
               <div className="space-y-4">
-                {/* Người lớn */}
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-semibold">Người lớn</p>
@@ -200,7 +187,6 @@ export default function BookingSidebar({
                   </div>
                 </div>
 
-                {/* Trẻ em */}
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-semibold">Trẻ em</p>
@@ -229,7 +215,6 @@ export default function BookingSidebar({
                   </div>
                 </div>
 
-                {/* Em bé */}
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-semibold">Em bé</p>
@@ -256,7 +241,6 @@ export default function BookingSidebar({
                   </div>
                 </div>
 
-                {/* Thú cưng */}
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-semibold">Thú cưng</p>
@@ -288,7 +272,6 @@ export default function BookingSidebar({
                   được phép mang theo thú cưng.
                 </p>
 
-                {/* Nút đóng popover */}
                 <div className="flex justify-end">
                   <Button
                     variant="secondary"
@@ -303,12 +286,10 @@ export default function BookingSidebar({
         </div>
       </div>
 
-      {/* Nút đặt phòng */}
       <Button className="mb-4 w-full bg-[#FF385C] text-white hover:bg-[#FF385C]/90">
         Đặt phòng
       </Button>
 
-      {/* Chi tiết giá */}
       <div className="space-y-4">
         <div className="flex justify-between">
           <span className="underline">

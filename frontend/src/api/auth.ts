@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useAuthStore } from "@/store/useAuthStore";
-import { apiPost, handleApiError } from "@/lib/api-client";
+import { apiPost, handleApiError } from "@/api/api-client";
 
 // Login types
 interface LoginCredentials {
@@ -15,7 +15,6 @@ interface LoginResponse {
   email?: string;
 }
 
-// Login function
 export const useLogin = () => {
   const { login } = useAuthStore();
 
@@ -32,9 +31,8 @@ export const useLogin = () => {
       }
     },
     onSuccess: (data, variables) => {
-      // Create user object from response
       const user = {
-        id: data.userId || "user-id", // Use actual userId if available
+        id: data.userId || "user-id",
         email: data.email || variables.email,
       };
 
@@ -43,12 +41,10 @@ export const useLogin = () => {
   });
 };
 
-// Logout function
 export const useLogout = () => {
   const { logout } = useAuthStore();
 
   return () => {
     logout();
-    // You could also call a logout endpoint if needed
   };
 };

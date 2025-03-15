@@ -10,7 +10,6 @@ export function Contact() {
     <section className="container py-16 md:py-24 mx-auto">
       <div className="container">
         <div className="grid gap-12 lg:grid-cols-2">
-          {/* Left Column - Contact Info */}
           <div className="space-y-8">
             <div className="space-y-4">
               <h2 className="text-4xl font-medium">Hotel Horizon Entebbe</h2>
@@ -24,7 +23,7 @@ export function Contact() {
 
             <div className="space-y-6">
               <div className="flex items-center gap-3">
-                <Phone className="h-6 w-6 text-[#B08968]" />
+                <Phone className="h-6 w-6 text-black" />
                 <div>
                   <p className="text-sm uppercase text-muted-foreground">
                     Reservations
@@ -34,7 +33,7 @@ export function Contact() {
               </div>
 
               <div className="flex items-center gap-3">
-                <Mail className="h-6 w-6 text-[#B08968]" />
+                <Mail className="h-6 w-6 text-black" />
                 <div>
                   <p className="text-sm uppercase text-muted-foreground">
                     Email Info
@@ -44,7 +43,7 @@ export function Contact() {
               </div>
 
               <div className="flex items-start gap-3">
-                <MapPin className="h-6 w-6 text-[#B08968]" />
+                <MapPin className="h-6 w-6 text-black" />
                 <div>
                   <p className="text-sm uppercase text-muted-foreground">
                     Hotel Address
@@ -59,8 +58,7 @@ export function Contact() {
             </div>
           </div>
 
-          {/* Right Column - Contact Form */}
-          <div className="rounded-lg bg-[#FAF8F6] p-8">
+          <div className="rounded-lg bg-white p-8">
             <div className="mb-8">
               <h3 className="text-2xl font-medium">Get In Touch</h3>
             </div>
@@ -103,7 +101,7 @@ export function Contact() {
 
               <Button
                 type="submit"
-                className="w-full bg-[#B08968] hover:bg-[#B08968]/90"
+                className="w-full bg-black hover:bg-black/90"
               >
                 SUBMIT
               </Button>
