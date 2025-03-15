@@ -2,16 +2,16 @@ import Image from "next/image";
 
 export function Advantage() {
   return (
-    <section className="py-12 md:py-20 bg-[#f9f5e3] text-[#9C6B4A]">
+    <section className="py-12 md:py-20 bg-[#f9f5e3] text-[#9C6B4A] font-roboto">
       <div className="max-w-7xl mx-auto px-4">
         {/* First Grid Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           <div className="flex flex-col justify-center items-start order-2 md:order-1">
             <div className="w-full">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 font-roboto">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 md:mb-6">
                 Ưu điểm vị trí
               </h2>
-              <ul className="space-y-3 md:space-y-4 font-roboto">
+              <ul className="space-y-3 md:space-y-4">
                 <AdvantageItem
                   distance="200m"
                   description="đến Bamboo Bar (Luckydaisy Bamboo Bar)"
@@ -44,7 +44,7 @@ export function Advantage() {
         </div>
 
         {/* Second Grid Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 pt-5 md:pt-0 md:grid-cols-2 gap-8 md:gap-12">
           <div className="md:order-1">
             <Image
               src="/images/image4.png"
@@ -56,10 +56,10 @@ export function Advantage() {
           </div>
           <div className="flex flex-col justify-center items-start md:order-2">
             <div className="w-full">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 font-roboto">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 md:mb-6">
                 Giới thiệu chỗ ở
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 font-roboto">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                 <AmenityItem description="Trà và cà phê miễn phí." />
                 <AmenityItem description="Nước nóng lạnh." />
                 <AmenityItem description="Nước uống miễn phí." />
@@ -68,7 +68,7 @@ export function Advantage() {
                 <AmenityItem description="Chăn gối ủ ấm loại tốt." />
                 <AmenityItem description="Khăn tắm sạch." />
                 <AmenityItem description="Quạt sưởi và đèm điện" />
-              </div>
+              </ul>
             </div>
           </div>
         </div>
@@ -88,13 +88,13 @@ function AdvantageItem({
     <li className="flex items-start">
       <Image
         src="/icons/infor.svg"
-        alt="infor"
+        alt=""
         width={16}
         height={16}
         className="mr-2 mt-1 flex-shrink-0"
       />
       <span className="text-sm md:text-base">
-        <strong>{distance}</strong> {description}
+        <strong className="font-bold">{distance}</strong> {description}
       </span>
     </li>
   );
@@ -102,15 +102,15 @@ function AdvantageItem({
 
 function AmenityItem({ description }: { description: string }) {
   return (
-    <div className="flex items-start">
+    <li className="flex items-start">
       <Image
         src="/icons/infor.svg"
-        alt="infor"
+        alt=""
         width={16}
         height={16}
         className="mr-2 mt-1 flex-shrink-0"
       />
       <span className="text-sm md:text-base">{description}</span>
-    </div>
+    </li>
   );
 }

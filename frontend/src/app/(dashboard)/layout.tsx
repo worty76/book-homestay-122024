@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "../globals.css";
-import { openSans, pinyonScript, playFair, roboto } from "@/utils/fonts";
+import { openSans, pinyonScript, playFair, roboto } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,12 +13,10 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${roboto.variable} ${openSans.variable} ${playFair.variable} ${pinyonScript.variable}`}
-      >
-        {children}
-      </body>
-    </html>
+    <div
+      className={`${roboto.variable} ${openSans.variable} ${playFair.variable} ${pinyonScript.variable}`}
+    >
+      {children}
+    </div>
   );
 }

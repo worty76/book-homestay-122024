@@ -6,7 +6,7 @@ type Props = {
   description: string;
 };
 
-const AnotherHero = (props: Props) => {
+const AnotherHero = ({ title, description }: Props) => {
   return (
     <div className="relative min-h-[400px] overflow-hidden">
       <div className="absolute inset-0">
