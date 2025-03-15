@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { useAuthStore } from "@/store/useAuthStore";
+import Cookies from "js-cookie";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://192.168.0.110:3000";
 
@@ -8,7 +9,7 @@ export const apiClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 10000, 
+  timeout: 10000,
 });
 
 apiClient.interceptors.request.use(
@@ -91,4 +92,30 @@ export const apiDelete = async <T>(
 ): Promise<T> => {
   const response = await apiClient.delete<T>(url, config);
   return response.data;
+};
+
+interface LoginResponse {
+  token: string;
+  user: {
+    id: string;
+    email: string;
+    name?: string;
+  };
+}
+
+export const login = async (credentials: {
+  username: string;
+  password: string;
+}) => {
+  const response = await apiPost<LoginResponse>("/login", credentials);
+  const { token, user } = response;
+  useAuthStore.getState().login(user, token);
+  Cookies.set(
+    "auth-storage",
+    encodeURIComponent(
+      JSON.stringify({ state: { isAuthenticated: true, token } })
+    ),
+    { expires: 7 }
+  );
+  return response;
 };
