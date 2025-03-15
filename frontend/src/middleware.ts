@@ -35,6 +35,10 @@ export function middleware(request: NextRequest) {
     }
   }
 
+  console.log("isAuthenticated:", isAuthenticated);
+  console.log("isProtectedPath:", isProtectedPath);
+  console.log("isPublicPath:", isPublicPath);
+
   if (isProtectedPath && !isAuthenticated) {
     const loginUrl = new URL("/login", request.url);
     return NextResponse.redirect(loginUrl);
