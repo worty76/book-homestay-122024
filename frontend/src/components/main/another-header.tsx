@@ -2,11 +2,13 @@ import { Header } from "@/components/main/Header";
 import Image from "next/image";
 import BreadcrumbNav from "./breadcrumb-nav";
 
-type Props = {
+interface Props {
   title: string;
   description: string;
-  image?: string;
-};
+  image: string;
+  backgroundColor?: string;
+  colorOverlay?: boolean;
+}
 
 const AnotherHeader = ({
   title,

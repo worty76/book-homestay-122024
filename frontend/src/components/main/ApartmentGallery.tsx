@@ -49,7 +49,6 @@ export default function ApartmentGallery() {
       style={{ backgroundImage: 'url("/images/testimonial-bg.png")' }}
     >
       <div className="container mx-auto px-4 md:px-6">
-        {/* Section Header */}
         <motion.div
           className="text-center mb-8 md:mb-12"
           initial="hidden"
@@ -63,13 +62,11 @@ export default function ApartmentGallery() {
             titleColor="#5a8d69"
             subtitle="Luxury"
             subtitleColor="#9C6B4A"
-            opacity="20"
+            // opacity="80"
           />
         </motion.div>
 
-        {/* Gallery Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {/* Featured Item with Video Button */}
           <motion.div
             className="relative rounded-3xl overflow-hidden col-span-1 md:col-span-2 lg:col-span-1 row-span-2"
             initial="hidden"
@@ -88,7 +85,6 @@ export default function ApartmentGallery() {
             </div>
           </motion.div>
 
-          {/* Regular Gallery Items */}
           {apartmentImages.slice(1, 6).map((image, index) => (
             <motion.div
               key={image.id}

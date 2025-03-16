@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, Award, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -20,7 +21,6 @@ export default function AboutSection() {
     <section className="bg-[#f8f3e9] py-16 px-4 md:px-8 overflow-hidden">
       <div className="container mx-auto max-w-7xl">
         <div className="flex flex-col lg:flex-row items-center gap-24">
-          {/* Images */}
           <div className="lg:w-1/2 relative">
             <motion.div
               initial="hidden"
@@ -61,7 +61,6 @@ export default function AboutSection() {
             </motion.div>
           </div>
 
-          {/* Content */}
           <motion.div
             className="lg:w-1/2 pt-12 lg:pt-0"
             initial="hidden"
@@ -103,10 +102,12 @@ export default function AboutSection() {
             </div>
 
             <motion.div whileHover={{ x: 4 }}>
-              <Button className="rounded-full bg-[#5a8d69] hover:bg-[#4a7d59] text-white group px-6">
-                Đặt phòng ngay
-                <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </Button>
+              <Link href={"/concepts"}>
+                <Button className="rounded-full bg-[#5a8d69] hover:bg-[#4a7d59] text-white group px-6">
+                  Đặt phòng ngay
+                  <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
             </motion.div>
           </motion.div>
         </div>

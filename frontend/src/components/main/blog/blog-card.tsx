@@ -1,35 +1,52 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Calendar } from "lucide-react"
+import Link from "next/link";
+import Image from "next/image";
+import { Calendar } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { BlogArticle } from "@/data/blogs";
 
-interface BlogCardProps {
-  title: string
-  date: string
-  description: string
-  image: string
-  slug: string
-}
-
-export default function BlogCard({ title, date, description, image, slug }: BlogCardProps) {
+export default function BlogCard({
+  slug,
+  title,
+  excerpt,
+  coverImage,
+  date,
+  category,
+  tags,
+}: BlogArticle) {
   return (
-    <article className="group">
+    <article className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       <Link href={`/blog/${slug}`}>
-        <div className="relative aspect-[4/3] overflow-hidden rounded-lg mb-4">
+        <div className="relative aspect-[16/9]">
           <Image
-            src={image || "/placeholder.svg"}
+            src={coverImage}
             alt={title}
             fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+            priority={false}
           />
         </div>
-        <h2 className="text-xl font-semibold mb-2 group-hover:text-[#ff5533] transition-colors">{title}</h2>
+        <div className="p-6">
+          <div className="flex items-center gap-4 mb-3">
+            <Badge variant="secondary">{category}</Badge>
+            <div className="flex items-center text-gray-500 text-sm">
+              <Calendar className="h-4 w-4 mr-1" />
+              {new Date(date).toLocaleDateString("vi-VN")}
+            </div>
+          </div>
+          <h3 className="font-bold text-xl mb-2 line-clamp-2 hover:text-[#5a8d69] transition-colors">
+            {title}
+          </h3>
+          <p className="text-gray-600 line-clamp-3 mb-4">{excerpt}</p>
+          <div className="flex flex-wrap gap-2">
+            {tags.slice(0, 3).map((tag) => (
+              <Badge key={tag} variant="outline" className="text-sm">
+                {tag}
+              </Badge>
+            ))}
+          </div>
+        </div>
       </Link>
-      <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
-        <Calendar className="w-4 h-4" />
-        <time>{date}</time>
-      </div>
-      <p className="text-gray-600 line-clamp-2">{description}</p>
     </article>
-  )
+  );
 }
-

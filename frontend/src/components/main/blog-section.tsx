@@ -13,57 +13,8 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay, { AutoplayType } from "embla-carousel-autoplay";
 import { useEffect, useState } from "react";
-
-const articles = [
-  {
-    id: 1,
-    title: "Đây là tên của blog 1",
-    description: "Đây là description của blog 1 .",
-    image: "/images/view/1.png",
-    date: "1/2/2023",
-    slug: "kamar-terbaik",
-  },
-  {
-    id: 2,
-    title: "Đây là tên của blog 2",
-    description: "Đây là description của blog 2 .",
-    image: "/images/view/2.png",
-    date: "1/2/2023",
-    slug: "apartemen-nyaman",
-  },
-  {
-    id: 3,
-    title: "Đây là tên của blog 3",
-    description: "Đây là description của blog 3 .",
-    image: "/images/view/3.png",
-    date: "1/2/2023",
-    slug: "apartemen-jakarta",
-  },
-  {
-    id: 4,
-    title: "Đây là tên của blog 4",
-    description: "Đây là description của blog 4 .",
-    image: "/images/view/4.png",
-    date: "1/2/2023",
-    slug: "apartemen-jakarta",
-  },
-  {
-    id: 5,
-    title: "Đây là tên của blog 5",
-    description: "Đây là description của blog 5 .",
-    image: "/images/view/5.png",
-    date: "1/2/2023",
-    slug: "apartemen-jakarta",
-  },
-  {
-    id: 6,
-    title: "Đây là tên của blog 6",
-    description: "Đây là description của blog 6 .",
-    image: "/images/view/6.png",
-    date: "1/2/2023",
-    slug: "apartemen-jakarta",
-  },
-];
+import Link from "next/link";
+import { getRecentArticles } from "@/data/blogs";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -71,15 +22,14 @@ const fadeIn = {
 };
 
 export default function BlogSection() {
-  // Create a ref for the autoplay plugin
+  const articles = getRecentArticles();
+
   const [plugin, setPlugin] = useState<AutoplayType | null>(null);
 
-  // State for carousel API and current slide
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
 
-  // Initialize the autoplay plugin
   useEffect(() => {
     setPlugin(
       Autoplay({
@@ -91,7 +41,6 @@ export default function BlogSection() {
     );
   }, []);
 
-  // Track carousel state
   useEffect(() => {
     if (!api) return;
 
@@ -103,7 +52,6 @@ export default function BlogSection() {
     });
   }, [api]);
 
-  // Function to handle dot click
   const handleDotClick = (index: number) => {
     if (api) api.scrollTo(index);
   };
@@ -122,17 +70,17 @@ export default function BlogSection() {
             </h2>
           </div>
 
-          <motion.a
-            href="#"
-            className="hidden md:flex items-center gap-2 text-[#5a8d69] uppercase tracking-wider text-sm group"
-            whileHover={{ x: 4 }}
-          >
-            Xem tất cả blog
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </motion.a>
+          <Link href="/blog" legacyBehavior>
+            <motion.a
+              className="hidden md:flex items-center gap-2 text-[#5a8d69] uppercase tracking-wider text-sm group cursor-pointer"
+              whileHover={{ x: 4 }}
+            >
+              Xem tất cả blog
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </motion.a>
+          </Link>
         </div>
 
-        {/* Blog Carousel */}
         <div className="relative px-8">
           <Carousel
             className="mb-4"
@@ -146,7 +94,7 @@ export default function BlogSection() {
             <CarouselContent>
               {articles.map((article, index) => (
                 <CarouselItem
-                  key={article.id}
+                  key={article.slug}
                   className="md:basis-1/2 lg:basis-1/3 pl-6"
                 >
                   <motion.article
@@ -159,7 +107,7 @@ export default function BlogSection() {
                   >
                     <div className="relative aspect-[4/3] overflow-hidden">
                       <Image
-                        src={article.image || "/placeholder.svg"}
+                        src={article.coverImage || "/images/placeholder.jpg"}
                         alt={article.title}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -196,11 +144,13 @@ export default function BlogSection() {
                           <line x1="8" x2="8" y1="2" y2="6" />
                           <line x1="3" x2="21" y1="10" y2="10" />
                         </svg>
-                        <span>{article.date}</span>
+                        <span>
+                          {new Date(article.date).toLocaleDateString("vi-VN")}
+                        </span>
                       </div>
 
                       <p className="text-gray-600 mb-4 line-clamp-2">
-                        {article.description}
+                        {article.excerpt}
                       </p>
 
                       <motion.a
@@ -220,7 +170,6 @@ export default function BlogSection() {
             <CarouselNext className="w-12 h-12 bg-[#8a9a5b] hover:bg-[#758a4b] text-white rounded-full shadow-md -mr-6 absolute right-0" />
           </Carousel>
 
-          {/* Pagination Indicators */}
           <div className="flex justify-center gap-2 mt-6 mb-4">
             {Array.from({ length: count }).map((_, index) => (
               <button
@@ -237,15 +186,15 @@ export default function BlogSection() {
           </div>
         </div>
 
-        {/* Mobile See All Link */}
-        <motion.a
-          href="#"
-          className="flex md:hidden items-center gap-2 text-[#5a8d69] uppercase tracking-wider text-sm justify-center"
-          whileHover={{ x: 4 }}
-        >
-          Lihat Semua Blog
-          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-        </motion.a>
+        <Link href="/blog" legacyBehavior>
+          <motion.a
+            className="flex md:hidden items-center gap-2 text-[#5a8d69] uppercase tracking-wider text-sm justify-center cursor-pointer mt-6"
+            whileHover={{ x: 4 }}
+          >
+            Xem tất cả blog
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </motion.a>
+        </Link>
       </div>
     </section>
   );
