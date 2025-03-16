@@ -6,6 +6,7 @@ interface User {
   id: string;
   email: string;
   name?: string;
+  isAdmin: boolean;
 }
 
 interface AuthState {
@@ -14,11 +15,12 @@ interface AuthState {
   isAuthenticated: boolean;
   login: (user: User, token: string) => void;
   logout: () => void;
+  isAdmin: () => boolean;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       token: null,
       isAuthenticated: false,
@@ -27,7 +29,13 @@ export const useAuthStore = create<AuthState>()(
         Cookies.set(
           "auth-storage",
           encodeURIComponent(
-            JSON.stringify({ state: { isAuthenticated: true, token } })
+            JSON.stringify({
+              state: {
+                isAdmin: user.isAdmin,
+                isAuthenticated: true,
+                token,
+              },
+            })
           ),
           { expires: 7 }
         );
@@ -36,7 +44,7 @@ export const useAuthStore = create<AuthState>()(
         set({ user: null, token: null, isAuthenticated: false });
         Cookies.remove("auth-storage");
       },
-      reset: () => set({ user: null, token: null, isAuthenticated: false }),
+      isAdmin: () => get().user?.isAdmin || false,
     }),
     {
       name: "auth-storage",
@@ -52,3 +60,4 @@ export const useAuthStore = create<AuthState>()(
 export const useIsAuthenticated = () =>
   useAuthStore((state) => state.isAuthenticated);
 export const useUser = () => useAuthStore((state) => state.user);
+export const useIsAdmin = () => useAuthStore((state) => state.isAdmin());
