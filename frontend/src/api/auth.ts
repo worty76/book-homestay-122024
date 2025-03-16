@@ -11,7 +11,8 @@ interface LoginCredentials {
 interface LoginResponse {
   success: boolean;
   token: string;
-  userId?: string;
+  userId: string;
+  isAdmin: boolean;
   email?: string;
 }
 
@@ -32,8 +33,9 @@ export const useLogin = () => {
     },
     onSuccess: (data, variables) => {
       const user = {
-        id: data.userId || "user-id",
+        id: data.userId,
         email: data.email || variables.email,
+        isAdmin: data.isAdmin,
       };
 
       login(user, data.token);

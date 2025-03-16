@@ -8,7 +8,6 @@ const publicPaths = [
   "/reset-password",
   "/",
 ];
-
 const protectedPaths = ["/dashboard", "/profile", "/settings", "/bookings"];
 
 export function middleware(request: NextRequest) {
@@ -25,27 +24,35 @@ export function middleware(request: NextRequest) {
   const authToken = request.cookies.get("auth-storage")?.value;
 
   let isAuthenticated = false;
+  let isAdmin = false;
 
   if (authToken) {
     try {
       const parsedToken = JSON.parse(decodeURIComponent(authToken));
       isAuthenticated = parsedToken?.state?.isAuthenticated || false;
+      isAdmin = parsedToken?.state?.isAdmin || false;
     } catch (error) {
       console.error("Error parsing auth token:", error);
     }
   }
 
   console.log("isAuthenticated:", isAuthenticated);
+  console.log("isAdmin:", isAdmin);
   console.log("isProtectedPath:", isProtectedPath);
   console.log("isPublicPath:", isPublicPath);
 
   if (isProtectedPath && !isAuthenticated) {
-    const loginUrl = new URL("/login", request.url);
-    return NextResponse.redirect(loginUrl);
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  if (isAuthenticated && isPublicPath && pathname !== "/") {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+  if (pathname.startsWith("/dashboard") && !isAdmin) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  if (isAuthenticated && isPublicPath && pathname === "/login") {
+    return NextResponse.redirect(
+      new URL(isAdmin ? "/dashboard" : "/", request.url)
+    );
   }
 
   return NextResponse.next();
