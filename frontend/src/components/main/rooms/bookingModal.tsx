@@ -127,31 +127,37 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="max-w-3xl w-[90vw]">
-        <DialogHeader>
-          <DialogTitle>Đặt phòng: {room.name}</DialogTitle>
-          <DialogDescription>
+      <DialogContent className="max-w-3xl w-[95vw] p-4 sm:p-6 overflow-y-auto max-h-[90vh]">
+        <DialogHeader className="mb-2 sm:mb-4">
+          <DialogTitle className="text-lg sm:text-xl">
+            Đặt phòng: {room.name}
+          </DialogTitle>
+          <DialogDescription className="text-sm">
             Hoàn tất thông tin đặt phòng của bạn
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           <div>
-            <h3 className="text-lg font-medium mb-4">Chi tiết đặt phòng</h3>
-            <form onSubmit={handleBooking} className="space-y-4">
+            <h3 className="text-base sm:text-lg font-medium mb-2 sm:mb-4">
+              Chi tiết đặt phòng
+            </h3>
+            <form onSubmit={handleBooking} className="space-y-3 sm:space-y-4">
               {/* Check-in/Check-out dates */}
               <div>
-                <Label>Ngày check-in / check-out</Label>
+                <Label className="text-sm sm:text-base">
+                  Ngày check-in / check-out
+                </Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-full justify-start text-left font-normal mt-1.5",
+                        "w-full justify-start text-left font-normal mt-1 text-sm sm:text-base",
                         !dateRange && "text-muted-foreground"
                       )}
                     >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      <CalendarIcon className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                       {dateRange?.from ? (
                         dateRange.to ? (
                           <>
@@ -182,9 +188,10 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
                           to: range.to,
                         })
                       }
-                      numberOfMonths={2}
+                      numberOfMonths={window.innerWidth < 768 ? 1 : 2}
                       locale={vi}
                       disabled={(date) => date < new Date()}
+                      className="rounded-md border"
                     />
                   </PopoverContent>
                 </Popover>
@@ -192,11 +199,11 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
 
               {/* Guests */}
               <div>
-                <Label>Số lượng khách</Label>
+                <Label className="text-sm sm:text-base">Số lượng khách</Label>
                 <Select value={guests} onValueChange={setGuests}>
-                  <SelectTrigger className="w-full mt-1.5">
+                  <SelectTrigger className="w-full mt-1 text-sm sm:text-base">
                     <div className="flex items-center">
-                      <Users className="mr-2 h-4 w-4" />
+                      <Users className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                       <SelectValue placeholder="Số lượng khách" />
                     </div>
                   </SelectTrigger>
@@ -215,7 +222,9 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
 
               {/* Guest Information */}
               <div>
-                <Label htmlFor="name">Họ tên</Label>
+                <Label htmlFor="name" className="text-sm sm:text-base">
+                  Họ tên
+                </Label>
                 <Input
                   id="name"
                   name="name"
@@ -223,12 +232,14 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
                   value={formData.name}
                   onChange={handleInputChange}
                   required
-                  className="mt-1.5"
+                  className="mt-1 text-sm sm:text-base"
                 />
               </div>
 
               <div>
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-sm sm:text-base">
+                  Email
+                </Label>
                 <Input
                   id="email"
                   name="email"
@@ -237,12 +248,14 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
                   value={formData.email}
                   onChange={handleInputChange}
                   required
-                  className="mt-1.5"
+                  className="mt-1 text-sm sm:text-base"
                 />
               </div>
 
               <div>
-                <Label htmlFor="phone">Số điện thoại</Label>
+                <Label htmlFor="phone" className="text-sm sm:text-base">
+                  Số điện thoại
+                </Label>
                 <Input
                   id="phone"
                   name="phone"
@@ -250,12 +263,15 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
                   value={formData.phone}
                   onChange={handleInputChange}
                   required
-                  className="mt-1.5"
+                  className="mt-1 text-sm sm:text-base"
                 />
               </div>
 
               <div>
-                <Label htmlFor="specialRequests">
+                <Label
+                  htmlFor="specialRequests"
+                  className="text-sm sm:text-base"
+                >
                   Yêu cầu đặc biệt (tùy chọn)
                 </Label>
                 <textarea
@@ -265,23 +281,27 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
                   value={formData.specialRequests}
                   onChange={handleInputChange}
                   rows={3}
-                  className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1.5"
+                  className="w-full min-h-[60px] sm:min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1"
                 />
               </div>
             </form>
           </div>
 
-          <div className="bg-muted/30 p-6 rounded-lg">
-            <h3 className="text-lg font-medium mb-4">Chi tiết thanh toán</h3>
+          <div className="bg-muted/30 p-4 sm:p-6 rounded-lg mt-4 lg:mt-0">
+            <h3 className="text-base sm:text-lg font-medium mb-2 sm:mb-4">
+              Chi tiết thanh toán
+            </h3>
 
             {/* Room Details */}
-            <div className="flex items-start gap-4 mb-4">
-              <div className="bg-primary/10 text-primary p-2 rounded-md">
-                <Users className="h-5 w-5" />
+            <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
+              <div className="bg-primary/10 text-primary p-1.5 sm:p-2 rounded-md">
+                <Users className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
               <div>
-                <h4 className="font-medium">{room.name}</h4>
-                <p className="text-sm text-muted-foreground">
+                <h4 className="font-medium text-sm sm:text-base">
+                  {room.name}
+                </h4>
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   {room.type === "Twin"
                     ? "Phòng đôi với 2 giường đơn"
                     : room.type === "Double"
@@ -293,10 +313,10 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
               </div>
             </div>
 
-            <Separator className="my-4" />
+            <Separator className="my-3 sm:my-4" />
 
             {/* Price Details */}
-            <div className="space-y-2">
+            <div className="space-y-1.5 sm:space-y-2 text-sm sm:text-base">
               <div className="flex justify-between">
                 <span>
                   {formatCurrency(room.price)} x {numberOfNights} đêm
@@ -314,28 +334,36 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
                 <span>{formatCurrency(serviceFee)}</span>
               </div>
 
-              <Separator className="my-4" />
+              <Separator className="my-3 sm:my-4" />
 
-              <div className="flex justify-between font-medium text-lg">
+              <div className="flex justify-between font-medium text-base sm:text-lg">
                 <span>Tổng tiền</span>
                 <span>{formatCurrency(grandTotal)}</span>
               </div>
             </div>
 
-            <div className="mt-6 text-sm text-muted-foreground">
+            <div className="mt-4 sm:mt-6 text-xs sm:text-sm text-muted-foreground">
               <p>Thanh toán được thực hiện khi nhận phòng.</p>
-              <p>
+              <p className="mt-1">
                 Đặt cọc 30% có thể được yêu cầu để đảm bảo đặt phòng của bạn.
               </p>
             </div>
           </div>
         </div>
 
-        <DialogFooter className="flex-col sm:flex-row sm:justify-between sm:space-x-0 gap-4">
-          <Button variant="outline" onClick={() => setOpen(false)}>
+        <DialogFooter className="flex flex-col sm:flex-row sm:justify-between sm:space-x-0 gap-2 sm:gap-4 mt-4 sm:mt-6">
+          <Button
+            variant="outline"
+            className="w-full sm:w-auto"
+            onClick={() => setOpen(false)}
+          >
             Hủy
           </Button>
-          <Button type="submit" onClick={handleBooking}>
+          <Button
+            type="submit"
+            className="w-full sm:w-auto"
+            onClick={handleBooking}
+          >
             Xác nhận đặt phòng
           </Button>
         </DialogFooter>

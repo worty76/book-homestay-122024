@@ -59,9 +59,9 @@ export default function RoomCard({ room }: RoomCardProps) {
             room={room}
             trigger={
               <Button
-                size="sm"
+                size="lg"
                 variant="secondary"
-                className="bg-white/90 text-foreground hover:bg-white shadow-sm"
+                className="bg-[#5a8d69] text-white  hover:bg-[#35814c] shadow-sm"
               >
                 Đặt ngay
               </Button>
@@ -103,22 +103,29 @@ export default function RoomCard({ room }: RoomCardProps) {
               : "Dormitory"}
           </Badge>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <BookingModal
               room={room}
               trigger={
-                <Button variant="outline" size="sm">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-[#5a8d69] text-white hover:text-white hover:bg-[#35814c] shadow-sm"
+                >
                   Đặt phòng
                 </Button>
               }
             />
 
-            <Button asChild variant="ghost" size="sm" className="gap-1">
-              <Link href={`/rooms/${room.id}`}>
-                <span>Chi tiết</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
+            <Link href={`/rooms/${room.id}`} legacyBehavior>
+              <motion.a
+                className="flex items-center text-[#5a8d69] text-sm group cursor-pointer"
+                whileHover={{ x: 4 }}
+              >
+                Xem chi tiết
+                <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
+              </motion.a>
+            </Link>
           </div>
         </div>
       </div>
