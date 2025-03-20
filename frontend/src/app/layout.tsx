@@ -4,6 +4,7 @@ import "./globals.css";
 import { openSans, pinyonScript, playFair, roboto } from "@/lib/fonts";
 import { Footer } from "@/components/main/Footer";
 import QueryProvider from "@/providers/query-provider";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         className={`${roboto.variable} ${openSans.variable} ${playFair.variable} ${pinyonScript.variable} antialiased`}
         suppressHydrationWarning={true}
       >
+        <NextTopLoader />
         <QueryProvider>{children}</QueryProvider>
         <Footer />
       </body>
