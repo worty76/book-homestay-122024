@@ -1,0 +1,31 @@
+{
+  "dashboard": {
+    "navigation": {
+      "dashboard": "Dashboard",
+      "orders": "Orders",
+      "products": "Products",
+      "customers": "Customers",
+      "analytics": "Analytics"
+    },
+    "search": {
+      "placeholder": "Search products..."
+    },
+    "userMenu": {
+      "label": "My Account",
+      "settings": "Settings",
+      "support": "Support",
+      "logout": "Logout"
+    },
+    "upgrade": {
+      "title": "Upgrade to Pro",
+      "description": "Unlock all features and get unlimited access to our support team",
+      "button": "Upgrade"
+    },
+    "title": "Inventory",
+    "emptyState": {
+      "title": "You have no products",
+      "description": "You can start selling as soon as you add a product",
+      "button": "Add Product"
+    }
+  }
+}
