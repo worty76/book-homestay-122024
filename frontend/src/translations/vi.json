@@ -1,0 +1,31 @@
+{
+  "dashboard": {
+    "navigation": {
+      "dashboard": "Bảng điều khiển",
+      "orders": "Đơn hàng",
+      "products": "Sản phẩm",
+      "customers": "Khách hàng",
+      "analytics": "Phân tích"
+    },
+    "search": {
+      "placeholder": "Tìm kiếm sản phẩm..."
+    },
+    "userMenu": {
+      "label": "Tài khoản của tôi",
+      "settings": "Cài đặt",
+      "support": "Hỗ trợ",
+      "logout": "Đăng xuất"
+    },
+    "upgrade": {
+      "title": "Nâng cấp lên Pro",
+      "description": "Mở khóa tất cả tính năng và nhận hỗ trợ không giới hạn từ đội ngũ của chúng tôi",
+      "button": "Nâng cấp"
+    },
+    "title": "Kho hàng",
+    "emptyState": {
+      "title": "Bạn chưa có sản phẩm nào",
+      "description": "Bạn có thể bắt đầu bán hàng ngay khi thêm sản phẩm",
+      "button": "Thêm sản phẩm"
+    }
+  }
+}
