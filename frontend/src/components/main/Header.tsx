@@ -3,18 +3,71 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, User } from "lucide-react";
+import { Menu, X, User, LogOut, Settings, UserCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  useAuthStore,
+  useIsAuthenticated,
+  useUser,
+} from "@/store/useAuthStore";
+
+const menuItems = [
+  { name: "TRANG CHỦ", url: "/" },
+  { name: "GIỚI THIỆU", url: "/about" },
+  { name: "ĐẶT PHÒNG", url: "/concepts" },
+  { name: "BÀI VIẾT", url: "/blog" },
+  { name: "LIÊN HỆ", url: "/contact" },
+];
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const menuItems = [
-    { name: "TRANG CHỦ", url: "/" },
-    { name: "GIỚI THIỆU", url: "/about" },
-    { name: "ĐẶT PHÒNG", url: "/concepts" },
-    { name: "BÀI VIẾT", url: "/blog" },
-    { name: "LIÊN HỆ", url: "/contact" },
-  ];
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const isAuthenticated = useIsAuthenticated();
+  const user = useUser();
+  const logout = useAuthStore((state) => state.logout);
+
+  const handleLogout = () => {
+    logout();
+    setProfileMenuOpen(false);
+  };
+
+  const ProfileMenu = () => (
+    <div className="relative">
+      <button
+        onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+        className="flex items-center gap-2 bg-[#9C6B4A] hover:bg-[#7A5230] text-white py-2 px-4 rounded-full text-sm font-medium transition-colors"
+      >
+        <User className="h-4 w-4" />
+        <span>{user?.name || "Tài khoản"}</span>
+      </button>
+
+      {profileMenuOpen && (
+        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+          <Link
+            href="/profile"
+            className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          >
+            <UserCircle className="h-4 w-4" />
+            <span>Thông tin cá nhân</span>
+          </Link>
+          <Link
+            href="/settings"
+            className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          >
+            <Settings className="h-4 w-4" />
+            <span>Cài đặt</span>
+          </Link>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full"
+          >
+            <LogOut className="h-4 w-4" />
+            <span>Đăng xuất</span>
+          </button>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div className="container mx-auto">
@@ -43,23 +96,36 @@ export function Header() {
             ))}
           </ul>
 
-          <Link
-            href="/login"
-            className="flex items-center gap-2 bg-[#9C6B4A] hover:bg-[#7A5230] text-white py-2 px-4 rounded-full text-sm font-medium transition-colors"
-          >
-            <User className="h-4 w-4" />
-            <span>Đăng nhập</span>
-          </Link>
+          {isAuthenticated ? (
+            <ProfileMenu />
+          ) : (
+            <Link
+              href="/login"
+              className="flex items-center gap-2 bg-[#9C6B4A] hover:bg-[#7A5230] text-white py-2 px-4 rounded-full text-sm font-medium transition-colors"
+            >
+              <User className="h-4 w-4" />
+              <span>Đăng nhập</span>
+            </Link>
+          )}
         </nav>
 
         <div className="md:hidden flex items-center gap-4">
-          <Link
-            href="/login"
-            className="flex items-center justify-center bg-[#9C6B4A] hover:bg-[#7A5230] text-white p-2 rounded-full transition-colors"
-            aria-label="Đăng nhập"
-          >
-            <User className="h-4 w-4" />
-          </Link>
+          {isAuthenticated ? (
+            <button
+              onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+              className="flex items-center justify-center bg-[#9C6B4A] hover:bg-[#7A5230] text-white p-2 rounded-full transition-colors"
+            >
+              <User className="h-4 w-4" />
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              className="flex items-center justify-center bg-[#9C6B4A] hover:bg-[#7A5230] text-white p-2 rounded-full transition-colors"
+              aria-label="Đăng nhập"
+            >
+              <User className="h-4 w-4" />
+            </Link>
+          )}
 
           <button
             onClick={() => setMobileMenuOpen(true)}

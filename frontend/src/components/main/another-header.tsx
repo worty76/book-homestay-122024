@@ -5,7 +5,7 @@ import BreadcrumbNav from "./breadcrumb-nav";
 interface Props {
   title: string;
   description: string;
-  image: string;
+  image?: string;
   backgroundColor?: string;
   colorOverlay?: boolean;
 }
