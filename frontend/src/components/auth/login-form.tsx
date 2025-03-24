@@ -62,7 +62,6 @@ export function LoginForm() {
       router.push("/dashboard");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        // Handle Axios errors
         const errorMessage =
           error.response?.data?.error ||
           "Login failed. Please check your credentials.";

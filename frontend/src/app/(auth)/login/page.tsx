@@ -20,7 +20,11 @@ export default function LoginPage() {
 
   return (
     <>
-      <AnotherHeader title="Đăng nhập" description="Đăng nhập để trải nghiệm" />
+      <AnotherHeader
+        title="Đăng nhập"
+        description="Đăng nhập để trải nghiệm"
+        image="/images/login-bg.jpg"
+      />
       <div className="flex min-h-screen bg-gray-50">
         <div className="hidden lg:flex lg:w-1/2 bg-primary-900 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-primary-800/50 to-primary-950/80 z-10"></div>

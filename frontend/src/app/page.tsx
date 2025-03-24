@@ -1,11 +1,11 @@
 import { Hero } from "@/components/main/Hero";
-import { Properties } from "@/components/main/Properties";
 import { Testimonials } from "@/components/main/Testimonials";
 import ApartmentGallery from "@/components/main/ApartmentGallery";
 import ConceptList from "@/components/main/ConceptList";
 import BlogSection from "@/components/main/blog-section";
 import AboutSection from "@/components/main/aboutSection";
 import FacilitiesGrid from "@/components/main/facilities-grid";
+import RoomList from "@/components/main/roomList";
 
 export default function Home() {
   return (
@@ -16,7 +16,7 @@ export default function Home() {
       <AboutSection />
       <ApartmentGallery />
       <ConceptList />
-      {/* <Properties /> */}
+      <RoomList />
       <FacilitiesGrid />
       <BlogSection />
       <Testimonials />
