@@ -16,6 +16,7 @@ interface AuthState {
   login: (user: User, token: string) => void;
   logout: () => void;
   isAdmin: () => boolean;
+  setIsAuthenticated: (value: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -45,6 +46,7 @@ export const useAuthStore = create<AuthState>()(
         Cookies.remove("auth-storage");
       },
       isAdmin: () => get().user?.isAdmin || false,
+      setIsAuthenticated: (value) => set({ isAuthenticated: value }),
     }),
     {
       name: "auth-storage",
