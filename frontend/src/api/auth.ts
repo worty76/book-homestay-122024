@@ -50,3 +50,49 @@ export const useLogout = () => {
     logout();
   };
 };
+
+// Register types
+interface RegisterCredentials {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  phoneNumber: string;
+  identificationNumber: string;
+}
+
+interface RegisterResponse {
+  success: boolean;
+  message: string;
+  userId: string;
+  token: string;
+  isAdmin: boolean;
+}
+
+export const useRegister = () => {
+  const { login } = useAuthStore();
+
+  return useMutation({
+    mutationFn: async (credentials: RegisterCredentials) => {
+      try {
+        const data = await apiPost<RegisterResponse>(
+          "/api/v1/user/register",
+          credentials
+        );
+        return data;
+      } catch (error) {
+        throw new Error(handleApiError(error));
+      }
+    },
+    onSuccess: (data, variables) => {
+      // Automatically log in the user after successful registration
+      const user = {
+        id: data.userId,
+        email: variables.email,
+        isAdmin: data.isAdmin,
+      };
+
+      login(user, data.token);
+    },
+  });
+};

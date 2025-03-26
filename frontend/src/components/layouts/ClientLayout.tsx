@@ -5,6 +5,7 @@ import QueryProvider from "@/providers/query-provider";
 import NextTopLoader from "nextjs-toploader";
 import { usePathname } from "next/navigation";
 import { colorMap } from "@/lib/color-map";
+import { Toaster } from "sonner";
 
 export default function ClientLayout({
   children,
@@ -17,7 +18,10 @@ export default function ClientLayout({
   return (
     <>
       <NextTopLoader color="#008000" />
-      <QueryProvider>{children}</QueryProvider>
+      <QueryProvider>
+        {children}
+        <Toaster richColors closeButton position="top-right" />
+      </QueryProvider>
       {!isDashboard && <Footer />}
     </>
   );

@@ -13,7 +13,7 @@ export function Footer() {
           {/* Logo Section */}
           <div className="mb-6 flex flex-col items-center">
             <Image
-              src="/images/Logo Kén-03.png"
+              src="/images/LogoKén-03.png"
               alt="Logo"
               width={140}
               height={70}
@@ -206,7 +206,7 @@ export function Footer() {
               <div className="text-center text-base font-normal border-[#9c6b4a] border-x px-60">
                 <div className="flex justify-center items-center mb-[14px]">
                   <Image
-                    src="/images/Logo Kén-03.png"
+                    src="/images/LogoKén-03.png"
                     alt="Logo"
                     width={140}
                     height={70}
