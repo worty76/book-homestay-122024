@@ -1,7 +1,6 @@
 import { Hero } from "@/components/main/Hero";
 import { Testimonials } from "@/components/main/Testimonials";
 import ApartmentGallery from "@/components/main/ApartmentGallery";
-import ConceptList from "@/components/main/ConceptList";
 import BlogSection from "@/components/main/blog-section";
 import AboutSection from "@/components/main/aboutSection";
 import FacilitiesGrid from "@/components/main/facilities-grid";
@@ -15,7 +14,6 @@ export default function Home() {
       </div>
       <AboutSection />
       <ApartmentGallery />
-      <ConceptList />
       <RoomList />
       <FacilitiesGrid />
       <BlogSection />

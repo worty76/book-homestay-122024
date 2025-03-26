@@ -32,18 +32,18 @@ const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({
   const paths = usePathname();
   const pathNames = paths.split("/").filter((path) => path);
 
+  // Map segment names to display names
+  const segmentMap: Record<string, string> = {
+    about: "Giới thiệu",
+    blog: "Bài viết",
+    rooms: "Phòng",
+    contact: "Liên hệ",
+    // Remove concepts mapping
+  };
+
   // Translate path segments to Vietnamese labels
   const getPathLabel = (path: string): string => {
-    const pathLabels: Record<string, string> = {
-      about: "Giới thiệu",
-      rooms: "Phòng nghỉ",
-      concepts: "Concept thiết kế",
-      booking: "Đặt phòng",
-      contact: "Liên hệ",
-      blog: "Tin tức",
-    };
-
-    return pathLabels[path.toLowerCase()] || path;
+    return segmentMap[path.toLowerCase()] || path;
   };
 
   return (

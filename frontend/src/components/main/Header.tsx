@@ -14,7 +14,7 @@ import {
 const menuItems = [
   { name: "TRANG CHỦ", url: "/" },
   { name: "GIỚI THIỆU", url: "/about" },
-  { name: "ĐẶT PHÒNG", url: "/concepts" },
+  { name: "ĐẶT PHÒNG", url: "/rooms" },
   { name: "BÀI VIẾT", url: "/blog" },
   { name: "LIÊN HỆ", url: "/contact" },
 ];

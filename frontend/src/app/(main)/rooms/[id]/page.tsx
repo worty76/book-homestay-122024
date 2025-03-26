@@ -36,48 +36,47 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
   return (
     <>
       <AnotherHeader
-        title="Chủ đề Thiết Kế"
+        title="Chi tiết phòng"
         description=""
         image="/images/img4.jpg"
       />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">{room.name}</h1>
+          <h1 className="text-3xl font-bold mb-2">{room!.name}</h1>
           <p className="text-muted-foreground">
-            {room.type === "Twin"
+            {room!.type === "Twin"
               ? "Phòng đôi với 2 giường đơn"
-              : room.type === "Double"
+              : room!.type === "Double"
               ? "Phòng đôi với 1 giường lớn"
               : "Phòng ngủ tập thể"}
             {" · "}
-            {room.category} Room
+            {room!.category} Room
             {" · "}
-            {room.view === "Window" ? "View cửa sổ" : "Ban công"}
+            {room!.view === "Window" ? "View cửa sổ" : "Ban công"}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <RoomGallery images={room.images} alt={room.name} />
+            <RoomGallery images={room!.images} alt={room!.name} />
 
             <RoomStory
-              name={room.name}
-              story={room.story}
-              concept={room.concept}
-              mainColors={room.mainColors}
+              name={room!.name}
+              story={room!.story}
+              mainColors={room!.mainColors}
             />
 
-            <RoomDetails room={room} />
+            <RoomDetails room={room!} />
 
             <RoomAmenities
-              amenities={room.amenities}
-              bathroomAmenities={room.bathroomAmenities}
+              amenities={room!.amenities}
+              bathroomAmenities={room!.bathroomAmenities}
             />
           </div>
 
           <div className="lg:col-span-1">
             <div className="sticky top-8">
-              <BookingForm room={room} />
+              <BookingForm room={room!} />
             </div>
           </div>
         </div>

@@ -2,17 +2,11 @@
 
 import { useState, useEffect } from "react";
 import {
-  getAllRooms,
-  getRoomsByType,
-  getRoomsByView,
-  getRoomsByCategory,
-  getRoomsByConcept,
-  getRoomsByPriceRange,
   Room,
   RoomType,
   ViewType,
   RoomCategory,
-  RoomConcept,
+  rooms as allRooms
 } from "@/data/rooms";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
@@ -40,9 +34,6 @@ export default function RoomsPage() {
   const [categoryFilter, setCategoryFilter] = useState<RoomCategory | "all">(
     "all"
   );
-  const [conceptFilter, setConceptFilter] = useState<RoomConcept | "all">(
-    "all"
-  );
   const [priceRange, setPriceRange] = useState([300000, 1000000]);
   const [sortBy, setSortBy] = useState<"price-asc" | "price-desc" | "capacity">(
     "price-asc"
@@ -51,7 +42,6 @@ export default function RoomsPage() {
 
   // Fetch all rooms on component mount
   useEffect(() => {
-    const allRooms = getAllRooms();
     setRooms(allRooms);
     setFilteredRooms(allRooms);
     setLoading(false);
@@ -76,11 +66,6 @@ export default function RoomsPage() {
       result = result.filter((room) => room.category === categoryFilter);
     }
 
-    // Apply concept filter
-    if (conceptFilter !== "all") {
-      result = result.filter((room) => room.concept === conceptFilter);
-    }
-
     // Apply price range filter
     result = result.filter(
       (room) => room.price >= priceRange[0] && room.price <= priceRange[1]
@@ -101,7 +86,6 @@ export default function RoomsPage() {
     typeFilter,
     viewFilter,
     categoryFilter,
-    conceptFilter,
     priceRange,
     sortBy,
   ]);
@@ -111,7 +95,6 @@ export default function RoomsPage() {
     setTypeFilter("all");
     setViewFilter("all");
     setCategoryFilter("all");
-    setConceptFilter("all");
     setPriceRange([300000, 1000000]);
     setSortBy("price-asc");
   };
@@ -223,31 +206,6 @@ export default function RoomsPage() {
                     <SelectItem value="all">Tất cả</SelectItem>
                     <SelectItem value="Standard">Standard</SelectItem>
                     <SelectItem value="Deluxe">Deluxe</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Room Concept Filter */}
-              <div className="mb-4">
-                <label className="text-sm font-medium mb-2 block">
-                  Concept
-                </label>
-                <Select
-                  value={conceptFilter}
-                  onValueChange={(value) =>
-                    setConceptFilter(value as RoomConcept | "all")
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Tất cả" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Tất cả</SelectItem>
-                    <SelectItem value="NonNuoc">Non Nước</SelectItem>
-                    <SelectItem value="PhongNam">Phong Nam</SelectItem>
-                    <SelectItem value="HaiCauVien">Hải Cầu Viên</SelectItem>
-                    <SelectItem value="LuaHoi">Lụa Hội</SelectItem>
-                    <SelectItem value="NguBinh">Ngư Bình</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

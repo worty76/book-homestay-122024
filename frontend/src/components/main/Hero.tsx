@@ -28,8 +28,8 @@ const carouselImages = [
 ];
 
 export function Hero() {
-  const handleScrollDown = () => {
-    const nextSection = document.getElementById("conceptlist");
+  const scrollToNextSection = () => {
+    const nextSection = document.getElementById("roomCarousel");
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: "smooth" });
     }
@@ -91,7 +91,7 @@ export function Hero() {
         <Button
           variant="ghost"
           className="mt-20 transform font-bold -translate-x-1/2 w-14 h-14 flex items-center justify-center border border-white rounded-full text-white transition-opacity hover:bg-white hover:text-[#9C6B4A] animate-bounce"
-          onClick={handleScrollDown}
+          onClick={scrollToNextSection}
         >
           <MoveDown size={52} />
         </Button>
