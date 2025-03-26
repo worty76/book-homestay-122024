@@ -1,20 +1,14 @@
 export interface Room {
   _id: string;
   name: string;
-  description: string;
+  description?: string;
   category: string;
   image: string[];
   location: {
-    coordinates?: {
-      latitude: number;
-      longitude: number;
-    };
     address: string;
     city: string;
-    state: string;
-    country: string;
-    zipCode: string;
   };
+  amenities: string[];
   capacity: {
     maxGuests: number;
     maxAdults: number;
@@ -24,22 +18,33 @@ export interface Room {
     basePrice: number;
     cleaningFee: number;
     securityDeposit: number;
+    weekendRate?: number;
+    weeklyDiscount?: number;
+    monthlyDiscount?: number;
   };
+  houseRules: {
+    smokingAllowed: boolean;
+    petsAllowed: boolean;
+    partiesAllowed: boolean;
+    checkInTime: string;
+    checkOutTime: string;
+    quietHours?: {
+      from: string;
+      to: string;
+    };
+  };
+  status: "available" | "booked" | "maintenance" | "inactive";
+  bedrooms?: number;
+  shared?: boolean;
+  dailyRate: number;
   facilities: {
     bathrooms: number;
-    bedsDescription: Array<{
-      type: string;
+    bedsDescription: {
+      type: "Single" | "Double" | "Queen" | "King";
       count: number;
-      _id: string;
-    }>;
+    }[];
     roomSize: number;
   };
-  status: string;
-  bedrooms: number;
-  shared: boolean;
-  dailyRate: number;
-  amenities: string[];
-  createdAt: string;
 }
 
 export interface FormDataRoom {
