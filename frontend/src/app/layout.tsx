@@ -1,6 +1,7 @@
 import "./globals.css";
 import { openSans, pinyonScript, playFair, roboto } from "@/lib/fonts";
 import ClientLayout from "@/components/layouts/ClientLayout";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Ken Homestay - Find Your Perfect Stay",
@@ -20,6 +21,7 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <ClientLayout>{children}</ClientLayout>
+        <Toaster />
       </body>
     </html>
   );

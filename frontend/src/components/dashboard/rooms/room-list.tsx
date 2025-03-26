@@ -13,9 +13,15 @@ interface RoomListProps {
   rooms: Room[];
   isLoading: boolean;
   error: string | null;
+  onEditRoom: (room: Room) => void;
 }
 
-export function RoomList({ rooms, isLoading, error }: RoomListProps) {
+export function RoomList({
+  rooms,
+  isLoading,
+  error,
+  onEditRoom,
+}: RoomListProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-8">
@@ -57,7 +63,11 @@ export function RoomList({ rooms, isLoading, error }: RoomListProps) {
             <TableCell>{room.capacity?.maxGuests} guests</TableCell>
             <TableCell className="capitalize">{room.status}</TableCell>
             <TableCell>
-              <Button variant="outline" size="sm">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => onEditRoom(room)}
+              >
                 Edit
               </Button>
             </TableCell>

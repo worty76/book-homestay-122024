@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
 import { RoomList } from "@/components/dashboard/rooms/room-list";
 import { AddRoomDialog } from "@/components/dashboard/rooms/add-room-dialog";
+import { EditRoomDialog } from "@/components/dashboard/rooms/edit-room-dialog";
 import { Room, FormDataRoom } from "@/components/dashboard/rooms/types";
+import { toast } from "@/hooks/use-toast";
 
 export default function RoomsPage() {
   const [open, setOpen] = useState(false);
@@ -28,6 +30,8 @@ export default function RoomsPage() {
     maxGuests: "",
   });
   const token = useAuthStore((state) => state.token);
+  const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -101,11 +105,77 @@ export default function RoomsPage() {
         "http://localhost:3000/api/v1/room"
       ).then((res) => res.json());
       setRooms(updatedRooms);
+      toast({
+        title: "Room created",
+        description: "The room has been created successfully.",
+        variant: "default",
+      });
       setIsSubmitting(false);
       setOpen(false);
     } catch (error) {
       console.error("Error creating room:", error);
+      toast({
+        title: "Error",
+        description: "Failed to create room. Please try again.",
+        variant: "destructive",
+      });
       setIsSubmitting(false);
+    }
+  };
+
+  const handleEditRoom = (room: Room) => {
+    setSelectedRoom(room);
+    setEditDialogOpen(true);
+  };
+
+  const handleSaveRoom = async (updatedRoom: Room, files?: FileList) => {
+    try {
+      const formData = new FormData();
+      formData.append("roomData", JSON.stringify(updatedRoom));
+
+      if (files) {
+        Array.from(files).forEach((file) => {
+          formData.append("files", file);
+        });
+      }
+
+      const response = await fetch(
+        `http://localhost:3000/api/v1/room/update-room/${updatedRoom._id}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update room");
+      }
+
+      // Refresh room list
+      const updatedRooms = await fetch(
+        "http://localhost:3000/api/v1/room"
+      ).then((res) => res.json());
+      setRooms(updatedRooms);
+
+      // Show success toast and close dialog
+      toast({
+        title: "Room updated",
+        description: "The room has been updated successfully.",
+        variant: "default",
+      });
+      setEditDialogOpen(false); // Close the dialog after successful update
+    } catch (error) {
+      console.error("Error updating room:", error);
+      toast({
+        title: "Error",
+        description:
+          error instanceof Error ? error.message : "Failed to update room",
+        variant: "destructive",
+      });
     }
   };
 
@@ -124,7 +194,18 @@ export default function RoomsPage() {
           preview={preview}
         />
       </div>
-      <RoomList rooms={rooms} isLoading={isLoading} error={error} />
+      <RoomList
+        rooms={rooms}
+        isLoading={isLoading}
+        error={error}
+        onEditRoom={handleEditRoom}
+      />
+      <EditRoomDialog
+        room={selectedRoom}
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        onSave={handleSaveRoom}
+      />
     </main>
   );
 }
