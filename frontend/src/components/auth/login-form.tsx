@@ -1,16 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { toast } from "sonner";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -26,24 +25,26 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle, Eye, EyeOff, Loader2 } from "lucide-react";
+import { AlertCircle, CheckCircle2, Eye, EyeOff, Loader2 } from "lucide-react";
 import { useLogin } from "@/api/auth";
-
-const loginSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
-});
-
-type LoginFormValues = z.infer<typeof loginSchema>;
+import { loginSchema, type LoginFormValues } from "@/schema/auth.schema";
 
 export function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const loginMutation = useLogin();
+
+  useEffect(() => {
+    // Check if user just registered successfully
+    const registered = searchParams.get("registered");
+    if (registered === "true") {
+      setSuccessMessage("Đăng ký thành công! Bạn có thể đăng nhập.");
+    }
+  }, [searchParams]);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -58,36 +59,55 @@ export function LoginForm() {
 
     try {
       await loginMutation.mutateAsync(data);
-      console.log("thành công", data);
+      // Show success toast
+      toast.success("Đăng nhập thành công!", {
+        description: "Chào mừng bạn quay trở lại!",
+        duration: 3000,
+      });
       router.push("/dashboard");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        // Handle Axios errors
         const errorMessage =
           error.response?.data?.error ||
-          "Login failed. Please check your credentials.";
+          "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập.";
         setError(errorMessage);
+        // Show error toast
+        toast.error("Đăng nhập thất bại", {
+          description: errorMessage,
+          duration: 3000,
+        });
       } else {
-        setError("An unexpected error occurred. Please try again.");
+        const errorMessage = "Đã xảy ra lỗi. Vui lòng thử lại.";
+        setError(errorMessage);
+        // Show error toast
+        toast.error("Đã xảy ra lỗi", {
+          description: errorMessage,
+          duration: 3000,
+        });
         console.error(error);
       }
     }
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto bg-opacity-50">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">Login</CardTitle>
-        <CardDescription>
-          Enter your email and password to access your account
-        </CardDescription>
+        <CardTitle className="text-5xl text-center font-pinyon text-[#0a3b33]">Đăng nhập</CardTitle>
       </CardHeader>
       <CardContent>
         {error && (
           <Alert variant="destructive" className="mb-4">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
+            <AlertTitle>Lỗi</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
+        {successMessage && (
+          <Alert className="mb-4 border-green-500 text-green-700 bg-green-50">
+            <CheckCircle2 className="h-4 w-4" />
+            <AlertTitle>Thành công</AlertTitle>
+            <AlertDescription>{successMessage}</AlertDescription>
           </Alert>
         )}
 
@@ -101,9 +121,10 @@ export function LoginForm() {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Your email address"
+                      placeholder="Địa chỉ email của bạn"
                       type="email"
                       autoComplete="email"
+                      className="bg-white focus-visible:ring-0 focus-visible:ring-offset-0"
                       {...field}
                     />
                   </FormControl>
@@ -117,13 +138,14 @@ export function LoginForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Mật khẩu</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Input
-                        placeholder="Your password"
+                        placeholder="Mật khẩu của bạn"
                         type={showPassword ? "text" : "password"}
                         autoComplete="current-password"
+                        className="bg-white focus-visible:ring-0 focus-visible:ring-offset-0"
                         {...field}
                       />
                       <Button
@@ -151,34 +173,26 @@ export function LoginForm() {
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full flex bg-[#9C6B4A] hover:bg-[#9C6B4A]/80 text-white"
               disabled={loginMutation.isPending}
             >
               {loginMutation.isPending ? (
-                <>
+                <div className="animate-pulse">
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Logging in...
-                </>
+                  Đang đăng nhập
+                </div>
               ) : (
-                "Login"
+                "Đăng nhập"
               )}
             </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter className="flex flex-col space-y-4 items-center">
-        <div className="text-sm text-center text-gray-500">
-          <Link
-            href="/forgot-password"
-            className="text-primary hover:underline"
-          >
-            Forgot your password?
-          </Link>
-        </div>
-        <div className="text-sm text-center text-gray-500">
-          Don't have an account?{" "}
-          <Link href="/register" className="text-primary hover:underline">
-            Sign up
+        <div className="text-sm text-center text-black">
+          Không có tài khoản?{" "}
+          <Link href="/register" className="text-primary hover:underline text-[#9C6B4A]">
+            Đăng ký
           </Link>
         </div>
       </CardFooter>
