@@ -102,7 +102,7 @@ export default function AboutSection() {
             </div>
 
             <motion.div whileHover={{ x: 4 }}>
-              <Link href={"/concepts"}>
+              <Link href={"/rooms"}>
                 <Button className="rounded-full bg-[#5a8d69] hover:bg-[#4a7d59] text-white group px-6">
                   Đặt phòng ngay
                   <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />

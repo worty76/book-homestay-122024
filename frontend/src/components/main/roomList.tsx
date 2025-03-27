@@ -15,41 +15,20 @@ import Autoplay, { AutoplayType } from "embla-carousel-autoplay";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import RoomCard from "./rooms/roomCard";
-import { Room, RoomConcept, concepts, getRoomsByConcept } from "@/data/rooms";
+import { Room, rooms } from "@/data/rooms";
 
 const RoomList = () => {
-  const [conceptRooms, setConceptRooms] = useState<Room[]>([]);
+  const [featuredRooms, setFeaturedRooms] = useState<Room[]>([]);
   const [plugin, setPlugin] = useState<AutoplayType | null>(null);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
 
-  // Load one room from each concept
+  // Load featured rooms
   useEffect(() => {
-    const loadRooms = () => {
-      // Get all concept keys
-      const conceptKeys: RoomConcept[] = [
-        "NonNuoc",
-        "PhongNam",
-        "HaiCauVien",
-        "LuaHoi",
-        "NguBinh",
-      ];
-
-      // Get the first room from each concept
-      const rooms: Room[] = [];
-
-      conceptKeys.forEach((concept) => {
-        const conceptRooms = getRoomsByConcept(concept);
-        if (conceptRooms.length > 0) {
-          rooms.push(conceptRooms[0]);
-        }
-      });
-
-      setConceptRooms(rooms);
-    };
-
-    loadRooms();
+    // Get a selection of rooms (first 5 or less)
+    const selectedRooms = rooms.slice(0, Math.min(5, rooms.length));
+    setFeaturedRooms(selectedRooms);
   }, []);
 
   useEffect(() => {
@@ -88,7 +67,7 @@ const RoomList = () => {
               Khám phá các phòng
             </span>
             <h2 className="font-playfair text-4xl md:text-5xl text-[#0a3b33] leading-tight">
-              Phòng theo chủ đề
+              Phòng tiêu biểu
             </h2>
           </div>
 
@@ -114,7 +93,7 @@ const RoomList = () => {
             setApi={setApi}
           >
             <CarouselContent>
-              {conceptRooms.map((room, index) => (
+              {featuredRooms.map((room, index) => (
                 <CarouselItem
                   key={room.id}
                   className="md:basis-1/2 lg:basis-1/3 pl-6"

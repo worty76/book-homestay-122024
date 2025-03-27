@@ -14,7 +14,7 @@ import {
 const menuItems = [
   { name: "TRANG CHỦ", url: "/" },
   { name: "GIỚI THIỆU", url: "/about" },
-  { name: "ĐẶT PHÒNG", url: "/concepts" },
+  { name: "ĐẶT PHÒNG", url: "/rooms" },
   { name: "BÀI VIẾT", url: "/blog" },
   { name: "LIÊN HỆ", url: "/contact" },
 ];
@@ -154,7 +154,7 @@ export function Header() {
               <div className="flex items-center justify-between mb-8">
                 <Link href="/">
                   <Image
-                    src="/images/Logo Kén-03.png"
+                    src="/images/LogoKén-03.png"
                     alt="Logo"
                     width={80}
                     height={80}
