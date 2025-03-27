@@ -116,7 +116,6 @@ export const rooms: Room[] = [
       "/images/view/2.png",
       "/images/view/3.png",
       "/images/view/4.png",
-      "/images/view/4.png",
     ],
   },
   {
@@ -163,7 +162,6 @@ export const rooms: Room[] = [
       "/images/view/1.png",
       "/images/view/2.png",
       "/images/view/3.png",
-      "/images/view/4.png",
       "/images/view/4.png",
     ],
   },

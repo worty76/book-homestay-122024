@@ -6,7 +6,6 @@ import {
   Building2,
   Users,
   Mountain,
-  BadgeInfo,
 } from "lucide-react";
 import {
   Card,
@@ -16,7 +15,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
 import { Room } from "@/data/rooms";
 
 interface RoomDetailsProps {
@@ -25,10 +23,10 @@ interface RoomDetailsProps {
 
 export default function RoomDetails({ room }: RoomDetailsProps) {
   return (
-    <Card className="mb-8">
+    <Card className="mb-8 bg-[#324b3e]">
       <CardHeader>
-        <CardTitle>Chi tiết phòng</CardTitle>
-        <CardDescription>Thông tin về phòng và tiện nghi</CardDescription>
+        <CardTitle className="text-[#F3ECDC]">Chi tiết phòng</CardTitle>
+        <CardDescription className="text-[#F3ECDC]">Thông tin về phòng và tiện nghi</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -66,25 +64,11 @@ export default function RoomDetails({ room }: RoomDetailsProps) {
         <Separator className="my-4" />
 
         <h3 className="font-medium text-lg mb-3 flex items-center gap-2">
-          <Mountain className="h-5 w-5" />
-          <span>Concept thiết kế</span>
+          <Mountain className="h-5 w-5 text-[#F3ECDC]" />
+          <span className="text-[#F3ECDC]">Concept thiết kế</span>
         </h3>
 
-        <p className="mb-4 text-muted-foreground">{room.description}</p>
-
-        <div className="mb-4">
-          <h4 className="text-sm font-medium mb-2 flex items-center gap-2">
-            <BadgeInfo className="h-4 w-4" />
-            <span>Màu sắc chủ đạo</span>
-          </h4>
-          <div className="flex flex-wrap gap-2">
-            {room.mainColors.map((color, index) => (
-              <Badge key={index} variant="outline">
-                {color}
-              </Badge>
-            ))}
-          </div>
-        </div>
+        <p className="mb-4 text-[#F3ECDC]">{room.description}</p>
       </CardContent>
     </Card>
   );
@@ -99,11 +83,11 @@ interface DetailItemProps {
 function DetailItem({ icon, label, value }: DetailItemProps) {
   return (
     <div className="flex flex-col items-center text-center">
-      <div className="p-3 rounded-full bg-primary/10 text-primary mb-2">
+      <div className="p-3 rounded-full bg-[#8a9a5b]/60 mb-2">
         {icon}
       </div>
-      <span className="text-sm text-muted-foreground mb-1">{label}</span>
-      <span className="font-medium">{value}</span>
+      <span className="text-sm text-[#F3ECDC] mb-1">{label}</span>
+      <span className="font-medium text-[#F3ECDC]">{value}</span>
     </div>
   );
 }

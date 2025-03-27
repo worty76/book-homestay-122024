@@ -67,7 +67,7 @@ export default function BookingForm({ room }: BookingFormProps) {
   };
 
   return (
-    <Card className="sticky top-24">
+    <Card className="sticky top-24 ">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span>{formatCurrency(room.price)}</span>

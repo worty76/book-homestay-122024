@@ -24,10 +24,49 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpDown, Filter, X } from "lucide-react";
 import AnotherHeader from "@/components/main/another-header";
 
-export default function RoomsPage() {
+interface SearchParams {
+  checkIn?: Date;
+  checkOut?: Date;
+  guests?: number;
+  rooms?: number;
+}
+
+function filterRoomsBySearchParams(allRooms: Room[], searchParams: SearchParams): Room[] {
+  if (!searchParams.checkIn || !searchParams.checkOut || !searchParams.guests || !searchParams.rooms) {
+    return allRooms;
+  }
+
+  return allRooms.filter(room => {
+    // Filter by capacity - each room should accommodate the guests divided by number of rooms
+    const guestsPerRoom = Math.ceil((searchParams.guests || 1) / (searchParams.rooms || 1));
+    if (room.maxCapacity < guestsPerRoom) return false;
+
+    // Here you would also check if the room is available for the selected dates
+    // This would typically involve checking a booking database
+    // For now, we'll just use the 'available' property as a placeholder
+    return room.available;
+  });
+}
+
+export default function RoomsPage({ searchParams: urlSearchParams }: { searchParams: { [key: string]: string } }) {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [filteredRooms, setFilteredRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Parse search parameters
+  const searchParams: SearchParams = {};
+  if (urlSearchParams.checkIn) {
+    searchParams.checkIn = new Date(urlSearchParams.checkIn);
+  }
+  if (urlSearchParams.checkOut) {
+    searchParams.checkOut = new Date(urlSearchParams.checkOut);
+  }
+  if (urlSearchParams.guests) {
+    searchParams.guests = parseInt(urlSearchParams.guests);
+  }
+  if (urlSearchParams.rooms) {
+    searchParams.rooms = parseInt(urlSearchParams.rooms);
+  }
 
   const [typeFilter, setTypeFilter] = useState<RoomType | "all">("all");
   const [viewFilter, setViewFilter] = useState<ViewType | "all">("all");
@@ -43,13 +82,20 @@ export default function RoomsPage() {
   // Fetch all rooms on component mount
   useEffect(() => {
     setRooms(allRooms);
-    setFilteredRooms(allRooms);
+    
+    // Apply search filtering first
+    const searchFilteredRooms = filterRoomsBySearchParams(allRooms, searchParams);
+    setFilteredRooms(searchFilteredRooms);
     setLoading(false);
   }, []);
 
-  // Apply filters when any filter changes
+  // Apply additional filters when any filter changes
   useEffect(() => {
-    let result = [...rooms];
+    // Start with rooms filtered by search params
+    let searchFiltered = filterRoomsBySearchParams(rooms, searchParams);
+    
+    // Then apply additional filters
+    let result = [...searchFiltered];
 
     // Apply type filter
     if (typeFilter !== "all") {
@@ -108,10 +154,36 @@ export default function RoomsPage() {
     }).format(amount);
   };
 
+  // Add search information to the header or results
+  const getSearchSummary = () => {
+    if (!searchParams.checkIn || !searchParams.checkOut || !searchParams.guests || !searchParams.rooms) {
+      return null;
+    }
+    
+    return (
+      <div className="bg-[#f8f3e9] p-3 rounded-md mb-4 text-sm">
+        <p className="font-medium">Tìm kiếm của bạn:</p>
+        <div className="flex flex-wrap gap-2 mt-1">
+          <span className="bg-white px-2 py-1 rounded-md">
+            Nhận phòng: {searchParams.checkIn.toLocaleDateString("vi-VN")}
+          </span>
+          <span className="bg-white px-2 py-1 rounded-md">
+            Trả phòng: {searchParams.checkOut.toLocaleDateString("vi-VN")}
+          </span>
+          <span className="bg-white px-2 py-1 rounded-md">
+            {searchParams.guests} người - {searchParams.rooms} phòng
+          </span>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       <AnotherHeader title="Phòng của chúng tôi" description="" image="" />
       <div className="container mx-auto px-4 py-8">
+        {getSearchSummary()}
+        
         {/* Mobile filter toggle */}
         <div className="lg:hidden mb-4">
           <Button
@@ -294,8 +366,11 @@ export default function RoomsPage() {
                   Không tìm thấy phòng nào
                 </h3>
                 <p className="text-muted-foreground mb-6">
-                  Không có phòng nào phù hợp với bộ lọc của bạn. Vui lòng thử
-                  lại với các tiêu chí khác.
+                  {searchParams.checkIn ? 
+                    "Không có phòng nào phù hợp với tiêu chí tìm kiếm của bạn. Vui lòng thử lại với các ngày hoặc số lượng khách khác." 
+                    : 
+                    "Không có phòng nào phù hợp với bộ lọc của bạn. Vui lòng thử lại với các tiêu chí khác."
+                  }
                 </p>
                 <Button onClick={resetFilters}>Đặt lại bộ lọc</Button>
               </div>
@@ -304,7 +379,11 @@ export default function RoomsPage() {
               <div>
                 <div className="mb-4 flex justify-between items-center">
                   <p className="text-muted-foreground">
-                    Hiển thị {filteredRooms.length} phòng
+                    {searchParams.checkIn ? 
+                      `Hiển thị ${filteredRooms.length} phòng phù hợp với tìm kiếm của bạn` 
+                      : 
+                      `Hiển thị ${filteredRooms.length} phòng`
+                    }
                   </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

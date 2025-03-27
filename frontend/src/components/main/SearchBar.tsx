@@ -10,90 +10,228 @@ import {
 } from "@/components/ui/popover";
 import { useState } from "react";
 import { CalendarIcon, UsersIcon } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { addDays, formatISO, format } from "date-fns";
+import { vi } from "date-fns/locale";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function SearchBar() {
-  const [checkIn, setCheckIn] = useState<Date | undefined>(new Date());
-  const [checkOut, setCheckOut] = useState<Date | undefined>(new Date());
-  const [guests, setGuests] = useState(2);
-  const [rooms, setRooms] = useState(1);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  const initialCheckIn = searchParams.get('checkIn') 
+    ? new Date(searchParams.get('checkIn') as string) 
+    : new Date();
+  
+  const initialCheckOut = searchParams.get('checkOut')
+    ? new Date(searchParams.get('checkOut') as string)
+    : addDays(new Date(), 1);
+    
+  const initialGuests = searchParams.get('guests') 
+    ? parseInt(searchParams.get('guests') as string) 
+    : 2;
+    
+  const initialRooms = searchParams.get('rooms') 
+    ? parseInt(searchParams.get('rooms') as string) 
+    : 1;
+
+  const [checkIn, setCheckIn] = useState<Date | undefined>(initialCheckIn);
+  const [checkOut, setCheckOut] = useState<Date | undefined>(initialCheckOut);
+  const [guests, setGuests] = useState(initialGuests);
+  const [rooms, setRooms] = useState(initialRooms);
+
+  // Format date to Vietnamese style (DD/MM/YYYY)
+  const formatDateVietnamese = (date?: Date) => {
+    if (!date) return "";
+    return format(date, "dd/MM/yyyy", { locale: vi });
+  };
+
+  const handleSearch = () => {
+    if (!checkIn || !checkOut) return;
+    
+    if (checkOut < checkIn) {
+      setCheckOut(addDays(checkIn, 1));
+      return;
+    }
+    
+    const params = new URLSearchParams();
+    params.set('checkIn', formatISO(checkIn));
+    params.set('checkOut', formatISO(checkOut));
+    params.set('guests', guests.toString());
+    params.set('rooms', rooms.toString());
+    
+    router.push(`/rooms?${params.toString()}`);
+  };
+
+  // Variants for staggered animation of children
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    show: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  };
+
+  const buttonVariants = {
+    hidden: { scale: 0.8, opacity: 0 },
+    show: { scale: 1, opacity: 1, transition: { type: "spring", stiffness: 400, damping: 17 } },
+    hover: { scale: 1.05, backgroundColor: "#4d7534" },
+    tap: { scale: 0.95 }
+  };
 
   return (
-    <div className="mt-6 flex flex-wrap items-center bg-white p-3 rounded-lg gap-2">
-      {/* Địa điểm */}
-      <Input
-        placeholder="Hồ Chí Minh"
-        className="text-black flex-1 px-4 py-3 bg-transparent border border-gray-500 rounded-lg"
-      />
+    <motion.div 
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+      className="flex flex-col sm:flex-row items-center justify-center bg-white/90 backdrop-blur-sm p-2 rounded-lg gap-2 max-w-3xl mx-auto shadow-md"
+    >
+      <motion.div 
+        variants={containerVariants}
+        className="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full"
+      >
+        {/* Ngày nhận phòng */}
+        <motion.div variants={itemVariants}>
+          <Popover>
+            <PopoverTrigger asChild>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  variant="outline"
+                  className="flex items-center justify-between sm:justify-start space-x-1 px-3 py-1.5 w-full text-xs sm:text-sm h-auto"
+                >
+                  <CalendarIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
+                  <span className="truncate">{formatDateVietnamese(checkIn)}</span>
+                </Button>
+              </motion.div>
+            </PopoverTrigger>
+            <AnimatePresence>
+              <PopoverContent className="w-auto p-0 sm:p-2">
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Calendar 
+                    mode="single" 
+                    selected={checkIn} 
+                    onSelect={setCheckIn}
+                    disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                    initialFocus
+                    className="scale-75 sm:scale-100 origin-top-left"
+                    locale={vi}
+                  />
+                </motion.div>
+              </PopoverContent>
+            </AnimatePresence>
+          </Popover>
+        </motion.div>
 
-      {/* Ngày nhận phòng */}
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className="flex items-center space-x-2 px-4 py-3 w-full sm:w-auto"
-          >
-            <CalendarIcon className="w-4 h-4" />
-            <span>{checkIn?.toLocaleDateString("vi-VN")}</span>
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-2">
-          <Calendar mode="single" selected={checkIn} onSelect={setCheckIn} />
-        </PopoverContent>
-      </Popover>
+        {/* Ngày trả phòng */}
+        <motion.div variants={itemVariants}>
+          <Popover>
+            <PopoverTrigger asChild>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  variant="outline"
+                  className="flex items-center justify-between sm:justify-start space-x-1 px-3 py-1.5 w-full text-xs sm:text-sm h-auto"
+                >
+                  <CalendarIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
+                  <span className="truncate">{formatDateVietnamese(checkOut)}</span>
+                </Button>
+              </motion.div>
+            </PopoverTrigger>
+            <AnimatePresence>
+              <PopoverContent className="w-auto p-0 sm:p-2">
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Calendar 
+                    mode="single" 
+                    selected={checkOut} 
+                    onSelect={setCheckOut}
+                    disabled={(date) => checkIn ? date < checkIn : date < new Date(new Date().setHours(0, 0, 0, 0))}
+                    initialFocus
+                    className="scale-75 sm:scale-100 origin-top-left"
+                    locale={vi}
+                  />
+                </motion.div>
+              </PopoverContent>
+            </AnimatePresence>
+          </Popover>
+        </motion.div>
 
-      {/* Ngày trả phòng */}
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className="flex items-center space-x-2 px-4 py-3 w-full sm:w-auto"
-          >
-            <CalendarIcon className="w-4 h-4" />
-            <span>{checkOut?.toLocaleDateString("vi-VN")}</span>
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-2">
-          <Calendar mode="single" selected={checkOut} onSelect={setCheckOut} />
-        </PopoverContent>
-      </Popover>
-
-      {/* Khách & Phòng */}
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className="flex items-center space-x-2 px-4 py-3 w-full sm:w-auto"
-          >
-            <UsersIcon className="w-4 h-4" />
-            <span>
-              {guests} người lớn - {rooms} phòng
-            </span>
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-2">
-          <div className="space-y-2">
-            <label className="text-sm">Số người lớn:</label>
-            <Input
-              type="number"
-              value={guests}
-              onChange={(e) => setGuests(Number(e.target.value))}
-              className="w-full"
-            />
-            <label className="text-sm">Số phòng:</label>
-            <Input
-              type="number"
-              value={rooms}
-              onChange={(e) => setRooms(Number(e.target.value))}
-              className="w-full"
-            />
-          </div>
-        </PopoverContent>
-      </Popover>
+        {/* Khách & Phòng */}
+        <motion.div variants={itemVariants}>
+          <Popover>
+            <PopoverTrigger asChild>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  variant="outline"
+                  className="flex items-center justify-between sm:justify-start space-x-1 px-3 py-1.5 w-full text-xs sm:text-sm h-auto"
+                >
+                  <UsersIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
+                  <span className="truncate">
+                    {guests} người - {rooms} phòng
+                  </span>
+                </Button>
+              </motion.div>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-2">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-2"
+              >
+                <label className="text-sm">Số người lớn:</label>
+                <Input
+                  type="number"
+                  min={1}
+                  max={20}
+                  value={guests}
+                  onChange={(e) => setGuests(Number(e.target.value))}
+                  className="w-full"
+                />
+                <label className="text-sm">Số phòng:</label>
+                <Input
+                  type="number"
+                  min={1}
+                  max={10}
+                  value={rooms}
+                  onChange={(e) => setRooms(Number(e.target.value))}
+                  className="w-full"
+                />
+              </motion.div>
+            </PopoverContent>
+          </Popover>
+        </motion.div>
+      </motion.div>
 
       {/* Button Tìm */}
-      <Button className="px-8 py-3 font-bold bg-[#5d8b3e] text-white rounded-lg hover:bg-[#5d8b3e] w-full sm:w-auto">
-        TÌM
-      </Button>
-    </div>
+      <motion.div
+        variants={itemVariants}
+        whileHover="hover"
+        whileTap="tap"
+      >
+        <Button 
+          className="px-4 py-1.5 text-xs sm:text-sm font-medium bg-[#5d8b3e] text-white rounded-lg hover:bg-[#4d7534] w-full sm:w-auto h-auto transition-colors"
+          onClick={handleSearch}
+        >
+          TÌM
+        </Button>
+      </motion.div>
+    </motion.div>
   );
 }

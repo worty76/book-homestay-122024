@@ -6,7 +6,6 @@ import { getRoomById } from "@/data/rooms";
 import RoomGallery from "@/components/main/rooms/roomGallery";
 import RoomDetails from "@/components/main/rooms/roomDetails";
 import RoomAmenities from "@/components/main/rooms/roomAmenities";
-import RoomStory from "@/components/main/rooms/roomStory";
 import BookingForm from "@/components/main/rooms/bookingForm";
 import type { Room } from "@/data/rooms";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -40,43 +39,39 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
         description=""
         image="/images/img4.jpg"
       />
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">{room!.name}</h1>
-          <p className="text-muted-foreground">
-            {room!.type === "Twin"
-              ? "Phòng đôi với 2 giường đơn"
-              : room!.type === "Double"
-              ? "Phòng đôi với 1 giường lớn"
-              : "Phòng ngủ tập thể"}
-            {" · "}
-            {room!.category} Room
-            {" · "}
-            {room!.view === "Window" ? "View cửa sổ" : "Ban công"}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
-            <RoomGallery images={room!.images} alt={room!.name} />
-
-            <RoomStory
-              name={room!.name}
-              story={room!.story}
-              mainColors={room!.mainColors}
-            />
-
-            <RoomDetails room={room!} />
-
-            <RoomAmenities
-              amenities={room!.amenities}
-              bathroomAmenities={room!.bathroomAmenities}
-            />
+      <div className="bg-[#f8f3e9]">
+        <div className="container mx-auto px-4 py-8 ">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold mb-2 text-[#0a3b33]">{room!.name}</h1>
+            <p className="text-[#5a8d69]">
+              {room!.type === "Twin"
+                ? "Phòng đôi với 2 giường đơn"
+                : room!.type === "Double"
+                ? "Phòng đôi với 1 giường lớn"
+                : "Phòng ngủ tập thể"}
+              {" · "}
+              {room!.category} Room
+              {" · "}
+              {room!.view === "Window" ? "View cửa sổ" : "Ban công"}
+            </p>
           </div>
 
-          <div className="lg:col-span-1">
-            <div className="sticky top-8">
-              <BookingForm room={room!} />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+              <RoomGallery images={room!.images} alt={room!.name} />
+
+              <RoomDetails room={room!} />
+
+              <RoomAmenities
+                amenities={room!.amenities}
+                bathroomAmenities={room!.bathroomAmenities}
+              />
+            </div>
+
+            <div className="lg:col-span-1">
+              <div className="sticky top-8">
+                <BookingForm room={room!} />
+              </div>
             </div>
           </div>
         </div>
