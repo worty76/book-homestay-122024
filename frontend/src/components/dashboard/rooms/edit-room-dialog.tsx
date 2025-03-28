@@ -29,6 +29,111 @@ interface EditRoomDialogProps {
   onSave: (updatedRoom: Room, files?: FileList) => Promise<void>;
 }
 
+interface BasicInfoTabProps {
+  formData: Partial<Room> | null;
+  setFormData: React.Dispatch<React.SetStateAction<Partial<Room> | null>>;
+}
+
+// Move BasicInfoTab outside of EditRoomDialog component
+const BasicInfoTab = memo(
+  ({ formData, setFormData }: BasicInfoTabProps) => (
+    <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-2">
+        <Label>Room Name</Label>
+        <Input
+          value={formData?.name || ""}
+          onChange={(e) => {
+            setFormData((prev) =>
+              prev ? { ...prev, name: e.target.value } : null
+            );
+          }}
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label>Category</Label>
+        <Select
+          value={formData?.category || ""}
+          onValueChange={(value) =>
+            setFormData((prev) => (prev ? { ...prev, category: value } : null))
+          }
+        >
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="apartment">Apartment</SelectItem>
+            <SelectItem value="house">House</SelectItem>
+            <SelectItem value="room">Room</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="grid gap-2">
+        <Label>City</Label>
+        <Input
+          value={formData?.location?.city ?? ""}
+          onChange={(e) => {
+            setFormData((prev) =>
+              prev
+                ? {
+                    ...prev,
+                    location: {
+                      ...prev.location,
+                      city: e.target.value,
+                    },
+                  }
+                : null
+            );
+          }}
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label>Address</Label>
+        <Input
+          value={formData?.location?.address ?? ""}
+          onChange={(e) =>
+            setFormData((prev) =>
+              prev
+                ? {
+                    ...prev,
+                    location: {
+                      ...prev.location,
+                      address: e.target.value,
+                    },
+                  }
+                : null
+            )
+          }
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label>Status</Label>
+        <Select
+          value={formData?.status || ""}
+          onValueChange={(value) =>
+            setFormData((prev) => (prev ? { ...prev, status: value } : null))
+          }
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="available">Available</SelectItem>
+            <SelectItem value="booked">Booked</SelectItem>
+            <SelectItem value="maintenance">Maintenance</SelectItem>
+            <SelectItem value="inactive">Inactive</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+  ),
+  (prevProps, nextProps) => {
+    // Custom comparison for memo
+    return (
+      JSON.stringify(prevProps.formData) === JSON.stringify(nextProps.formData)
+    );
+  }
+);
+
 // Memoize the component
 export const EditRoomDialog = memo(function EditRoomDialog({
   room,
@@ -66,14 +171,6 @@ export const EditRoomDialog = memo(function EditRoomDialog({
     []
   );
 
-  const debouncedSetFormData = useMemo(
-    () =>
-      debounce((newData: Partial<Room>) => {
-        setFormData((prev) => ({ ...prev, ...newData }));
-      }, 300),
-    []
-  );
-
   const handleSubmit = async () => {
     if (!formData) return;
     setIsSubmitting(true);
@@ -84,83 +181,6 @@ export const EditRoomDialog = memo(function EditRoomDialog({
       setIsSubmitting(false);
     }
   };
-
-  const BasicInfoTab = memo(({ formData, setFormData }: any) => (
-    <div className="grid grid-cols-2 gap-4">
-      <div className="grid gap-2">
-        <Label>Room Name</Label>
-        <Input
-          value={formData.name}
-          onChange={(e) => debouncedSetFormData({ name: e.target.value })}
-        />
-      </div>
-      <div className="grid gap-2">
-        <Label>Category</Label>
-        <Select
-          value={formData.category}
-          onValueChange={(value) =>
-            setFormData({ ...formData, category: value })
-          }
-        >
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="apartment">Apartment</SelectItem>
-            <SelectItem value="house">House</SelectItem>
-            <SelectItem value="room">Room</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="grid gap-2">
-        <Label>City</Label>
-        <Input
-          value={formData?.location?.city ?? ""}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              location: {
-                city: e.target.value,
-                address: formData?.location?.address ?? "",
-              },
-            })
-          }
-        />
-      </div>
-      <div className="grid gap-2">
-        <Label>Address</Label>
-        <Input
-          value={formData?.location?.address ?? ""}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              location: {
-                city: formData?.location?.city ?? "",
-                address: e.target.value,
-              },
-            })
-          }
-        />
-      </div>
-      <div className="grid gap-2">
-        <Label>Status</Label>
-        <Select
-          value={formData.status}
-          onValueChange={(value) => setFormData({ ...formData, status: value })}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="available">Available</SelectItem>
-            <SelectItem value="booked">Booked</SelectItem>
-            <SelectItem value="maintenance">Maintenance</SelectItem>
-            <SelectItem value="inactive">Inactive</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-    </div>
-  ));
 
   const ImagesTab = lazy(() => import("./images-tab"));
 

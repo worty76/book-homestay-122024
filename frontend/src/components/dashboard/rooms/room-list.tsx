@@ -14,6 +14,7 @@ interface RoomListProps {
   isLoading: boolean;
   error: string | null;
   onEditRoom: (room: Room) => void;
+  onDeleteRoom: (room: Room) => void;
 }
 
 export function RoomList({
@@ -21,6 +22,7 @@ export function RoomList({
   isLoading,
   error,
   onEditRoom,
+  onDeleteRoom,
 }: RoomListProps) {
   if (isLoading) {
     return (
@@ -63,13 +65,22 @@ export function RoomList({
             <TableCell>{room.capacity?.maxGuests} guests</TableCell>
             <TableCell className="capitalize">{room.status}</TableCell>
             <TableCell>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => onEditRoom(room)}
-              >
-                Edit
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => onEditRoom(room)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => onDeleteRoom(room)}
+                >
+                  Delete
+                </Button>
+              </div>
             </TableCell>
           </TableRow>
         ))}

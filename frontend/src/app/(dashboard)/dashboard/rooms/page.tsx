@@ -32,6 +32,8 @@ export default function RoomsPage() {
   const token = useAuthStore((state) => state.token);
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [roomToDelete, setRoomToDelete] = useState<Room | null>(null);
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -179,6 +181,53 @@ export default function RoomsPage() {
     }
   };
 
+  const handleDeleteRoom = (room: Room) => {
+    setRoomToDelete(room);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!roomToDelete) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/v1/room/delete-room/${roomToDelete._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete room");
+      }
+
+      // Update rooms list
+      const updatedRooms = rooms.filter(
+        (room) => room._id !== roomToDelete._id
+      );
+      setRooms(updatedRooms);
+
+      toast({
+        title: "Room deleted",
+        description: "The room has been deleted successfully.",
+        variant: "default",
+      });
+    } catch (error) {
+      console.error("Error deleting room:", error);
+      toast({
+        title: "Error",
+        description: "Failed to delete room. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setDeleteDialogOpen(false);
+      setRoomToDelete(null);
+    }
+  };
+
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center justify-between">
@@ -199,6 +248,7 @@ export default function RoomsPage() {
         isLoading={isLoading}
         error={error}
         onEditRoom={handleEditRoom}
+        onDeleteRoom={handleDeleteRoom}
       />
       <EditRoomDialog
         room={selectedRoom}
@@ -206,6 +256,35 @@ export default function RoomsPage() {
         onOpenChange={setEditDialogOpen}
         onSave={handleSaveRoom}
       />
+      {/* Add Delete Confirmation Dialog */}
+      {deleteDialogOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+            <h3 className="text-lg font-semibold mb-4">Confirm Delete</h3>
+            <p className="mb-4">
+              Are you sure you want to delete this room? This action cannot be
+              undone.
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                onClick={() => {
+                  setDeleteDialogOpen(false);
+                  setRoomToDelete(null);
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                onClick={confirmDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
