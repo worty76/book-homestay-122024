@@ -7,24 +7,7 @@ import { ArrowRight, Users, Maximize, Building2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import BookingModal from "./bookingModal";
-
-// Updated Room interface for the card component
-interface Room {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  type: string;
-  view?: string;
-  category: string;
-  images: string[];
-  maxCapacity: number;
-  amenities: string[];
-  available: boolean;
-  rating: number;
-  floor?: string | number;
-  size?: number; // Room size in square meters
-}
+import { Room } from "@/data/rooms";
 
 interface RoomCardProps {
   room: Room;
@@ -48,9 +31,9 @@ export default function RoomCard({ room }: RoomCardProps) {
     }).format(amount);
   };
 
-  // Calculate or provide default values for missing props
-  const roomSize = room.size || 20; // Default size if not provided
-  const roomFloor = room.floor || 1; // Default floor if not provided
+  // Room properties
+  const roomSize = room.size;
+  const roomFloor = room.floor;
 
   return (
     <motion.div
@@ -114,9 +97,11 @@ export default function RoomCard({ room }: RoomCardProps) {
           </div>
         </div>
 
-        <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
-          {room.description}
-        </p>
+        <div className="min-h-[60px] overflow-hidden mb-4">
+          <p className="text-muted-foreground text-sm line-clamp-3">
+            {room.description}
+          </p>
+        </div>
 
         <div className="flex items-center justify-between">
           <Badge variant="outline">{room.category || room.type}</Badge>

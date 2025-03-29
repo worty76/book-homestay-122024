@@ -61,7 +61,7 @@ export default function UsersPage() {
 
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:3000/api/v1/user", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -171,7 +171,7 @@ export default function UsersPage() {
   const updateUser = async (id: string, userData: Omit<User, "_id">) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/user/${id}/admin`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/${id}/admin`,
         {
           method: "PUT",
           headers: {

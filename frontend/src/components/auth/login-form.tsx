@@ -56,12 +56,18 @@ export function LoginForm() {
         description: "Chào mừng bạn quay trở lại!",
         duration: 3000,
       });
-      router.push("/dashboard");
+      router.push("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const errorMessage =
-          error.response?.data?.error ||
-          "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập.";
+        let errorMessage;
+        
+        if (error.response?.status === 400) {
+          errorMessage = "Incorrect email or password, please check again!";
+        } else {
+          errorMessage = error.response?.data?.error ||
+            "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập.";
+        }
+        
         setError(errorMessage);
         toast.error("Đăng nhập thất bại", {
           description: errorMessage,

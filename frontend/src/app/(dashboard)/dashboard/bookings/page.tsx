@@ -22,7 +22,7 @@ export default function BookingsPage() {
     const fetchBookings = async () => {
       setLoading(true);
       try {
-        const response = await fetch("http://localhost:3000/api/v1/booking", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/booking`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -45,7 +45,7 @@ export default function BookingsPage() {
     setLoadingAction(bookingId);
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/booking/confirm`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/booking/confirm`,
         {
           method: "PUT",
           headers: {
@@ -76,7 +76,7 @@ export default function BookingsPage() {
     setLoadingAction(bookingId);
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/booking/${bookingId}/cancel`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/booking/${bookingId}/cancel`,
         {
           method: "PUT",
           headers: {
@@ -106,7 +106,7 @@ export default function BookingsPage() {
     setLoadingDetails(true);
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/booking/${bookingId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/booking/${bookingId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

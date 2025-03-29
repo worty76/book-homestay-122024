@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PersonalInfo } from "@/components/profile/personal-info";
 import { SecuritySettings } from "@/components/profile/security-settings";
 import { BookingHistory } from "@/components/profile/booking-history";
-import { Companions } from "@/components/profile/companions";
 import { PaymentMethods } from "@/components/profile/payment-methods";
 import { PrivacySettings } from "@/components/profile/privacy-settings";
 import AnotherHeader from "@/components/main/another-header";
@@ -21,12 +20,16 @@ import {
 
 export default function ProfilePage() {
   const [activeSection, setActiveSection] = useState("personal");
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const menuItems = [
     { id: "personal", icon: UserIcon, label: "Thông tin cá nhân" },
     { id: "security", icon: LockIcon, label: "Cài đặt bảo mật" },
     { id: "bookings", icon: BookMarked, label: "Lịch sử đặt phòng" },
-    { id: "companions", icon: CalendarIcon, label: "Người đi cùng" },
     { id: "payment", icon: MapPinIcon, label: "Phương thức thanh toán" },
     {
       id: "privacy",
@@ -36,6 +39,14 @@ export default function ProfilePage() {
   ];
 
   const renderContent = () => {
+    if (!isMounted) {
+      return (
+        <div className="p-6 text-center">
+          <p>Đang tải...</p>
+        </div>
+      );
+    }
+
     switch (activeSection) {
       case "personal":
         return <PersonalInfo />;
@@ -43,8 +54,6 @@ export default function ProfilePage() {
         return <SecuritySettings />;
       case "bookings":
         return <BookingHistory />;
-      case "companions":
-        return <Companions />;
       case "payment":
         return <PaymentMethods />;
       case "privacy":
@@ -63,7 +72,6 @@ export default function ProfilePage() {
 
       <div className="container mx-auto py-10">
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Sidebar Navigation */}
           <div className="w-full md:w-1/4">
             <Card>
               <CardContent className="p-4">

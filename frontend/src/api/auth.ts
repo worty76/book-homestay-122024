@@ -79,6 +79,8 @@ export const useRegister = () => {
           "/api/v1/user/register",
           credentials
         );
+        console.log('Registration credentials:', credentials);
+        console.log('Registration API Response:', data);
         return data;
       } catch (error) {
         throw new Error(handleApiError(error));
@@ -91,6 +93,9 @@ export const useRegister = () => {
         email: variables.email,
         isAdmin: data.isAdmin,
       };
+
+      console.log('User successfully registered:', user);
+      console.log('Token received:', data.token);
 
       login(user, data.token);
     },
