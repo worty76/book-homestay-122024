@@ -8,6 +8,7 @@ import RoomAmenities from "@/components/main/rooms/roomAmenities";
 import BookingForm from "@/components/main/rooms/bookingForm";
 import { Skeleton } from "@/components/ui/skeleton";
 import AnotherHeader from "@/components/main/another-header";
+import { RoomCategory, RoomType, ViewType } from "@/data/rooms";
 
 // Updated Room interface based on API response
 interface Room {
@@ -56,6 +57,23 @@ interface Room {
   bathroomAmenities?: string[]; // Added for compatibility with existing components
 }
 
+// Helper function to map API values to expected enum types
+const mapCategory = (category: string): RoomCategory => {
+  return category === "room" || category === "suite" || category === "apartment" 
+    ? "Standard" 
+    : "Deluxe";
+};
+
+const mapRoomType = (type: string): RoomType => {
+  if (type === "Single" || type === "Double") return "Double";
+  if (type === "Queen" || type === "King") return "Twin";
+  return "Dormitory";
+};
+
+const mapViewType = (view: string): ViewType => {
+  return view === "Ocean View" ? "Balcony" : "Window";
+};
+
 export default function RoomDetailPage({ params }: { params: { id: string } }) {
   const [room, setRoom] = useState<Room | null>(null);
   const [loading, setLoading] = useState(true);
@@ -65,7 +83,7 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
     const fetchRoom = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/v1/room/${params.id}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/room/${params.id}`
         );
 
         if (!response.ok) {
@@ -153,15 +171,15 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
                   description: room.description,
                   maxCapacity: room.capacity.maxGuests,
                   size: room.facilities.roomSize,
-                  floor: room.floor || "1",
-                  type: room.facilities.bedsDescription[0]?.type || "Standard",
+                  floor: parseInt(room.floor || "1"),
+                  type: mapRoomType(room.facilities.bedsDescription[0]?.type || "Standard"),
                   bedsDescription: room.facilities.bedsDescription,
                   price: room.dailyRate,
-                  view: "Window", // Default as it's not in API
+                  view: "Window" as ViewType,
                   amenities: room.amenities,
                   bathroomAmenities: room.bathroomAmenities || [],
                   images: room.image,
-                  category: room.category,
+                  category: mapCategory(room.category),
                   available: room.status === "available",
                   rating: room.averageRating,
                   checkInTime: room.houseRules.checkInTime,
@@ -197,15 +215,14 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
                     basePrice: room.pricing.basePrice,
                     available: room.status === "available",
                     description: room.description,
-                    type:
-                      room.facilities.bedsDescription[0]?.type || "Standard",
-                    view: room.category === "room" ? "Ocean View" : "City View", // Improved default based on category
-                    category: room.category,
+                    type: mapRoomType(room.facilities.bedsDescription[0]?.type || "Standard"),
+                    view: mapViewType(room.category === "room" ? "Ocean View" : "City View"),
+                    category: mapCategory(room.category),
                     images: room.image,
                     amenities: room.amenities,
                     bathroomAmenities: room.bathroomAmenities || [],
                     rating: room.averageRating,
-                    floor: room.floor || "1",
+                    floor: parseInt(room.floor || "1"),
                     size: room.facilities.roomSize,
                     bedrooms: room.bedrooms || 1,
                     bathrooms: room.facilities.bathrooms,

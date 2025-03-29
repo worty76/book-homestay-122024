@@ -15,11 +15,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function PersonalInfo() {
-  const { user } = useAuthStore();
   const { toast } = useToast();
   const { data: profileData, isLoading: isLoadingProfile, refetch } = useGetUserProfile();
   const { mutate: updateProfile, isPending, isError, error } = useUpdateProfile();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+  
+  // Add useEffect to handle client-side rendering
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   
   const [formData, setFormData] = useState({
     username: "",
@@ -47,8 +52,8 @@ export function PersonalInfo() {
     if (profileData) {
       console.log('Profile data loaded in component:', profileData);
       setFormData({
-        username: profileData.username || user?.name || "",
-        email: profileData.email || user?.email || "",
+        username: profileData.username || "",
+        email: profileData.email || "",
         phoneNumber: profileData.phoneNumber || "",
         dateOfBirth: profileData.dateOfBirth || "",
         identificationNumber: profileData.identificationNumber || "",
@@ -59,15 +64,8 @@ export function PersonalInfo() {
         },
         profileImage: profileData.profileImage || "",
       });
-    } else if (user) {
-      console.log('User data from auth store:', user);
-      setFormData(prevState => ({
-        ...prevState,
-        username: user.name || "",
-        email: user.email || "",
-      }));
-    }
-  }, [profileData, user]);
+    } 
+  }, [profileData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -185,6 +183,21 @@ export function PersonalInfo() {
   };
 
   if (isLoadingProfile) {
+    // Return a simple loading text if not mounted yet to prevent hydration issues
+    if (!isMounted) {
+      return (
+        <>
+          <CardHeader>
+            <CardTitle>Thông tin cá nhân</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-center">Đang tải...</div>
+          </CardContent>
+        </>
+      );
+    }
+    
+    // Only render skeleton UI when component has mounted on client
     return (
       <>
         <CardHeader>

@@ -32,7 +32,7 @@ export default function BlogsPage() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/v1/blog");
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog`);
         if (!response.ok) {
           throw new Error("Failed to fetch blogs");
         }
@@ -82,7 +82,7 @@ export default function BlogsPage() {
         formDataToSend.append("files", image);
       }
 
-      const response = await fetch("http://localhost:3000/api/v1/blog/create", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog/create`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -95,7 +95,7 @@ export default function BlogsPage() {
       }
 
       const updatedBlogs = await fetch(
-        "http://localhost:3000/api/v1/blog"
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog`
       ).then((res) => res.json());
 
       setBlogs(updatedBlogs);
@@ -146,7 +146,7 @@ export default function BlogsPage() {
       }
 
       const response = await fetch(
-        `http://localhost:3000/api/v1/blog/update/${updatedBlog._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog/update/${updatedBlog._id}`,
         {
           method: "PUT",
           headers: {
@@ -163,7 +163,7 @@ export default function BlogsPage() {
 
       // Refresh blog list
       const updatedBlogs = await fetch(
-        "http://localhost:3000/api/v1/blog"
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog`
       ).then((res) => res.json());
 
       setBlogs(updatedBlogs);
@@ -196,7 +196,7 @@ export default function BlogsPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/blog/delete/${blogToDelete._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog/delete/${blogToDelete._id}`,
         {
           method: "DELETE",
           headers: {

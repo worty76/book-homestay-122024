@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { useGetUserProfile, useUpdateProfile } from "@/api/user";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle } from "lucide-react";
@@ -14,7 +14,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator";
 
 export function PrivacySettings() {
-  const { toast } = useToast();
   const { data: profileData, isLoading, refetch } = useGetUserProfile();
   const { mutate: updateProfile, isPending } = useUpdateProfile();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -50,33 +49,29 @@ export function PrivacySettings() {
       }
     }));
 
-    updateProfile({
-      preferences: {
-        language: preferences.language,
-        currency: preferences.currency,
-        notifications: {
-          ...preferences.notifications,
-          [type]: value
-        }
+    const updatedPreferences = {
+      language: preferences.language,
+      currency: preferences.currency,
+      notifications: {
+        email: type === 'email' ? value : preferences.notifications.email,
+        sms: type === 'sms' ? value : preferences.notifications.sms
       }
+    };
+
+    updateProfile({
+      username: profileData?.username,
+      email: profileData?.email,
+      phoneNumber: profileData?.phoneNumber,
+      preferences: updatedPreferences
     }, {
       onSuccess: () => {
-        toast({
-          title: "Cài đặt đã được lưu",
-          description: "Tùy chọn thông báo của bạn đã được cập nhật",
-          variant: "default"
-        });
+        toast.success("Tùy chọn thông báo của bạn đã được cập nhật");
         refetch();
       },
       onError: (error) => {
         const errorMsg = error.message || "Đã xảy ra lỗi khi cập nhật cài đặt";
         setErrorMessage(errorMsg);
-        toast({
-          title: "Lỗi",
-          description: errorMsg,
-          variant: "destructive"
-        });
-        // Revert the state on error
+        toast.error(errorMsg);
         setPreferences(prev => ({
           ...prev,
           notifications: {
@@ -94,29 +89,29 @@ export function PrivacySettings() {
       [type]: value
     }));
 
-    updateProfile({
-      preferences: {
-        ...preferences,
-        [type]: value
+    const updatedPreferences = {
+      language: type === 'language' ? value : preferences.language,
+      currency: type === 'currency' ? value : preferences.currency,
+      notifications: {
+        email: preferences.notifications.email,
+        sms: preferences.notifications.sms
       }
+    };
+
+    updateProfile({
+      username: profileData?.username,
+      email: profileData?.email,
+      phoneNumber: profileData?.phoneNumber,
+      preferences: updatedPreferences
     }, {
       onSuccess: () => {
-        toast({
-          title: "Cài đặt đã được lưu",
-          description: `Tùy chọn ${type === 'language' ? 'ngôn ngữ' : 'tiền tệ'} của bạn đã được cập nhật`,
-          variant: "default"
-        });
+        toast.success(`Tùy chọn ${type === 'language' ? 'ngôn ngữ' : 'tiền tệ'} của bạn đã được cập nhật`);
         refetch();
       },
       onError: (error) => {
         const errorMsg = error.message || "Đã xảy ra lỗi khi cập nhật cài đặt";
         setErrorMessage(errorMsg);
-        toast({
-          title: "Lỗi",
-          description: errorMsg,
-          variant: "destructive"
-        });
-        // Revert the state on error
+        toast.error(errorMsg);
         setPreferences(prev => ({
           ...prev,
           [type]: profileData?.preferences?.[type] || (type === 'language' ? 'vn' : 'VND')
@@ -261,35 +256,6 @@ export function PrivacySettings() {
                 onCheckedChange={(checked) => handleNotificationChange('sms', checked)}
                 disabled={isPending}
               />
-            </div>
-          </div>
-        </div>
-
-        <Separator />
-
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Dữ liệu cá nhân</h3>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div className="space-y-0.5">
-                <div className="font-medium">Tải xuống dữ liệu</div>
-                <div className="text-sm text-muted-foreground">
-                  Tải xuống bản sao dữ liệu của bạn
-                </div>
-              </div>
-              <Button variant="outline">Tải xuống</Button>
-            </div>
-            
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div className="space-y-0.5">
-                <div className="font-medium text-destructive">
-                  Xóa tài khoản
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  Xóa vĩnh viễn tài khoản và dữ liệu của bạn
-                </div>
-              </div>
-              <Button variant="destructive">Xóa tài khoản</Button>
             </div>
           </div>
         </div>

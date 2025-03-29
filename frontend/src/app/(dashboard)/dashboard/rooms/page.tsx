@@ -19,7 +19,7 @@ export default function RoomsPage() {
   const [formData, setFormData] = useState<FormDataRoom>({
     name: "",
     category: "",
-    floor: "", // Changed from city and address
+    floor: "", 
     basePrice: "",
     cleaningFee: "",
     bathrooms: "",
@@ -37,7 +37,7 @@ export default function RoomsPage() {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/v1/room");
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/room`);
         if (!response.ok) {
           throw new Error("Failed to fetch rooms");
         }
@@ -59,7 +59,6 @@ export default function RoomsPage() {
       const filesArray = Array.from(files);
       setImages([...images, ...filesArray]);
 
-      // Create preview URLs for each new file
       const newPreviews = filesArray.map((file) => URL.createObjectURL(file));
       setPreviews([...previews, ...newPreviews]);
     }
@@ -105,7 +104,7 @@ export default function RoomsPage() {
       }
 
       const response = await fetch(
-        "http://localhost:3000/api/v1/room/add-room",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/room/add-room`,
         {
           method: "POST",
           headers: {
@@ -120,7 +119,7 @@ export default function RoomsPage() {
       }
 
       const updatedRooms = await fetch(
-        "http://localhost:3000/api/v1/room"
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/room`
       ).then((res) => res.json());
       setRooms(updatedRooms);
       toast({
@@ -158,7 +157,7 @@ export default function RoomsPage() {
       }
 
       const response = await fetch(
-        `http://localhost:3000/api/v1/room/update-room/${updatedRoom._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/room/update-room/${updatedRoom._id}`,
         {
           method: "PUT",
           headers: {
@@ -175,7 +174,7 @@ export default function RoomsPage() {
 
       // Refresh room list
       const updatedRooms = await fetch(
-        "http://localhost:3000/api/v1/room"
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/room`
       ).then((res) => res.json());
       setRooms(updatedRooms);
 
@@ -207,7 +206,7 @@ export default function RoomsPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/room/delete-room/${roomToDelete._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/room/delete-room/${roomToDelete._id}`,
         {
           method: "DELETE",
           headers: {

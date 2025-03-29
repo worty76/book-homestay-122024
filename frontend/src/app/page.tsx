@@ -4,7 +4,7 @@ import ApartmentGallery from "@/components/main/ApartmentGallery";
 import BlogSection from "@/components/main/blog-section";
 import AboutSection from "@/components/main/aboutSection";
 import FacilitiesGrid from "@/components/main/facilities-grid";
-import RoomList from "@/components/main/roomList";
+// import RoomList from "@/components/main/roomList";
 
 export default function Home() {
   return (
@@ -14,7 +14,7 @@ export default function Home() {
       </div>
       <AboutSection />
       <ApartmentGallery />
-      <RoomList />
+      {/* <RoomList /> */}
       <FacilitiesGrid />
       <BlogSection />
       <Testimonials />

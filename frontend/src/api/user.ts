@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { apiGet, apiPut, handleApiError } from "./api-client";
+import { apiGet, apiPut, apiPost, handleApiError } from "./api-client";
 import { useAuthStore } from "@/store/useAuthStore";
 
 interface UpdateProfileRequest {
@@ -98,23 +98,50 @@ interface UserProfile {
   isAdmin?: boolean;
 }
 
+// Interface for change password request
+interface ChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
+// Interface for change password response
+interface ChangePasswordResponse {
+  success: boolean;
+  message: string;
+}
+
 export const useUpdateProfile = () => {
   const { user, login } = useAuthStore();
   
   return useMutation({
     mutationFn: async (profileData: UpdateProfileRequest) => {
       try {
+        // Log the data being sent to help debug
+        console.log('Sending profile update with data:', JSON.stringify(profileData));
+        
+        // Ensure preferences is properly formed if it exists
+        if (profileData.preferences) {
+          // Make sure notifications is an object with expected properties
+          if (profileData.preferences.notifications) {
+            profileData.preferences.notifications = {
+              email: !!profileData.preferences.notifications.email,
+              sms: !!profileData.preferences.notifications.sms
+            };
+          }
+        }
+        
         const data = await apiPut<UpdateProfileResponse>(
           "/api/v1/user/profile",
           profileData
         );
         return data;
       } catch (error) {
+        console.error('Profile update error:', error);
         throw new Error(handleApiError(error));
       }
     },
     onSuccess: (data) => {
-      // Update the user data in the auth store if needed
       if (user) {
         login(
           {
@@ -142,5 +169,21 @@ export const useGetUserProfile = () => {
       }
     },
     enabled: !!useAuthStore.getState().token, // Only run if user is authenticated
+  });
+};
+
+export const useChangePassword = () => {
+  return useMutation({
+    mutationFn: async (passwordData: ChangePasswordRequest) => {
+      try {
+        const data = await apiPost<ChangePasswordResponse>(
+          "/api/v1/user/change-password",
+          passwordData
+        );
+        return data;
+      } catch (error) {
+        throw new Error(handleApiError(error));
+      }
+    }
   });
 }; 

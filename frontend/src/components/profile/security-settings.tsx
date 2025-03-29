@@ -1,20 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
-import { useUpdateProfile } from "@/api/user";
+import { useChangePassword } from "@/api/user";
 import { LoaderCircle, AlertCircle, Eye, EyeOff } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { toast } from "sonner";
 
 export function SecuritySettings() {
-  const { toast } = useToast();
-  const { mutate: updateProfile, isPending } = useUpdateProfile();
+  const { mutate: changePassword, isPending } = useChangePassword();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -22,8 +26,8 @@ export function SecuritySettings() {
   
   const [formData, setFormData] = useState({
     currentPassword: "",
-    password: "",
-    confirmPassword: ""
+    newPassword: "",
+    confirmNewPassword: ""
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,33 +37,28 @@ export function SecuritySettings() {
       [id]: value
     }));
     
-    // Clear messages when user types
     if (errorMessage) setErrorMessage(null);
     if (successMessage) setSuccessMessage(null);
   };
 
   const validatePasswordForm = (): boolean => {
-    // Check if current password is provided
     if (!formData.currentPassword) {
       setErrorMessage("Vui lòng nhập mật khẩu hiện tại");
       return false;
     }
     
-    // Check if new password is provided
-    if (!formData.password) {
+    if (!formData.newPassword) {
       setErrorMessage("Vui lòng nhập mật khẩu mới");
       return false;
     }
     
-    // Check if new password meets requirements
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-    if (!passwordRegex.test(formData.password)) {
+    if (!passwordRegex.test(formData.newPassword)) {
       setErrorMessage("Mật khẩu mới phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số");
       return false;
     }
     
-    // Check if passwords match
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.newPassword !== formData.confirmNewPassword) {
       setErrorMessage("Mật khẩu xác nhận không khớp");
       return false;
     }
@@ -76,33 +75,30 @@ export function SecuritySettings() {
       return;
     }
     
-    updateProfile({
-      currentPassword: formData.currentPassword,
-      password: formData.password
-    }, {
-      onSuccess: () => {
+    changePassword(formData, {
+      onSuccess: (data) => {
         setSuccessMessage("Mật khẩu của bạn đã được cập nhật thành công");
-        toast({
-          title: "Thành công",
-          description: "Mật khẩu của bạn đã được cập nhật",
-          variant: "default"
-        });
+        toast.success("Mật khẩu của bạn đã được cập nhật");
         
-        // Reset form after successful password change
         setFormData({
           currentPassword: "",
-          password: "",
-          confirmPassword: ""
+          newPassword: "",
+          confirmNewPassword: ""
         });
       },
       onError: (error) => {
         const errorMsg = error.message || "Đã xảy ra lỗi khi cập nhật mật khẩu";
         setErrorMessage(errorMsg);
-        toast({
-          title: "Cập nhật thất bại",
-          description: errorMsg,
-          variant: "destructive"
-        });
+        
+        if (errorMsg.includes("401") || errorMsg.includes("incorrect")) {
+          setErrorMessage("Mật khẩu hiện tại không chính xác");
+        } else if (errorMsg.includes("400") || errorMsg.includes("match")) {
+          setErrorMessage("Mật khẩu mới và xác nhận mật khẩu không khớp");
+        } else if (errorMsg.includes("404")) {
+          setErrorMessage("Không tìm thấy thông tin người dùng");
+        }
+        
+        toast.error("Xảy ra lỗi khi cập nhật mật khẩu!");
       }
     });
   };
@@ -162,12 +158,12 @@ export function SecuritySettings() {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="password">Mật khẩu mới</Label>
+                <Label htmlFor="newPassword">Mật khẩu mới</Label>
                 <div className="relative">
                   <Input 
-                    id="password" 
+                    id="newPassword" 
                     type={showNewPassword ? "text" : "password"}
-                    value={formData.password}
+                    value={formData.newPassword}
                     onChange={handleChange}
                     className="pr-10"
                   />
@@ -194,12 +190,12 @@ export function SecuritySettings() {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Xác nhận mật khẩu mới</Label>
+                <Label htmlFor="confirmNewPassword">Xác nhận mật khẩu mới</Label>
                 <div className="relative">
                   <Input 
-                    id="confirmPassword" 
+                    id="confirmNewPassword" 
                     type={showConfirmPassword ? "text" : "password"}
-                    value={formData.confirmPassword}
+                    value={formData.confirmNewPassword}
                     onChange={handleChange}
                     className="pr-10"
                   />
