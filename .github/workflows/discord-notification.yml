@@ -3,7 +3,7 @@ name: Discord Push Notification
 on:
   push:
     branches:
-      - main  # You can change 'main' to the branch you want to monitor
+      - master  # You can change 'main' to the branch you want to monitor
 
 jobs:
   send_notification:
