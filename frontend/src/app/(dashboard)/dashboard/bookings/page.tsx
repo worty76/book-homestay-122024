@@ -8,7 +8,8 @@ import { BookingWithDetails, BookingDetails } from "@/types/booking";
 
 export default function BookingsPage() {
   const [bookings, setBookings] = useState<BookingWithDetails[]>([]);
-  const [loading, setLoading] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [loadingAction, setLoadingAction] = useState<string | null>(null);
   const [selectedBooking, setSelectedBooking] =
     useState<BookingWithDetails | null>(null);
   const [bookingDetails, setBookingDetails] = useState<BookingDetails | null>(
@@ -19,6 +20,7 @@ export default function BookingsPage() {
 
   useEffect(() => {
     const fetchBookings = async () => {
+      setLoading(true);
       try {
         const response = await fetch("http://localhost:3000/api/v1/booking", {
           headers: {
@@ -29,14 +31,18 @@ export default function BookingsPage() {
         setBookings(data);
       } catch (error) {
         console.error("Error fetching bookings:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchBookings();
+    if (token) {
+      fetchBookings();
+    }
   }, [token]);
 
   const confirmBooking = async (bookingId: string) => {
-    setLoading(bookingId);
+    setLoadingAction(bookingId);
     try {
       const response = await fetch(
         `http://localhost:3000/api/v1/booking/confirm`,
@@ -62,12 +68,12 @@ export default function BookingsPage() {
     } catch (error) {
       console.error("Error confirming booking:", error);
     } finally {
-      setLoading(null);
+      setLoadingAction(null);
     }
   };
 
   const cancelBooking = async (bookingId: string) => {
-    setLoading(bookingId);
+    setLoadingAction(bookingId);
     try {
       const response = await fetch(
         `http://localhost:3000/api/v1/booking/${bookingId}/cancel`,
@@ -92,7 +98,7 @@ export default function BookingsPage() {
     } catch (error) {
       console.error("Error cancelling booking:", error);
     } finally {
-      setLoading(null);
+      setLoadingAction(null);
     }
   };
 
@@ -108,7 +114,6 @@ export default function BookingsPage() {
         }
       );
       const data = await response.json();
-      console.log(data);
       setBookingDetails(data);
     } catch (error) {
       console.error("Error fetching booking details:", error);
@@ -125,6 +130,7 @@ export default function BookingsPage() {
 
       <BookingsTable
         bookings={bookings}
+        isLoading={loading}
         onViewDetails={(booking) => {
           setSelectedBooking(booking);
           fetchBookingDetails(booking._id);
@@ -135,7 +141,7 @@ export default function BookingsPage() {
         selectedBooking={selectedBooking}
         bookingDetails={bookingDetails}
         loadingDetails={loadingDetails}
-        loading={loading}
+        loading={loadingAction}
         onClose={() => {
           setSelectedBooking(null);
           setBookingDetails(null);

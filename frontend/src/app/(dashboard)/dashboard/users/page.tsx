@@ -170,14 +170,17 @@ export default function UsersPage() {
 
   const updateUser = async (id: string, userData: Omit<User, "_id">) => {
     try {
-      const response = await fetch(`/api/users/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(userData),
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/v1/user/${id}/admin`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(userData),
+        }
+      );
 
       if (!response.ok) throw new Error("Failed to update user");
 
@@ -267,6 +270,16 @@ export default function UsersPage() {
     <div className="flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold md:text-2xl">Manage Users</h1>
+        <Button
+          onClick={() => {
+            setUserToEdit(null);
+            setIsUserDialogOpen(true);
+          }}
+          className="flex items-center gap-1"
+        >
+          <PlusCircle className="h-4 w-4" />
+          Add User
+        </Button>
       </div>
 
       {loading ? (
@@ -274,69 +287,82 @@ export default function UsersPage() {
           <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
         </div>
       ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Username</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Phone</TableHead>
-              <TableHead>Admin</TableHead>
-              <TableHead>Verified</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {users && Array.isArray(users) && users.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center py-4">
-                  No users found
-                </TableCell>
-              </TableRow>
-            ) : (
-              users &&
-              Array.isArray(users) &&
-              users.map((user) => (
-                <TableRow key={user._id}>
-                  <TableCell>{user.username}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.phoneNumber}</TableCell>
-                  <TableCell>
-                    <Badge variant={user.isAdmin ? "default" : "secondary"}>
-                      {user.isAdmin ? "Yes" : "No"}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={user.verifiedAccount ? "default" : "secondary"}
-                    >
-                      {user.verifiedAccount ? "Verified" : "Unverified"}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleEdit(user)}
-                      className="flex items-center gap-1"
-                    >
-                      <Pencil className="h-3.5 w-3.5" />
-                      Edit
-                    </Button>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => handleDelete(user)}
-                      className="flex items-center gap-1"
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                      Delete
-                    </Button>
-                  </TableCell>
+        <div className="border rounded-lg overflow-hidden">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Username</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Phone</TableHead>
+                  <TableHead>Admin</TableHead>
+                  <TableHead>Verified</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
+              </TableHeader>
+              <TableBody>
+                {users && Array.isArray(users) && users.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={6}
+                      className="text-center py-4 text-muted-foreground"
+                    >
+                      No users found
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  users &&
+                  Array.isArray(users) &&
+                  users.map((user) => (
+                    <TableRow key={user._id} className="hover:bg-muted/50">
+                      <TableCell className="font-medium">
+                        {user.username}
+                      </TableCell>
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell>{user.phoneNumber}</TableCell>
+                      <TableCell>
+                        <Badge variant={user.isAdmin ? "default" : "secondary"}>
+                          {user.isAdmin ? "Yes" : "No"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          variant={
+                            user.verifiedAccount ? "default" : "secondary"
+                          }
+                        >
+                          {user.verifiedAccount ? "Verified" : "Unverified"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex gap-2 justify-end">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleEdit(user)}
+                            className="flex items-center gap-1"
+                          >
+                            <Pencil className="h-3.5 w-3.5" />
+                            Edit
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => handleDelete(user)}
+                            className="flex items-center gap-1"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                            Delete
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
       )}
 
       <UserDialog
