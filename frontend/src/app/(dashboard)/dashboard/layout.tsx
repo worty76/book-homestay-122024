@@ -11,6 +11,7 @@ import {
   CalendarDays,
   Search,
   Users,
+  FileText,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -126,6 +127,17 @@ export default function DashboardLayout({
                 <Users className="h-4 w-4 shrink-0" />
                 <span className="truncate">Users</span>
               </Link>
+              <Link
+                href="/dashboard/blogs"
+                className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${
+                  pathname === "/dashboard/blogs"
+                    ? "bg-muted text-primary"
+                    : "text-muted-foreground"
+                }`}
+              >
+                <FileText className="h-4 w-4 shrink-0" />
+                <span className="truncate">Blogs</span>
+              </Link>
             </nav>
           </div>
         </div>
@@ -188,6 +200,17 @@ export default function DashboardLayout({
                 >
                   <Users className="h-5 w-5" />
                   Users
+                </Link>
+                <Link
+                  href="/dashboard/blogs"
+                  className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 hover:text-foreground ${
+                    pathname === "/dashboard/blogs"
+                      ? "bg-muted text-foreground"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  <FileText className="h-5 w-5" />
+                  Blogs
                 </Link>
               </nav>
             </SheetContent>

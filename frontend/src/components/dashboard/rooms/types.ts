@@ -4,10 +4,7 @@ export interface Room {
   description?: string;
   category: string;
   image: string[];
-  location: {
-    address: string;
-    city: string;
-  };
+  floor: number; // New property instead of location
   amenities: string[];
   capacity: {
     maxGuests: number;
@@ -50,8 +47,7 @@ export interface Room {
 export interface FormDataRoom {
   name: string;
   category: string;
-  city: string;
-  address: string;
+  floor: string; // Changed from city and address to floor
   basePrice: string;
   cleaningFee: string;
   bathrooms: string;

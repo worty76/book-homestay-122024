@@ -8,14 +8,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ImagePlus, Upload } from "lucide-react";
+import { ImagePlus, Upload, X } from "lucide-react";
 import { FormDataRoom } from "./types";
 
 interface RoomFormFieldsProps {
   formData: FormDataRoom;
   handleInputChange: (e: any) => void;
   handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  preview: string | null;
+  previews: string[]; // Changed from single preview to multiple
+  handleRemoveImage: (index: number) => void; // Added function to remove an image
   onSubmit: () => Promise<void>;
   isSubmitting: boolean;
 }
@@ -24,7 +25,8 @@ export function RoomFormFields({
   formData,
   handleInputChange,
   handleImageChange,
-  preview,
+  previews,
+  handleRemoveImage,
   onSubmit,
   isSubmitting,
 }: RoomFormFieldsProps) {
@@ -33,21 +35,36 @@ export function RoomFormFields({
       <div className="grid gap-2">
         <Label>Room Images</Label>
         <div className="flex flex-col items-center gap-4">
+          {/* Show image previews if they exist */}
+          {previews.length > 0 && (
+            <div className="flex flex-wrap gap-2 w-full">
+              {previews.map((preview, index) => (
+                <div key={index} className="relative h-32 w-32">
+                  <img
+                    src={preview}
+                    alt={`Preview ${index + 1}`}
+                    className="h-32 w-32 rounded-lg object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImage(index)}
+                    className="absolute -top-2 -right-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Image upload area */}
           <div className="flex h-32 w-full items-center justify-center rounded-lg border border-dashed">
-            {preview ? (
-              <img
-                src={preview}
-                alt="Preview"
-                className="h-full w-full rounded-lg object-cover"
-              />
-            ) : (
-              <div className="flex flex-col items-center gap-2">
-                <ImagePlus className="h-8 w-8 text-gray-400" />
-                <span className="text-sm text-gray-500">
-                  Drop your image here or click to upload
-                </span>
-              </div>
-            )}
+            <div className="flex flex-col items-center gap-2">
+              <ImagePlus className="h-8 w-8 text-gray-400" />
+              <span className="text-sm text-gray-500">
+                Drop your images here or click to upload
+              </span>
+            </div>
           </div>
           <Input
             type="file"
@@ -55,13 +72,14 @@ export function RoomFormFields({
             onChange={handleImageChange}
             className="hidden"
             id="image-upload"
+            multiple // Allow multiple file selection
           />
           <Label
             htmlFor="image-upload"
             className="flex cursor-pointer items-center gap-2"
           >
             <Upload className="h-4 w-4" />
-            Choose Image
+            Choose Images
           </Label>
         </div>
       </div>
@@ -96,24 +114,20 @@ export function RoomFormFields({
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="city">City</Label>
-          <Input
-            id="city"
-            name="city"
-            value={formData.city}
-            onChange={handleInputChange}
-            placeholder="Enter city"
-          />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="address">Address</Label>
-          <Input
-            id="address"
-            name="address"
-            value={formData.address}
-            onChange={handleInputChange}
-            placeholder="Enter address"
-          />
+          <Label htmlFor="floor">Floor</Label>
+          <Select
+            onValueChange={(value) =>
+              handleInputChange({ target: { name: "floor", value } })
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select floor" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="1">Floor 1</SelectItem>
+              <SelectItem value="2">Floor 2</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="grid gap-2">

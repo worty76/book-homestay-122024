@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { format } from "date-fns"; // Import format from date-fns instead
+import { Blog } from "./types";
 import {
   Table,
   TableBody,
@@ -7,25 +9,23 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Room } from "./types";
 import { Pencil, Trash2 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 
-interface RoomListProps {
-  rooms: Room[];
+interface BlogListProps {
+  blogs: Blog[];
   isLoading: boolean;
   error: string | null;
-  onEditRoom: (room: Room) => void;
-  onDeleteRoom: (room: Room) => void;
+  onEditBlog: (blog: Blog) => void;
+  onDeleteBlog: (blog: Blog) => void;
 }
 
-export function RoomList({
-  rooms,
+export function BlogList({
+  blogs,
   isLoading,
   error,
-  onEditRoom,
-  onDeleteRoom,
-}: RoomListProps) {
+  onEditBlog,
+  onDeleteBlog,
+}: BlogListProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-8">
@@ -42,11 +42,11 @@ export function RoomList({
     );
   }
 
-  if (rooms.length === 0) {
+  if (blogs.length === 0) {
     return (
       <div className="flex items-center justify-center p-8 border rounded-lg">
         <div className="text-center text-muted-foreground">
-          No rooms found. Add your first room!
+          No blogs found. Create your first blog post!
         </div>
       </div>
     );
@@ -58,38 +58,32 @@ export function RoomList({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
+              <TableHead>Blog Title</TableHead>
               <TableHead>Category</TableHead>
-              <TableHead>Floor</TableHead>
-              <TableHead>Daily Rate</TableHead>
-              <TableHead>Capacity</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead>Created</TableHead>
+              <TableHead>Updated</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {rooms.map((room) => (
-              <TableRow key={room._id} className="hover:bg-muted/50">
-                <TableCell className="font-medium">{room.name}</TableCell>
-                <TableCell className="capitalize">{room.category}</TableCell>
-                <TableCell>Floor {room.floor}</TableCell>
-                <TableCell>${room.dailyRate}</TableCell>
-                <TableCell>{room.capacity?.maxGuests} guests</TableCell>
+            {blogs.map((blog) => (
+              <TableRow key={blog._id} className="hover:bg-muted/50">
+                <TableCell className="max-w-[200px] truncate font-medium">
+                  {blog.title}
+                </TableCell>
+                <TableCell className="capitalize">{blog.category}</TableCell>
                 <TableCell>
-                  <Badge
-                    variant={
-                      room.status === "available" ? "outline" : "secondary"
-                    }
-                  >
-                    {room.status}
-                  </Badge>
+                  {format(new Date(blog.createdAt), "MMM d, yyyy")}
+                </TableCell>
+                <TableCell>
+                  {format(new Date(blog.updatedAt), "MMM d, yyyy")}
                 </TableCell>
                 <TableCell>
                   <div className="flex gap-2 justify-end">
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => onEditRoom(room)}
+                      onClick={() => onEditBlog(blog)}
                       className="flex items-center gap-1"
                     >
                       <Pencil className="h-3.5 w-3.5" />
@@ -98,7 +92,7 @@ export function RoomList({
                     <Button
                       variant="destructive"
                       size="sm"
-                      onClick={() => onDeleteRoom(room)}
+                      onClick={() => onDeleteBlog(blog)}
                       className="flex items-center gap-1"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
