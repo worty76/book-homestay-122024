@@ -128,7 +128,11 @@ export const EditRoomDialog = memo(function EditRoomDialog({
 
   useEffect(() => {
     if (room) {
+      console.log("Editing room:", room);
+      console.log("Room images:", room.imageUrls);
       setFormData(room);
+      // Reset images state when a new room is opened for editing
+      setNewImages(null);
     }
   }, [room]);
 

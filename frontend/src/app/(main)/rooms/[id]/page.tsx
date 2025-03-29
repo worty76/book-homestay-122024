@@ -17,10 +17,6 @@ interface Room {
   description: string;
   category: string;
   image: string[];
-  location: {
-    address: string;
-    city: string;
-  };
   amenities: string[];
   status: "available" | "booked";
   averageRating: number;
@@ -96,9 +92,10 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
 
         const data = await response.json();
 
-        // Transform the data to match the expected Room interface if needed
+        // Exclude location from the fetched data
+        const { location, ...roomData } = data;
         const transformedRoom: Room = {
-          ...data,
+          ...roomData,
           bathroomAmenities: ["Shower", "Toiletries", "Hair Dryer"], // Default bathroom amenities
         };
 
@@ -155,8 +152,6 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
               ))}
               {" · "}
               {room.category === "room" ? "Standard" : room.category} Room
-              {" · "}
-              {room.location.city}
             </p>
           </div>
 
@@ -187,7 +182,6 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
                   bathrooms: room.facilities.bathrooms,
                   bedrooms: room.bedrooms || 1,
                   shared: room.shared || false,
-                  location: room.location,
                   pricing: room.pricing,
                   houseRules: room.houseRules,
                 }}
@@ -229,7 +223,6 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
                     checkInTime: room.houseRules.checkInTime,
                     checkOutTime: room.houseRules.checkOutTime,
                     houseRules: room.houseRules,
-                    location: room.location,
                     bedsDescription: room.facilities.bedsDescription,
                   }}
                 />

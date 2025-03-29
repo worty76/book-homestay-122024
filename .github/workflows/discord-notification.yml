@@ -1,0 +1,48 @@
+name: Discord Push Notification
+
+on:
+  push:
+    branches:
+      - master  # You can change 'main' to the branch you want to monitor
+
+jobs:
+  send_notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Send Discord Notification
+        run: |
+          curl -X POST ${{ secrets.DISCORD_WEBHOOK_URL }} \
+          -H "Content-Type: application/json" \
+          -d @- << 'EOF'
+          {
+            "content": "A push was made to the repository!",
+            "embeds": [{
+              "title": "Push Details",
+              "fields": [
+                {
+                  "name": "Branch",
+                  "value": "${{ github.ref }}",
+                  "inline": true
+                },
+                {
+                  "name": "Commit",
+                  "value": "${{ github.sha }}",
+                  "inline": true
+                },
+                {
+                  "name": "Commit Message",
+                  "value": "${{ github.event.head_commit.message }}",
+                  "inline": true
+                },
+                {
+                  "name": "Pushed by",
+                  "value": "${{ github.actor }}",
+                  "inline": true
+                }
+              ]
+            }]
+          }
+          EOF
