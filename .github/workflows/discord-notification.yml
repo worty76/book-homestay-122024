@@ -3,7 +3,7 @@ name: Discord Push Notification
 on:
   push:
     branches:
-      - master # You can change 'main' to the branch you want to monitor
+      - main  # You can change 'main' to the branch you want to monitor
 
 jobs:
   send_notification:
@@ -13,14 +13,36 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Send Discord Notification
-        uses: PeterEvans/discord-webhook-action@v1
-        with:
-          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }} # Secret stored in GitHub
-          username: "GitHub Actions" # Username for the Discord webhook
-          content: |
-            A push was made to the repository!
-
-            **Branch**: ${{ github.ref }}
-            **Commit**: ${{ github.sha }}
-            **Commit Message**: ${{ github.event.head_commit.message }}
-            **Pushed by**: ${{ github.actor }}
+        run: |
+          curl -X POST ${{ secrets.DISCORD_WEBHOOK_URL }} \
+          -H "Content-Type: application/json" \
+          -d @- << 'EOF'
+          {
+            "content": "A push was made to the repository!",
+            "embeds": [{
+              "title": "Push Details",
+              "fields": [
+                {
+                  "name": "Branch",
+                  "value": "${{ github.ref }}",
+                  "inline": true
+                },
+                {
+                  "name": "Commit",
+                  "value": "${{ github.sha }}",
+                  "inline": true
+                },
+                {
+                  "name": "Commit Message",
+                  "value": "${{ github.event.head_commit.message }}",
+                  "inline": true
+                },
+                {
+                  "name": "Pushed by",
+                  "value": "${{ github.actor }}",
+                  "inline": true
+                }
+              ]
+            }]
+          }
+          EOF
