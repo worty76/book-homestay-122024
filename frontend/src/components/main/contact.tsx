@@ -1,23 +1,100 @@
 "use client";
 
-import { MapPin, Mail, Phone } from "lucide-react";
+import { useState, useCallback } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { MapPin, Mail, Phone, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import { contactSchema, ContactFormValues } from "@/lib/validations/contact.schema";
 
 export function Contact() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      fullname: "",
+      email: "",
+      subject: "",
+      message: "",
+    },
+  });
+
+  if (isSubmitSuccessful) {
+    setTimeout(() => reset(), 500);
+  }
+
+  const onSubmit = useCallback(async (data: ContactFormValues) => {
+    setIsSubmitting(true);
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast.success("Tin nhắn đã được gửi thành công!", {
+          description: "Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.",
+          duration: 5000,
+        });
+      } else {
+        throw new Error(result.message || "Có lỗi xảy ra");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          toast.error("Yêu cầu hết thời gian chờ", {
+            description: "Vui lòng kiểm tra kết nối và thử lại sau.",
+          });
+        } else {
+          toast.error("Không thể gửi tin nhắn", {
+            description: "Vui lòng thử lại sau. Lỗi: " + error.message,
+          });
+        }
+      } else {
+        toast.error("Không thể gửi tin nhắn", {
+          description: "Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.",
+        });
+      }
+      console.error("Error submitting form:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, []);
+
   return (
     <section className="container py-16 md:py-24 mx-auto">
       <div className="container">
         <div className="grid gap-12 lg:grid-cols-2">
           <div className="space-y-8">
             <div className="space-y-4">
-              <h2 className="text-4xl font-medium">Hotel Horizon Entebbe</h2>
+              <h2 className="text-4xl font-medium">Kén Homestay</h2>
               <p className="text-muted-foreground">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam,
-                aliquid ex blanditiis veniam officia reiciendis minus. Quaerat
-                totam rerum consectetur. Lorem ipsum dolor sit amet consectetur
-                adipisicing elit.
+                Boutique Homestay tại Đà Nẵng, nơi giao thoa giữa hơi thở truyền thống và nhịp sống hiện đại.
+                Chúng tôi mang đến cho bạn không gian lưu trú tinh tế và những trải nghiệm địa phương đáng nhớ.
               </p>
             </div>
 
@@ -26,9 +103,9 @@ export function Contact() {
                 <Phone className="h-6 w-6 text-black" />
                 <div>
                   <p className="text-sm uppercase text-muted-foreground">
-                    Reservations
+                    Đặt phòng
                   </p>
-                  <p className="text-lg">+256 705 866 700</p>
+                  <p className="text-lg">+84 236 1234 567</p>
                 </div>
               </div>
 
@@ -36,9 +113,9 @@ export function Contact() {
                 <Mail className="h-6 w-6 text-black" />
                 <div>
                   <p className="text-sm uppercase text-muted-foreground">
-                    Email Info
+                    Email
                   </p>
-                  <p className="text-lg">info@hotelhorizon.com</p>
+                  <p className="text-lg">info@kenhomestay.com</p>
                 </div>
               </div>
 
@@ -46,64 +123,92 @@ export function Contact() {
                 <MapPin className="h-6 w-6 text-black" />
                 <div>
                   <p className="text-sm uppercase text-muted-foreground">
-                    Hotel Address
+                    Địa chỉ
                   </p>
                   <p className="text-lg">
-                    Plot H, 13 Portal Lane,
-                    <br />
-                    Near Meru Petrol Station Entebbe Uganda.
+                    123 Đường Nguyễn Văn Linh,<br />
+                    Quận Hải Châu, Đà Nẵng, Việt Nam
                   </p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="rounded-lg bg-white p-8">
+          <div className="rounded-lg bg-white p-8 shadow-sm">
             <div className="mb-8">
-              <h3 className="text-2xl font-medium">Get In Touch</h3>
+              <h3 className="text-2xl font-medium">Liên Hệ Với Chúng Tôi</h3>
+              <p className="text-muted-foreground mt-2">Điền thông tin bên dưới và chúng tôi sẽ phản hồi trong thời gian sớm nhất</p>
             </div>
 
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Input
-                    placeholder="Enter your fullname"
+                    placeholder="Nhập họ tên của bạn"
                     className="bg-white"
+                    {...register("fullname")}
+                    aria-invalid={errors.fullname ? "true" : "false"}
+                    aria-describedby={errors.fullname ? "fullname-error" : undefined}
                   />
+                  {errors.fullname && (
+                    <p className="text-sm text-red-500" id="fullname-error" role="alert">{errors.fullname.message}</p>
+                  )}
                 </div>
-                <div className="space-y-2">
-                  <Input
-                    placeholder="Enter your nationality"
-                    className="bg-white"
-                  />
-                </div>
-              </div>
-
-              <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Input
                     type="email"
-                    placeholder="Enter your email address"
+                    placeholder="Nhập địa chỉ email của bạn"
                     className="bg-white"
+                    {...register("email")}
+                    aria-invalid={errors.email ? "true" : "false"}
+                    aria-describedby={errors.email ? "email-error" : undefined}
                   />
+                  {errors.email && (
+                    <p className="text-sm text-red-500" id="email-error" role="alert">{errors.email.message}</p>
+                  )}
                 </div>
+              </div>
+
+              <div className="grid gap-4">
                 <div className="space-y-2">
-                  <Input placeholder="Enter Subject" className="bg-white" />
+                  <Input 
+                    placeholder="Nhập tiêu đề" 
+                    className="bg-white" 
+                    {...register("subject")}
+                    aria-invalid={errors.subject ? "true" : "false"}
+                    aria-describedby={errors.subject ? "subject-error" : undefined}
+                  />
+                  {errors.subject && (
+                    <p className="text-sm text-red-500" id="subject-error" role="alert">{errors.subject.message}</p>
+                  )}
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Textarea
-                  placeholder="Enter message here"
+                  placeholder="Nhập nội dung tin nhắn"
                   className="min-h-[120px] bg-white"
+                  {...register("message")}
+                  aria-invalid={errors.message ? "true" : "false"}
+                  aria-describedby={errors.message ? "message-error" : undefined}
                 />
+                {errors.message && (
+                  <p className="text-sm text-red-500" id="message-error" role="alert">{errors.message.message}</p>
+                )}
               </div>
 
               <Button
                 type="submit"
-                className="w-full bg-black hover:bg-black/90"
+                className="w-full bg-black hover:bg-black/90 transition-all duration-200"
+                disabled={isSubmitting}
               >
-                SUBMIT
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> ĐANG GỬI...
+                  </>
+                ) : (
+                  "GỬI TIN NHẮN"
+                )}
               </Button>
             </form>
           </div>

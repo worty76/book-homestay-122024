@@ -39,18 +39,18 @@ export default function ProfilePage() {
     switch (activeSection) {
       case "personal":
         return <PersonalInfo />;
-      case "security":
-        return <SecuritySettings />;
-      case "bookings":
-        return <BookingHistory />;
-      case "companions":
-        return <Companions />;
-      case "payment":
-        return <PaymentMethods />;
-      case "privacy":
-        return <PrivacySettings />;
-      default:
-        return <PersonalInfo />;
+      // case "security":
+      //   return <SecuritySettings />;
+      // case "bookings":
+      //   return <BookingHistory />;
+      // case "companions":
+      //   return <Companions />;
+      // case "payment":
+      //   return <PaymentMethods />;
+      // case "privacy":
+      //   return <PrivacySettings />;
+      // default:
+      //   return <PersonalInfo />;
     }
   };
 
@@ -63,7 +63,6 @@ export default function ProfilePage() {
 
       <div className="container mx-auto py-10">
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Sidebar Navigation */}
           <div className="w-full md:w-1/4">
             <Card>
               <CardContent className="p-4">
