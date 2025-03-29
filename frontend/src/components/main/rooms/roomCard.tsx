@@ -2,13 +2,29 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, Users, Maximize, Building2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Room } from "@/data/rooms";
 import BookingModal from "./bookingModal";
+
+// Updated Room interface for the card component
+interface Room {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  type: string;
+  view?: string;
+  category: string;
+  images: string[];
+  maxCapacity: number;
+  amenities: string[];
+  available: boolean;
+  rating: number;
+  floor?: string | number;
+  size?: number; // Room size in square meters
+}
 
 interface RoomCardProps {
   room: Room;
@@ -16,8 +32,14 @@ interface RoomCardProps {
 
 export default function RoomCard({ room }: RoomCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const fallbackImage = "/images/placeholder-room.jpg"; // Create this placeholder if it doesn't exist
 
-  // Format currency
+  // Function to handle image loading errors
+  const handleImageError = (e: any) => {
+    // Replace with fallback image
+    e.currentTarget.src = fallbackImage;
+  };
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
@@ -25,6 +47,10 @@ export default function RoomCard({ room }: RoomCardProps) {
       minimumFractionDigits: 0,
     }).format(amount);
   };
+
+  // Calculate or provide default values for missing props
+  const roomSize = room.size || 20; // Default size if not provided
+  const roomFloor = room.floor || 1; // Default floor if not provided
 
   return (
     <motion.div
@@ -36,13 +62,11 @@ export default function RoomCard({ room }: RoomCardProps) {
       onHoverEnd={() => setIsHovered(false)}
     >
       <div className="relative aspect-[4/3] overflow-hidden">
-        <Image
-          src={room.images[0]}
+        <img
+          src={room.images?.[0] || fallbackImage}
           alt={room.name}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
-          priority={false}
+          className="object-cover w-full h-full"
+          onError={handleImageError}
         />
 
         <div className="absolute bottom-3 left-3 bg-background/90 text-foreground px-3 py-1 rounded-full text-sm font-medium">
@@ -61,7 +85,7 @@ export default function RoomCard({ room }: RoomCardProps) {
               <Button
                 size="lg"
                 variant="secondary"
-                className="bg-[#5a8d69] text-white  hover:bg-[#35814c] shadow-sm"
+                className="bg-[#5a8d69] text-white hover:bg-[#35814c] shadow-sm"
               >
                 Đặt ngay
               </Button>
@@ -81,12 +105,12 @@ export default function RoomCard({ room }: RoomCardProps) {
 
           <div className="flex items-center gap-1">
             <Maximize className="h-4 w-4" />
-            <span>{room.size} m²</span>
+            <span>{roomSize} m²</span>
           </div>
 
           <div className="flex items-center gap-1">
             <Building2 className="h-4 w-4" />
-            <span>Tầng {room.floor}</span>
+            <span>Tầng {roomFloor}</span>
           </div>
         </div>
 
@@ -95,13 +119,7 @@ export default function RoomCard({ room }: RoomCardProps) {
         </p>
 
         <div className="flex items-center justify-between">
-          <Badge variant="outline">
-            {room.type === "Twin"
-              ? "Twin"
-              : room.type === "Double"
-              ? "Double"
-              : "Dormitory"}
-          </Badge>
+          <Badge variant="outline">{room.category || room.type}</Badge>
 
           <div className="flex items-center gap-4">
             <BookingModal

@@ -86,7 +86,7 @@ export function RoomFormFields({
 
       <div className="grid grid-cols-2 gap-4">
         <div className="grid gap-2">
-          <Label htmlFor="name">Room Title</Label>
+          <Label htmlFor="name">Room Name</Label>
           <Input
             id="name"
             name="name"
@@ -98,6 +98,8 @@ export function RoomFormFields({
         <div className="grid gap-2">
           <Label htmlFor="category">Category</Label>
           <Select
+            name="category"
+            value={formData.category}
             onValueChange={(value) =>
               handleInputChange({ target: { name: "category", value } })
             }
@@ -106,30 +108,47 @@ export function RoomFormFields({
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="apartment">Apartment</SelectItem>
-              <SelectItem value="house">House</SelectItem>
-              <SelectItem value="room">Room</SelectItem>
+              <SelectItem value="deluxe">Deluxe</SelectItem>
+              <SelectItem value="twin">Twin</SelectItem>
+              <SelectItem value="double">Double</SelectItem>
             </SelectContent>
           </Select>
         </div>
+      </div>
 
+      <div className="grid grid-cols-2 gap-4">
         <div className="grid gap-2">
           <Label htmlFor="floor">Floor</Label>
+          <Input
+            id="floor"
+            name="floor"
+            value={formData.floor}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="status">Status</Label>
           <Select
+            name="status"
+            value={formData.status}
             onValueChange={(value) =>
-              handleInputChange({ target: { name: "floor", value } })
+              handleInputChange({ target: { name: "status", value } })
             }
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select floor" />
+              <SelectValue placeholder="Select status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="1">Floor 1</SelectItem>
-              <SelectItem value="2">Floor 2</SelectItem>
+              <SelectItem value="available">Available</SelectItem>
+              <SelectItem value="booked">Booked</SelectItem>
+              <SelectItem value="maintenance">Maintenance</SelectItem>
+              <SelectItem value="inactive">Inactive</SelectItem>
             </SelectContent>
           </Select>
         </div>
+      </div>
 
+      <div className="grid grid-cols-2 gap-4">
         <div className="grid gap-2">
           <Label htmlFor="basePrice">Base Price</Label>
           <Input
@@ -138,7 +157,6 @@ export function RoomFormFields({
             type="number"
             value={formData.basePrice}
             onChange={handleInputChange}
-            placeholder="Enter base price"
           />
         </div>
         <div className="grid gap-2">
@@ -149,19 +167,19 @@ export function RoomFormFields({
             type="number"
             value={formData.cleaningFee}
             onChange={handleInputChange}
-            placeholder="Enter cleaning fee"
           />
         </div>
+      </div>
 
+      <div className="grid grid-cols-2 gap-4">
         <div className="grid gap-2">
-          <Label htmlFor="bathrooms">Bathrooms</Label>
+          <Label htmlFor="bathrooms">Number of Bathrooms</Label>
           <Input
             id="bathrooms"
             name="bathrooms"
             type="number"
             value={formData.bathrooms}
             onChange={handleInputChange}
-            placeholder="Number of bathrooms"
           />
         </div>
         <div className="grid gap-2">
@@ -172,47 +190,29 @@ export function RoomFormFields({
             type="number"
             value={formData.roomSize}
             onChange={handleInputChange}
-            placeholder="Enter room size"
           />
         </div>
+      </div>
 
+      <div className="grid grid-cols-2 gap-4">
         <div className="grid gap-2">
-          <Label htmlFor="status">Status</Label>
-          <Select
-            onValueChange={(value) =>
-              handleInputChange({ target: { name: "status", value } })
-            }
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="available">Available</SelectItem>
-              <SelectItem value="occupied">Occupied</SelectItem>
-              <SelectItem value="maintenance">Maintenance</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="dailyRate">Daily Rate ($)</Label>
+          <Label htmlFor="dailyRate">Daily Rate</Label>
           <Input
             id="dailyRate"
             name="dailyRate"
             type="number"
             value={formData.dailyRate}
             onChange={handleInputChange}
-            placeholder="Enter daily rate"
           />
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="maxGuests">Maximum Guests</Label>
+          <Label htmlFor="maxGuests">Max Guests</Label>
           <Input
             id="maxGuests"
             name="maxGuests"
             type="number"
             value={formData.maxGuests}
             onChange={handleInputChange}
-            placeholder="Enter maximum guests"
           />
         </div>
       </div>

@@ -61,9 +61,9 @@ const BasicInfoTab = memo(
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="apartment">Apartment</SelectItem>
-            <SelectItem value="house">House</SelectItem>
-            <SelectItem value="room">Room</SelectItem>
+            <SelectItem value="deluxe">Deluxe</SelectItem>
+            <SelectItem value="twin">Twin</SelectItem>
+            <SelectItem value="double">Double</SelectItem>
           </SelectContent>
         </Select>
       </div>
