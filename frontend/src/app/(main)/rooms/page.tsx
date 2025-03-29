@@ -1,13 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  Room,
-  RoomType,
-  ViewType,
-  RoomCategory,
-  rooms as allRooms
-} from "@/data/rooms";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -24,6 +17,56 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpDown, Filter, X } from "lucide-react";
 import AnotherHeader from "@/components/main/another-header";
 
+// Updated Room interface based on API response
+interface Room {
+  _id: string;
+  name: string;
+  description: string;
+  category: string;
+  image: string[];
+  location: {
+    address: string;
+    city: string;
+  };
+  amenities: string[];
+  status: "available" | "booked";
+  averageRating: number;
+  dailyRate: number;
+  capacity: {
+    maxGuests: number;
+    maxAdults?: number;
+    maxChildren?: number;
+  };
+  pricing: {
+    basePrice: number;
+    cleaningFee: number;
+    securityDeposit: number;
+  };
+  houseRules: {
+    smokingAllowed: boolean;
+    petsAllowed: boolean;
+    partiesAllowed: boolean;
+    checkInTime: string;
+    checkOutTime: string;
+  };
+  facilities: {
+    bathrooms: number;
+    roomSize: number;
+    bedsDescription: {
+      type: string;
+      count: number;
+      _id: string;
+    }[];
+  };
+  floor?: string;
+  bedrooms?: number;
+  shared?: boolean;
+}
+
+type RoomCategory = "room" | "suite" | "apartment";
+type ViewType = "city" | "garden" | "mountain" | "pool" | "all";
+type BedType = "Single" | "Queen" | "King" | "all";
+
 interface SearchParams {
   checkIn?: Date;
   checkOut?: Date;
@@ -31,24 +74,36 @@ interface SearchParams {
   rooms?: number;
 }
 
-function filterRoomsBySearchParams(allRooms: Room[], searchParams: SearchParams): Room[] {
-  if (!searchParams.checkIn || !searchParams.checkOut || !searchParams.guests || !searchParams.rooms) {
+function filterRoomsBySearchParams(
+  allRooms: Room[],
+  searchParams: SearchParams
+): Room[] {
+  if (
+    !searchParams.checkIn ||
+    !searchParams.checkOut ||
+    !searchParams.guests ||
+    !searchParams.rooms
+  ) {
     return allRooms;
   }
 
-  return allRooms.filter(room => {
+  return allRooms.filter((room) => {
     // Filter by capacity - each room should accommodate the guests divided by number of rooms
-    const guestsPerRoom = Math.ceil((searchParams.guests || 1) / (searchParams.rooms || 1));
-    if (room.maxCapacity < guestsPerRoom) return false;
+    const guestsPerRoom = Math.ceil(
+      (searchParams.guests || 1) / (searchParams.rooms || 1)
+    );
+    if (room.capacity.maxGuests < guestsPerRoom) return false;
 
-    // Here you would also check if the room is available for the selected dates
-    // This would typically involve checking a booking database
-    // For now, we'll just use the 'available' property as a placeholder
-    return room.available;
+    // Filter by availability (assuming 'available' status means it's available)
+    return room.status === "available";
   });
 }
 
-export default function RoomsPage({ searchParams: urlSearchParams }: { searchParams: { [key: string]: string } }) {
+export default function RoomsPage({
+  searchParams: urlSearchParams,
+}: {
+  searchParams: { [key: string]: string };
+}) {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [filteredRooms, setFilteredRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(true);
@@ -68,80 +123,93 @@ export default function RoomsPage({ searchParams: urlSearchParams }: { searchPar
     searchParams.rooms = parseInt(urlSearchParams.rooms);
   }
 
-  const [typeFilter, setTypeFilter] = useState<RoomType | "all">("all");
-  const [viewFilter, setViewFilter] = useState<ViewType | "all">("all");
   const [categoryFilter, setCategoryFilter] = useState<RoomCategory | "all">(
     "all"
   );
-  const [priceRange, setPriceRange] = useState([300000, 1000000]);
+  const [viewFilter, setViewFilter] = useState<ViewType | "all">("all");
+  const [bedTypeFilter, setBedTypeFilter] = useState<BedType | "all">("all");
+  const [priceRange, setPriceRange] = useState([0, 1000]);
   const [sortBy, setSortBy] = useState<"price-asc" | "price-desc" | "capacity">(
     "price-asc"
   );
   const [showFilters, setShowFilters] = useState(false);
 
-  // Fetch all rooms on component mount
+  // Fetch rooms from API on component mount
   useEffect(() => {
-    setRooms(allRooms);
-    
-    // Apply search filtering first
-    const searchFilteredRooms = filterRoomsBySearchParams(allRooms, searchParams);
-    setFilteredRooms(searchFilteredRooms);
-    setLoading(false);
+    const fetchRooms = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/v1/room");
+        if (!response.ok) {
+          throw new Error("Failed to fetch rooms");
+        }
+        const data = await response.json();
+        setRooms(data);
+
+        // Apply search filtering first
+        const searchFilteredRooms = filterRoomsBySearchParams(
+          data,
+          searchParams
+        );
+        setFilteredRooms(searchFilteredRooms);
+      } catch (error) {
+        console.error("Error fetching rooms:", error);
+        // Set empty array on error
+        setRooms([]);
+        setFilteredRooms([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRooms();
   }, []);
 
   // Apply additional filters when any filter changes
   useEffect(() => {
     // Start with rooms filtered by search params
     let searchFiltered = filterRoomsBySearchParams(rooms, searchParams);
-    
+
     // Then apply additional filters
     let result = [...searchFiltered];
-
-    // Apply type filter
-    if (typeFilter !== "all") {
-      result = result.filter((room) => room.type === typeFilter);
-    }
-
-    // Apply view filter
-    if (viewFilter !== "all") {
-      result = result.filter((room) => room.view === viewFilter);
-    }
 
     // Apply category filter
     if (categoryFilter !== "all") {
       result = result.filter((room) => room.category === categoryFilter);
     }
 
-    // Apply price range filter
+    // Apply bed type filter
+    if (bedTypeFilter !== "all") {
+      result = result.filter((room) =>
+        room.facilities.bedsDescription.some(
+          (bed) => bed.type === bedTypeFilter
+        )
+      );
+    }
+
+    // Apply price range filter (using dailyRate)
     result = result.filter(
-      (room) => room.price >= priceRange[0] && room.price <= priceRange[1]
+      (room) =>
+        room.dailyRate >= priceRange[0] && room.dailyRate <= priceRange[1]
     );
 
     // Apply sorting
     if (sortBy === "price-asc") {
-      result.sort((a, b) => a.price - b.price);
+      result.sort((a, b) => a.dailyRate - b.dailyRate);
     } else if (sortBy === "price-desc") {
-      result.sort((a, b) => b.price - a.price);
+      result.sort((a, b) => b.dailyRate - a.dailyRate);
     } else if (sortBy === "capacity") {
-      result.sort((a, b) => b.maxCapacity - a.maxCapacity);
+      result.sort((a, b) => b.capacity.maxGuests - a.capacity.maxGuests);
     }
 
     setFilteredRooms(result);
-  }, [
-    rooms,
-    typeFilter,
-    viewFilter,
-    categoryFilter,
-    priceRange,
-    sortBy,
-  ]);
+  }, [rooms, categoryFilter, bedTypeFilter, priceRange, sortBy]);
 
   // Reset all filters
   const resetFilters = () => {
-    setTypeFilter("all");
-    setViewFilter("all");
     setCategoryFilter("all");
-    setPriceRange([300000, 1000000]);
+    setBedTypeFilter("all");
+    setViewFilter("all");
+    setPriceRange([0, 1000]);
     setSortBy("price-asc");
   };
 
@@ -156,10 +224,15 @@ export default function RoomsPage({ searchParams: urlSearchParams }: { searchPar
 
   // Add search information to the header or results
   const getSearchSummary = () => {
-    if (!searchParams.checkIn || !searchParams.checkOut || !searchParams.guests || !searchParams.rooms) {
+    if (
+      !searchParams.checkIn ||
+      !searchParams.checkOut ||
+      !searchParams.guests ||
+      !searchParams.rooms
+    ) {
       return null;
     }
-    
+
     return (
       <div className="bg-[#f8f3e9] p-3 rounded-md mb-4 text-sm">
         <p className="font-medium">Tìm kiếm của bạn:</p>
@@ -183,7 +256,7 @@ export default function RoomsPage({ searchParams: urlSearchParams }: { searchPar
       <AnotherHeader title="Phòng của chúng tôi" description="" image="" />
       <div className="container mx-auto px-4 py-8">
         {getSearchSummary()}
-        
+
         {/* Mobile filter toggle */}
         <div className="lg:hidden mb-4">
           <Button
@@ -215,15 +288,15 @@ export default function RoomsPage({ searchParams: urlSearchParams }: { searchPar
             <div>
               <h2 className="text-lg font-medium mb-4">Lọc phòng</h2>
 
-              {/* Room Type Filter */}
+              {/* Bed Type Filter */}
               <div className="mb-4">
                 <label className="text-sm font-medium mb-2 block">
-                  Loại phòng
+                  Loại giường
                 </label>
                 <Select
-                  value={typeFilter}
+                  value={bedTypeFilter}
                   onValueChange={(value) =>
-                    setTypeFilter(value as RoomType | "all")
+                    setBedTypeFilter(value as BedType | "all")
                   }
                 >
                   <SelectTrigger>
@@ -231,31 +304,9 @@ export default function RoomsPage({ searchParams: urlSearchParams }: { searchPar
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Tất cả</SelectItem>
-                    <SelectItem value="Twin">Twin Room</SelectItem>
-                    <SelectItem value="Double">Double Room</SelectItem>
-                    <SelectItem value="Dormitory">Dormitory</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* View Type Filter */}
-              <div className="mb-4">
-                <label className="text-sm font-medium mb-2 block">
-                  Loại view
-                </label>
-                <Select
-                  value={viewFilter}
-                  onValueChange={(value) =>
-                    setViewFilter(value as ViewType | "all")
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Tất cả" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Tất cả</SelectItem>
-                    <SelectItem value="Window">Cửa sổ</SelectItem>
-                    <SelectItem value="Balcony">Ban công</SelectItem>
+                    <SelectItem value="Single">Single</SelectItem>
+                    <SelectItem value="Queen">Queen</SelectItem>
+                    <SelectItem value="King">King</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -263,7 +314,7 @@ export default function RoomsPage({ searchParams: urlSearchParams }: { searchPar
               {/* Room Category Filter */}
               <div className="mb-4">
                 <label className="text-sm font-medium mb-2 block">
-                  Hạng phòng
+                  Loại phòng
                 </label>
                 <Select
                   value={categoryFilter}
@@ -276,8 +327,9 @@ export default function RoomsPage({ searchParams: urlSearchParams }: { searchPar
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Tất cả</SelectItem>
-                    <SelectItem value="Standard">Standard</SelectItem>
-                    <SelectItem value="Deluxe">Deluxe</SelectItem>
+                    <SelectItem value="room">Phòng</SelectItem>
+                    <SelectItem value="suite">Suite</SelectItem>
+                    <SelectItem value="apartment">Căn hộ</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -292,12 +344,12 @@ export default function RoomsPage({ searchParams: urlSearchParams }: { searchPar
                   <span>{formatCurrency(priceRange[1])}</span>
                 </div>
                 <Slider
-                  defaultValue={[300000, 1000000]}
+                  defaultValue={[0, 1000]}
                   value={priceRange}
                   onValueChange={setPriceRange}
-                  max={1000000}
-                  min={300000}
-                  step={50000}
+                  max={1000}
+                  min={0}
+                  step={50}
                 />
               </div>
 
@@ -366,11 +418,9 @@ export default function RoomsPage({ searchParams: urlSearchParams }: { searchPar
                   Không tìm thấy phòng nào
                 </h3>
                 <p className="text-muted-foreground mb-6">
-                  {searchParams.checkIn ? 
-                    "Không có phòng nào phù hợp với tiêu chí tìm kiếm của bạn. Vui lòng thử lại với các ngày hoặc số lượng khách khác." 
-                    : 
-                    "Không có phòng nào phù hợp với bộ lọc của bạn. Vui lòng thử lại với các tiêu chí khác."
-                  }
+                  {searchParams.checkIn
+                    ? "Không có phòng nào phù hợp với tiêu chí tìm kiếm của bạn. Vui lòng thử lại với các ngày hoặc số lượng khách khác."
+                    : "Không có phòng nào phù hợp với bộ lọc của bạn. Vui lòng thử lại với các tiêu chí khác."}
                 </p>
                 <Button onClick={resetFilters}>Đặt lại bộ lọc</Button>
               </div>
@@ -379,16 +429,34 @@ export default function RoomsPage({ searchParams: urlSearchParams }: { searchPar
               <div>
                 <div className="mb-4 flex justify-between items-center">
                   <p className="text-muted-foreground">
-                    {searchParams.checkIn ? 
-                      `Hiển thị ${filteredRooms.length} phòng phù hợp với tìm kiếm của bạn` 
-                      : 
-                      `Hiển thị ${filteredRooms.length} phòng`
-                    }
+                    {searchParams.checkIn
+                      ? `Hiển thị ${filteredRooms.length} phòng phù hợp với tìm kiếm của bạn`
+                      : `Hiển thị ${filteredRooms.length} phòng`}
                   </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredRooms.map((room) => (
-                    <RoomCard key={room.id} room={room} />
+                    <RoomCard
+                      key={room._id}
+                      room={{
+                        id: room._id,
+                        name: room.name,
+                        description: room.description || "",
+                        price: room.dailyRate,
+                        type:
+                          room.facilities.bedsDescription[0]?.type ||
+                          "Standard",
+                        view: "Window", // Default value as it's not in API
+                        category: room.category as any,
+                        images: room.image,
+                        maxCapacity: room.capacity.maxGuests,
+                        amenities: room.amenities,
+                        available: room.status === "available",
+                        rating: room.averageRating,
+                        floor: room.floor || "1", // Pass floor from API or default to "1"
+                        size: room.facilities.roomSize || 20, // Pass room size from API or default to 20
+                      }}
+                    />
                   ))}
                 </div>
               </div>
