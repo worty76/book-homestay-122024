@@ -42,6 +42,11 @@ export default function RoomsPage() {
           throw new Error("Failed to fetch rooms");
         }
         const data: Room[] = await response.json();
+
+        // Log the fetched data to check for image URLs
+        console.log("Fetched rooms:", data);
+        console.log("Example room image URLs:", data[0]?.imageUrls);
+
         setRooms(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to fetch rooms");
@@ -57,11 +62,12 @@ export default function RoomsPage() {
     const files = e.target.files;
     if (files && files.length > 0) {
       const filesArray = Array.from(files);
-      setImages([...images, ...filesArray]);
+      // Instead of appending, replace the images state with the new selection.
+      setImages(filesArray);
 
-      // Create preview URLs for each new file
+      // Create preview URLs for each new file and replace previous ones.
       const newPreviews = filesArray.map((file) => URL.createObjectURL(file));
-      setPreviews([...previews, ...newPreviews]);
+      setPreviews(newPreviews);
     }
   };
 
@@ -142,8 +148,13 @@ export default function RoomsPage() {
   };
 
   const handleEditRoom = (room: Room) => {
-    setSelectedRoom(room);
-    setEditDialogOpen(true);
+    // Reset states before setting a new room to edit
+    setSelectedRoom(null);
+    // Using setTimeout to ensure the state is reset before setting new values
+    setTimeout(() => {
+      setSelectedRoom(room);
+      setEditDialogOpen(true);
+    }, 0);
   };
 
   const handleSaveRoom = async (updatedRoom: Room, files?: FileList) => {
@@ -151,9 +162,13 @@ export default function RoomsPage() {
       const formData = new FormData();
       formData.append("roomData", JSON.stringify(updatedRoom));
 
-      if (files) {
-        Array.from(files).forEach((file) => {
+      if (files && files.length > 0) {
+        // Log information for debugging
+        console.log(`Uploading ${files.length} new images`);
+
+        Array.from(files).forEach((file, index) => {
           formData.append("files", file);
+          console.log(`Added file: ${file.name}`);
         });
       }
 
