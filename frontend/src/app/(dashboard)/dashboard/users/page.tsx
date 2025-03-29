@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -10,51 +11,347 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { PlusCircle, Pencil, Trash2 } from "lucide-react";
+import { UserDialog } from "../../../../components/dashboard/users/user-dialog";
+import { DeleteConfirmDialog } from "../../../../components/dashboard/users/delete-confirm-dialog";
+import { toast } from "@/hooks/use-toast";
+import { useAuthStore } from "@/store/useAuthStore";
+
+// Define user type
+interface User {
+  _id: string;
+  username: string;
+  email: string;
+  phoneNumber: string;
+  identificationNumber: string;
+  isAdmin: boolean;
+  verifiedAccount: boolean;
+  preferences: {
+    notifications: {
+      email: boolean;
+      sms: boolean;
+    };
+  };
+}
 
 export default function UsersPage() {
-  const users = [
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@example.com",
-      role: "Customer",
-      status: "Active",
-    },
-  ];
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [userToEdit, setUserToEdit] = useState<User | null>(null);
+  const [userToDelete, setUserToDelete] = useState<User | null>(null);
+  const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const token = useAuthStore((state) => state.token);
+
+  useEffect(() => {
+    if (token) {
+      fetchUsers();
+    }
+  }, [token]); // Add token as dependency
+
+  const fetchUsers = async () => {
+    if (!token) {
+      toast({
+        title: "Error",
+        description: "Authentication required",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:3000/api/v1/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          toast({
+            title: "Session Expired",
+            description: "Please login again",
+            variant: "destructive",
+          });
+          return;
+        }
+        throw new Error("Failed to fetch users");
+      }
+
+      const data = await response.json();
+
+      if (data && data.users && Array.isArray(data.users)) {
+        setUsers(data.users);
+      } else if (Array.isArray(data)) {
+        setUsers(data);
+      } else {
+        throw new Error("Invalid data format received from API");
+      }
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load users",
+        variant: "destructive",
+      });
+      // Fallback data
+      setUsers([
+        {
+          _id: "1",
+          username: "John Doe",
+          email: "john@example.com",
+          phoneNumber: "1234567890",
+          identificationNumber: "ID123",
+          isAdmin: false,
+          verifiedAccount: true,
+          preferences: {
+            notifications: {
+              email: true,
+              sms: false,
+            },
+          },
+        },
+        {
+          _id: "2",
+          username: "Jane Smith",
+          email: "jane@example.com",
+          phoneNumber: "0987654321",
+          identificationNumber: "ID456",
+          isAdmin: true,
+          verifiedAccount: true,
+          preferences: {
+            notifications: {
+              email: true,
+              sms: true,
+            },
+          },
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createUser = async (userData: Omit<User, "_id">) => {
+    try {
+      const response = await fetch("/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) throw new Error("Failed to create user");
+
+      const newUser = {
+        ...userData,
+        _id: Math.floor(Math.random() * 1000).toString(),
+      };
+      setUsers([...users, newUser]);
+
+      toast({
+        title: "Success",
+        description: "User created successfully",
+      });
+      return true;
+    } catch (error) {
+      console.error("Error creating user:", error);
+      toast({
+        title: "Error",
+        description: "Failed to create user",
+        variant: "destructive",
+      });
+      return false;
+    }
+  };
+
+  const updateUser = async (id: string, userData: Omit<User, "_id">) => {
+    try {
+      const response = await fetch(`/api/users/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) throw new Error("Failed to update user");
+
+      setUsers(
+        users.map((user) => (user._id === id ? { ...userData, _id: id } : user))
+      );
+
+      toast({
+        title: "Success",
+        description: "User updated successfully",
+      });
+      return true;
+    } catch (error) {
+      console.error("Error updating user:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update user",
+        variant: "destructive",
+      });
+      return false;
+    }
+  };
+
+  const deleteUser = async (id: string) => {
+    try {
+      const response = await fetch(`/api/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) throw new Error("Failed to delete user");
+
+      setUsers(users.filter((user) => user._id !== id));
+
+      toast({
+        title: "Success",
+        description: "User deleted successfully",
+      });
+      return true;
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      toast({
+        title: "Error",
+        description: "Failed to delete user",
+        variant: "destructive",
+      });
+      return false;
+    }
+  };
+
+  const handleEdit = (user: User) => {
+    setUserToEdit(user);
+    setIsUserDialogOpen(true);
+  };
+
+  const handleDelete = (user: User) => {
+    setUserToDelete(user);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleFormSubmit = async (formData: Omit<User, "_id">) => {
+    let success = false;
+
+    if (userToEdit) {
+      success = await updateUser(userToEdit._id, formData);
+    } else {
+      success = await createUser(formData);
+    }
+
+    if (success) {
+      setIsUserDialogOpen(false);
+    }
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!userToDelete) return;
+
+    const success = await deleteUser(userToDelete._id);
+    if (success) {
+      setIsDeleteDialogOpen(false);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold md:text-2xl">Manage Users</h1>
       </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {users.map((user) => (
-            <TableRow key={user.id}>
-              <TableCell>{user.name}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>{user.role}</TableCell>
-              <TableCell>
-                <Badge>{user.status}</Badge>
-              </TableCell>
-              <TableCell>
-                <Button variant="outline" size="sm">
-                  Edit
-                </Button>
-              </TableCell>
+
+      {loading ? (
+        <div className="flex justify-center py-10">
+          <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
+        </div>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Username</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Phone</TableHead>
+              <TableHead>Admin</TableHead>
+              <TableHead>Verified</TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {users && Array.isArray(users) && users.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center py-4">
+                  No users found
+                </TableCell>
+              </TableRow>
+            ) : (
+              users &&
+              Array.isArray(users) &&
+              users.map((user) => (
+                <TableRow key={user._id}>
+                  <TableCell>{user.username}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.phoneNumber}</TableCell>
+                  <TableCell>
+                    <Badge variant={user.isAdmin ? "default" : "secondary"}>
+                      {user.isAdmin ? "Yes" : "No"}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      variant={user.verifiedAccount ? "default" : "secondary"}
+                    >
+                      {user.verifiedAccount ? "Verified" : "Unverified"}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleEdit(user)}
+                      className="flex items-center gap-1"
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                      Edit
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => handleDelete(user)}
+                      className="flex items-center gap-1"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      )}
+
+      <UserDialog
+        open={isUserDialogOpen}
+        onOpenChange={setIsUserDialogOpen}
+        user={userToEdit}
+        onSubmit={handleFormSubmit}
+      />
+
+      <DeleteConfirmDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        onConfirm={handleDeleteConfirm}
+        userName={userToDelete?.username || ""}
+      />
     </div>
   );
 }

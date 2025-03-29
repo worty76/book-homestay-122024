@@ -80,7 +80,7 @@ export default function RoomsPage() {
       console.log(formData);
       const formDataToSend = new FormData();
 
-      Object.keys(formData).forEach((key) => {
+      (Object.keys(formData) as Array<keyof FormDataRoom>).forEach((key) => {
         formDataToSend.append(key, formData[key]);
       });
 

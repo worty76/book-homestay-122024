@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Room } from "./types";
+import { Pencil, Trash2 } from "lucide-react";
 
 interface RoomListProps {
   rooms: Room[];
@@ -71,6 +72,7 @@ export function RoomList({
                   size="sm"
                   onClick={() => onEditRoom(room)}
                 >
+                  <Pencil className="h-3.5 w-3.5" />
                   Edit
                 </Button>
                 <Button
@@ -78,6 +80,7 @@ export function RoomList({
                   size="sm"
                   onClick={() => onDeleteRoom(room)}
                 >
+                  <Trash2 className="h-3.5 w-3.5" />
                   Delete
                 </Button>
               </div>
