@@ -61,49 +61,30 @@ const BasicInfoTab = memo(
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="apartment">Apartment</SelectItem>
-            <SelectItem value="house">House</SelectItem>
-            <SelectItem value="room">Room</SelectItem>
+            <SelectItem value="deluxe">Deluxe</SelectItem>
+            <SelectItem value="twin">Twin</SelectItem>
+            <SelectItem value="double">Double</SelectItem>
           </SelectContent>
         </Select>
       </div>
       <div className="grid gap-2">
-        <Label>City</Label>
-        <Input
-          value={formData?.location?.city ?? ""}
-          onChange={(e) => {
+        <Label>Floor</Label>
+        <Select
+          value={String(formData?.floor || "")}
+          onValueChange={(value) =>
             setFormData((prev) =>
-              prev
-                ? {
-                    ...prev,
-                    location: {
-                      ...prev.location,
-                      city: e.target.value,
-                    },
-                  }
-                : null
-            );
-          }}
-        />
-      </div>
-      <div className="grid gap-2">
-        <Label>Address</Label>
-        <Input
-          value={formData?.location?.address ?? ""}
-          onChange={(e) =>
-            setFormData((prev) =>
-              prev
-                ? {
-                    ...prev,
-                    location: {
-                      ...prev.location,
-                      address: e.target.value,
-                    },
-                  }
-                : null
+              prev ? { ...prev, floor: Number(value) } : null
             )
           }
-        />
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select floor" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="1">Floor 1</SelectItem>
+            <SelectItem value="2">Floor 2</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
       <div className="grid gap-2">
         <Label>Status</Label>

@@ -70,7 +70,6 @@ export function BookingDetailsDialog({
           </div>
         ) : (
           <div className="grid gap-6 p-4 max-h-[80vh] overflow-y-auto">
-            {/* Header Section */}
             <div className="flex items-center justify-between border-b pb-4">
               <div>
                 <h2 className="text-2xl font-bold">
@@ -96,9 +95,7 @@ export function BookingDetailsDialog({
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">
-              {/* Left Column */}
               <div className="space-y-6">
-                {/* Guest Information */}
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="text-lg font-semibold mb-4">
                     Guest Information
@@ -125,7 +122,6 @@ export function BookingDetailsDialog({
                   </div>
                 </div>
 
-                {/* Room Details */}
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="text-lg font-semibold mb-4">Room Details</h3>
                   <div className="space-y-4">
@@ -185,9 +181,7 @@ export function BookingDetailsDialog({
                 </div>
               </div>
 
-              {/* Right Column */}
               <div className="space-y-6">
-                {/* Booking Details */}
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="text-lg font-semibold mb-4">
                     Booking Details

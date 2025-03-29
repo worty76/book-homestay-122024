@@ -18,7 +18,8 @@ interface AddRoomDialogProps {
   formData: FormDataRoom;
   handleInputChange: (e: any) => void;
   handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  preview: string | null;
+  previews: string[]; // Changed from single preview to multiple
+  handleRemoveImage: (index: number) => void; // Added function to remove an image
 }
 
 export function AddRoomDialog({
@@ -29,7 +30,8 @@ export function AddRoomDialog({
   formData,
   handleInputChange,
   handleImageChange,
-  preview,
+  previews,
+  handleRemoveImage,
 }: AddRoomDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -47,7 +49,8 @@ export function AddRoomDialog({
           formData={formData}
           handleInputChange={handleInputChange}
           handleImageChange={handleImageChange}
-          preview={preview}
+          previews={previews}
+          handleRemoveImage={handleRemoveImage}
           onSubmit={onSubmit}
           isSubmitting={isSubmitting}
         />

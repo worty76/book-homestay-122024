@@ -14,13 +14,12 @@ export default function RoomsPage() {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [image, setImage] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [images, setImages] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
   const [formData, setFormData] = useState<FormDataRoom>({
     name: "",
     category: "",
-    city: "",
-    address: "",
+    floor: "", // Changed from city and address
     basePrice: "",
     cleaningFee: "",
     bathrooms: "",
@@ -55,11 +54,26 @@ export default function RoomsPage() {
   }, []);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImage(file);
-      setPreview(URL.createObjectURL(file));
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const filesArray = Array.from(files);
+      setImages([...images, ...filesArray]);
+
+      // Create preview URLs for each new file
+      const newPreviews = filesArray.map((file) => URL.createObjectURL(file));
+      setPreviews([...previews, ...newPreviews]);
     }
+  };
+
+  const handleRemoveImage = (index: number) => {
+    const newImages = [...images];
+    newImages.splice(index, 1);
+    setImages(newImages);
+
+    const newPreviews = [...previews];
+    URL.revokeObjectURL(newPreviews[index]); // Clean up the URL object
+    newPreviews.splice(index, 1);
+    setPreviews(newPreviews);
   };
 
   const handleInputChange = (
@@ -84,8 +98,10 @@ export default function RoomsPage() {
         formDataToSend.append(key, formData[key]);
       });
 
-      if (image) {
-        formDataToSend.append("files", image);
+      if (images.length > 0) {
+        images.forEach((image) => {
+          formDataToSend.append("files", image);
+        });
       }
 
       const response = await fetch(
@@ -240,7 +256,8 @@ export default function RoomsPage() {
           formData={formData}
           handleInputChange={handleInputChange}
           handleImageChange={handleImageChange}
-          preview={preview}
+          previews={previews}
+          handleRemoveImage={handleRemoveImage}
         />
       </div>
       <RoomList
