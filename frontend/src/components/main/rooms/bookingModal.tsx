@@ -33,6 +33,15 @@ import { Separator } from "@/components/ui/separator";
 import { Room } from "@/data/rooms";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import axios from "axios";
+import { useAuthStore } from "@/store/useAuthStore";
+import Cookies from "js-cookie";
+import { createVnpayPayment } from "@/services/paymentService";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { CreditCard, Wallet } from "lucide-react";
+
+// API endpoint for bookings
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
 interface BookingModalProps {
   room: Room;
@@ -40,6 +49,12 @@ interface BookingModalProps {
 }
 
 export default function BookingModal({ room, trigger }: BookingModalProps) {
+  // Get auth state directly with the standard hook
+  const authState = useAuthStore();
+
+  // Log the entire auth state for debugging
+  console.log("Auth State:", authState);
+
   const [open, setOpen] = useState(false);
   const [dateRange, setDateRange] = useState<{
     from: Date;
@@ -50,11 +65,12 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
   });
   const [guests, setGuests] = useState("1");
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
     specialRequests: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<string[]>([]);
+  const [paymentMethod, setPaymentMethod] = useState<"CASH" | "VNPAY">("CASH");
+  const [processingPayment, setProcessingPayment] = useState(false);
 
   // Calculate number of nights
   const numberOfNights = dateRange.to
@@ -87,35 +103,192 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
     });
   };
 
-  // Handle booking submission
-  const handleBooking = (e: React.FormEvent) => {
+  const validateForm = () => {
+    const newErrors: string[] = [];
+
+    if (!dateRange.to) newErrors.push("Vui lòng chọn ngày check-out");
+    if (!authState.isAuthenticated)
+      newErrors.push("Vui lòng đăng nhập để đặt phòng");
+
+    setErrors(newErrors);
+    return newErrors.length === 0;
+  };
+
+  const handleBooking = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Here you would typically send the booking data to your backend API
-    console.log({
-      room: room.id,
-      checkIn: dateRange.from,
-      checkOut: dateRange.to,
-      guests: parseInt(guests),
-      totalPrice: grandTotal,
-      ...formData,
-    });
+    if (!validateForm()) return;
 
-    // Show success toast and close modal
-    toast.success("Đặt phòng thành công!", {
-      description: `Chúng tôi sẽ liên hệ với bạn qua email ${formData.email} để xác nhận đơn đặt phòng.`,
-    });
+    if (!dateRange.to) {
+      toast.error("Vui lòng chọn ngày check-out");
+      return;
+    }
 
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      specialRequests: "",
-    });
+    if (!authState.isAuthenticated) {
+      toast.error("Vui lòng đăng nhập", {
+        description: "Bạn cần đăng nhập để đặt phòng",
+      });
+      return;
+    }
 
-    // Close modal
-    setOpen(false);
+    const cookieToken = getCookieToken();
+    const tokenToUse = authState.token || cookieToken;
+
+    if (!tokenToUse) {
+      toast.error("Phiên đăng nhập không hợp lệ", {
+        description: "Vui lòng đăng nhập lại để tiếp tục",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const bookingData = {
+        startAt: dateRange.from.toISOString(),
+        endAt: dateRange.to.toISOString(),
+        guests: parseInt(guests),
+        rental: {
+          _id: room.id,
+        },
+        specialRequests: formData.specialRequests,
+        paymentMethod: paymentMethod,
+        paymentStatus:
+          paymentMethod === "CASH" ? "PENDING" : "AWAITING_PAYMENT",
+      };
+
+      console.log("Creating booking with data:", bookingData);
+
+      // Create the booking first
+      const bookingResponse = await axios.post(
+        `${API_URL}/api/v1/booking/init`,
+        bookingData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenToUse}`,
+          },
+        }
+      );
+
+      console.log("Booking created:", bookingResponse.data);
+
+      // Extract booking ID from response based on the actual response structure
+      let bookingId = null;
+
+      // Try to extract from the desc.bookingId field first (as per the API documentation)
+      if (bookingResponse.data?.desc?.bookingId) {
+        bookingId = bookingResponse.data.desc.bookingId;
+      }
+      // Fallback to other possible locations
+      else if (bookingResponse.data?.desc?._id) {
+        bookingId = bookingResponse.data.desc._id;
+      } else if (bookingResponse.data?.desc?.id) {
+        bookingId = bookingResponse.data.desc.id;
+      } else if (bookingResponse.data?._id) {
+        bookingId = bookingResponse.data._id;
+      } else if (typeof bookingResponse.data?.desc === "string") {
+        bookingId = bookingResponse.data.desc;
+      }
+
+      // If still not found, log the entire response for debugging
+      if (!bookingId) {
+        console.error(
+          "Could not find booking ID in response:",
+          bookingResponse.data
+        );
+        throw new Error("Could not retrieve booking ID from response");
+      }
+
+      console.log("Successfully extracted booking ID:", bookingId);
+
+      // For CASH payment, we're done
+      if (paymentMethod === "CASH") {
+        toast.success("Đặt phòng thành công!", {
+          description: "Bạn sẽ thanh toán khi nhận phòng.",
+        });
+
+        setFormData({ specialRequests: "" });
+        setOpen(false);
+        return;
+      }
+
+      // For VNPAY payment, create payment and redirect
+      if (paymentMethod === "VNPAY") {
+        setProcessingPayment(true);
+
+        try {
+          // Store booking ID in session storage to retrieve after payment
+          sessionStorage.setItem("vnpay_booking_id", bookingId);
+
+          // Create VNPAY payment - updated to use service with the correct endpoint
+          const paymentResponse = await createVnpayPayment(
+            bookingId,
+            grandTotal,
+            tokenToUse
+          );
+
+          console.log("VNPAY payment created:", paymentResponse);
+
+          // Get payment URL from response
+          let paymentUrl = null;
+          if (paymentResponse.data && paymentResponse.data.paymentUrl) {
+            paymentUrl = paymentResponse.data.paymentUrl;
+          }
+
+          if (!paymentUrl) {
+            throw new Error("No payment URL received from server");
+          }
+
+          // Redirect to VNPAY
+          console.log("Redirecting to payment URL:", paymentUrl);
+          window.location.href = paymentUrl;
+          return;
+        } catch (paymentError: any) {
+          console.error("Payment creation error:", paymentError);
+
+          // Cancel the booking since payment failed to create
+          try {
+            await axios.post(
+              `${API_URL}/api/v1/booking/${bookingId}/cancel`,
+              {},
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${tokenToUse}`,
+                },
+              }
+            );
+          } catch (cancelError) {
+            console.error("Failed to cancel booking:", cancelError);
+          }
+
+          toast.error("Không thể tạo giao dịch thanh toán", {
+            description: paymentError.message || "Vui lòng thử lại sau.",
+          });
+        } finally {
+          setProcessingPayment(false);
+        }
+      }
+    } catch (error: any) {
+      console.error("Booking error:", error);
+      console.error("Error response:", error.response?.data);
+
+      if (error.response?.data?.errors) {
+        const apiErrors = error.response.data.errors;
+        apiErrors.forEach((err: any) => {
+          toast.error(err.title, {
+            description: err.desc,
+          });
+        });
+      } else {
+        toast.error("Đặt phòng thất bại", {
+          description: "Có lỗi xảy ra, vui lòng thử lại sau.",
+        });
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -146,7 +319,8 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
               {/* Check-in/Check-out dates */}
               <div>
                 <Label className="text-sm sm:text-base">
-                  Ngày check-in / check-out
+                  Ngày check-in / check-out{" "}
+                  <span className="text-red-500">*</span>
                 </Label>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -199,7 +373,9 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
 
               {/* Guests */}
               <div>
-                <Label className="text-sm sm:text-base">Số lượng khách</Label>
+                <Label className="text-sm sm:text-base">
+                  Số lượng khách <span className="text-red-500">*</span>
+                </Label>
                 <Select value={guests} onValueChange={setGuests}>
                   <SelectTrigger className="w-full mt-1 text-sm sm:text-base">
                     <div className="flex items-center">
@@ -220,53 +396,6 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
                 </Select>
               </div>
 
-              {/* Guest Information */}
-              <div>
-                <Label htmlFor="name" className="text-sm sm:text-base">
-                  Họ tên
-                </Label>
-                <Input
-                  id="name"
-                  name="name"
-                  placeholder="Nguyễn Văn A"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                  className="mt-1 text-sm sm:text-base"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="email" className="text-sm sm:text-base">
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  className="mt-1 text-sm sm:text-base"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="phone" className="text-sm sm:text-base">
-                  Số điện thoại
-                </Label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  placeholder="0912 345 678"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  required
-                  className="mt-1 text-sm sm:text-base"
-                />
-              </div>
-
               <div>
                 <Label
                   htmlFor="specialRequests"
@@ -283,6 +412,52 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
                   rows={3}
                   className="w-full min-h-[60px] sm:min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1"
                 />
+              </div>
+
+              {/* Payment Method Selection */}
+              <div>
+                <Label className="text-sm sm:text-base mb-2 block">
+                  Phương thức thanh toán <span className="text-red-500">*</span>
+                </Label>
+                <RadioGroup
+                  value={paymentMethod}
+                  onValueChange={(value) =>
+                    setPaymentMethod(value as "CASH" | "VNPAY")
+                  }
+                  className="flex flex-col gap-3"
+                >
+                  <div className="flex items-center space-x-2 border rounded-md p-3 cursor-pointer hover:bg-muted/50 transition-colors">
+                    <RadioGroupItem value="CASH" id="cash" />
+                    <Label
+                      htmlFor="cash"
+                      className="flex items-center gap-2 cursor-pointer"
+                    >
+                      <Wallet className="h-4 w-4" />
+                      <div>
+                        <p className="font-medium">Thanh toán khi nhận phòng</p>
+                        <p className="text-sm text-muted-foreground">
+                          Trả tiền mặt hoặc quẹt thẻ khi check-in
+                        </p>
+                      </div>
+                    </Label>
+                  </div>
+
+                  <div className="flex items-center space-x-2 border rounded-md p-3 cursor-pointer hover:bg-muted/50 transition-colors">
+                    <RadioGroupItem value="VNPAY" id="vnpay" />
+                    <Label
+                      htmlFor="vnpay"
+                      className="flex items-center gap-2 cursor-pointer"
+                    >
+                      <CreditCard className="h-4 w-4" />
+                      <div>
+                        <p className="font-medium">Thanh toán qua VNPAY</p>
+                        <p className="text-sm text-muted-foreground">
+                          Thanh toán an toàn qua cổng VNPAY
+                        </p>
+                      </div>
+                    </Label>
+                  </div>
+                </RadioGroup>
               </div>
             </form>
           </div>
@@ -348,6 +523,43 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
                 Đặt cọc 30% có thể được yêu cầu để đảm bảo đặt phòng của bạn.
               </p>
             </div>
+
+            {/* Payment method info */}
+            <div className="mt-3 border-t pt-3">
+              <div className="flex justify-between text-sm">
+                <span>Phương thức thanh toán</span>
+                <span className="font-medium">
+                  {paymentMethod === "CASH"
+                    ? "Thanh toán khi nhận phòng"
+                    : "VNPAY"}
+                </span>
+              </div>
+            </div>
+
+            {/* Login reminder for unauthenticated users */}
+            {!authState.isAuthenticated && (
+              <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                <p className="text-blue-600 font-medium text-sm">
+                  Vui lòng đăng nhập để đặt phòng
+                </p>
+              </div>
+            )}
+
+            {/* Error display */}
+            {errors.length > 0 && (
+              <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
+                <p className="text-red-600 font-medium text-sm">
+                  Vui lòng kiểm tra lại thông tin:
+                </p>
+                <ul className="list-disc ml-5 mt-1">
+                  {errors.map((error, index) => (
+                    <li key={index} className="text-red-600 text-xs">
+                      {error}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
 
@@ -356,6 +568,7 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
             variant="outline"
             className="w-full sm:w-auto"
             onClick={() => setOpen(false)}
+            disabled={isSubmitting || processingPayment}
           >
             Hủy
           </Button>
@@ -363,11 +576,33 @@ export default function BookingModal({ room, trigger }: BookingModalProps) {
             type="submit"
             className="w-full sm:w-auto"
             onClick={handleBooking}
+            disabled={
+              isSubmitting || !authState.isAuthenticated || processingPayment
+            }
           >
-            Xác nhận đặt phòng
+            {isSubmitting || processingPayment
+              ? "Đang xử lý..."
+              : paymentMethod === "VNPAY"
+              ? "Thanh toán qua VNPAY"
+              : "Xác nhận đặt phòng"}
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
+}
+
+// Function to retrieve token from cookie as fallback
+function getCookieToken() {
+  try {
+    const cookieData = Cookies.get("auth-storage");
+    if (cookieData) {
+      const parsedData = JSON.parse(decodeURIComponent(cookieData));
+      return parsedData?.state?.token || null;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error parsing auth cookie:", error);
+    return null;
+  }
 }

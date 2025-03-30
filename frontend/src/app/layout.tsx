@@ -2,6 +2,7 @@ import "./globals.css";
 import { openSans, pinyonScript, playFair, roboto } from "@/lib/fonts";
 import ClientLayout from "@/components/layouts/ClientLayout";
 import { Toaster } from "@/components/ui/toaster";
+import Script from "next/script";
 
 export const metadata = {
   title: "Ken Homestay - Find Your Perfect Stay",
