@@ -22,11 +22,14 @@ export default function BookingsPage() {
     const fetchBookings = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/booking`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/booking`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await response.json();
         setBookings(data);
       } catch (error) {
@@ -76,13 +79,14 @@ export default function BookingsPage() {
     setLoadingAction(bookingId);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/booking/${bookingId}/cancel`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/booking/cancel`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
+          body: JSON.stringify({ bookingId: bookingId }),
         }
       );
 
