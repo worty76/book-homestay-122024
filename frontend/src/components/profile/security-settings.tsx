@@ -116,14 +116,14 @@ export function SecuritySettings() {
             <AlertDescription>{errorMessage}</AlertDescription>
           </Alert>
         )}
-        
+
         {successMessage && (
           <Alert variant="default" className="bg-green-50 border-green-200">
             <AlertTitle>Thành công</AlertTitle>
             <AlertDescription>{successMessage}</AlertDescription>
           </Alert>
         )}
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
             <h3 className="text-lg font-medium">Thay đổi mật khẩu</h3>
@@ -131,8 +131,8 @@ export function SecuritySettings() {
               <div className="space-y-2">
                 <Label htmlFor="currentPassword">Mật khẩu hiện tại</Label>
                 <div className="relative">
-                  <Input 
-                    id="currentPassword" 
+                  <Input
+                    id="currentPassword"
                     type={showCurrentPassword ? "text" : "password"}
                     value={formData.currentPassword}
                     onChange={handleChange}
@@ -156,12 +156,12 @@ export function SecuritySettings() {
                   </Button>
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="newPassword">Mật khẩu mới</Label>
                 <div className="relative">
-                  <Input 
-                    id="newPassword" 
+                  <Input
+                    id="newPassword"
                     type={showNewPassword ? "text" : "password"}
                     value={formData.newPassword}
                     onChange={handleChange}
@@ -185,15 +185,18 @@ export function SecuritySettings() {
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số
+                  Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường
+                  và số
                 </p>
               </div>
-              
+
               <div className="space-y-2">
-                <Label htmlFor="confirmNewPassword">Xác nhận mật khẩu mới</Label>
+                <Label htmlFor="confirmNewPassword">
+                  Xác nhận mật khẩu mới
+                </Label>
                 <div className="relative">
-                  <Input 
-                    id="confirmNewPassword" 
+                  <Input
+                    id="confirmNewPassword"
                     type={showConfirmPassword ? "text" : "password"}
                     value={formData.confirmNewPassword}
                     onChange={handleChange}
@@ -219,9 +222,13 @@ export function SecuritySettings() {
               </div>
             </div>
           </div>
-          
+
           <div className="flex justify-end">
-            <Button type="submit" disabled={isPending}>
+            <Button
+              type="submit"
+              disabled={isPending}
+              className="bg-[#5d8b40] hover:bg-[#5d8b40]/90"
+            >
               {isPending ? (
                 <>
                   <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />

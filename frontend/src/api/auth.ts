@@ -1,8 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "@/store/useAuthStore";
 import { apiPost, handleApiError } from "@/api/api-client";
+import { prefetchUserProfile } from "@/api/user";
+import { useProfileStore } from "@/store/useProfileStore";
 
-// Login types
 interface LoginCredentials {
   email: string;
   password: string;
@@ -12,12 +13,13 @@ interface LoginResponse {
   success: boolean;
   token: string;
   userId: string;
-  isAdmin: boolean;
   email?: string;
+  isAdmin: boolean;
 }
 
 export const useLogin = () => {
   const { login } = useAuthStore();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (credentials: LoginCredentials) => {
@@ -28,10 +30,12 @@ export const useLogin = () => {
         );
         return data;
       } catch (error) {
-        throw new Error(handleApiError(error));
+        console.error("Login request failed:", error);
+
+        throw error;
       }
     },
-    onSuccess: (data, variables) => {
+    onSuccess: async (data, variables) => {
       const user = {
         id: data.userId,
         email: data.email || variables.email,
@@ -39,19 +43,28 @@ export const useLogin = () => {
       };
 
       login(user, data.token);
+
+      try {
+        await prefetchUserProfile(queryClient);
+      } catch (error) {
+        console.error("Failed to fetch user profile after login:", error);
+      }
     },
   });
 };
 
 export const useLogout = () => {
   const { logout } = useAuthStore();
+  const queryClient = useQueryClient();
+  const clearProfile = useProfileStore((state) => state.clearProfile);
 
   return () => {
     logout();
+    clearProfile();
+    queryClient.invalidateQueries({ queryKey: ["userProfile"] });
   };
 };
 
-// Register types
 interface RegisterCredentials {
   username: string;
   email: string;
@@ -79,23 +92,24 @@ export const useRegister = () => {
           "/api/v1/user/register",
           credentials
         );
-        console.log('Registration credentials:', credentials);
-        console.log('Registration API Response:', data);
+        console.log("Registration credentials:", credentials);
+        console.log("Registration API Response:", data);
         return data;
       } catch (error) {
-        throw new Error(handleApiError(error));
+        console.error("Registration request failed:", error);
+
+        throw error;
       }
     },
     onSuccess: (data, variables) => {
-      // Automatically log in the user after successful registration
       const user = {
         id: data.userId,
         email: variables.email,
         isAdmin: data.isAdmin,
       };
 
-      console.log('User successfully registered:', user);
-      console.log('Token received:', data.token);
+      console.log("User successfully registered:", user);
+      console.log("Token received:", data.token);
 
       login(user, data.token);
     },

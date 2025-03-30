@@ -1,8 +1,9 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { useAuthStore } from "@/store/useAuthStore";
 import Cookies from "js-cookie";
+import { toast } from "sonner";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://192.168.0.110:3000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 export const apiClient = axios.create({
   baseURL: API_URL,
@@ -23,14 +24,45 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+export interface ApiErrorResponse {
+  code?: string;
+  message: string;
+  status?: number;
+  details?: Record<string, any>;
+}
+
 apiClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
-    if (error.response?.status === 401) {
-      useAuthStore.getState().logout();
+    if (error.response) {
+      const statusCode = error.response.status;
+      const responseData = error.response.data as any;
 
-      if (typeof window !== "undefined") {
-        window.location.href = "/login";
+      if (responseData) {
+        const enhancedData: ApiErrorResponse = {
+          code: responseData.code || `HTTP_${statusCode}`,
+          message:
+            responseData.message ||
+            responseData.error ||
+            error.message ||
+            "An error occurred",
+          status: statusCode,
+          details: responseData.details || responseData,
+        };
+
+        error.response.data = enhancedData;
+      }
+
+      if (statusCode === 401) {
+        toast.error("Phiên đăng nhập đã hết hạn", {
+          description: "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.",
+        });
+
+        useAuthStore.getState().logout();
+
+        if (typeof window !== "undefined") {
+          window.location.href = "/login";
+        }
       }
     }
 
@@ -38,11 +70,38 @@ apiClient.interceptors.response.use(
   }
 );
 
-export const handleApiError = (error: unknown): string => {
+export const handleApiError = (error: unknown): ApiErrorResponse => {
   if (axios.isAxiosError(error)) {
-    return error.response?.data?.error || error.message || "An error occurred";
+    // If our interceptor already formatted the error, return it
+    const responseData = error.response?.data as ApiErrorResponse;
+    if (
+      responseData &&
+      typeof responseData === "object" &&
+      "code" in responseData
+    ) {
+      return responseData;
+    }
+
+    return {
+      code: `HTTP_${error.response?.status || "UNKNOWN"}`,
+      message:
+        error.response?.data?.message || error.message || "An error occurred",
+      status: error.response?.status,
+      details: error.response?.data,
+    };
   }
-  return "An unexpected error occurred";
+
+  if (error instanceof Error) {
+    return {
+      code: "UNKNOWN_ERROR",
+      message: error.message || "An unexpected error occurred",
+    };
+  }
+
+  return {
+    code: "UNKNOWN_ERROR",
+    message: "An unexpected error occurred",
+  };
 };
 
 export function createCancelableRequest<T>(requestFn: () => Promise<T>) {

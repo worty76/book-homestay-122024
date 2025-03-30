@@ -8,12 +8,14 @@ interface Props {
   image?: string;
   backgroundColor?: string;
   colorOverlay?: boolean;
+  breadcrumb?: boolean;
 }
 
 const AnotherHeader = ({
   title,
   description,
   image = "/images/img1.jpg",
+  breadcrumb = true,
 }: Props) => {
   return (
     <div className="relative min-h-[450px] overflow-hidden">
@@ -43,13 +45,15 @@ const AnotherHeader = ({
             </h1>
             <p className="text-base text-white md:text-lg">{description}</p>
 
-            <div className="flex justify-center w-full mt-6">
-              <BreadcrumbNav
-                darkMode={true}
-                containerClassName="justify-center flex"
-                listClassName="flex justify-center"
-              />
-            </div>
+            {breadcrumb && (
+              <div className="flex justify-center w-full mt-6">
+                <BreadcrumbNav
+                  darkMode={true}
+                  containerClassName="justify-center flex"
+                  listClassName="flex justify-center"
+                />
+              </div>
+            )}
           </div>
         </main>
       </div>
