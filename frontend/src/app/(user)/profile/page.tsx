@@ -30,7 +30,7 @@ export default function ProfilePage() {
     { id: "personal", icon: UserIcon, label: "Thông tin cá nhân" },
     { id: "security", icon: LockIcon, label: "Cài đặt bảo mật" },
     { id: "bookings", icon: BookMarked, label: "Lịch sử đặt phòng" },
-    { id: "payment", icon: MapPinIcon, label: "Phương thức thanh toán" },
+    // { id: "payment", icon: MapPinIcon, label: "Phương thức thanh toán" },
     {
       id: "privacy",
       icon: HeartIcon,
@@ -54,8 +54,8 @@ export default function ProfilePage() {
         return <SecuritySettings />;
       case "bookings":
         return <BookingHistory />;
-      case "payment":
-        return <PaymentMethods />;
+      // case "payment":
+      //   return <PaymentMethods />;
       case "privacy":
         return <PrivacySettings />;
       default:
@@ -68,6 +68,7 @@ export default function ProfilePage() {
       <AnotherHeader
         title="Hồ sơ của tôi"
         description="Quản lý thông tin cá nhân"
+        breadcrumb={false}
       />
 
       <div className="container mx-auto py-10">

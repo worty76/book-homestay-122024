@@ -4,7 +4,8 @@ const UPLOAD_PRESET =
 
 export async function uploadToCloudinary(
   file: File,
-  folder?: string
+  folder?: string,
+  userId?: string
 ): Promise<CloudinaryUploadResult> {
   if (!CLOUD_NAME) {
     throw new Error(
@@ -18,6 +19,16 @@ export async function uploadToCloudinary(
 
   if (folder) {
     formData.append("folder", folder);
+  }
+
+  if (userId) {
+    const timestamp = new Date().getTime();
+    const fileExtension = file.name.split(".").pop();
+    const customFilename = `user_${userId}_${timestamp}.${fileExtension}`;
+    formData.append(
+      "public_id",
+      `${folder ? folder + "/" : ""}user_${userId}_${timestamp}`
+    );
   }
 
   const response = await fetch(

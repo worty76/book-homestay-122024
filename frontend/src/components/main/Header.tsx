@@ -10,6 +10,8 @@ import {
   useIsAuthenticated,
   useUser,
 } from "@/store/useAuthStore";
+import { toast } from "sonner";
+import { useProfileStore } from "@/store/useProfileStore";
 
 const menuItems = [
   { name: "TRANG CHỦ", url: "/" },
@@ -25,12 +27,19 @@ export function Header() {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const isAuthenticated = useIsAuthenticated();
   const user = useUser();
+  const profile = useProfileStore((state) => state.profile);
   const logout = useAuthStore((state) => state.logout);
 
   const handleLogout = () => {
+    toast.success("Đăng xuất thành công", {
+      description: "Bạn đã đăng xuất thành công.",
+    });
     logout();
     setProfileMenuOpen(false);
+    window.location.href = "/login";
   };
+
+  const displayName = profile?.username || user?.name || "Tài khoản";
 
   const ProfileMenu = () => (
     <div className="relative">
@@ -39,7 +48,7 @@ export function Header() {
         className="flex items-center gap-2 bg-[#9C6B4A] hover:bg-[#7A5230] text-white py-2 px-4 rounded-full text-sm font-medium transition-colors"
       >
         <User className="h-4 w-4" />
-        <span>{user?.name || "Tài khoản"}</span>
+        <span>{displayName}</span>
       </button>
 
       {profileMenuOpen && (
@@ -50,13 +59,6 @@ export function Header() {
           >
             <UserCircle className="h-4 w-4" />
             <span>Thông tin cá nhân</span>
-          </Link>
-          <Link
-            href="/settings"
-            className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-          >
-            <Settings className="h-4 w-4" />
-            <span>Cài đặt</span>
           </Link>
           <button
             onClick={handleLogout}

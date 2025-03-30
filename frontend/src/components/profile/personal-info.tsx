@@ -5,23 +5,25 @@ import { CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
-import { useAuthStore } from "@/store/useAuthStore";
 import { useGetUserProfile, useUpdateProfile } from "@/api/user";
-import { LoaderCircle, Camera, AlertCircle, ImageIcon } from "lucide-react";
+import { LoaderCircle, Camera, AlertCircle } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { uploadToCloudinary } from "@/lib/cloudinary";
+import { toast } from "sonner";
+import { useProfileStore } from "@/store/useProfileStore";
 
 export function PersonalInfo() {
-  const { toast } = useToast();
   const {
     data: profileData,
     isLoading: isLoadingProfile,
     refetch,
   } = useGetUserProfile();
+
+  const storedProfile = useProfileStore((state) => state.profile);
+
   const {
     mutate: updateProfile,
     isPending,
@@ -32,7 +34,6 @@ export function PersonalInfo() {
   const [isMounted, setIsMounted] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
 
-  // Add useEffect to handle client-side rendering
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -51,32 +52,32 @@ export function PersonalInfo() {
     profileImage: "",
   });
 
-  // Reset error when form values change
   useEffect(() => {
     if (errorMessage) {
       setErrorMessage(null);
     }
   }, [formData, errorMessage]);
 
-  // Populate form with user data when available
   useEffect(() => {
-    if (profileData) {
-      console.log("Profile data loaded in component:", profileData);
+    const profile = profileData || storedProfile;
+
+    if (profile) {
+      console.log("Profile data loaded in component:", profile);
       setFormData({
-        username: profileData.username || "",
-        email: profileData.email || "",
-        phoneNumber: profileData.phoneNumber || "",
-        dateOfBirth: profileData.dateOfBirth || "",
-        identificationNumber: profileData.identificationNumber || "",
+        username: profile.username || "",
+        email: profile.email || "",
+        phoneNumber: profile.phoneNumber || "",
+        dateOfBirth: profile.dateOfBirth || "",
+        identificationNumber: profile.identificationNumber || "",
         emergencyContact: {
-          name: profileData.emergencyContact?.name || "",
-          relationship: profileData.emergencyContact?.relationship || "",
-          phoneNumber: profileData.emergencyContact?.phoneNumber || "",
+          name: profile.emergencyContact?.name || "",
+          relationship: profile.emergencyContact?.relationship || "",
+          phoneNumber: profile.emergencyContact?.phoneNumber || "",
         },
-        profileImage: profileData.profileImage || "",
+        profileImage: profile.profileImage || "",
       });
     }
-  }, [profileData]);
+  }, [profileData, storedProfile]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -99,7 +100,6 @@ export function PersonalInfo() {
   };
 
   const validateForm = (): boolean => {
-    // Basic validation
     if (!formData.username.trim()) {
       setErrorMessage("Tên người dùng là bắt buộc");
       return false;
@@ -110,20 +110,17 @@ export function PersonalInfo() {
       return false;
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setErrorMessage("Email không hợp lệ");
       return false;
     }
 
-    // Phone number validation (if provided)
     if (formData.phoneNumber && !/^\+?[0-9]{10,}$/.test(formData.phoneNumber)) {
       setErrorMessage("Số điện thoại không hợp lệ");
       return false;
     }
 
-    // ID number validation (if provided)
     if (
       formData.identificationNumber &&
       !/^[0-9]{9,12}$/.test(formData.identificationNumber)
@@ -143,7 +140,6 @@ export function PersonalInfo() {
       return;
     }
 
-    // Create update payload with all fields
     const updateData = {
       username: formData.username,
       email: formData.email,
@@ -160,22 +156,17 @@ export function PersonalInfo() {
 
     updateProfile(updateData, {
       onSuccess: () => {
-        toast({
-          title: "Cập nhật thành công",
+        toast.success("Cập nhật thành công", {
           description: "Thông tin cá nhân của bạn đã được cập nhật.",
-          variant: "default",
         });
-        // Refetch profile data to show updated information
         refetch();
       },
       onError: (error) => {
         const errorMsg =
           error.message || "Đã xảy ra lỗi khi cập nhật thông tin.";
         setErrorMessage(errorMsg);
-        toast({
-          title: "Cập nhật thất bại",
+        toast.error("Cập nhật thất bại", {
           description: errorMsg,
-          variant: "destructive",
         });
       },
     });
@@ -186,37 +177,32 @@ export function PersonalInfo() {
     if (!file) return;
 
     try {
-      // Show loading state
       setIsUploadingImage(true);
 
-      toast({
-        title: "Đang tải lên...",
+      toast.info("Đang tải lên...", {
         description: "Hình ảnh đang được tải lên, vui lòng đợi.",
       });
 
-      // Upload to Cloudinary using our utility function
-      const result = await uploadToCloudinary(file, "profile-images");
+      const userId = profileData?.id || storedProfile?.id;
 
-      // Update form with the Cloudinary URL
+      const result = await uploadToCloudinary(file, "profile-images", userId);
+
       setFormData((prevState) => ({
         ...prevState,
         profileImage: result.secure_url,
       }));
 
-      toast({
-        title: "Tải lên thành công",
+      toast.success("Tải lên thành công", {
         description: "Hình ảnh đã được tải lên thành công.",
       });
     } catch (error) {
       console.error("Error uploading image:", error);
 
-      toast({
-        title: "Lỗi tải lên",
+      toast.error("Lỗi tải lên", {
         description:
           error instanceof Error
             ? error.message
             : "Đã xảy ra lỗi khi tải lên hình ảnh.",
-        variant: "destructive",
       });
     } finally {
       setIsUploadingImage(false);
@@ -224,7 +210,6 @@ export function PersonalInfo() {
   };
 
   if (isLoadingProfile) {
-    // Return a simple loading text if not mounted yet to prevent hydration issues
     if (!isMounted) {
       return (
         <>
@@ -232,13 +217,14 @@ export function PersonalInfo() {
             <CardTitle>Thông tin cá nhân</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-center">Đang tải...</div>
+            <div className="text-center">
+              <LoaderCircle className="h-8 w-8 animate-spin text-primary" />
+            </div>
           </CardContent>
         </>
       );
     }
 
-    // Only render skeleton UI when component has mounted on client
     return (
       <>
         <CardHeader>
@@ -273,7 +259,6 @@ export function PersonalInfo() {
         <CardTitle>Thông tin cá nhân</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Error Message */}
         {errorMessage && (
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
@@ -282,7 +267,6 @@ export function PersonalInfo() {
           </Alert>
         )}
 
-        {/* Profile Image */}
         <div className="flex justify-center">
           <div className="relative">
             <Avatar className="h-24 w-24">
@@ -432,7 +416,11 @@ export function PersonalInfo() {
           </div>
 
           <div className="flex justify-end">
-            <Button type="submit" disabled={isPending}>
+            <Button
+              type="submit"
+              disabled={isPending}
+              className="bg-[#5d8b40] hover:bg-[#5d8b40]/90"
+            >
               {isPending ? (
                 <>
                   <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />

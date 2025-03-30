@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 import {
   DropdownMenu,
@@ -63,6 +64,9 @@ export default function DashboardLayout({
   };
 
   const handleLogout = () => {
+    toast.success("Đăng xuất thành công", {
+      description: "Bạn đã đăng xuất thành công.",
+    });
     logout();
     router.push("/login");
   };
