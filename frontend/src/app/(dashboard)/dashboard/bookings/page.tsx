@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
-import { BookingsTable } from "@/components/dashboard/bookings/bookings-table";
+import { BookingsDataTable } from "@/components/dashboard/bookings/bookings-data-table";
 import { BookingDetailsDialog } from "@/components/dashboard/bookings/booking-details-dialog";
-import { BookingWithDetails, BookingDetails } from "@/types/booking";
+import { BookingDetails, BookingWithDetails } from "@/types/booking";
 
 export default function BookingsPage() {
   const [bookings, setBookings] = useState<BookingWithDetails[]>([]);
@@ -31,7 +31,8 @@ export default function BookingsPage() {
           }
         );
         const data = await response.json();
-        setBookings(data);
+        const bookingsArray = Array.isArray(data) ? data : data.bookings || [];
+        setBookings(bookingsArray);
       } catch (error) {
         console.error("Error fetching bookings:", error);
       } finally {
@@ -132,9 +133,8 @@ export default function BookingsPage() {
         <h1 className="text-lg font-semibold md:text-2xl">Manage Bookings</h1>
       </div>
 
-      <BookingsTable
+      <BookingsDataTable
         bookings={bookings}
-        isLoading={loading}
         onViewDetails={(booking) => {
           setSelectedBooking(booking);
           fetchBookingDetails(booking._id);

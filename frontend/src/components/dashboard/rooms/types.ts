@@ -47,7 +47,7 @@ export interface Room {
 export interface FormDataRoom {
   name: string;
   category: string;
-  floor: string; // Changed from city and address to floor
+  floor: string;
   basePrice: string;
   cleaningFee: string;
   bathrooms: string;

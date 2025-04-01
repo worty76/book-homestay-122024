@@ -15,14 +15,15 @@ export default function ClientLayout({
 }) {
   const pathname = usePathname();
   const [showFooter, setShowFooter] = useState(false);
-  
+
   // Only run this effect client-side after initial render
   useEffect(() => {
     const isDashboard = pathname?.startsWith("/dashboard");
-    const isAuthPage = pathname?.includes("login") || 
-                       pathname?.includes("register") || 
-                       pathname?.includes("forgot-password");
-    
+    const isAuthPage =
+      pathname?.includes("login") ||
+      pathname?.includes("register") ||
+      pathname?.includes("forgot-password");
+
     setShowFooter(!isDashboard && !isAuthPage);
   }, [pathname]);
 

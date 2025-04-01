@@ -178,7 +178,7 @@ const ImagesTab = ({ formData, setFormData, setNewImages }: ImagesTabProps) => {
       {/* Debug information */}
       <div className="mt-4 p-2 bg-gray-50 rounded-md text-xs text-gray-500">
         <p>Debug Info:</p>
-        <p>Existing images: {formData?.imageUrls?.length || 0}</p>
+        <p>Existing images: {formData?.image?.length || 0}</p>
         <p>New images: {localImages.length}</p>
         <p>Room ID: {formData?._id}</p>
       </div>

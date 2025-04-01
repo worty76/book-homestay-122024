@@ -14,7 +14,6 @@ import { toast } from "sonner";
 import { useProfileStore } from "@/store/useProfileStore";
 
 const menuItems = [
-  { name: "TRANG CHỦ", url: "/" },
   { name: "GIỚI THIỆU", url: "/about" },
   { name: "TRẢI NGHIỆM", url: "/experiences" },
   { name: "ĐẶT PHÒNG", url: "/rooms" },

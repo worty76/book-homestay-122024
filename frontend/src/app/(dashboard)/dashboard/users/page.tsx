@@ -2,20 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { PlusCircle, Pencil, Trash2 } from "lucide-react";
-import { UserDialog } from "../../../../components/dashboard/users/user-dialog";
-import { DeleteConfirmDialog } from "../../../../components/dashboard/users/delete-confirm-dialog";
-import { toast } from "@/hooks/use-toast";
+import { PlusCircle } from "lucide-react";
+import { UserDataTable } from "@/components/dashboard/users/user-data-table";
+import { UserDialog } from "@/components/dashboard/users/user-dialog";
+import { DeleteConfirmDialog } from "@/components/dashboard/users/delete-confirm-dialog";
 import { useAuthStore } from "@/store/useAuthStore";
+import { toast } from "sonner";
 
 // Define user type
 interface User {
@@ -51,29 +43,24 @@ export default function UsersPage() {
 
   const fetchUsers = async () => {
     if (!token) {
-      toast({
-        title: "Error",
-        description: "Authentication required",
-        variant: "destructive",
-      });
+      toast.error("Authentication required");
       return;
     }
 
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/user`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         if (response.status === 401) {
-          toast({
-            title: "Session Expired",
-            description: "Please login again",
-            variant: "destructive",
-          });
+          toast.error("Session Expired");
           return;
         }
         throw new Error("Failed to fetch users");
@@ -90,11 +77,7 @@ export default function UsersPage() {
       }
     } catch (error) {
       console.error("Error fetching users:", error);
-      toast({
-        title: "Error",
-        description: "Failed to load users",
-        variant: "destructive",
-      });
+      toast.error("Failed to load users");
       // Fallback data
       setUsers([
         {
@@ -152,18 +135,11 @@ export default function UsersPage() {
       };
       setUsers([...users, newUser]);
 
-      toast({
-        title: "Success",
-        description: "User created successfully",
-      });
+      toast.success("User created successfully");
       return true;
     } catch (error) {
       console.error("Error creating user:", error);
-      toast({
-        title: "Error",
-        description: "Failed to create user",
-        variant: "destructive",
-      });
+      toast.error("Failed to create user");
       return false;
     }
   };
@@ -188,18 +164,11 @@ export default function UsersPage() {
         users.map((user) => (user._id === id ? { ...userData, _id: id } : user))
       );
 
-      toast({
-        title: "Success",
-        description: "User updated successfully",
-      });
+      toast.success("User updated successfully");
       return true;
     } catch (error) {
       console.error("Error updating user:", error);
-      toast({
-        title: "Error",
-        description: "Failed to update user",
-        variant: "destructive",
-      });
+      toast.error("Failed to update user");
       return false;
     }
   };
@@ -217,18 +186,11 @@ export default function UsersPage() {
 
       setUsers(users.filter((user) => user._id !== id));
 
-      toast({
-        title: "Success",
-        description: "User deleted successfully",
-      });
+      toast.success("User deleted successfully");
       return true;
     } catch (error) {
       console.error("Error deleting user:", error);
-      toast({
-        title: "Error",
-        description: "Failed to delete user",
-        variant: "destructive",
-      });
+      toast.error("Failed to delete user");
       return false;
     }
   };
@@ -269,7 +231,7 @@ export default function UsersPage() {
   return (
     <div className="flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold md:text-2xl">Manage Users</h1>
+        <h1 className="text-lg font-semibold md:text-2xl">Users</h1>
         <Button
           onClick={() => {
             setUserToEdit(null);
@@ -287,82 +249,11 @@ export default function UsersPage() {
           <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
         </div>
       ) : (
-        <div className="border rounded-lg overflow-hidden">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Username</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Phone</TableHead>
-                  <TableHead>Admin</TableHead>
-                  <TableHead>Verified</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {users && Array.isArray(users) && users.length === 0 ? (
-                  <TableRow>
-                    <TableCell
-                      colSpan={6}
-                      className="text-center py-4 text-muted-foreground"
-                    >
-                      No users found
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  users &&
-                  Array.isArray(users) &&
-                  users.map((user) => (
-                    <TableRow key={user._id} className="hover:bg-muted/50">
-                      <TableCell className="font-medium">
-                        {user.username}
-                      </TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.phoneNumber}</TableCell>
-                      <TableCell>
-                        <Badge variant={user.isAdmin ? "default" : "secondary"}>
-                          {user.isAdmin ? "Yes" : "No"}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Badge
-                          variant={
-                            user.verifiedAccount ? "default" : "secondary"
-                          }
-                        >
-                          {user.verifiedAccount ? "Verified" : "Unverified"}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex gap-2 justify-end">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleEdit(user)}
-                            className="flex items-center gap-1"
-                          >
-                            <Pencil className="h-3.5 w-3.5" />
-                            Edit
-                          </Button>
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => handleDelete(user)}
-                            className="flex items-center gap-1"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                            Delete
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
+        <UserDataTable
+          users={users}
+          onEditUser={handleEdit}
+          onDeleteUser={handleDelete}
+        />
       )}
 
       <UserDialog

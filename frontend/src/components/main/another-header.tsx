@@ -45,7 +45,7 @@ const AnotherHeader = ({
             </h1>
             <p className="text-base text-white md:text-lg">{description}</p>
 
-            {breadcrumb && (
+            {/* {breadcrumb && (
               <div className="flex justify-center w-full mt-6">
                 <BreadcrumbNav
                   darkMode={true}
@@ -53,7 +53,7 @@ const AnotherHeader = ({
                   listClassName="flex justify-center"
                 />
               </div>
-            )}
+            )} */}
           </div>
         </main>
       </div>

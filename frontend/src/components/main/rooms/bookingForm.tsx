@@ -26,12 +26,13 @@ import {
 import { addDays, differenceInDays, format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { vi } from "date-fns/locale";
-import { Room } from "@/data/rooms";
+import { BookingFormRoom } from "@/types/room";
 import { Separator } from "@/components/ui/separator";
 import BookingModal from "./bookingModal";
+import { formatCurrency } from "@/utils/roomUtils";
 
 interface BookingFormProps {
-  room: Room;
+  room: BookingFormRoom;
 }
 
 export default function BookingForm({ room }: BookingFormProps) {
@@ -53,42 +54,31 @@ export default function BookingForm({ room }: BookingFormProps) {
 
   // Calculate total price
   const totalPrice = room.price * numberOfNights;
-  const cleaningFee = 150000; // Example fee
+  const cleaningFee = room.cleaningFee || 150000; // Use room's cleaning fee or default
   const serviceFee = Math.round(totalPrice * 0.05); // 5% service fee
   const grandTotal = totalPrice + cleaningFee + serviceFee;
 
-  // Format currency
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      minimumFractionDigits: 0,
-    }).format(amount);
-  };
-
   return (
-    <Card className="sticky top-24 ">
-      <CardHeader>
+    <Card className="border-none shadow-md overflow-hidden">
+      <CardHeader className="bg-[#0a3b33] text-white">
         <CardTitle className="flex items-center justify-between">
-          <span>{formatCurrency(room.price)}</span>
-          <span className="text-sm font-normal text-muted-foreground">
-            / đêm
-          </span>
+          <span className="text-xl">{formatCurrency(room.price)}</span>
+          <span className="text-sm font-normal text-white/80">/ đêm</span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-6 p-6">
         {/* Date Range Picker */}
-        <div className="grid gap-2">
+        <div className="grid gap-3">
           <Popover>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-start text-left font-normal",
+                  "w-full justify-start text-left font-normal border-[#5a8d69]/30 hover:border-[#5a8d69] hover:bg-[#5a8d69]/5",
                   !dateRange && "text-muted-foreground"
                 )}
               >
-                <CalendarIcon className="mr-2 h-4 w-4" />
+                <CalendarIcon className="mr-2 h-4 w-4 text-[#5a8d69]" />
                 {dateRange?.from ? (
                   dateRange.to ? (
                     <>
@@ -122,11 +112,11 @@ export default function BookingForm({ room }: BookingFormProps) {
         </div>
 
         {/* Guests */}
-        <div className="grid gap-2">
+        <div className="grid gap-3">
           <Select value={guests} onValueChange={setGuests}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full border-[#5a8d69]/30 hover:border-[#5a8d69] hover:bg-[#5a8d69]/5">
               <div className="flex items-center">
-                <Users className="mr-2 h-4 w-4" />
+                <Users className="mr-2 h-4 w-4 text-[#5a8d69]" />
                 <SelectValue placeholder="Số lượng khách" />
               </div>
             </SelectTrigger>
@@ -142,41 +132,44 @@ export default function BookingForm({ room }: BookingFormProps) {
           </Select>
         </div>
 
-        <Separator className="my-4" />
+        <Separator className="my-4 bg-[#5a8d69]/20" />
 
         {/* Price Details */}
-        <div className="space-y-2">
+        <div className="space-y-3">
           <div className="flex justify-between">
-            <span>
+            <span className="text-[#0a3b33]/80">
               {formatCurrency(room.price)} x {numberOfNights} đêm
             </span>
-            <span>{formatCurrency(totalPrice)}</span>
+            <span className="font-medium">{formatCurrency(totalPrice)}</span>
           </div>
 
           <div className="flex justify-between">
-            <span>Phí vệ sinh</span>
-            <span>{formatCurrency(cleaningFee)}</span>
+            <span className="text-[#0a3b33]/80">Phí vệ sinh</span>
+            <span className="font-medium">{formatCurrency(cleaningFee)}</span>
           </div>
 
           <div className="flex justify-between">
-            <span>Phí dịch vụ</span>
-            <span>{formatCurrency(serviceFee)}</span>
+            <span className="text-[#0a3b33]/80">Phí dịch vụ</span>
+            <span className="font-medium">{formatCurrency(serviceFee)}</span>
           </div>
 
-          <Separator className="my-2" />
+          <Separator className="my-3 bg-[#5a8d69]/20" />
 
-          <div className="flex justify-between font-medium">
+          <div className="flex justify-between font-semibold text-lg">
             <span>Tổng tiền</span>
-            <span>{formatCurrency(grandTotal)}</span>
+            <span className="text-[#9C6B4A]">{formatCurrency(grandTotal)}</span>
           </div>
         </div>
       </CardContent>
 
-      <CardFooter>
+      <CardFooter className="bg-[#f8f3e9]/50 p-6 pt-0">
         <BookingModal
           room={room}
           trigger={
-            <Button className="w-full" size="lg">
+            <Button
+              className="w-full bg-[#9C6B4A] hover:bg-[#9C6B4A]/90 text-white"
+              size="lg"
+            >
               Đặt phòng
             </Button>
           }

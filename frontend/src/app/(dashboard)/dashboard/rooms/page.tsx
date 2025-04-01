@@ -2,11 +2,30 @@
 
 import { useState, useEffect } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
-import { RoomList } from "@/components/dashboard/rooms/room-list";
 import { AddRoomDialog } from "@/components/dashboard/rooms/add-room-dialog";
 import { EditRoomDialog } from "@/components/dashboard/rooms/edit-room-dialog";
 import { Room, FormDataRoom } from "@/components/dashboard/rooms/types";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { RoomDataTable } from "@/components/dashboard/rooms/room-data-table";
+
+const roomSchema = z.object({
+  name: z.string().min(1, "Room name is required"),
+  category: z.string().min(1, "Category is required"),
+  floor: z.string().min(1, "Floor is required"),
+  basePrice: z.string().min(1, "Base price is required"),
+  cleaningFee: z.string().min(1, "Cleaning fee is required"),
+  bathrooms: z.string().min(1, "Number of bathrooms is required"),
+  roomSize: z.string().min(1, "Room size is required"),
+  status: z.string().min(1, "Status is required"),
+  dailyRate: z.string().min(1, "Daily rate is required"),
+  maxGuests: z.string().min(1, "Maximum guests is required"),
+});
+
+type RoomFormValues = z.infer<typeof roomSchema>;
 
 export default function RoomsPage() {
   const [open, setOpen] = useState(false);
@@ -16,10 +35,35 @@ export default function RoomsPage() {
   const [error, setError] = useState<string | null>(null);
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
+
+  // Initialize React Hook Form
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    setValue,
+    getValues,
+  } = useForm<RoomFormValues>({
+    resolver: zodResolver(roomSchema),
+    defaultValues: {
+      name: "",
+      category: "",
+      floor: "",
+      basePrice: "",
+      cleaningFee: "",
+      bathrooms: "",
+      roomSize: "",
+      status: "",
+      dailyRate: "",
+      maxGuests: "",
+    },
+  });
+
   const [formData, setFormData] = useState<FormDataRoom>({
     name: "",
     category: "",
-    floor: "", 
+    floor: "",
     basePrice: "",
     cleaningFee: "",
     bathrooms: "",
@@ -37,15 +81,16 @@ export default function RoomsPage() {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/room`);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/room`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch rooms");
         }
         const data: Room[] = await response.json();
 
-        // Log the fetched data to check for image URLs
         console.log("Fetched rooms:", data);
-        console.log("Example room image URLs:", data[0]?.imageUrls);
+        console.log("Example room image URLs:", data[0]?.image);
 
         setRooms(data);
       } catch (err) {
@@ -62,7 +107,6 @@ export default function RoomsPage() {
     const files = e.target.files;
     if (files && files.length > 0) {
       const filesArray = Array.from(files);
-      // Instead of appending, replace the images state with the new selection.
       setImages(filesArray);
 
       const newPreviews = filesArray.map((file) => URL.createObjectURL(file));
@@ -76,7 +120,7 @@ export default function RoomsPage() {
     setImages(newImages);
 
     const newPreviews = [...previews];
-    URL.revokeObjectURL(newPreviews[index]); // Clean up the URL object
+    URL.revokeObjectURL(newPreviews[index]);
     newPreviews.splice(index, 1);
     setPreviews(newPreviews);
   };
@@ -87,26 +131,39 @@ export default function RoomsPage() {
       | { target: { name: string; value: string } }
   ) => {
     const { name, value } = e.target;
+    // Update form data for backward compatibility
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
+
+    // Update React Hook Form state
+    setValue(name as keyof RoomFormValues, value, {
+      shouldValidate: true,
+    });
   };
 
-  const handleSubmit = async () => {
+  const onSubmitForm = handleSubmit(async (data) => {
     try {
       setIsSubmitting(true);
-      console.log(formData);
+      console.log(data);
       const formDataToSend = new FormData();
 
-      (Object.keys(formData) as Array<keyof FormDataRoom>).forEach((key) => {
-        formDataToSend.append(key, formData[key]);
+      // Use validated data from React Hook Form
+      Object.entries(data).forEach(([key, value]) => {
+        formDataToSend.append(key, value);
       });
 
       if (images.length > 0) {
         images.forEach((image) => {
           formDataToSend.append("files", image);
         });
+      } else {
+        toast.error("Please upload at least one image", {
+          description: "Room requires at least one image",
+        });
+        setIsSubmitting(false);
+        return;
       }
 
       const response = await fetch(
@@ -128,28 +185,25 @@ export default function RoomsPage() {
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/room`
       ).then((res) => res.json());
       setRooms(updatedRooms);
-      toast({
-        title: "Room created",
+      toast.success("Room created", {
         description: "The room has been created successfully.",
-        variant: "default",
       });
+      reset(); // Reset form after successful submission
+      setImages([]);
+      setPreviews([]);
       setIsSubmitting(false);
       setOpen(false);
     } catch (error) {
       console.error("Error creating room:", error);
-      toast({
-        title: "Error",
+      toast.error("Failed to create room. Please try again.", {
         description: "Failed to create room. Please try again.",
-        variant: "destructive",
       });
       setIsSubmitting(false);
     }
-  };
+  });
 
   const handleEditRoom = (room: Room) => {
-    // Reset states before setting a new room to edit
     setSelectedRoom(null);
-    // Using setTimeout to ensure the state is reset before setting new values
     setTimeout(() => {
       setSelectedRoom(room);
       setEditDialogOpen(true);
@@ -162,7 +216,6 @@ export default function RoomsPage() {
       formData.append("roomData", JSON.stringify(updatedRoom));
 
       if (files && files.length > 0) {
-        // Log information for debugging
         console.log(`Uploading ${files.length} new images`);
 
         Array.from(files).forEach((file, index) => {
@@ -194,19 +247,15 @@ export default function RoomsPage() {
       setRooms(updatedRooms);
 
       // Show success toast and close dialog
-      toast({
-        title: "Room updated",
+      toast.success("Room updated", {
         description: "The room has been updated successfully.",
-        variant: "default",
       });
       setEditDialogOpen(false); // Close the dialog after successful update
     } catch (error) {
       console.error("Error updating room:", error);
-      toast({
-        title: "Error",
+      toast.error("Failed to update room. Please try again.", {
         description:
           error instanceof Error ? error.message : "Failed to update room",
-        variant: "destructive",
       });
     }
   };
@@ -240,17 +289,13 @@ export default function RoomsPage() {
       );
       setRooms(updatedRooms);
 
-      toast({
-        title: "Room deleted",
+      toast.success("Room deleted", {
         description: "The room has been deleted successfully.",
-        variant: "default",
       });
     } catch (error) {
       console.error("Error deleting room:", error);
-      toast({
-        title: "Error",
+      toast.error("Failed to delete room. Please try again.", {
         description: "Failed to delete room. Please try again.",
-        variant: "destructive",
       });
     } finally {
       setDeleteDialogOpen(false);
@@ -259,27 +304,43 @@ export default function RoomsPage() {
   };
 
   return (
-    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+    <div className="flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold md:text-2xl">Manage Rooms</h1>
-        <AddRoomDialog
-          open={open}
-          setOpen={setOpen}
-          onSubmit={handleSubmit}
-          isSubmitting={isSubmitting}
-          formData={formData}
-          handleInputChange={handleInputChange}
-          handleImageChange={handleImageChange}
-          previews={previews}
-          handleRemoveImage={handleRemoveImage}
-        />
+        <h1 className="text-lg font-semibold md:text-2xl">Rooms</h1>
+        <Button onClick={() => setOpen(true)}>Add Room</Button>
       </div>
-      <RoomList
-        rooms={rooms}
-        isLoading={isLoading}
-        error={error}
-        onEditRoom={handleEditRoom}
-        onDeleteRoom={handleDeleteRoom}
+
+      {isLoading ? (
+        <div className="flex items-center justify-center p-8">
+          <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
+        </div>
+      ) : error ? (
+        <div className="flex items-center justify-center p-8">
+          <div className="text-center text-red-500">{error}</div>
+        </div>
+      ) : (
+        <RoomDataTable
+          rooms={rooms}
+          onEditRoom={handleEditRoom}
+          onDeleteRoom={(room) => {
+            setRoomToDelete(room);
+            setDeleteDialogOpen(true);
+          }}
+        />
+      )}
+
+      <AddRoomDialog
+        open={open}
+        setOpen={setOpen}
+        onSubmit={onSubmitForm}
+        isSubmitting={isSubmitting}
+        formData={formData}
+        handleInputChange={handleInputChange}
+        handleImageChange={handleImageChange}
+        previews={previews}
+        handleRemoveImage={handleRemoveImage}
+        register={register}
+        errors={errors}
       />
       <EditRoomDialog
         room={selectedRoom}
@@ -316,6 +377,6 @@ export default function RoomsPage() {
           </div>
         </div>
       )}
-    </main>
+    </div>
   );
 }

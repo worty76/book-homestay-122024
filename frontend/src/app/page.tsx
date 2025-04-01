@@ -4,17 +4,48 @@ import ApartmentGallery from "@/components/main/ApartmentGallery";
 import BlogSection from "@/components/main/blog-section";
 import AboutSection from "@/components/main/aboutSection";
 import FacilitiesGrid from "@/components/main/facilities-grid";
-// import RoomList from "@/components/main/roomList";
+import RoomList from "@/components/main/roomList";
+import { generatePageMetadata } from "@/components/SEO/PageSEO";
+import {
+  OrganizationJsonLd,
+  AccommodationJsonLd,
+} from "@/components/SEO/JsonLd";
+
+export const metadata = generatePageMetadata({
+  title: "Ken Homestay - Premium Accommodation Experience",
+  description:
+    "Experience luxury homestay accommodations with Ken Homestay. Book your perfect stay with premium amenities, comfortable rooms and authentic local experiences.",
+  keywords:
+    "homestay, luxury accommodation, vacation rental, rooms, best rates, travel",
+  canonical: "/",
+});
 
 export default function Home() {
   return (
     <>
+      <OrganizationJsonLd
+        name="Ken Homestay"
+        url="https://ken-homestay.com"
+        logo="https://ken-homestay.com/images/logo.png"
+        address="123 Main Street, City, Country"
+        telephone="+1234567890"
+      />
+      <AccommodationJsonLd
+        name="Ken Homestay"
+        description="Experience luxury homestay accommodations with Ken Homestay. Book your perfect stay with premium amenities, comfortable rooms and authentic local experiences."
+        image="https://ken-homestay.com/images/homestay-exterior.jpg"
+        url="https://ken-homestay.com"
+        priceRange="$$$"
+        address="123 Main Street, City, Country"
+        rating={4.8}
+        reviewCount={124}
+      />
       <div className="relative min-h-screen overflow-hidden">
         <Hero />
       </div>
       <AboutSection />
       <ApartmentGallery />
-      {/* <RoomList /> */}
+      <RoomList />
       <FacilitiesGrid />
       <BlogSection />
       <Testimonials />

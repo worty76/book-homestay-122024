@@ -45,15 +45,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  if (pathname.startsWith("/dashboard") && !isAdmin) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
+  // if (pathname.startsWith("/dashboard") && !isAdmin) {
+  //   return NextResponse.redirect(new URL("/", request.url));
+  // }
 
-  if (isAuthenticated && isPublicPath && pathname === "/login") {
-    return NextResponse.redirect(
-      new URL(isAdmin ? "/dashboard" : "/", request.url)
-    );
-  }
+  // if (isAuthenticated && isPublicPath && pathname === "/login") {
+  //   return NextResponse.redirect(
+  //     new URL(isAdmin ? "/dashboard" : "/", request.url)
+  //   );
+  // }
 
   return NextResponse.next();
 }

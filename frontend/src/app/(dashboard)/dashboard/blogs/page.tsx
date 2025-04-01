@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
-import { BlogList } from "@/components/dashboard/blogs/blog-list";
+import { BlogDataTable } from "@/components/dashboard/blogs/blog-data-table";
 import { AddBlogDialog } from "@/components/dashboard/blogs/add-blog-dialog";
 import { EditBlogDialog } from "@/components/dashboard/blogs/edit-blog-dialog";
-import { toast } from "@/hooks/use-toast";
 import { Blog, FormDataBlog } from "@/components/dashboard/blogs/types";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function BlogsPage() {
   const [open, setOpen] = useState(false);
@@ -32,7 +33,9 @@ export default function BlogsPage() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog`);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch blogs");
         }
@@ -82,13 +85,16 @@ export default function BlogsPage() {
         formDataToSend.append("files", image);
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog/create`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formDataToSend,
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog/create`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formDataToSend,
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to create blog");
@@ -100,11 +106,7 @@ export default function BlogsPage() {
 
       setBlogs(updatedBlogs);
 
-      toast({
-        title: "Blog created",
-        description: "The blog post has been created successfully.",
-        variant: "default",
-      });
+      toast.success("Blog created");
 
       // Reset form
       setFormData({
@@ -120,11 +122,7 @@ export default function BlogsPage() {
       setOpen(false);
     } catch (error) {
       console.error("Error creating blog:", error);
-      toast({
-        title: "Error",
-        description: "Failed to create blog. Please try again.",
-        variant: "destructive",
-      });
+      toast.error("Failed to create blog. Please try again.");
       setIsSubmitting(false);
     }
   };
@@ -168,21 +166,14 @@ export default function BlogsPage() {
 
       setBlogs(updatedBlogs);
 
-      toast({
-        title: "Blog updated",
-        description: "The blog post has been updated successfully.",
-        variant: "default",
-      });
+      toast.success("Blog updated");
 
       setEditDialogOpen(false);
     } catch (error) {
       console.error("Error updating blog:", error);
-      toast({
-        title: "Error",
-        description:
-          error instanceof Error ? error.message : "Failed to update blog",
-        variant: "destructive",
-      });
+      toast.error(
+        error instanceof Error ? error.message : "Failed to update blog"
+      );
     }
   };
 
@@ -215,18 +206,10 @@ export default function BlogsPage() {
       );
       setBlogs(updatedBlogs);
 
-      toast({
-        title: "Blog deleted",
-        description: "The blog post has been deleted successfully.",
-        variant: "default",
-      });
+      toast.success("Blog deleted");
     } catch (error) {
       console.error("Error deleting blog:", error);
-      toast({
-        title: "Error",
-        description: "Failed to delete blog. Please try again.",
-        variant: "destructive",
-      });
+      toast.error("Failed to delete blog. Please try again.");
     } finally {
       setDeleteDialogOpen(false);
       setBlogToDelete(null);
@@ -234,26 +217,37 @@ export default function BlogsPage() {
   };
 
   return (
-    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+    <div className="flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold md:text-2xl">Manage Blogs</h1>
-        <AddBlogDialog
-          open={open}
-          setOpen={setOpen}
-          onSubmit={handleSubmit}
-          isSubmitting={isSubmitting}
-          formData={formData}
-          handleInputChange={handleInputChange}
-          handleImageChange={handleImageChange}
-          preview={preview}
-        />
+        <h1 className="text-lg font-semibold md:text-2xl">Blogs</h1>
+        <Button onClick={() => setOpen(true)}>Add Blog</Button>
       </div>
-      <BlogList
-        blogs={blogs}
-        isLoading={isLoading}
-        error={error}
-        onEditBlog={handleEditBlog}
-        onDeleteBlog={handleDeleteBlog}
+
+      {isLoading ? (
+        <div className="flex items-center justify-center p-8">
+          <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
+        </div>
+      ) : error ? (
+        <div className="flex items-center justify-center p-8">
+          <div className="text-center text-red-500">{error}</div>
+        </div>
+      ) : (
+        <BlogDataTable
+          blogs={blogs}
+          onEditBlog={handleEditBlog}
+          onDeleteBlog={handleDeleteBlog}
+        />
+      )}
+
+      <AddBlogDialog
+        open={open}
+        setOpen={setOpen}
+        onSubmit={handleSubmit}
+        isSubmitting={isSubmitting}
+        formData={formData}
+        handleInputChange={handleInputChange}
+        handleImageChange={handleImageChange}
+        preview={preview}
       />
       <EditBlogDialog
         blog={selectedBlog}
@@ -261,15 +255,14 @@ export default function BlogsPage() {
         onOpenChange={setEditDialogOpen}
         onSave={handleSaveBlog}
       />
-
       {/* Delete Confirmation Dialog */}
       {deleteDialogOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
             <h3 className="text-lg font-semibold mb-4">Confirm Delete</h3>
             <p className="mb-4">
-              Are you sure you want to delete this blog post? This action cannot
-              be undone.
+              Are you sure you want to delete this blog? This action cannot be
+              undone.
             </p>
             <div className="flex justify-end gap-4">
               <button
@@ -291,6 +284,6 @@ export default function BlogsPage() {
           </div>
         </div>
       )}
-    </main>
+    </div>
   );
 }
