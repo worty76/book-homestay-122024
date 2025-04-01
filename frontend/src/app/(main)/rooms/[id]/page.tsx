@@ -123,7 +123,7 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
         image="/images/img4.jpg"
       />
       <div className="bg-[#f8f3e9]">
-        <div className="container mx-auto px-4 py-8 ">
+        <div className="container mx-auto px-4 py-12">
           <RoomHeader
             name={room.name}
             bedsDescription={room.facilities.bedsDescription}
@@ -133,16 +133,22 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <RoomGallery images={room.image} alt={room.name} />
-              <RoomDetails room={roomDetailsData} />
-              <RoomAmenities
-                amenities={room.amenities}
-                bathroomAmenities={room.bathroomAmenities || []}
-              />
+              <div className="bg-white rounded-lg shadow-md p-6 my-8 border border-[#5a8d69]/10">
+                <RoomDetails room={roomDetailsData} />
+              </div>
+              <div className="bg-white rounded-lg p-6 ">
+                <RoomAmenities
+                  amenities={room.amenities}
+                  bathroomAmenities={room.bathroomAmenities || []}
+                />
+              </div>
             </div>
 
             <div className="lg:col-span-1">
               <div className="sticky top-8">
-                <BookingForm room={bookingFormData} />
+                <div className="bg-white rounded-lg shadow-md border border-[#5a8d69]/10">
+                  <BookingForm room={bookingFormData} />
+                </div>
               </div>
             </div>
           </div>
