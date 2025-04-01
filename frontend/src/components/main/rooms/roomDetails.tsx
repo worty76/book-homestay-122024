@@ -25,11 +25,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Room } from "@/data/rooms";
+import { RoomDetailDisplay } from "@/types/room";
 import { Badge } from "@/components/ui/badge";
 
 interface RoomDetailsProps {
-  room: Room;
+  room: RoomDetailDisplay;
 }
 
 export default function RoomDetails({ room }: RoomDetailsProps) {
@@ -242,11 +242,9 @@ interface DetailItemProps {
 
 function DetailItem({ icon, label, value }: DetailItemProps) {
   return (
-    <div className="flex flex-col items-center text-center">
-      <div className="p-3 rounded-full bg-[#8a9a5b]/70 mb-3 shadow-sm">
-        {icon}
-      </div>
-      <span className="text-sm text-[#F3ECDC]/80 mb-1">{label}</span>
+    <div className="flex flex-col items-center text-center gap-1">
+      <div className="p-2 rounded-full bg-[#3a574a] mb-1">{icon}</div>
+      <span className="text-[#F3ECDC]/80 text-sm">{label}</span>
       <span className="font-medium text-[#F3ECDC]">{value}</span>
     </div>
   );

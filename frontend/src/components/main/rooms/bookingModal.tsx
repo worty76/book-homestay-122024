@@ -49,11 +49,7 @@ interface BookingModalProps {
 }
 
 export default function BookingModal({ room, trigger }: BookingModalProps) {
-  // Get auth state directly with the standard hook
   const authState = useAuthStore();
-
-  // Log the entire auth state for debugging
-  console.log("Auth State:", authState);
 
   const [open, setOpen] = useState(false);
   const [dateRange, setDateRange] = useState<{

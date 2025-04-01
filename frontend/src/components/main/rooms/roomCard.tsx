@@ -15,11 +15,9 @@ interface RoomCardProps {
 
 export default function RoomCard({ room }: RoomCardProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const fallbackImage = "/images/placeholder-room.jpg"; // Create this placeholder if it doesn't exist
+  const fallbackImage = "/images/placeholder-room.jpg";
 
-  // Function to handle image loading errors
   const handleImageError = (e: any) => {
-    // Replace with fallback image
     e.currentTarget.src = fallbackImage;
   };
 
@@ -31,7 +29,6 @@ export default function RoomCard({ room }: RoomCardProps) {
     }).format(amount);
   };
 
-  // Room properties
   const roomSize = room.size;
   const roomFloor = room.floor;
 

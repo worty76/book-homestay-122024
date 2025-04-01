@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { ImagePlus, Upload, X } from "lucide-react";
 import { FormDataRoom } from "./types";
+import { UseFormRegister, FieldErrors } from "react-hook-form";
 
 interface RoomFormFieldsProps {
   formData: FormDataRoom;
@@ -17,8 +18,10 @@ interface RoomFormFieldsProps {
   handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   previews: string[]; // Changed from single preview to multiple
   handleRemoveImage: (index: number) => void; // Added function to remove an image
-  onSubmit: () => Promise<void>;
+  onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
   isSubmitting: boolean;
+  register: UseFormRegister<any>;
+  errors: FieldErrors<any>;
 }
 
 export function RoomFormFields({
@@ -29,6 +32,8 @@ export function RoomFormFields({
   handleRemoveImage,
   onSubmit,
   isSubmitting,
+  register,
+  errors,
 }: RoomFormFieldsProps) {
   return (
     <div className="grid gap-4 py-4">
@@ -81,6 +86,11 @@ export function RoomFormFields({
             <Upload className="h-4 w-4" />
             Choose Images
           </Label>
+          {previews.length === 0 && (
+            <p className="text-sm text-red-500">
+              Please upload at least one image
+            </p>
+          )}
         </div>
       </div>
 
@@ -89,11 +99,18 @@ export function RoomFormFields({
           <Label htmlFor="name">Room Name</Label>
           <Input
             id="name"
+            {...register("name")}
             name="name"
             value={formData.name}
             onChange={handleInputChange}
             placeholder="Enter room title"
+            className={errors.name ? "border-red-500" : ""}
           />
+          {errors.name && (
+            <p className="text-sm text-red-500">
+              {errors.name.message as string}
+            </p>
+          )}
         </div>
         <div className="grid gap-2">
           <Label htmlFor="category">Category</Label>
@@ -104,7 +121,7 @@ export function RoomFormFields({
               handleInputChange({ target: { name: "category", value } })
             }
           >
-            <SelectTrigger>
+            <SelectTrigger className={errors.category ? "border-red-500" : ""}>
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
@@ -113,6 +130,12 @@ export function RoomFormFields({
               <SelectItem value="double">Double</SelectItem>
             </SelectContent>
           </Select>
+          <input type="hidden" {...register("category")} />
+          {errors.category && (
+            <p className="text-sm text-red-500">
+              {errors.category.message as string}
+            </p>
+          )}
         </div>
       </div>
 
@@ -121,10 +144,17 @@ export function RoomFormFields({
           <Label htmlFor="floor">Floor</Label>
           <Input
             id="floor"
+            {...register("floor")}
             name="floor"
             value={formData.floor}
             onChange={handleInputChange}
+            className={errors.floor ? "border-red-500" : ""}
           />
+          {errors.floor && (
+            <p className="text-sm text-red-500">
+              {errors.floor.message as string}
+            </p>
+          )}
         </div>
         <div className="grid gap-2">
           <Label htmlFor="status">Status</Label>
@@ -135,7 +165,7 @@ export function RoomFormFields({
               handleInputChange({ target: { name: "status", value } })
             }
           >
-            <SelectTrigger>
+            <SelectTrigger className={errors.status ? "border-red-500" : ""}>
               <SelectValue placeholder="Select status" />
             </SelectTrigger>
             <SelectContent>
@@ -145,6 +175,12 @@ export function RoomFormFields({
               <SelectItem value="inactive">Inactive</SelectItem>
             </SelectContent>
           </Select>
+          <input type="hidden" {...register("status")} />
+          {errors.status && (
+            <p className="text-sm text-red-500">
+              {errors.status.message as string}
+            </p>
+          )}
         </div>
       </div>
 
@@ -153,21 +189,35 @@ export function RoomFormFields({
           <Label htmlFor="basePrice">Base Price</Label>
           <Input
             id="basePrice"
+            {...register("basePrice")}
             name="basePrice"
             type="number"
             value={formData.basePrice}
             onChange={handleInputChange}
+            className={errors.basePrice ? "border-red-500" : ""}
           />
+          {errors.basePrice && (
+            <p className="text-sm text-red-500">
+              {errors.basePrice.message as string}
+            </p>
+          )}
         </div>
         <div className="grid gap-2">
           <Label htmlFor="cleaningFee">Cleaning Fee</Label>
           <Input
             id="cleaningFee"
+            {...register("cleaningFee")}
             name="cleaningFee"
             type="number"
             value={formData.cleaningFee}
             onChange={handleInputChange}
+            className={errors.cleaningFee ? "border-red-500" : ""}
           />
+          {errors.cleaningFee && (
+            <p className="text-sm text-red-500">
+              {errors.cleaningFee.message as string}
+            </p>
+          )}
         </div>
       </div>
 
@@ -176,21 +226,35 @@ export function RoomFormFields({
           <Label htmlFor="bathrooms">Number of Bathrooms</Label>
           <Input
             id="bathrooms"
+            {...register("bathrooms")}
             name="bathrooms"
             type="number"
             value={formData.bathrooms}
             onChange={handleInputChange}
+            className={errors.bathrooms ? "border-red-500" : ""}
           />
+          {errors.bathrooms && (
+            <p className="text-sm text-red-500">
+              {errors.bathrooms.message as string}
+            </p>
+          )}
         </div>
         <div className="grid gap-2">
           <Label htmlFor="roomSize">Room Size (m²)</Label>
           <Input
             id="roomSize"
+            {...register("roomSize")}
             name="roomSize"
             type="number"
             value={formData.roomSize}
             onChange={handleInputChange}
+            className={errors.roomSize ? "border-red-500" : ""}
           />
+          {errors.roomSize && (
+            <p className="text-sm text-red-500">
+              {errors.roomSize.message as string}
+            </p>
+          )}
         </div>
       </div>
 
@@ -199,27 +263,41 @@ export function RoomFormFields({
           <Label htmlFor="dailyRate">Daily Rate</Label>
           <Input
             id="dailyRate"
+            {...register("dailyRate")}
             name="dailyRate"
             type="number"
             value={formData.dailyRate}
             onChange={handleInputChange}
+            className={errors.dailyRate ? "border-red-500" : ""}
           />
+          {errors.dailyRate && (
+            <p className="text-sm text-red-500">
+              {errors.dailyRate.message as string}
+            </p>
+          )}
         </div>
         <div className="grid gap-2">
           <Label htmlFor="maxGuests">Max Guests</Label>
           <Input
             id="maxGuests"
+            {...register("maxGuests")}
             name="maxGuests"
             type="number"
             value={formData.maxGuests}
             onChange={handleInputChange}
+            className={errors.maxGuests ? "border-red-500" : ""}
           />
+          {errors.maxGuests && (
+            <p className="text-sm text-red-500">
+              {errors.maxGuests.message as string}
+            </p>
+          )}
         </div>
       </div>
 
       <Button
         type="button"
-        className="mt-4"
+        className="mt-6 mb-4"
         onClick={onSubmit}
         disabled={isSubmitting}
       >

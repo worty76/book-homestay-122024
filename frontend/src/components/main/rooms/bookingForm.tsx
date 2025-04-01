@@ -26,12 +26,13 @@ import {
 import { addDays, differenceInDays, format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { vi } from "date-fns/locale";
-import { Room } from "@/data/rooms";
+import { BookingFormRoom } from "@/types/room";
 import { Separator } from "@/components/ui/separator";
 import BookingModal from "./bookingModal";
+import { formatCurrency } from "@/utils/roomUtils";
 
 interface BookingFormProps {
-  room: Room;
+  room: BookingFormRoom;
 }
 
 export default function BookingForm({ room }: BookingFormProps) {
@@ -53,18 +54,9 @@ export default function BookingForm({ room }: BookingFormProps) {
 
   // Calculate total price
   const totalPrice = room.price * numberOfNights;
-  const cleaningFee = 150000; // Example fee
+  const cleaningFee = room.cleaningFee || 150000; // Use room's cleaning fee or default
   const serviceFee = Math.round(totalPrice * 0.05); // 5% service fee
   const grandTotal = totalPrice + cleaningFee + serviceFee;
-
-  // Format currency
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      minimumFractionDigits: 0,
-    }).format(amount);
-  };
 
   return (
     <Card className="sticky top-24 ">
