@@ -6,8 +6,8 @@ import { BlogDataTable } from "@/components/dashboard/blogs/blog-data-table";
 import { AddBlogDialog } from "@/components/dashboard/blogs/add-blog-dialog";
 import { EditBlogDialog } from "@/components/dashboard/blogs/edit-blog-dialog";
 import { Blog, FormDataBlog } from "@/components/dashboard/blogs/types";
-import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function BlogsPage() {
   const [open, setOpen] = useState(false);
@@ -106,11 +106,7 @@ export default function BlogsPage() {
 
       setBlogs(updatedBlogs);
 
-      toast({
-        title: "Blog created",
-        description: "The blog post has been created successfully.",
-        variant: "default",
-      });
+      toast.success("Blog created");
 
       // Reset form
       setFormData({
@@ -126,11 +122,7 @@ export default function BlogsPage() {
       setOpen(false);
     } catch (error) {
       console.error("Error creating blog:", error);
-      toast({
-        title: "Error",
-        description: "Failed to create blog. Please try again.",
-        variant: "destructive",
-      });
+      toast.error("Failed to create blog. Please try again.");
       setIsSubmitting(false);
     }
   };
@@ -174,21 +166,14 @@ export default function BlogsPage() {
 
       setBlogs(updatedBlogs);
 
-      toast({
-        title: "Blog updated",
-        description: "The blog post has been updated successfully.",
-        variant: "default",
-      });
+      toast.success("Blog updated");
 
       setEditDialogOpen(false);
     } catch (error) {
       console.error("Error updating blog:", error);
-      toast({
-        title: "Error",
-        description:
-          error instanceof Error ? error.message : "Failed to update blog",
-        variant: "destructive",
-      });
+      toast.error(
+        error instanceof Error ? error.message : "Failed to update blog"
+      );
     }
   };
 
@@ -221,18 +206,10 @@ export default function BlogsPage() {
       );
       setBlogs(updatedBlogs);
 
-      toast({
-        title: "Blog deleted",
-        description: "The blog post has been deleted successfully.",
-        variant: "default",
-      });
+      toast.success("Blog deleted");
     } catch (error) {
       console.error("Error deleting blog:", error);
-      toast({
-        title: "Error",
-        description: "Failed to delete blog. Please try again.",
-        variant: "destructive",
-      });
+      toast.error("Failed to delete blog. Please try again.");
     } finally {
       setDeleteDialogOpen(false);
       setBlogToDelete(null);

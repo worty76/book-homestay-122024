@@ -6,8 +6,8 @@ import { PlusCircle } from "lucide-react";
 import { UserDataTable } from "@/components/dashboard/users/user-data-table";
 import { UserDialog } from "@/components/dashboard/users/user-dialog";
 import { DeleteConfirmDialog } from "@/components/dashboard/users/delete-confirm-dialog";
-import { toast } from "@/hooks/use-toast";
 import { useAuthStore } from "@/store/useAuthStore";
+import { toast } from "sonner";
 
 // Define user type
 interface User {
@@ -43,11 +43,7 @@ export default function UsersPage() {
 
   const fetchUsers = async () => {
     if (!token) {
-      toast({
-        title: "Error",
-        description: "Authentication required",
-        variant: "destructive",
-      });
+      toast.error("Authentication required");
       return;
     }
 
@@ -64,11 +60,7 @@ export default function UsersPage() {
 
       if (!response.ok) {
         if (response.status === 401) {
-          toast({
-            title: "Session Expired",
-            description: "Please login again",
-            variant: "destructive",
-          });
+          toast.error("Session Expired");
           return;
         }
         throw new Error("Failed to fetch users");
@@ -85,11 +77,7 @@ export default function UsersPage() {
       }
     } catch (error) {
       console.error("Error fetching users:", error);
-      toast({
-        title: "Error",
-        description: "Failed to load users",
-        variant: "destructive",
-      });
+      toast.error("Failed to load users");
       // Fallback data
       setUsers([
         {
@@ -147,18 +135,11 @@ export default function UsersPage() {
       };
       setUsers([...users, newUser]);
 
-      toast({
-        title: "Success",
-        description: "User created successfully",
-      });
+      toast.success("User created successfully");
       return true;
     } catch (error) {
       console.error("Error creating user:", error);
-      toast({
-        title: "Error",
-        description: "Failed to create user",
-        variant: "destructive",
-      });
+      toast.error("Failed to create user");
       return false;
     }
   };
@@ -183,18 +164,11 @@ export default function UsersPage() {
         users.map((user) => (user._id === id ? { ...userData, _id: id } : user))
       );
 
-      toast({
-        title: "Success",
-        description: "User updated successfully",
-      });
+      toast.success("User updated successfully");
       return true;
     } catch (error) {
       console.error("Error updating user:", error);
-      toast({
-        title: "Error",
-        description: "Failed to update user",
-        variant: "destructive",
-      });
+      toast.error("Failed to update user");
       return false;
     }
   };
@@ -212,18 +186,11 @@ export default function UsersPage() {
 
       setUsers(users.filter((user) => user._id !== id));
 
-      toast({
-        title: "Success",
-        description: "User deleted successfully",
-      });
+      toast.success("User deleted successfully");
       return true;
     } catch (error) {
       console.error("Error deleting user:", error);
-      toast({
-        title: "Error",
-        description: "Failed to delete user",
-        variant: "destructive",
-      });
+      toast.error("Failed to delete user");
       return false;
     }
   };
