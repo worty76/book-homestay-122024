@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
-import { RoomDataTable } from "@/components/dashboard/rooms/room-data-table";
 import { AddRoomDialog } from "@/components/dashboard/rooms/add-room-dialog";
 import { EditRoomDialog } from "@/components/dashboard/rooms/edit-room-dialog";
 import { Room, FormDataRoom } from "@/components/dashboard/rooms/types";
@@ -10,6 +9,8 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { RoomDataTable } from "@/components/dashboard/rooms/room-data-table";
 
 const roomSchema = z.object({
   name: z.string().min(1, "Room name is required"),
@@ -303,23 +304,12 @@ export default function RoomsPage() {
   };
 
   return (
-    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+    <div className="flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold md:text-2xl">Manage Rooms</h1>
-        <AddRoomDialog
-          open={open}
-          setOpen={setOpen}
-          onSubmit={onSubmitForm}
-          isSubmitting={isSubmitting}
-          formData={formData}
-          handleInputChange={handleInputChange}
-          handleImageChange={handleImageChange}
-          previews={previews}
-          handleRemoveImage={handleRemoveImage}
-          register={register}
-          errors={errors}
-        />
+        <h1 className="text-lg font-semibold md:text-2xl">Rooms</h1>
+        <Button onClick={() => setOpen(true)}>Add Room</Button>
       </div>
+
       {isLoading ? (
         <div className="flex items-center justify-center p-8">
           <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
@@ -328,21 +318,30 @@ export default function RoomsPage() {
         <div className="flex items-center justify-center p-8">
           <div className="text-center text-red-500">{error}</div>
         </div>
-      ) : rooms.length === 0 ? (
-        <div className="flex items-center justify-center p-8 border rounded-lg">
-          <div className="text-center text-muted-foreground">
-            No rooms found. Add your first room!
-          </div>
-        </div>
       ) : (
-        <div className="rounded-lg overflow-hidden">
-          <RoomDataTable
-            rooms={rooms}
-            onEditRoom={handleEditRoom}
-            onDeleteRoom={handleDeleteRoom}
-          />
-        </div>
+        <RoomDataTable
+          rooms={rooms}
+          onEditRoom={handleEditRoom}
+          onDeleteRoom={(room) => {
+            setRoomToDelete(room);
+            setDeleteDialogOpen(true);
+          }}
+        />
       )}
+
+      <AddRoomDialog
+        open={open}
+        setOpen={setOpen}
+        onSubmit={onSubmitForm}
+        isSubmitting={isSubmitting}
+        formData={formData}
+        handleInputChange={handleInputChange}
+        handleImageChange={handleImageChange}
+        previews={previews}
+        handleRemoveImage={handleRemoveImage}
+        register={register}
+        errors={errors}
+      />
       <EditRoomDialog
         room={selectedRoom}
         open={editDialogOpen}
@@ -378,6 +377,6 @@ export default function RoomsPage() {
           </div>
         </div>
       )}
-    </main>
+    </div>
   );
 }

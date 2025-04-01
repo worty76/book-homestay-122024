@@ -2,18 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { PlusCircle, Pencil, Trash2 } from "lucide-react";
-import { UserDialog } from "../../../../components/dashboard/users/user-dialog";
-import { DeleteConfirmDialog } from "../../../../components/dashboard/users/delete-confirm-dialog";
+import { PlusCircle } from "lucide-react";
+import { UserDataTable } from "@/components/dashboard/users/user-data-table";
+import { UserDialog } from "@/components/dashboard/users/user-dialog";
+import { DeleteConfirmDialog } from "@/components/dashboard/users/delete-confirm-dialog";
 import { toast } from "@/hooks/use-toast";
 import { useAuthStore } from "@/store/useAuthStore";
 
@@ -61,11 +53,14 @@ export default function UsersPage() {
 
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/user`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         if (response.status === 401) {
@@ -269,7 +264,7 @@ export default function UsersPage() {
   return (
     <div className="flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold md:text-2xl">Manage Users</h1>
+        <h1 className="text-lg font-semibold md:text-2xl">Users</h1>
         <Button
           onClick={() => {
             setUserToEdit(null);
@@ -287,82 +282,11 @@ export default function UsersPage() {
           <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
         </div>
       ) : (
-        <div className="border rounded-lg overflow-hidden">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Username</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Phone</TableHead>
-                  <TableHead>Admin</TableHead>
-                  <TableHead>Verified</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {users && Array.isArray(users) && users.length === 0 ? (
-                  <TableRow>
-                    <TableCell
-                      colSpan={6}
-                      className="text-center py-4 text-muted-foreground"
-                    >
-                      No users found
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  users &&
-                  Array.isArray(users) &&
-                  users.map((user) => (
-                    <TableRow key={user._id} className="hover:bg-muted/50">
-                      <TableCell className="font-medium">
-                        {user.username}
-                      </TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.phoneNumber}</TableCell>
-                      <TableCell>
-                        <Badge variant={user.isAdmin ? "default" : "secondary"}>
-                          {user.isAdmin ? "Yes" : "No"}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Badge
-                          variant={
-                            user.verifiedAccount ? "default" : "secondary"
-                          }
-                        >
-                          {user.verifiedAccount ? "Verified" : "Unverified"}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex gap-2 justify-end">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleEdit(user)}
-                            className="flex items-center gap-1"
-                          >
-                            <Pencil className="h-3.5 w-3.5" />
-                            Edit
-                          </Button>
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => handleDelete(user)}
-                            className="flex items-center gap-1"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                            Delete
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
+        <UserDataTable
+          users={users}
+          onEditUser={handleEdit}
+          onDeleteUser={handleDelete}
+        />
       )}
 
       <UserDialog

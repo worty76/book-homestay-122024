@@ -23,15 +23,15 @@ export function RoomDataTable({
   onDeleteRoom,
 }: RoomDataTableProps) {
   const columns = [
-    createSortableColumn<Room, string>("name", "Room Name"),
+    createSortableColumn<Room, string>("name", "Name", ({ getValue }) => (
+      <div className="font-medium">{getValue()}</div>
+    )),
 
-    createSortableColumn<Room, string>(
-      "category",
-      "Category",
-      ({ getValue }) => <div className="capitalize">{getValue()}</div>
-    ),
+    createColumn<Room, string>("category", "Category", ({ getValue }) => (
+      <div className="capitalize">{getValue()}</div>
+    )),
 
-    createSortableColumn<Room, number>("floor", "Floor", ({ getValue }) => (
+    createColumn<Room, number>("floor", "Floor", ({ getValue }) => (
       <div>Floor {getValue()}</div>
     )),
 
@@ -47,7 +47,13 @@ export function RoomDataTable({
 
     createColumn<Room, string>("status", "Status", ({ row }) => (
       <Badge
-        variant={row.original.status === "available" ? "outline" : "secondary"}
+        variant={
+          row.original.status === "available"
+            ? "outline"
+            : row.original.status === "maintenance"
+            ? "destructive"
+            : "secondary"
+        }
       >
         {row.original.status}
       </Badge>
@@ -82,7 +88,7 @@ export function RoomDataTable({
       columns={columns}
       data={rooms}
       searchColumn="name"
-      searchPlaceholder="Filter rooms..."
+      searchPlaceholder="Search rooms..."
     />
   );
 }

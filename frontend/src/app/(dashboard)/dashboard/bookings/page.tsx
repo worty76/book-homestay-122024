@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
-import { BookingsTable } from "@/components/dashboard/bookings/bookings-table";
+import { BookingsDataTable } from "@/components/dashboard/bookings/bookings-data-table";
 import { BookingDetailsDialog } from "@/components/dashboard/bookings/booking-details-dialog";
 import { BookingDetails, BookingWithDetails } from "@/types/booking";
 
@@ -133,9 +133,8 @@ export default function BookingsPage() {
         <h1 className="text-lg font-semibold md:text-2xl">Manage Bookings</h1>
       </div>
 
-      <BookingsTable
+      <BookingsDataTable
         bookings={bookings}
-        isLoading={loading}
         onViewDetails={(booking) => {
           setSelectedBooking(booking);
           fetchBookingDetails(booking._id);
