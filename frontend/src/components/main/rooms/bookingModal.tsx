@@ -39,13 +39,15 @@ import Cookies from "js-cookie";
 import { createVnpayPayment } from "@/services/paymentService";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CreditCard, Wallet } from "lucide-react";
+import { RoomCardProps } from "./roomCard"; // Import the RoomCardProps interface
 
 // API endpoint for bookings
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
-interface BookingModalProps {
-  room: Room;
-  trigger?: React.ReactNode;
+// Update the type definition to match RoomCardProps
+export interface BookingModalProps {
+  room: RoomCardProps["room"]; // Use the same room type as RoomCard
+  trigger: React.ReactNode;
 }
 
 export default function BookingModal({ room, trigger }: BookingModalProps) {

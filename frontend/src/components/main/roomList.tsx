@@ -38,6 +38,7 @@ interface Room {
   amenities: string[];
   bathroomAmenities: string[];
   images: string[];
+  rating?: number; // Add rating property
 }
 
 // API Room interface
@@ -55,8 +56,10 @@ interface ApiRoom {
   };
   facilities: {
     roomSize: number;
+    bedsDescription?: Array<{ type: string }>;
   };
   amenities: string[];
+  averageRating?: number;
 }
 
 const RoomList = () => {
@@ -181,18 +184,24 @@ const RoomList = () => {
                             name: room.name,
                             description: room.description || "",
                             price: room.dailyRate,
-                            type:
-                              room.facilities.bedsDescription[0]?.type ||
-                              "Standard",
-                            view: "Window", // Default value as it's not in API
-                            category: room.category as any,
+                            // Explicitly cast to RoomType
+                            type: (room.facilities.bedsDescription?.[0]?.type ||
+                              "Double") as RoomType,
+                            // Explicitly cast to ViewType
+                            view: "Window" as ViewType,
+                            // Explicitly cast to RoomCategory
+                            category: room.category as RoomCategory,
                             images: room.image,
                             maxCapacity: room.capacity.maxGuests,
                             amenities: room.amenities,
                             available: room.status === "available",
-                            rating: room.averageRating,
-                            floor: room.floor || "1", // Pass floor from API or default to "1"
+                            rating: room.averageRating || 0,
+                            floor: parseInt(room.floor || "1", 10),
                             size: room.facilities.roomSize || 20,
+                            // Adding missing required properties with default values
+                            story: "",
+                            mainColors: ["#ffffff", "#f5f5f5"],
+                            bathroomAmenities: [],
                           }}
                         />
                       </motion.div>

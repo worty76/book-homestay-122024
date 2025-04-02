@@ -3,14 +3,32 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Users, Maximize, Building2 } from "lucide-react";
+import { ArrowRight, Users, Maximize, Building2, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import BookingModal from "./bookingModal";
-import { Room } from "@/data/rooms";
 
-interface RoomCardProps {
-  room: Room;
+// Define the RoomCardProps interface
+export interface RoomCardProps {
+  room: {
+    id: string;
+    name: string;
+    floor: number;
+    type: string;
+    category: string;
+    view: string;
+    size: number;
+    maxCapacity: number;
+    price: number;
+    available: boolean;
+    description: string;
+    story: string;
+    mainColors: string[];
+    amenities: string[];
+    bathroomAmenities: string[];
+    images: string[];
+    rating: number; // Include rating property
+  };
 }
 
 export default function RoomCard({ room }: RoomCardProps) {
