@@ -202,6 +202,39 @@ const RoomList = () => {
                             story: "",
                             mainColors: ["#ffffff", "#f5f5f5"],
                             bathroomAmenities: [],
+                            // Add the missing properties
+                            maxAdults: room.capacity.maxGuests,
+                            maxChildren: 0,
+                            // Optional properties with default values
+                            cleaningFee: 0,
+                            securityDeposit: 0,
+                            basePrice: room.dailyRate,
+                            bedrooms: 1,
+                            bathrooms: 1,
+                            checkInTime: "14:00",
+                            checkOutTime: "12:00",
+                            houseRules: {
+                              smokingAllowed: false,
+                              petsAllowed: false,
+                              partiesAllowed: false,
+                              checkInTime: "14:00",
+                              checkOutTime: "12:00",
+                            },
+                            bedsDescription: room.facilities.bedsDescription
+                              ? room.facilities.bedsDescription.map(
+                                  (bed: { type?: string }) => ({
+                                    type: bed.type || "Double",
+                                    count: 1, // Default count value
+                                    _id: room._id + "-bed", // Generate a unique ID
+                                  })
+                                )
+                              : [
+                                  {
+                                    type: "Double",
+                                    count: 1,
+                                    _id: room._id + "-default-bed",
+                                  },
+                                ],
                           }}
                         />
                       </motion.div>

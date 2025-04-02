@@ -40,43 +40,47 @@ import { createVnpayPayment } from "@/services/paymentService";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CreditCard, Wallet } from "lucide-react";
 import { RoomCardProps } from "./roomCard"; // Import the RoomCardProps interface
+import { ReactNode } from "react";
+import { BookingFormRoom } from "@/types/room";
 
 // API endpoint for bookings
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
 // Update the type definition to match RoomCardProps
 export interface BookingModalProps {
-  room: RoomCardProps["room"]; // Use the same room type as RoomCard
-  trigger: React.ReactNode;
+  room: BookingFormRoom;
+  dateRange: {
+    from: Date;
+    to?: Date;
+  };
+  numberOfNights: number;
+  totalPrice: number;
+  guests: number;
+  trigger: ReactNode;
 }
 
-export default function BookingModal({ room, trigger }: BookingModalProps) {
+export default function BookingModal({
+  room,
+  dateRange: initialDateRange,
+  numberOfNights,
+  totalPrice,
+  guests: initialGuests,
+  trigger,
+}: BookingModalProps) {
   const authState = useAuthStore();
 
   const [open, setOpen] = useState(false);
-  const [dateRange, setDateRange] = useState<{
-    from: Date;
-    to?: Date;
-  }>({
-    from: new Date(),
-    to: addDays(new Date(), 3),
-  });
-  const [guests, setGuests] = useState("1");
   const [formData, setFormData] = useState({
     specialRequests: "",
   });
+  const [dateRange, setDateRange] = useState(initialDateRange);
+  const [guests, setGuests] = useState(initialGuests.toString());
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
   const [paymentMethod, setPaymentMethod] = useState<"CASH" | "VNPAY">("CASH");
   const [processingPayment, setProcessingPayment] = useState(false);
 
-  // Calculate number of nights
-  const numberOfNights = dateRange.to
-    ? differenceInDays(dateRange.to, dateRange.from)
-    : 0;
-
   // Calculate total price
-  const totalPrice = room.price * numberOfNights;
   const cleaningFee = 150000; // Example fee
   const serviceFee = Math.round(totalPrice * 0.05); // 5% service fee
   const grandTotal = totalPrice + cleaningFee + serviceFee;

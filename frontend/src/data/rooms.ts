@@ -11,6 +11,8 @@ export interface Room {
   view: ViewType;
   size: number;
   maxCapacity: number;
+  maxAdults: number;
+  maxChildren: number;
   price: number;
   available: boolean;
   description: string;
@@ -19,6 +21,26 @@ export interface Room {
   amenities: string[];
   bathroomAmenities: string[];
   images: string[];
+  rating: number;
+  cleaningFee?: number;
+  securityDeposit?: number;
+  basePrice?: number;
+  bedrooms?: number;
+  bathrooms?: number;
+  checkInTime?: string;
+  checkOutTime?: string;
+  houseRules?: {
+    smokingAllowed: boolean;
+    petsAllowed: boolean;
+    partiesAllowed: boolean;
+    checkInTime: string;
+    checkOutTime: string;
+  };
+  bedsDescription?: {
+    type: string;
+    count: number;
+    _id: string;
+  }[];
 }
 
 export const rooms: Room[] = [
@@ -31,6 +53,8 @@ export const rooms: Room[] = [
     view: "Balcony",
     size: 35,
     maxCapacity: 2,
+    maxAdults: 2,
+    maxChildren: 0,
     price: 900000,
     available: true,
     description:
@@ -70,6 +94,28 @@ export const rooms: Room[] = [
       "/images/view/3.png",
       "/images/view/3.png",
     ],
+    rating: 4.8,
+    cleaningFee: 100000,
+    securityDeposit: 500000,
+    basePrice: 900000,
+    bedrooms: 1,
+    bathrooms: 1,
+    checkInTime: "14:00",
+    checkOutTime: "12:00",
+    houseRules: {
+      smokingAllowed: false,
+      petsAllowed: false,
+      partiesAllowed: false,
+      checkInTime: "14:00",
+      checkOutTime: "12:00",
+    },
+    bedsDescription: [
+      {
+        type: "Double",
+        count: 1,
+        _id: "phong-nam-bed",
+      },
+    ],
   },
   {
     id: "non-nuoc",
@@ -80,6 +126,8 @@ export const rooms: Room[] = [
     view: "Window",
     size: 35,
     maxCapacity: 2,
+    maxAdults: 2,
+    maxChildren: 0,
     price: 800000,
     available: true,
     description:
@@ -117,6 +165,28 @@ export const rooms: Room[] = [
       "/images/view/3.png",
       "/images/view/4.png",
     ],
+    rating: 4.5,
+    cleaningFee: 80000,
+    securityDeposit: 400000,
+    basePrice: 800000,
+    bedrooms: 1,
+    bathrooms: 1,
+    checkInTime: "14:00",
+    checkOutTime: "12:00",
+    houseRules: {
+      smokingAllowed: false,
+      petsAllowed: false,
+      partiesAllowed: false,
+      checkInTime: "14:00",
+      checkOutTime: "12:00",
+    },
+    bedsDescription: [
+      {
+        type: "Twin",
+        count: 2,
+        _id: "non-nuoc-bed",
+      },
+    ],
   },
   {
     id: "hai-cau-vien",
@@ -127,6 +197,8 @@ export const rooms: Room[] = [
     view: "Window",
     size: 35,
     maxCapacity: 2,
+    maxAdults: 2,
+    maxChildren: 0,
     price: 800000,
     available: true,
     description:
@@ -164,6 +236,28 @@ export const rooms: Room[] = [
       "/images/view/3.png",
       "/images/view/4.png",
     ],
+    rating: 4.5,
+    cleaningFee: 80000,
+    securityDeposit: 400000,
+    basePrice: 800000,
+    bedrooms: 1,
+    bathrooms: 1,
+    checkInTime: "14:00",
+    checkOutTime: "12:00",
+    houseRules: {
+      smokingAllowed: false,
+      petsAllowed: false,
+      partiesAllowed: false,
+      checkInTime: "14:00",
+      checkOutTime: "12:00",
+    },
+    bedsDescription: [
+      {
+        type: "Twin",
+        count: 2,
+        _id: "hai-cau-vien-bed",
+      },
+    ],
   },
   {
     id: "lua-hoi",
@@ -174,6 +268,8 @@ export const rooms: Room[] = [
     view: "Balcony",
     size: 35,
     maxCapacity: 2,
+    maxAdults: 2,
+    maxChildren: 0,
     price: 900000,
     available: true,
     description:
@@ -213,6 +309,28 @@ export const rooms: Room[] = [
       "/images/view/8.png",
       "/images/view/8.png",
     ],
+    rating: 4.8,
+    cleaningFee: 100000,
+    securityDeposit: 500000,
+    basePrice: 900000,
+    bedrooms: 1,
+    bathrooms: 1,
+    checkInTime: "14:00",
+    checkOutTime: "12:00",
+    houseRules: {
+      smokingAllowed: false,
+      petsAllowed: false,
+      partiesAllowed: false,
+      checkInTime: "14:00",
+      checkOutTime: "12:00",
+    },
+    bedsDescription: [
+      {
+        type: "Double",
+        count: 1,
+        _id: "lua-hoi-bed",
+      },
+    ],
   },
   {
     id: "ngu-binh",
@@ -223,6 +341,8 @@ export const rooms: Room[] = [
     view: "Window",
     size: 30,
     maxCapacity: 6,
+    maxAdults: 6,
+    maxChildren: 0,
     price: 300000,
     available: true,
     description:
@@ -259,9 +379,35 @@ export const rooms: Room[] = [
       "/images/view/8.png",
       "/images/view/8.png",
     ],
+    rating: 4.2,
+    cleaningFee: 50000,
+    securityDeposit: 200000,
+    basePrice: 300000,
+    bedrooms: 1,
+    bathrooms: 1,
+    checkInTime: "14:00",
+    checkOutTime: "12:00",
+    houseRules: {
+      smokingAllowed: false,
+      petsAllowed: false,
+      partiesAllowed: false,
+      checkInTime: "14:00",
+      checkOutTime: "12:00",
+    },
+    bedsDescription: [
+      {
+        type: "Bunk",
+        count: 3,
+        _id: "ngu-binh-bed",
+      },
+    ],
   },
 ];
 
 export function getRoomById(id: string): Room | undefined {
-  return rooms.find(room => room.id === id);
+  return rooms.find((room) => room.id === id);
+}
+
+export function getAllRooms(): Room[] {
+  return rooms;
 }

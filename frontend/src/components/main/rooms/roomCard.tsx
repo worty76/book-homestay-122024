@@ -19,6 +19,8 @@ export interface RoomCardProps {
     view: string;
     size: number;
     maxCapacity: number;
+    maxAdults: number;
+    maxChildren: number;
     price: number;
     available: boolean;
     description: string;
@@ -27,7 +29,26 @@ export interface RoomCardProps {
     amenities: string[];
     bathroomAmenities: string[];
     images: string[];
-    rating: number; // Include rating property
+    rating: number;
+    cleaningFee?: number;
+    securityDeposit?: number;
+    basePrice?: number;
+    bedrooms?: number;
+    bathrooms?: number;
+    checkInTime?: string;
+    checkOutTime?: string;
+    houseRules?: {
+      smokingAllowed: boolean;
+      petsAllowed: boolean;
+      partiesAllowed: boolean;
+      checkInTime: string;
+      checkOutTime: string;
+    };
+    bedsDescription?: {
+      type: string;
+      count: number;
+      _id: string;
+    }[];
   };
 }
 
@@ -79,6 +100,13 @@ export default function RoomCard({ room }: RoomCardProps) {
         >
           <BookingModal
             room={room}
+            dateRange={{
+              from: new Date(),
+              to: new Date(new Date().setDate(new Date().getDate() + 1)),
+            }}
+            numberOfNights={1}
+            totalPrice={room.price}
+            guests={1}
             trigger={
               <Button
                 size="lg"
@@ -124,6 +152,13 @@ export default function RoomCard({ room }: RoomCardProps) {
           <div className="flex items-center gap-4">
             <BookingModal
               room={room}
+              dateRange={{
+                from: new Date(),
+                to: new Date(new Date().setDate(new Date().getDate() + 1)),
+              }}
+              numberOfNights={1}
+              totalPrice={room.price}
+              guests={1}
               trigger={
                 <Button
                   variant="outline"
