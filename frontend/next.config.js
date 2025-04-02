@@ -2,9 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
 
-  // Add output configuration for better Vercel compatibility
-  output: "standalone",
-
   // Remove trailing slash to match Vercel config
   trailingSlash: false,
 
@@ -12,8 +9,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/assets/:path*",
-        destination: "/assets/:path*", // Modified to use direct path
+        source: "/images/:path*",
+        destination: "/images/:path*", // Maps to public/images directory
       },
       {
         source: "/about",
@@ -32,14 +29,7 @@ const nextConfig = {
   },
 
   images: {
-    domains: [
-      "source.unsplash.com",
-      "res.cloudinary.com",
-      "localhost",
-      "127.0.0.1",
-      "vercel.app", // Add Vercel domain for images
-      "vercel.com",
-    ],
+    // Removed deprecated 'domains' configuration
     remotePatterns: [
       {
         protocol: "https",
@@ -75,13 +65,35 @@ const nextConfig = {
 
   // Ensure CSS is properly extracted and loaded
   webpack: (config, { isServer, dev }) => {
-    // This ensures Tailwind works properly
+    // Ensure Tailwind CSS processing works correctly
+    const rules = config.module.rules
+      .find((rule) => typeof rule.oneOf === "object")
+      .oneOf.filter((rule) => Array.isArray(rule.use));
+
+    // Make sure CSS processing includes PostCSS with Tailwind
+    if (rules) {
+      rules.forEach((rule) => {
+        if (rule.use && Array.isArray(rule.use)) {
+          const cssLoader = rule.use.find(
+            (u) => u.loader && u.loader.includes("css-loader")
+          );
+          if (cssLoader && cssLoader.options) {
+            // Ensure importLoaders is set correctly for PostCSS
+            cssLoader.options.importLoaders =
+              rule.use.length - rule.use.indexOf(cssLoader) - 1;
+          }
+        }
+      });
+    }
+
     return config;
   },
 
   // Add experimental features to help with routing
   experimental: {
     scrollRestoration: true,
+    // Add optimizeCss for production builds
+    optimizeCss: process.env.NODE_ENV === "production",
   },
 };
 
