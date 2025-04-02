@@ -1,21 +1,32 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+
   // Add output configuration for better Vercel compatibility
   output: "standalone",
 
-  // Enable trailing slash for consistent URL handling
-  trailingSlash: true,
+  // Remove trailing slash to match Vercel config
+  trailingSlash: false,
 
-  // Configure rewrites to handle potential 404 errors
+  // Configure rewrites to handle assets and routes properly
   async rewrites() {
     return [
       {
-        source: "/:path*",
-        destination: "/:path*",
+        source: "/assets/:path*",
+        destination: "/html/digitalize/assets/:path*",
       },
       {
-        source: "/",
-        destination: "/",
+        source: "/about",
+        destination: "/html/digitalize/index.html",
+      },
+      {
+        source: "/contact",
+        destination: "/html/digitalize/index.html",
+      },
+      // Fallback route
+      {
+        source: "/:path*",
+        destination: "/:path*",
       },
     ];
   },
@@ -26,6 +37,8 @@ const nextConfig = {
       "res.cloudinary.com",
       "localhost",
       "127.0.0.1",
+      "vercel.app", // Add Vercel domain for images
+      "vercel.com",
     ],
     remotePatterns: [
       {
@@ -46,10 +59,18 @@ const nextConfig = {
         protocol: "http",
         hostname: "127.0.0.1",
       },
+      {
+        protocol: "https",
+        hostname: "**.vercel.app",
+      },
+      {
+        protocol: "https",
+        hostname: "**.vercel.com",
+      },
     ],
+    // Ensure images are properly handled
+    unoptimized: process.env.NODE_ENV === "production",
   },
-
-  // Remove distDir setting as it's causing the routes-manifest.json issue
 
   // Add experimental features to help with routing
   experimental: {
