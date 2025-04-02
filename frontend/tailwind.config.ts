@@ -1,12 +1,12 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/Components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: ["class"],
   theme: {
     container: {
       center: true,
@@ -87,5 +87,6 @@ const config: Config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
+  important: true,
 };
 export default config;
