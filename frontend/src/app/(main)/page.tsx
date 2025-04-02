@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Hero } from "@/components/main/Hero";
 import { Testimonials } from "@/components/main/Testimonials";
 import ApartmentGallery from "@/components/main/ApartmentGallery";
@@ -49,6 +49,13 @@ function HomeContent() {
 
 // Main component wrapped in Suspense
 export default function HomePage() {
+  const [isClient, setIsClient] = useState(false);
+
+  // This ensures the component is hydrated properly
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <Suspense
       fallback={
@@ -57,7 +64,7 @@ export default function HomePage() {
         </div>
       }
     >
-      <HomeContent />
+      {isClient ? <HomeContent /> : null}
     </Suspense>
   );
 }

@@ -1,4 +1,4 @@
-import "./globals.css";
+import "@/app/globals.css";
 import { openSans, pinyonScript, playFair, roboto } from "@/lib/fonts";
 import ClientLayout from "@/components/layouts/ClientLayout";
 import { Toaster } from "@/components/ui/toaster";
@@ -20,8 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${roboto.variable} ${openSans.variable} ${playFair.variable} ${pinyonScript.variable} antialiased`}
-        suppressHydrationWarning={true}
+        className={`${roboto.variable} ${openSans.variable} ${playFair.variable} ${pinyonScript.variable} font-primary antialiased`}
       >
         <ClientLayout>{children}</ClientLayout>
         <Toaster />
