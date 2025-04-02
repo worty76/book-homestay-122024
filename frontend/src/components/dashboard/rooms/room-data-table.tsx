@@ -41,11 +41,11 @@ export function RoomDataTable({
       ({ getValue }) => <div>${getValue()}</div>
     ),
 
-    createColumn<Room, any>("capacity", "Capacity", ({ row }) => (
+    createColumn<Room, any>("capacity", "Capacity", ({ row }: any) => (
       <div>{row.original.capacity?.maxGuests || 0} guests</div>
     )),
 
-    createColumn<Room, string>("status", "Status", ({ row }) => (
+    createColumn<Room, string>("status", "Status", ({ row }: any) => (
       <Badge
         variant={
           row.original.status === "available"
@@ -81,7 +81,7 @@ export function RoomDataTable({
         </Button>
       </div>
     )),
-  ];
+  ] as any;
 
   return (
     <DataTable
