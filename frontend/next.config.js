@@ -20,9 +20,6 @@ const nextConfig = {
     ];
   },
 
-  // Add proper basePath if your app isn't deployed at the root
-  // basePath: '',
-
   images: {
     domains: [
       "source.unsplash.com",
@@ -52,8 +49,7 @@ const nextConfig = {
     ],
   },
 
-  // Ensure proper static handling
-  distDir: "build",
+  // Remove distDir setting as it's causing the routes-manifest.json issue
 
   // Add experimental features to help with routing
   experimental: {
