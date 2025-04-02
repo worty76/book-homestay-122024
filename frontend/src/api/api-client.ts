@@ -70,38 +70,41 @@ apiClient.interceptors.response.use(
   }
 );
 
-export const handleApiError = (error: unknown): ApiErrorResponse => {
+export const handleApiError = (error: unknown): string => {
+  let errorResponse: ApiErrorResponse;
+
   if (axios.isAxiosError(error)) {
-    // If our interceptor already formatted the error, return it
+    // If our interceptor already formatted the error, use it
     const responseData = error.response?.data as ApiErrorResponse;
     if (
       responseData &&
       typeof responseData === "object" &&
       "code" in responseData
     ) {
-      return responseData;
+      errorResponse = responseData;
+    } else {
+      errorResponse = {
+        code: `HTTP_${error.response?.status || "UNKNOWN"}`,
+        message:
+          error.response?.data?.message || error.message || "An error occurred",
+        status: error.response?.status,
+        details: error.response?.data,
+      };
     }
-
-    return {
-      code: `HTTP_${error.response?.status || "UNKNOWN"}`,
-      message:
-        error.response?.data?.message || error.message || "An error occurred",
-      status: error.response?.status,
-      details: error.response?.data,
-    };
-  }
-
-  if (error instanceof Error) {
-    return {
+  } else if (error instanceof Error) {
+    errorResponse = {
       code: "UNKNOWN_ERROR",
       message: error.message || "An unexpected error occurred",
     };
+  } else {
+    errorResponse = {
+      code: "UNKNOWN_ERROR",
+      message: "An unexpected error occurred",
+    };
   }
 
-  return {
-    code: "UNKNOWN_ERROR",
-    message: "An unexpected error occurred",
-  };
+  // Return the message as a string
+  return errorResponse.message;
 };
 
 export function createCancelableRequest<T>(requestFn: () => Promise<T>) {

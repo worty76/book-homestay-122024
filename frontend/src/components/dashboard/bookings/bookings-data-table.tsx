@@ -25,12 +25,12 @@ export function BookingsDataTable({
       "user",
       "Guest",
       ({ row }) => (
-        <div className="font-medium">{row.original.user?.name || "N/A"}</div>
+        <div className="font-medium">{row.original.user?.email || "N/A"}</div>
       )
     ),
 
     createColumn<BookingWithDetails, any>("room", "Room", ({ row }) => (
-      <div>{row.original.room?.title || "N/A"}</div>
+      <div>{row.original.room?.name || "N/A"}</div>
     )),
 
     createSortableColumn<BookingWithDetails, string>(
