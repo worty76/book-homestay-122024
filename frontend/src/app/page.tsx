@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { useEffect, useState } from "react";
 import { Hero } from "@/components/main/Hero";
 import { Testimonials } from "@/components/main/Testimonials";
 import ApartmentGallery from "@/components/main/ApartmentGallery";
@@ -13,8 +13,7 @@ import {
   AccommodationJsonLd,
 } from "@/components/SEO/JsonLd";
 
-// Create a separate component for the content that uses useSearchParams
-function HomeContent() {
+export default function HomePage() {
   return (
     <>
       <OrganizationJsonLd
@@ -44,20 +43,5 @@ function HomeContent() {
       <BlogSection />
       <Testimonials />
     </>
-  );
-}
-
-// Main component wrapped in Suspense
-export default function HomePage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="animate-pulse">Loading homepage...</div>
-        </div>
-      }
-    >
-      <HomeContent />
-    </Suspense>
   );
 }
