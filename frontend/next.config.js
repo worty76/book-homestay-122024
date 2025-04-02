@@ -6,24 +6,14 @@ const nextConfig = {
   // Enable trailing slash for consistent URL handling
   trailingSlash: true,
 
-  // Add basic rewrites for handling potential path issues
+  // Optional: Cleaned-up rewrites (if not needed, you can remove this block)
   async rewrites() {
-    return [
-      {
-        source: "/:path*",
-        destination: "/:path*",
-      },
-      {
-        source: "/api/:path*",
-        destination: "/api/:path*",
-      },
-    ];
+    return [];
   },
 
   images: {
     domains: [
       "source.unsplash.com",
-      "example.com",
       "res.cloudinary.com",
       "localhost",
       "127.0.0.1",
@@ -32,7 +22,6 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "source.unsplash.com",
-        port: "",
         pathname: "/**",
       },
       {
