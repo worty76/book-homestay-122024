@@ -1,7 +1,7 @@
 // Basic entity types
 export interface RoomBasic {
   _id: string;
-  title: string;
+  name: string;
   price: number;
   description: string;
   address: string;

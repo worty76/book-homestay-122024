@@ -24,20 +24,22 @@ export function BookingsDataTable({
     createSortableColumn<BookingWithDetails, any>(
       "user",
       "Guest",
-      ({ row }) => (
-        <div className="font-medium">{row.original.user?.email || "N/A"}</div>
+      (props: any) => (
+        <div className="font-medium">
+          {props.row?.original.user?.email || "N/A"}
+        </div>
       )
     ),
 
-    createColumn<BookingWithDetails, any>("room", "Room", ({ row }) => (
-      <div>{row.original.room?.name || "N/A"}</div>
+    createColumn<BookingWithDetails, any>("room", "Room", (props: any) => (
+      <div>{props.row.original.room?.name || "N/A"}</div>
     )),
 
     createSortableColumn<BookingWithDetails, string>(
       "startAt",
       "Check-in",
-      ({ getValue }) => {
-        const date = getValue();
+      (props: any) => {
+        const date = props.row?.original.startAt || props.getValue();
         return <div>{date ? new Date(date).toLocaleDateString() : "N/A"}</div>;
       }
     ),
@@ -45,8 +47,8 @@ export function BookingsDataTable({
     createSortableColumn<BookingWithDetails, string>(
       "endAt",
       "Check-out",
-      ({ getValue }) => {
-        const date = getValue();
+      (props: any) => {
+        const date = props.row?.original.endAt || props.getValue();
         return <div>{date ? new Date(date).toLocaleDateString() : "N/A"}</div>;
       }
     ),
@@ -54,22 +56,28 @@ export function BookingsDataTable({
     createSortableColumn<BookingWithDetails, string>(
       "totalPrice",
       "Total Price",
-      ({ getValue }) => <div>${getValue() || "0"}</div>
+      (props: any) => (
+        <div>${props.row?.original.totalPrice || props.getValue() || "0"}</div>
+      )
     ),
 
-    createColumn<BookingWithDetails, string>("status", "Status", ({ row }) => (
-      <Badge
-        variant={
-          row.original.status === "confirmed"
-            ? "default"
-            : row.original.status === "cancelled"
-            ? "destructive"
-            : "secondary"
-        }
-      >
-        {row.original.status}
-      </Badge>
-    )),
+    createColumn<BookingWithDetails, string>(
+      "status",
+      "Status",
+      (props: any) => (
+        <Badge
+          variant={
+            props.row.original.status === "confirmed"
+              ? "default"
+              : props.row.original.status === "cancelled"
+              ? "destructive"
+              : "secondary"
+          }
+        >
+          {props.row.original.status}
+        </Badge>
+      )
+    ),
 
     createActionsColumn<BookingWithDetails>((row) => (
       <div className="flex justify-end">

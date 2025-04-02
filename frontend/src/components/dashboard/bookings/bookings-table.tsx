@@ -61,9 +61,9 @@ export function BookingsTable({
             {bookings.map((booking) => (
               <TableRow key={booking._id} className="hover:bg-muted/50">
                 <TableCell className="font-medium">
-                  {booking.user.username ?? "N/A"}
+                  {booking.user.name || booking.user.email || "N/A"}
                 </TableCell>
-                <TableCell>{booking.room.name ?? "N/A"}</TableCell>
+                <TableCell>{booking.room.name || "N/A"}</TableCell>
                 <TableCell>
                   {booking.startAt
                     ? new Date(booking.startAt).toLocaleDateString()
