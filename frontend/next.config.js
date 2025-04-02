@@ -29,7 +29,7 @@ const nextConfig = {
   },
 
   images: {
-    // Removed deprecated 'domains' configuration
+    unoptimized: true, // Disable image optimization in Next.js
     remotePatterns: [
       {
         protocol: "https",
@@ -61,7 +61,7 @@ const nextConfig = {
   },
 
   // Add explicit asset prefix if your deployment has a base path
-  assetPrefix: process.env.NODE_ENV === "production" ? undefined : "",
+  assetPrefix: process.env.NODE_ENV === "production" ? "" : "",
 
   // Ensure CSS is properly extracted and loaded
   webpack: (config, { isServer, dev }) => {
@@ -89,11 +89,11 @@ const nextConfig = {
     return config;
   },
 
-  // Add experimental features to help with routing
+  // Disable certain optimizations for debugging
   experimental: {
     scrollRestoration: true,
-    // Add optimizeCss for production builds
-    optimizeCss: process.env.NODE_ENV === "production",
+    // Disable optimizeCss for debugging purposes (re-enable in production)
+    optimizeCss: false,
   },
 };
 
