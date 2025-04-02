@@ -1,5 +1,25 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Add output configuration for better Vercel compatibility
+  output: "standalone",
+
+  // Enable trailing slash for consistent URL handling
+  trailingSlash: true,
+
+  // Add basic rewrites for handling potential path issues
+  async rewrites() {
+    return [
+      {
+        source: "/:path*",
+        destination: "/:path*",
+      },
+      {
+        source: "/api/:path*",
+        destination: "/api/:path*",
+      },
+    ];
+  },
+
   images: {
     domains: [
       "source.unsplash.com",
