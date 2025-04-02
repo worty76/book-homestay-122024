@@ -32,6 +32,7 @@ export default function BookingsPage() {
         );
         const data = await response.json();
         const bookingsArray = Array.isArray(data) ? data : data.bookings || [];
+        console.log("Fetched bookings:", bookingsArray);
         setBookings(bookingsArray);
       } catch (error) {
         console.error("Error fetching bookings:", error);
