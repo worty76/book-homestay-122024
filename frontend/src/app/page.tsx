@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState, Suspense } from "react";
 import { Hero } from "@/components/main/Hero";
 import { Testimonials } from "@/components/main/Testimonials";
@@ -12,6 +10,8 @@ import {
   OrganizationJsonLd,
   AccommodationJsonLd,
 } from "@/components/SEO/JsonLd";
+
+export const dynamic = "force-dynamic";
 
 export default function HomePage() {
   return (
@@ -33,32 +33,7 @@ export default function HomePage() {
         rating={4.8}
         reviewCount={124}
       />
-      <Suspense
-        fallback={
-          <div className="min-h-screen flex flex-col items-center justify-center bg-white">
-            <div className="relative w-24 h-24 mb-8">
-              {/* Multiple spinning circles with different speeds and opacities */}
-              <div className="absolute inset-0 w-full h-full rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
-              <div className="absolute inset-0 w-full h-full rounded-full border-4 border-primary border-b-transparent animate-ping opacity-30 animation-delay-300"></div>
-              <div className="absolute inset-2 w-20 h-20 rounded-full border-4 border-secondary border-l-transparent animate-spin animation-delay-150 animation-reverse"></div>
-            </div>
-
-            <h2 className="text-xl font-medium text-gray-700 animate-pulse">
-              Loading your experience...
-            </h2>
-
-            <div className="flex space-x-1 mt-4">
-              <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
-              <div className="w-2 h-2 bg-primary rounded-full animate-bounce animation-delay-200"></div>
-              <div className="w-2 h-2 bg-primary rounded-full animate-bounce animation-delay-400"></div>
-            </div>
-
-            <p className="text-gray-500 mt-4 transition-opacity duration-500 animate-fadeIn">
-              We're preparing your Ken Homestay experience
-            </p>
-          </div>
-        }
-      >
+      <Suspense fallback={<></>}>
         <div className="relative min-h-screen overflow-hidden">
           <Hero />
         </div>
