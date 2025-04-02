@@ -1,6 +1,13 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+interface PaymentMethod {
+  type: string;
+  cardLastFour: string;
+  expiryDate: string;
+  isDefault: boolean;
+}
+
 export interface UserProfile {
   id?: string;
   username?: string;
@@ -23,6 +30,7 @@ export interface UserProfile {
     };
   };
   verifiedAccount?: boolean;
+  paymentMethods?: PaymentMethod[];
 }
 
 interface ProfileState {

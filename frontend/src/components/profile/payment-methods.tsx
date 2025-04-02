@@ -52,34 +52,34 @@ export function PaymentMethods() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setNewCard(prev => ({
+    setNewCard((prev) => ({
       ...prev,
-      [id]: value
+      [id]: value,
     }));
   };
 
   const handleTypeChange = (value: string) => {
-    setNewCard(prev => ({
+    setNewCard((prev) => ({
       ...prev,
-      type: value
+      type: value,
     }));
   };
 
   const handleAddCard = () => {
     // This would connect to your API in a real implementation
     console.log("Adding card:", newCard);
-    
+
     // Mock implementation for UI demo
     const mockNewCard: PaymentMethod = {
       type: newCard.type,
       cardLastFour: newCard.cardNumber.slice(-4),
       expiryDate: newCard.expiryDate,
-      isDefault: paymentMethods.length === 0 // Make default if it's the first card
+      isDefault: paymentMethods.length === 0, // Make default if it's the first card
     };
-    
-    setPaymentMethods(prev => [...prev, mockNewCard]);
+
+    setPaymentMethods((prev) => [...prev, mockNewCard]);
     setDialogOpen(false);
-    
+
     // Reset form
     setNewCard({
       cardNumber: "",
@@ -91,24 +91,24 @@ export function PaymentMethods() {
   };
 
   const setAsDefault = (index: number) => {
-    setPaymentMethods(prev => 
+    setPaymentMethods((prev) =>
       prev.map((method, i) => ({
         ...method,
-        isDefault: i === index
+        isDefault: i === index,
       }))
     );
   };
 
   const removePaymentMethod = (index: number) => {
-    setPaymentMethods(prev => {
+    setPaymentMethods((prev) => {
       const updated = prev.filter((_, i) => i !== index);
-      
+
       // If we removed the default card and there are other cards,
       // make the first one default
       if (prev[index].isDefault && updated.length > 0) {
         updated[0].isDefault = true;
       }
-      
+
       return updated;
     });
   };
@@ -173,10 +173,7 @@ export function PaymentMethods() {
             <div className="grid gap-4 py-4">
               <div className="space-y-2">
                 <Label htmlFor="type">Loại thẻ</Label>
-                <Select
-                  value={newCard.type}
-                  onValueChange={handleTypeChange}
-                >
+                <Select value={newCard.type} onValueChange={handleTypeChange}>
                   <SelectTrigger>
                     <SelectValue placeholder="Chọn loại thẻ" />
                   </SelectTrigger>
@@ -241,7 +238,9 @@ export function PaymentMethods() {
         {paymentMethods.length === 0 ? (
           <div className="flex flex-col items-center justify-center p-8 border border-dashed rounded-lg">
             <CreditCard className="h-12 w-12 text-muted-foreground mb-4" />
-            <h3 className="text-lg font-medium mb-2">Không có phương thức thanh toán</h3>
+            <h3 className="text-lg font-medium mb-2">
+              Không có phương thức thanh toán
+            </h3>
             <p className="text-sm text-muted-foreground text-center mb-4">
               Thêm thẻ thanh toán để đặt phòng nhanh chóng và thuận tiện
             </p>
@@ -253,14 +252,19 @@ export function PaymentMethods() {
         ) : (
           <div className="space-y-4">
             {paymentMethods.map((method, index) => (
-              <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+              <div
+                key={index}
+                className="flex items-center justify-between p-4 border rounded-lg"
+              >
                 <div className="flex items-center space-x-4">
                   <div className="bg-primary/10 p-2 rounded-md">
                     <CreditCard className="h-6 w-6 text-primary" />
                   </div>
                   <div>
                     <div className="font-medium flex items-center">
-                      {method.type.charAt(0).toUpperCase() + method.type.slice(1)} •••• {method.cardLastFour}
+                      {method.type.charAt(0).toUpperCase() +
+                        method.type.slice(1)}{" "}
+                      •••• {method.cardLastFour}
                       {method.isDefault && (
                         <BadgeCheck className="h-4 w-4 text-primary ml-2" />
                       )}

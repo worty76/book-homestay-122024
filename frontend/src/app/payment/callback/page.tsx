@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/store/useAuthStore";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
-export default function PaymentCallback() {
+function PaymentCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
@@ -214,5 +214,19 @@ export default function PaymentCallback() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PaymentCallback() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          Loading...
+        </div>
+      }
+    >
+      <PaymentCallbackContent />
+    </Suspense>
   );
 }

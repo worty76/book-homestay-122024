@@ -165,6 +165,10 @@ export default function BookingForm({ room }: BookingFormProps) {
       <CardFooter className="bg-[#f8f3e9]/50 p-6 pt-0">
         <BookingModal
           room={room}
+          dateRange={dateRange}
+          numberOfNights={numberOfNights}
+          totalPrice={grandTotal}
+          guests={parseInt(guests)}
           trigger={
             <Button
               className="w-full bg-[#9C6B4A] hover:bg-[#9C6B4A]/90 text-white"

@@ -1,3 +1,6 @@
+"use client";
+
+import { Suspense } from "react";
 import { Hero } from "@/components/main/Hero";
 import { Testimonials } from "@/components/main/Testimonials";
 import ApartmentGallery from "@/components/main/ApartmentGallery";
@@ -5,22 +8,13 @@ import BlogSection from "@/components/main/blog-section";
 import AboutSection from "@/components/main/aboutSection";
 import FacilitiesGrid from "@/components/main/facilities-grid";
 import RoomList from "@/components/main/roomList";
-import { generatePageMetadata } from "@/components/SEO/PageSEO";
 import {
   OrganizationJsonLd,
   AccommodationJsonLd,
 } from "@/components/SEO/JsonLd";
 
-export const metadata = generatePageMetadata({
-  title: "Ken Homestay - Premium Accommodation Experience",
-  description:
-    "Experience luxury homestay accommodations with Ken Homestay. Book your perfect stay with premium amenities, comfortable rooms and authentic local experiences.",
-  keywords:
-    "homestay, luxury accommodation, vacation rental, rooms, best rates, travel",
-  canonical: "/",
-});
-
-export default function Home() {
+// Create a separate component for the content that uses useSearchParams
+function HomeContent() {
   return (
     <>
       <OrganizationJsonLd
@@ -50,5 +44,20 @@ export default function Home() {
       <BlogSection />
       <Testimonials />
     </>
+  );
+}
+
+// Main component wrapped in Suspense
+export default function HomePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-pulse">Loading homepage...</div>
+        </div>
+      }
+    >
+      <HomeContent />
+    </Suspense>
   );
 }

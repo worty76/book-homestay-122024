@@ -111,36 +111,38 @@ export interface RoomDetailDisplay {
 export interface BookingFormRoom {
   id: string;
   name: string;
-  price: number;
+  floor: number;
+  type: string;
+  category: string;
+  view: string;
+  size: number;
   maxCapacity: number;
   maxAdults: number;
   maxChildren: number;
-  cleaningFee: number;
-  securityDeposit: number;
-  basePrice: number;
+  price: number;
   available: boolean;
   description: string;
-  type: string;
-  view: string;
-  category: string;
-  images: string[];
+  story?: string;
+  mainColors?: string[];
   amenities: string[];
   bathroomAmenities: string[];
+  images: string[];
   rating: number;
-  floor: number;
-  size: number;
-  bedrooms: number;
-  bathrooms: number;
-  checkInTime: string;
-  checkOutTime: string;
-  houseRules: {
+  cleaningFee?: number;
+  securityDeposit?: number;
+  basePrice?: number;
+  bedrooms?: number;
+  bathrooms?: number;
+  checkInTime?: string;
+  checkOutTime?: string;
+  houseRules?: {
     smokingAllowed: boolean;
     petsAllowed: boolean;
     partiesAllowed: boolean;
     checkInTime: string;
     checkOutTime: string;
   };
-  bedsDescription: {
+  bedsDescription?: {
     type: string;
     count: number;
     _id: string;

@@ -7,6 +7,9 @@ export const metadata = {
   title: "Ken Homestay - Find Your Perfect Stay",
   description:
     "Book comfortable and authentic homestays for your next adventure. Find the perfect accommodation with our curated selection of homestays.",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+  ),
 };
 
 export default function RootLayout({

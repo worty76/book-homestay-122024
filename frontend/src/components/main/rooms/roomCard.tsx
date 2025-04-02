@@ -3,14 +3,53 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Users, Maximize, Building2 } from "lucide-react";
+import { ArrowRight, Users, Maximize, Building2, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import BookingModal from "./bookingModal";
-import { Room } from "@/data/rooms";
 
-interface RoomCardProps {
-  room: Room;
+// Define the RoomCardProps interface
+export interface RoomCardProps {
+  room: {
+    id: string;
+    name: string;
+    floor: number;
+    type: string;
+    category: string;
+    view: string;
+    size: number;
+    maxCapacity: number;
+    maxAdults: number;
+    maxChildren: number;
+    price: number;
+    available: boolean;
+    description: string;
+    story: string;
+    mainColors: string[];
+    amenities: string[];
+    bathroomAmenities: string[];
+    images: string[];
+    rating: number;
+    cleaningFee?: number;
+    securityDeposit?: number;
+    basePrice?: number;
+    bedrooms?: number;
+    bathrooms?: number;
+    checkInTime?: string;
+    checkOutTime?: string;
+    houseRules?: {
+      smokingAllowed: boolean;
+      petsAllowed: boolean;
+      partiesAllowed: boolean;
+      checkInTime: string;
+      checkOutTime: string;
+    };
+    bedsDescription?: {
+      type: string;
+      count: number;
+      _id: string;
+    }[];
+  };
 }
 
 export default function RoomCard({ room }: RoomCardProps) {
@@ -61,6 +100,13 @@ export default function RoomCard({ room }: RoomCardProps) {
         >
           <BookingModal
             room={room}
+            dateRange={{
+              from: new Date(),
+              to: new Date(new Date().setDate(new Date().getDate() + 1)),
+            }}
+            numberOfNights={1}
+            totalPrice={room.price}
+            guests={1}
             trigger={
               <Button
                 size="lg"
@@ -106,6 +152,13 @@ export default function RoomCard({ room }: RoomCardProps) {
           <div className="flex items-center gap-4">
             <BookingModal
               room={room}
+              dateRange={{
+                from: new Date(),
+                to: new Date(new Date().setDate(new Date().getDate() + 1)),
+              }}
+              numberOfNights={1}
+              totalPrice={room.price}
+              guests={1}
               trigger={
                 <Button
                   variant="outline"
