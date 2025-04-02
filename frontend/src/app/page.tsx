@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState, Suspense } from "react";
 import { Hero } from "@/components/main/Hero";
 import { Testimonials } from "@/components/main/Testimonials";
