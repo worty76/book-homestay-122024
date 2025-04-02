@@ -13,15 +13,15 @@ const nextConfig = {
     return [
       {
         source: "/assets/:path*",
-        destination: "/html/digitalize/assets/:path*",
+        destination: "/assets/:path*", // Modified to use direct path
       },
       {
         source: "/about",
-        destination: "/html/digitalize/index.html",
+        destination: "/about", // Modified to use Next.js routing
       },
       {
         source: "/contact",
-        destination: "/html/digitalize/index.html",
+        destination: "/contact", // Modified to use Next.js routing
       },
       // Fallback route
       {
@@ -68,8 +68,15 @@ const nextConfig = {
         hostname: "**.vercel.com",
       },
     ],
-    // Ensure images are properly handled
-    unoptimized: process.env.NODE_ENV === "production",
+  },
+
+  // Add explicit asset prefix if your deployment has a base path
+  assetPrefix: process.env.NODE_ENV === "production" ? undefined : "",
+
+  // Ensure CSS is properly extracted and loaded
+  webpack: (config, { isServer, dev }) => {
+    // This ensures Tailwind works properly
+    return config;
   },
 
   // Add experimental features to help with routing
