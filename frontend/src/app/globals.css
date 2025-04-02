@@ -79,6 +79,42 @@ body {
   .animate-zoom {
     animation: zoomInOut 1.5s infinite ease-in-out;
   }
+
+  /* Custom animation delays */
+  .animation-delay-150 {
+    animation-delay: 150ms;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  /* Animation direction */
+  .animation-reverse {
+    animation-direction: reverse;
+  }
+
+  /* Fade in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 1s ease-in forwards;
+  }
 }
 
 @layer base {
