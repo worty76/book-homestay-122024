@@ -1,6 +1,8 @@
 import { Room } from "@/types/room";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://backend-booking-homestay.onrender.com/";
 
 export async function fetchRooms(): Promise<Room[]> {
   try {
