@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { contactSchema, ContactFormValues } from "@/schema/contact.schema";
+import Image from "next/image";
 
 export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -65,7 +66,7 @@ export function Contact() {
       }
     } catch (error) {
       if (error instanceof Error) {
-        if (error.name === 'AbortError') {
+        if (error.name === "AbortError") {
           toast.error("Yêu cầu hết thời gian chờ", {
             description: "Vui lòng kiểm tra kết nối và thử lại sau.",
           });
@@ -86,15 +87,16 @@ export function Contact() {
   }, []);
 
   return (
-    <section className="container py-16 md:py-24 mx-auto">
+    <section className="py-16 md:py-24 mx-auto">
       <div className="container">
         <div className="grid gap-12 lg:grid-cols-2">
           <div className="space-y-8">
             <div className="space-y-4">
               <h2 className="text-4xl font-medium">Kén Homestay</h2>
               <p className="text-muted-foreground">
-                Boutique Homestay tại Đà Nẵng, nơi giao thoa giữa hơi thở truyền thống và nhịp sống hiện đại.
-                Chúng tôi mang đến cho bạn không gian lưu trú tinh tế và những trải nghiệm địa phương đáng nhớ.
+                Boutique Homestay tại Đà Nẵng, nơi giao thoa giữa hơi thở truyền
+                thống và nhịp sống hiện đại. Chúng tôi mang đến cho bạn không
+                gian lưu trú tinh tế và những trải nghiệm địa phương đáng nhớ.
               </p>
             </div>
 
@@ -126,7 +128,8 @@ export function Contact() {
                     Địa chỉ
                   </p>
                   <p className="text-lg">
-                    123 Đường Nguyễn Văn Linh,<br />
+                    123 Đường Nguyễn Văn Linh,
+                    <br />
                     Quận Hải Châu, Đà Nẵng, Việt Nam
                   </p>
                 </div>
@@ -134,13 +137,20 @@ export function Contact() {
             </div>
           </div>
 
-          <div className="rounded-lg bg-white p-8 shadow-sm">
+          <div className="rounded-lg bg-white p-8 shadow-md">
             <div className="mb-8">
               <h3 className="text-2xl font-medium">Liên Hệ Với Chúng Tôi</h3>
-              <p className="text-muted-foreground mt-2">Điền thông tin bên dưới và chúng tôi sẽ phản hồi trong thời gian sớm nhất</p>
+              <p className="text-muted-foreground mt-2">
+                Điền thông tin bên dưới và chúng tôi sẽ phản hồi trong thời gian
+                sớm nhất
+              </p>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-6"
+              noValidate
+            >
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Input
@@ -148,10 +158,18 @@ export function Contact() {
                     className="bg-white"
                     {...register("fullname")}
                     aria-invalid={errors.fullname ? "true" : "false"}
-                    aria-describedby={errors.fullname ? "fullname-error" : undefined}
+                    aria-describedby={
+                      errors.fullname ? "fullname-error" : undefined
+                    }
                   />
                   {errors.fullname && (
-                    <p className="text-sm text-red-500" id="fullname-error" role="alert">{errors.fullname.message}</p>
+                    <p
+                      className="text-sm text-red-500"
+                      id="fullname-error"
+                      role="alert"
+                    >
+                      {errors.fullname.message}
+                    </p>
                   )}
                 </div>
                 <div className="space-y-2">
@@ -164,22 +182,36 @@ export function Contact() {
                     aria-describedby={errors.email ? "email-error" : undefined}
                   />
                   {errors.email && (
-                    <p className="text-sm text-red-500" id="email-error" role="alert">{errors.email.message}</p>
+                    <p
+                      className="text-sm text-red-500"
+                      id="email-error"
+                      role="alert"
+                    >
+                      {errors.email.message}
+                    </p>
                   )}
                 </div>
               </div>
 
               <div className="grid gap-4">
                 <div className="space-y-2">
-                  <Input 
-                    placeholder="Nhập tiêu đề" 
-                    className="bg-white" 
+                  <Input
+                    placeholder="Nhập tiêu đề"
+                    className="bg-white"
                     {...register("subject")}
                     aria-invalid={errors.subject ? "true" : "false"}
-                    aria-describedby={errors.subject ? "subject-error" : undefined}
+                    aria-describedby={
+                      errors.subject ? "subject-error" : undefined
+                    }
                   />
                   {errors.subject && (
-                    <p className="text-sm text-red-500" id="subject-error" role="alert">{errors.subject.message}</p>
+                    <p
+                      className="text-sm text-red-500"
+                      id="subject-error"
+                      role="alert"
+                    >
+                      {errors.subject.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -190,21 +222,30 @@ export function Contact() {
                   className="min-h-[120px] bg-white"
                   {...register("message")}
                   aria-invalid={errors.message ? "true" : "false"}
-                  aria-describedby={errors.message ? "message-error" : undefined}
+                  aria-describedby={
+                    errors.message ? "message-error" : undefined
+                  }
                 />
                 {errors.message && (
-                  <p className="text-sm text-red-500" id="message-error" role="alert">{errors.message.message}</p>
+                  <p
+                    className="text-sm text-red-500"
+                    id="message-error"
+                    role="alert"
+                  >
+                    {errors.message.message}
+                  </p>
                 )}
               </div>
 
               <Button
                 type="submit"
-                className="w-full bg-black hover:bg-black/90 transition-all duration-200"
+                className="w-full bg-[#5b8c40] hover:bg-[#5b8c40]/90 transition-all duration-200"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> ĐANG GỬI...
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> ĐANG
+                    GỬI...
                   </>
                 ) : (
                   "GỬI TIN NHẮN"

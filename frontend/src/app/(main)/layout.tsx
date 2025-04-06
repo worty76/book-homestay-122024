@@ -52,5 +52,11 @@ export default function MainLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <>{children}</>;
+  return (
+    <div
+      className={`${roboto.variable} ${openSans.variable} ${playFair.variable} ${pinyonScript.variable} font-primary antialiased`}
+    >
+      {children}
+    </div>
+  );
 }

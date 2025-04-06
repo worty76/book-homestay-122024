@@ -118,9 +118,11 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
   return (
     <>
       <AnotherHeader
-        title="Chi tiết phòng"
-        description=""
-        image="/images/img4.jpg"
+        subtitle={`Chi tiết phòng ${room.name}`}
+        description="Khám phá những phòng của chúng tôi"
+        image="/images/img3.jpg"
+        finalPage="Phòng"
+        detailPage={room.name}
       />
       <div className="bg-[#f8f3e9]">
         <div className="container mx-auto px-4 py-12">

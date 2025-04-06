@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 import {
   Check,
   Clock,
@@ -13,21 +12,11 @@ import {
   CalendarClock,
   MapPin,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { useInView } from "react-intersection-observer";
 import AnotherHeader from "@/components/main/another-header";
 
-// Animation variants
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
@@ -46,11 +35,12 @@ const staggerContainer = {
 export default function ExperiencesPage() {
   return (
     <>
-      {/* Hero Header with Breadcrumb */}
       <AnotherHeader
-        title="Trải Nghiệm Tại Kén Homestay"
+        title="Trải Nghiệm Tại "
+        subtitle="Kén Homestay"
         description="Khám phá nét đẹp văn hóa Việt Nam qua những trải nghiệm độc đáo"
-        image="/images/img4.jpg"
+        image="/images/img3.jpg"
+        finalPage="Trải nghiệm dịch vụ"
       />
       <div className="bg-[#f8f3e9]">
         <div className="container mx-auto px-4 py-12">

@@ -1,62 +1,130 @@
+"use client";
+
 import { Header } from "@/components/main/Header";
 import Image from "next/image";
-import BreadcrumbNav from "./breadcrumb-nav";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
 interface Props {
-  title: string;
+  title?: string;
+  subtitle?: string;
   description: string;
   image?: string;
-  backgroundColor?: string;
-  colorOverlay?: boolean;
-  breadcrumb?: boolean;
+  finalPage: string;
+  detailPage?: string;
 }
 
+const imageVariants = {
+  hidden: { scale: 1.1, opacity: 0.8 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      duration: 1.5,
+      ease: "easeOut",
+    },
+  },
+};
+
 const AnotherHeader = ({
-  title,
+  title = "",
+  subtitle,
   description,
   image = "/images/img1.jpg",
-  breadcrumb = true,
+  finalPage,
+  detailPage,
 }: Props) => {
   return (
-    <div className="relative min-h-[450px] overflow-hidden">
+    <div className="relative min-h-[300px] sm:min-h-[350px] md:min-h-[450px] overflow-hidden">
       <div className="absolute inset-0">
         <div className={`absolute inset-0`}>
-          <Image
-            src={image}
-            alt={title}
-            fill
-            className="object-cover"
-            priority
-          />
-          <div
+          <motion.div
             className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%)",
-            }}
-          />
+            variants={imageVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <Image
+              src={image}
+              alt={title}
+              fill
+              className="object-cover"
+              priority
+            />
+          </motion.div>
+          <div className="absolute inset-0 bg-gradient-overlay" />
         </div>
         <Header />
 
-        <main className="absolute inset-0 flex flex-col items-center justify-center text-center">
-          <div className="space-y-4 w-full max-w-4xl mx-auto px-4">
-            <h1 className="text-4xl md:text-5xl font-bold text-white">
-              {title}
-            </h1>
-            <p className="text-base text-white md:text-lg">{description}</p>
+        <main className="absolute inset-0 flex flex-col justify-center pt-16 md:pt-20 px-6 md:px-0">
+          <div className="space-y-2 md:space-y-4 w-full container mx-auto px-6 sm:px-8 md:px-16">
+            <motion.div
+              className="flex items-center mb-2 md:mb-6 text-white/80 font-sans font-semibold text-xs sm:text-sm md:text-lg"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <Link href="/" className="hover:text-white transition-colors">
+                Trang chủ
+              </Link>
+              <span className="mx-1 sm:mx-2">&#9658;</span>
+              <span className="text-white">{finalPage}</span>
+              {detailPage && (
+                <>
+                  <span className="mx-1 sm:mx-2">&#9658;</span>
+                  <span className="text-white">{detailPage}</span>
+                </>
+              )}
+            </motion.div>
 
-            {/* {breadcrumb && (
-              <div className="flex justify-center w-full mt-6">
-                <BreadcrumbNav
-                  darkMode={true}
-                  containerClassName="justify-center flex"
-                  listClassName="flex justify-center"
-                />
-              </div>
-            )} */}
+            <motion.h1
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#F3ECDC]/80 font-playfair"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              {title} <span className="text-white">{subtitle}</span>
+            </motion.h1>
+            <motion.p
+              className="text-sm sm:text-base text-[#F3ECDC] md:text-lg max-w-full sm:max-w-lg md:max-w-2xl"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              {description}
+            </motion.p>
           </div>
         </main>
       </div>
+      <style jsx>{`
+        .bg-gradient-overlay {
+          background: linear-gradient(
+            to right,
+            rgba(52, 78, 65, 0.95) 50%,
+            transparent 100%
+          );
+        }
+
+        @media (min-width: 640px) {
+          .bg-gradient-overlay {
+            background: linear-gradient(
+              to right,
+              rgba(52, 78, 65, 0.95) 40%,
+              transparent 100%
+            );
+          }
+        }
+
+        @media (min-width: 768px) {
+          .bg-gradient-overlay {
+            background: linear-gradient(
+              to right,
+              rgba(52, 78, 65, 0.95) 32%,
+              transparent 100%
+            );
+          }
+        }
+      `}</style>
     </div>
   );
 };

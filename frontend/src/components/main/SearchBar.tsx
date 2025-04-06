@@ -18,27 +18,27 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function SearchBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
-  const initialCheckIn = searchParams.get('checkIn') 
-    ? new Date(searchParams.get('checkIn') as string) 
+
+  const initialCheckIn = searchParams.get("checkIn")
+    ? new Date(searchParams.get("checkIn") as string)
     : new Date();
-  
-  const initialCheckOut = searchParams.get('checkOut')
-    ? new Date(searchParams.get('checkOut') as string)
+
+  const initialCheckOut = searchParams.get("checkOut")
+    ? new Date(searchParams.get("checkOut") as string)
     : addDays(new Date(), 1);
-    
-  const initialGuests = searchParams.get('guests') 
-    ? parseInt(searchParams.get('guests') as string) 
+
+  const initialAdults = searchParams.get("adults")
+    ? parseInt(searchParams.get("adults") as string)
     : 2;
-    
-  const initialRooms = searchParams.get('rooms') 
-    ? parseInt(searchParams.get('rooms') as string) 
-    : 1;
+
+  const initialChildren = searchParams.get("children")
+    ? parseInt(searchParams.get("children") as string)
+    : 0;
 
   const [checkIn, setCheckIn] = useState<Date | undefined>(initialCheckIn);
   const [checkOut, setCheckOut] = useState<Date | undefined>(initialCheckOut);
-  const [guests, setGuests] = useState(initialGuests);
-  const [rooms, setRooms] = useState(initialRooms);
+  const [adults, setAdults] = useState(initialAdults);
+  const [children, setChildren] = useState(initialChildren);
 
   // Format date to Vietnamese style (DD/MM/YYYY)
   const formatDateVietnamese = (date?: Date) => {
@@ -48,20 +48,23 @@ export default function SearchBar() {
 
   const handleSearch = () => {
     if (!checkIn || !checkOut) return;
-    
+
     if (checkOut < checkIn) {
       setCheckOut(addDays(checkIn, 1));
       return;
     }
-    
+
     const params = new URLSearchParams();
-    params.set('checkIn', formatISO(checkIn));
-    params.set('checkOut', formatISO(checkOut));
-    params.set('guests', guests.toString());
-    params.set('rooms', rooms.toString());
-    
+    params.set("checkIn", formatISO(checkIn));
+    params.set("checkOut", formatISO(checkOut));
+    params.set("adults", adults.toString());
+    params.set("children", children.toString());
+
     router.push(`/rooms?${params.toString()}`);
   };
+
+  // Calculate total guests
+  const totalGuests = adults + children;
 
   // Variants for staggered animation of children
   const containerVariants = {
@@ -70,31 +73,39 @@ export default function SearchBar() {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
+        delayChildren: 0.2,
+      },
+    },
   };
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
-    show: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 300, damping: 24 } }
+    show: {
+      y: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 300, damping: 24 },
+    },
   };
 
   const buttonVariants = {
     hidden: { scale: 0.8, opacity: 0 },
-    show: { scale: 1, opacity: 1, transition: { type: "spring", stiffness: 400, damping: 17 } },
+    show: {
+      scale: 1,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 400, damping: 17 },
+    },
     hover: { scale: 1.05, backgroundColor: "#4d7534" },
-    tap: { scale: 0.95 }
+    tap: { scale: 0.95 },
   };
 
   return (
-    <motion.div 
+    <motion.div
       variants={containerVariants}
       initial="hidden"
       animate="show"
       className="flex flex-col sm:flex-row items-center justify-center bg-white/90 backdrop-blur-sm p-2 rounded-lg gap-2 max-w-3xl mx-auto shadow-md"
     >
-      <motion.div 
+      <motion.div
         variants={containerVariants}
         className="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full"
       >
@@ -102,13 +113,18 @@ export default function SearchBar() {
         <motion.div variants={itemVariants}>
           <Popover>
             <PopoverTrigger asChild>
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
                 <Button
                   variant="outline"
                   className="flex items-center justify-between sm:justify-start space-x-1 px-3 py-1.5 w-full text-xs sm:text-sm h-auto"
                 >
                   <CalendarIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
-                  <span className="truncate">{formatDateVietnamese(checkIn)}</span>
+                  <span className="truncate">
+                    {formatDateVietnamese(checkIn)}
+                  </span>
                 </Button>
               </motion.div>
             </PopoverTrigger>
@@ -120,11 +136,13 @@ export default function SearchBar() {
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Calendar 
-                    mode="single" 
-                    selected={checkIn} 
+                  <Calendar
+                    mode="single"
+                    selected={checkIn}
                     onSelect={setCheckIn}
-                    disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                    disabled={(date) =>
+                      date < new Date(new Date().setHours(0, 0, 0, 0))
+                    }
                     initialFocus
                     className="scale-75 sm:scale-100 origin-top-left"
                     locale={vi}
@@ -139,13 +157,18 @@ export default function SearchBar() {
         <motion.div variants={itemVariants}>
           <Popover>
             <PopoverTrigger asChild>
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
                 <Button
                   variant="outline"
                   className="flex items-center justify-between sm:justify-start space-x-1 px-3 py-1.5 w-full text-xs sm:text-sm h-auto"
                 >
                   <CalendarIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
-                  <span className="truncate">{formatDateVietnamese(checkOut)}</span>
+                  <span className="truncate">
+                    {formatDateVietnamese(checkOut)}
+                  </span>
                 </Button>
               </motion.div>
             </PopoverTrigger>
@@ -157,11 +180,15 @@ export default function SearchBar() {
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Calendar 
-                    mode="single" 
-                    selected={checkOut} 
+                  <Calendar
+                    mode="single"
+                    selected={checkOut}
                     onSelect={setCheckOut}
-                    disabled={(date) => checkIn ? date < checkIn : date < new Date(new Date().setHours(0, 0, 0, 0))}
+                    disabled={(date) =>
+                      checkIn
+                        ? date < checkIn
+                        : date < new Date(new Date().setHours(0, 0, 0, 0))
+                    }
                     initialFocus
                     className="scale-75 sm:scale-100 origin-top-left"
                     locale={vi}
@@ -172,19 +199,20 @@ export default function SearchBar() {
           </Popover>
         </motion.div>
 
-        {/* Khách & Phòng */}
+        {/* Khách */}
         <motion.div variants={itemVariants}>
           <Popover>
             <PopoverTrigger asChild>
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
                 <Button
                   variant="outline"
                   className="flex items-center justify-between sm:justify-start space-x-1 px-3 py-1.5 w-full text-xs sm:text-sm h-auto"
                 >
                   <UsersIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
-                  <span className="truncate">
-                    {guests} người - {rooms} phòng
-                  </span>
+                  <span className="truncate">{totalGuests} người</span>
                 </Button>
               </motion.div>
             </PopoverTrigger>
@@ -195,22 +223,26 @@ export default function SearchBar() {
                 transition={{ duration: 0.2 }}
                 className="space-y-2"
               >
-                <label className="text-sm">Số người lớn:</label>
-                <Input
-                  type="number"
-                  min={1}
-                  max={20}
-                  value={guests}
-                  onChange={(e) => setGuests(Number(e.target.value))}
-                  className="w-full"
-                />
-                <label className="text-sm">Số phòng:</label>
+                <label className="text-sm">Người lớn:</label>
                 <Input
                   type="number"
                   min={1}
                   max={10}
-                  value={rooms}
-                  onChange={(e) => setRooms(Number(e.target.value))}
+                  value={adults}
+                  onChange={(e) =>
+                    setAdults(Math.max(1, Number(e.target.value)))
+                  }
+                  className="w-full"
+                />
+                <label className="text-sm">Trẻ em:</label>
+                <Input
+                  type="number"
+                  min={0}
+                  max={10}
+                  value={children}
+                  onChange={(e) =>
+                    setChildren(Math.max(0, Number(e.target.value)))
+                  }
                   className="w-full"
                 />
               </motion.div>
@@ -220,12 +252,8 @@ export default function SearchBar() {
       </motion.div>
 
       {/* Button Tìm */}
-      <motion.div
-        variants={itemVariants}
-        whileHover="hover"
-        whileTap="tap"
-      >
-        <Button 
+      <motion.div variants={itemVariants} whileHover="hover" whileTap="tap">
+        <Button
           className="px-4 py-1.5 text-xs sm:text-sm font-medium bg-[#5d8b3e] text-white rounded-lg hover:bg-[#4d7534] w-full sm:w-auto h-auto transition-colors"
           onClick={handleSearch}
         >

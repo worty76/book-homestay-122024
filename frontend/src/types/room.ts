@@ -48,7 +48,6 @@ export type RoomCategory = "room" | "suite" | "apartment";
 export type ViewType = "city" | "garden" | "mountain" | "pool" | "all";
 export type BedType = "Single" | "Queen" | "King" | "all";
 
-// Frontend display version of a room
 export interface DisplayRoom {
   id: string;
   name: string;
@@ -66,7 +65,6 @@ export interface DisplayRoom {
   size: number;
 }
 
-// Room details display interface
 export interface RoomDetailDisplay {
   id: string;
   name: string;
@@ -107,7 +105,6 @@ export interface RoomDetailDisplay {
   };
 }
 
-// Booking form room interface
 export interface BookingFormRoom {
   id: string;
   name: string;
@@ -153,5 +150,6 @@ export interface SearchParams {
   checkIn?: Date;
   checkOut?: Date;
   guests?: number;
-  rooms?: number;
+  adults?: number;
+  children?: number;
 }

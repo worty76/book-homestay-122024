@@ -123,7 +123,7 @@ const RoomList = () => {
   };
 
   return (
-    <section className="bg-[#f8f3e9] py-16">
+    <section className="bg-[#f8f3e9] py-16" id="roomCarousel">
       <div className="container mx-auto max-w-7xl">
         {/* Header */}
         <div className="flex justify-between items-start mb-12">

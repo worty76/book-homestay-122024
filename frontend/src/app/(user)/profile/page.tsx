@@ -66,9 +66,9 @@ export default function ProfilePage() {
   return (
     <>
       <AnotherHeader
-        title="Hồ sơ của tôi"
+        subtitle="Hồ sơ của tôi"
         description="Quản lý thông tin cá nhân"
-        breadcrumb={false}
+        finalPage="Hồ sơ"
       />
 
       <div className="container mx-auto py-10">
