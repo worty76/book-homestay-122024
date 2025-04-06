@@ -31,10 +31,10 @@ export default function SearchSummary({ searchParams }: SearchSummaryProps) {
       <p className="font-medium">Tìm kiếm của bạn:</p>
       <div className="flex flex-wrap gap-2 mt-1">
         <span className="bg-white px-2 py-1 rounded-md">
-          Nhận phòng: {searchParams.checkIn.toLocaleDateString("vi-VN")}
+          Nhận phòng: {searchParams.checkIn?.toLocaleDateString("vi-VN")}
         </span>
         <span className="bg-white px-2 py-1 rounded-md">
-          Trả phòng: {searchParams.checkOut.toLocaleDateString("vi-VN")}
+          Trả phòng: {searchParams.checkOut?.toLocaleDateString("vi-VN")}
         </span>
         <span className="bg-white px-2 py-1 rounded-md">{guestsDisplay}</span>
       </div>
