@@ -1,16 +1,17 @@
-import AnotherHero from "@/components/main/AnotherHero";
+import AnotherHeader from "@/components/main/another-header";
 import { Contact } from "@/components/main/contact";
 import React from "react";
 
-type Props = {};
-
-const page = (props: Props) => {
+export default function ContactPage() {
   return (
     <>
-      <AnotherHero title="" description="" />
+      <AnotherHeader
+        subtitle="Liên hệ chúng tôi"
+        description="Liên hệ với chúng tôi để nhận được sự hỗ trợ tốt nhất."
+        image="/images/img2.jpg"
+        finalPage="Liên hệ"
+      />
       <Contact />
     </>
   );
-};
-
-export default page;
+}

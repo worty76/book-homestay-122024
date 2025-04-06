@@ -5,14 +5,26 @@ interface SearchSummaryProps {
 }
 
 export default function SearchSummary({ searchParams }: SearchSummaryProps) {
-  if (
-    !searchParams.checkIn ||
-    !searchParams.checkOut ||
-    !searchParams.guests ||
-    !searchParams.rooms
-  ) {
+  const hasBasicParams =
+    searchParams.checkIn &&
+    searchParams.checkOut &&
+    (searchParams.guests || searchParams.adults !== undefined);
+
+  if (!hasBasicParams) {
     return null;
   }
+
+  const totalGuests =
+    searchParams.adults !== undefined && searchParams.children !== undefined
+      ? searchParams.adults + searchParams.children
+      : searchParams.guests || 0;
+
+  const guestsDisplay =
+    searchParams.adults !== undefined && searchParams.children !== undefined
+      ? `${searchParams.adults} người lớn${
+          searchParams.children > 0 ? `, ${searchParams.children} trẻ em` : ""
+        }`
+      : `${totalGuests} người`;
 
   return (
     <div className="bg-[#f8f3e9] p-3 rounded-md mb-4 text-sm">
@@ -24,9 +36,7 @@ export default function SearchSummary({ searchParams }: SearchSummaryProps) {
         <span className="bg-white px-2 py-1 rounded-md">
           Trả phòng: {searchParams.checkOut.toLocaleDateString("vi-VN")}
         </span>
-        <span className="bg-white px-2 py-1 rounded-md">
-          {searchParams.guests} người - {searchParams.rooms} phòng
-        </span>
+        <span className="bg-white px-2 py-1 rounded-md">{guestsDisplay}</span>
       </div>
     </div>
   );

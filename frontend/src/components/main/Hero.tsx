@@ -42,7 +42,7 @@ export function Hero() {
       <Header />
 
       {/* Reservation Phone - Now hidden on lg and smaller */}
-      <motion.div 
+      <motion.div
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.5 }}
@@ -53,30 +53,30 @@ export function Hero() {
             <Phone size={24} strokeWidth={2} />
           </div>
           <div className="tracking-widest">
-            <div className="font-bold text-2xl text-[#aa8453]">RESERVATION</div>
+            <div className="font-bold text-2xl text-[#9C6B4A]">RESERVATION</div>
             <div className="font-medium">0342784206</div>
           </div>
         </div>
       </motion.div>
 
       {/* Social Links - Now hidden on lg and smaller */}
-      <motion.div 
+      <motion.div
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.5 }}
         className="absolute hidden xl:flex flex-col right-[100px] top-1/2 -translate-y-1/2 space-y-4 text-white z-50"
       >
         {/* Top line - adjusted positioning */}
-        <motion.div 
+        <motion.div
           initial={{ height: 0 }}
           animate={{ height: "80px" }}
           transition={{ duration: 1, delay: 1 }}
           className="absolute top-[-160px] left-1/2 -translate-x-1/2 w-[2px] bg-white"
         ></motion.div>
-        
+
         {/* Social icons container - added flex justify-center to center icons */}
         <div className="absolute top-[-80px] left-1/2 -translate-x-1/2">
-          <div className="flex flex-col justify-center items-center space-y-4" >
+          <div className="flex flex-col justify-center items-center space-y-4">
             {socialLinks.map(({ Icon, name, url }, index) => (
               <motion.div
                 key={name}
@@ -104,9 +104,9 @@ export function Hero() {
             ))}
           </div>
         </div>
-        
+
         {/* Bottom line - adjusted positioning */}
-        <motion.div 
+        <motion.div
           initial={{ height: 0 }}
           animate={{ height: "80px" }}
           transition={{ duration: 1, delay: 1 }}
@@ -116,25 +116,27 @@ export function Hero() {
 
       <main className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 py-16 sm:py-0">
         <div className="space-y-4 w-full max-w-4xl mx-auto">
-          <motion.p 
+          <motion.p
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.7 }}
-            className="text-white text-xs md:text-sm tracking-widest"
+            className="text-white text-lg md:text-2xl tracking-widest font-light"
           >
-            LUXURY HOTEL & BEST RESORT
+            Hơi thở truyền thống, nhịp sống hiện đại
           </motion.p>
-          <motion.h2 
+          <motion.h2
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-6xl tracking-wider font-semibold mb-4"
+            className="text-white/90 text-2xl sm:text-3xl md:text-4xl lg:text-6xl tracking-wider font-semibold mb-10 pb-2 font-playfair"
           >
-            Chào mừng bạn đến với Kén Homestay
+            Chào mừng bạn đến với
+            <br />
+            Kén Homestay
           </motion.h2>
-          
+
           {/* Only show SearchBar on screens larger than sm */}
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}

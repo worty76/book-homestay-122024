@@ -3,34 +3,22 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Check, MapPin, Mail, Phone, Clock, ArrowRight } from "lucide-react";
+import { MapPin, Mail, Phone, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { useInView } from "react-intersection-observer";
 import AnotherHeader from "@/components/main/another-header";
 
-// Animation variants
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 };
 
-// Slide in from right animation
 const slideInRight = {
   hidden: { opacity: 0, x: 50 },
   visible: { opacity: 1, x: 0 },
 };
 
-// Slide in from left animation
 const slideInLeft = {
   hidden: { opacity: 0, x: -50 },
   visible: { opacity: 1, x: 0 },
@@ -39,11 +27,12 @@ const slideInLeft = {
 export default function AboutPage() {
   return (
     <div className="bg-[#f8f3e9]/50">
-      {/* Hero Header with Breadcrumb */}
       <AnotherHeader
-        title="Giới Thiệu Về Kén Homestay"
+        title="Giới Thiệu Về"
+        subtitle="Kén Homestay"
         description="Hơi thở truyền thống, nhịp sống hiện đại - Boutique Homestay tại Đà Nẵng"
-        image="/images/about-hero.jpg"
+        image="/images/img2.jpg"
+        finalPage="Giới thiệu"
       />
 
       <div className="container mx-auto px-4 py-16">
@@ -198,7 +187,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <AnimatedCard
               icon={
-                <div className="p-4 rounded-full bg-[#fa709a] text-white">
+                <div className="p-4 rounded-full bg-[#FFD700] text-white">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="28"
@@ -227,7 +216,7 @@ export default function AboutPage() {
 
             <AnimatedCard
               icon={
-                <div className="p-4 rounded-full bg-primary/10 text-primary">
+                <div className="p-4 rounded-full bg-[#fa709a] text-white">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="28"
@@ -254,7 +243,7 @@ export default function AboutPage() {
 
             <AnimatedCard
               icon={
-                <div className="p-4 rounded-full bg-primary/10 text-primary">
+                <div className="p-4 rounded-full bg-[#228B22] text-white">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="28"
@@ -365,7 +354,7 @@ export default function AboutPage() {
             >
               <div className="relative h-[400px] rounded-xl overflow-hidden mb-6 shadow-md">
                 <Image
-                  src="/images/map.jpg"
+                  src="/images/map.png"
                   alt="Vị trí homestay"
                   fill
                   className="object-cover"
@@ -526,7 +515,7 @@ export default function AboutPage() {
                 <Button
                   asChild
                   size="lg"
-                  className="w-full bg-primary/90 hover:bg-primary text-primary-foreground shadow-sm"
+                  className="w-full bg-[#5d8b40] hover:bg-[#5d8b40]/90 text-white shadow-sm"
                 >
                   <Link
                     href="/rooms"

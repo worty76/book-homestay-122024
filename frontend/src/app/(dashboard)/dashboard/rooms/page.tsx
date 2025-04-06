@@ -36,7 +36,6 @@ export default function RoomsPage() {
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
 
-  // Initialize React Hook Form
   const {
     register,
     handleSubmit,

@@ -41,12 +41,6 @@ export function AddRoomDialog({
 }: AddRoomDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Add New Room
-        </Button>
-      </DialogTrigger>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] p-0 gap-0">
         <DialogHeader className="p-6 pb-2">
           <DialogTitle>Add New Room</DialogTitle>

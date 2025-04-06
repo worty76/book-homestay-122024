@@ -90,11 +90,11 @@ export default function BlogArticlePage({
   return (
     <>
       <AnotherHeader
-        title={article.title}
+        subtitle={article.title}
         description={article.excerpt}
         image={article.coverImage}
-        backgroundColor="#3D5A80"
-        colorOverlay={true}
+        finalPage="Bài viết"
+        detailPage={article.title}
       />
 
       <div className="bg-white">

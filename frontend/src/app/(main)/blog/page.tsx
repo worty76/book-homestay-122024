@@ -61,11 +61,10 @@ export default function BlogPage({
   return (
     <div className="min-h-screen bg-[#f8f3e9]">
       <AnotherHeader
-        title="Blog"
+        subtitle="Bài viết của chúng tôi"
         description="Khám phá những câu chuyện về văn hóa, du lịch và phong cách sống tại Việt Nam"
-        image="/images/img4.jpg"
-        backgroundColor="#3D5A80"
-        colorOverlay={true}
+        image="/images/img3.jpg"
+        finalPage="Bài viết"
       />
 
       <BlogClientPage

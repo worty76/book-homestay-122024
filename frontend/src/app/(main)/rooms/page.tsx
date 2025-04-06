@@ -44,11 +44,16 @@ export default function RoomsPage({
   if (urlSearchParams.checkOut) {
     searchParams.checkOut = new Date(urlSearchParams.checkOut);
   }
-  if (urlSearchParams.guests) {
-    searchParams.guests = parseInt(urlSearchParams.guests);
+  if (urlSearchParams.adults) {
+    searchParams.adults = parseInt(urlSearchParams.adults);
   }
-  if (urlSearchParams.rooms) {
-    searchParams.rooms = parseInt(urlSearchParams.rooms);
+  if (urlSearchParams.children) {
+    searchParams.children = parseInt(urlSearchParams.children);
+  }
+
+  if (urlSearchParams.guests && !urlSearchParams.adults) {
+    searchParams.adults = parseInt(urlSearchParams.guests);
+    searchParams.children = 0;
   }
 
   useEffect(() => {
@@ -118,7 +123,12 @@ export default function RoomsPage({
 
   return (
     <div className="bg-[#f8f3e9]/50">
-      <AnotherHeader title="Phòng của chúng tôi" description="" image="" />
+      <AnotherHeader
+        subtitle="Phòng của chúng tôi"
+        description="Khám phá những phòng của chúng tôi"
+        image="/images/img3.jpg"
+        finalPage="Phòng"
+      />
       <div className="container mx-auto px-4 py-8">
         <SearchSummary searchParams={searchParams} />
 

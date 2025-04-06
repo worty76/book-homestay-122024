@@ -13,7 +13,7 @@ export function Footer() {
           {/* Logo Section */}
           <div className="mb-6 flex flex-col items-center">
             <Image
-              src="/images/LogoKén-03.png"
+              src="/images/LogoKen-03.png"
               alt="Logo"
               width={140}
               height={70}
@@ -83,6 +83,7 @@ export function Footer() {
                 alt="Twitter"
                 width={20}
                 height={20}
+                style={{ width: "auto", height: "auto" }}
               />
             </Link>
             <Link
@@ -94,6 +95,7 @@ export function Footer() {
                 alt="Facebook"
                 width={20}
                 height={20}
+                style={{ width: "auto", height: "auto" }}
               />
             </Link>
             <Link
@@ -105,6 +107,7 @@ export function Footer() {
                 alt="Group"
                 width={20}
                 height={20}
+                style={{ width: "auto", height: "auto" }}
               />
             </Link>
             <Link
@@ -116,6 +119,7 @@ export function Footer() {
                 alt="Instagram"
                 width={20}
                 height={20}
+                style={{ width: "auto", height: "auto" }}
               />
             </Link>
           </div>
@@ -126,9 +130,27 @@ export function Footer() {
               © Bản quyền thuộc về ATeam | Cung cấp bởi slimweb.vn
             </p>
             <div className="flex justify-center gap-4">
-              <Image src="/images/VCB.svg" alt="vcb" width={40} height={30} />
-              <Image src="/images/BIDV.svg" alt="bidv" width={30} height={30} />
-              <Image src="/images/VTB.svg" alt="vtb" width={40} height={30} />
+              <Image
+                src="/images/VCB.svg"
+                alt="vcb"
+                width={40}
+                height={30}
+                style={{ width: "auto", height: "auto" }}
+              />
+              <Image
+                src="/images/BIDV.svg"
+                alt="bidv"
+                width={30}
+                height={30}
+                style={{ width: "auto", height: "auto" }}
+              />
+              <Image
+                src="/images/VTB.svg"
+                alt="vtb"
+                width={40}
+                height={30}
+                style={{ width: "auto", height: "auto" }}
+              />
             </div>
           </div>
 
@@ -206,7 +228,7 @@ export function Footer() {
               <div className="text-center text-base font-normal border-[#9c6b4a] border-x px-60">
                 <div className="flex justify-center items-center mb-[14px]">
                   <Image
-                    src="/images/LogoKén-03.png"
+                    src="/images/LogoKen-03.png"
                     alt="Logo"
                     width={140}
                     height={70}
@@ -248,6 +270,7 @@ export function Footer() {
                   alt="Twitter"
                   width={20}
                   height={20}
+                  style={{ width: "auto", height: "auto" }}
                 />
               </Link>
               <Link
@@ -259,6 +282,7 @@ export function Footer() {
                   alt="Facebook"
                   width={20}
                   height={20}
+                  style={{ width: "auto", height: "auto" }}
                 />
               </Link>
               <Link
@@ -270,6 +294,7 @@ export function Footer() {
                   alt="Group"
                   width={20}
                   height={20}
+                  style={{ width: "auto", height: "auto" }}
                 />
               </Link>
               <Link
@@ -281,6 +306,7 @@ export function Footer() {
                   alt="Instagram"
                   width={20}
                   height={20}
+                  style={{ width: "auto", height: "auto" }}
                 />
               </Link>
             </div>
@@ -300,18 +326,21 @@ export function Footer() {
                     alt="vcb"
                     width={40}
                     height={30}
+                    style={{ width: "auto", height: "auto" }}
                   />
                   <Image
                     src="/images/BIDV.svg"
                     alt="bidv"
                     width={30}
                     height={30}
+                    style={{ width: "auto", height: "auto" }}
                   />
                   <Image
                     src="/images/VTB.svg"
                     alt="vtb"
                     width={40}
                     height={30}
+                    style={{ width: "auto", height: "auto" }}
                   />
                 </div>
               </div>
