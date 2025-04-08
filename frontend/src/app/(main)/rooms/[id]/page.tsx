@@ -71,23 +71,35 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
       maxCapacity: room.capacity.maxGuests,
       size: room.facilities.roomSize,
       floor: parseInt(room.floor || "1"),
-      type: mapRoomType(room.facilities.bedsDescription[0]?.type || "Standard"),
-      bedsDescription: room.facilities.bedsDescription,
+      type: mapRoomType(
+        room.facilities?.bedsDescription?.[0]?.type || "Standard"
+      ),
+      bedsDescription: room.facilities?.bedsDescription || [],
       price: room.dailyRate,
       view: "Window",
-      amenities: room.amenities,
+      amenities: room.amenities || [],
       bathroomAmenities: room.bathroomAmenities || [],
-      images: room.image,
+      image: room.image || [],
       category: mapCategory(room.category),
       available: room.status === "available",
       rating: room.averageRating,
-      checkInTime: room.houseRules.checkInTime,
-      checkOutTime: room.houseRules.checkOutTime,
-      bathrooms: room.facilities.bathrooms,
+      checkInTime: room.houseRules?.checkInTime || "14:00",
+      checkOutTime: room.houseRules?.checkOutTime || "12:00",
+      bathrooms: room.facilities?.bathrooms || 1,
       bedrooms: room.bedrooms || 1,
       shared: room.shared || false,
-      pricing: room.pricing,
-      houseRules: room.houseRules,
+      pricing: room.pricing || {
+        basePrice: 0,
+        cleaningFee: 0,
+        securityDeposit: 0,
+      },
+      houseRules: room.houseRules || {
+        smokingAllowed: false,
+        petsAllowed: false,
+        partiesAllowed: false,
+        checkInTime: "14:00",
+        checkOutTime: "12:00",
+      },
     };
   }, [room]);
 
@@ -99,8 +111,8 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
       name: room.name,
       price: room.dailyRate,
       maxCapacity: room.capacity.maxGuests,
-      maxAdults: room.capacity.maxAdults || room.capacity.maxGuests,
-      maxChildren: room.capacity.maxChildren || 0,
+      maxAdults: room.capacity?.maxAdults || room.capacity.maxGuests,
+      maxChildren: room.capacity?.maxChildren || 0,
       pricing: {
         basePrice: room.pricing?.basePrice || 0,
         cleaningFee: room.pricing?.cleaningFee || 0,
@@ -108,21 +120,29 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
       },
       available: room.status === "available",
       description: room.description,
-      type: mapRoomType(room.facilities.bedsDescription[0]?.type || "Standard"),
+      type: mapRoomType(
+        room.facilities?.bedsDescription?.[0]?.type || "Standard"
+      ),
       view: mapViewType(room.category === "room" ? "Ocean View" : "City View"),
       category: mapCategory(room.category),
-      images: room.image,
-      amenities: room.amenities,
+      image: room.image || [],
+      amenities: room.amenities || [],
       bathroomAmenities: room.bathroomAmenities || [],
       rating: room.averageRating,
       floor: parseInt(room.floor || "1"),
-      size: room.facilities.roomSize,
+      size: room.facilities?.roomSize || 0,
       bedrooms: room.bedrooms || 1,
-      bathrooms: room.facilities.bathrooms,
-      checkInTime: room.houseRules.checkInTime,
-      checkOutTime: room.houseRules.checkOutTime,
-      houseRules: room.houseRules,
-      bedsDescription: room.facilities.bedsDescription,
+      bathrooms: room.facilities?.bathrooms || 1,
+      checkInTime: room.houseRules?.checkInTime || "14:00",
+      checkOutTime: room.houseRules?.checkOutTime || "12:00",
+      houseRules: room.houseRules || {
+        smokingAllowed: false,
+        petsAllowed: false,
+        partiesAllowed: false,
+        checkInTime: "14:00",
+        checkOutTime: "12:00",
+      },
+      bedsDescription: room.facilities?.bedsDescription || [],
     };
   }, [room]);
 
@@ -176,7 +196,7 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
         <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 md:py-12">
           <RoomHeader
             name={room.name}
-            bedsDescription={room.facilities.bedsDescription}
+            bedsDescription={room.facilities?.bedsDescription || []}
             category={room.category}
           />
 

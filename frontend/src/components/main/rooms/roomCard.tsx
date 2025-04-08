@@ -13,11 +13,10 @@ import { formatCurrency } from "@/utils/roomUtils";
 
 const RoomCard = memo(({ room }: RoomCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const fallbackImage = "/images/placeholder-room.jpg";
+  const fallbackImage = "";
 
   const handleHoverStart = useCallback(() => setIsHovered(true), []);
   const handleHoverEnd = useCallback(() => setIsHovered(false), []);
-  console.log(room);
 
   const handleImageError = useCallback(
     (e: any) => {
@@ -35,24 +34,24 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
       category: room.category,
       view: "",
       size: room.facilities?.roomSize || 0,
-      maxCapacity: room.capacity?.maxGuests || 2,
-      maxAdults: room.capacity?.maxAdults || room.capacity?.maxGuests || 2,
+      maxCapacity: room.capacity?.maxGuests,
+      maxAdults: room.capacity?.maxAdults || room.capacity?.maxGuests,
       maxChildren: room.capacity?.maxChildren || 0,
       available: room.status === "available",
       description: room.description || "",
       amenities: room.amenities || [],
       bathroomAmenities: room.bathroomAmenities || [],
-      images: room.images || [],
+      image: room.images || [],
       rating: room.averageRating || 0,
       pricing: {
-        basePrice: room.basePrice || room.pricing?.basePrice || 120000,
+        basePrice: room.basePrice || room.pricing?.basePrice,
         cleaningFee: room.pricing?.cleaningFee || 0,
         securityDeposit: room.pricing?.securityDeposit || 0,
       },
       bedrooms: room.bedrooms || 1,
       bathrooms: room.facilities?.bathrooms || 1,
-      checkInTime: room.houseRules?.checkInTime || "14:00",
-      checkOutTime: room.houseRules?.checkOutTime || "12:00",
+      checkInTime: room.houseRules?.checkInTime,
+      checkOutTime: room.houseRules?.checkOutTime,
       houseRules: room.houseRules || {
         smokingAllowed: false,
         petsAllowed: false,
@@ -67,9 +66,10 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
       to: new Date(new Date().setDate(new Date().getDate() + 1)),
     },
     numberOfNights: 1,
-    totalPrice: room.basePrice || room.pricing?.basePrice || 120000,
+    totalPrice: room.basePrice || room.pricing?.basePrice,
     guests: 1,
   };
+  console.log(room);
 
   return (
     <motion.div
@@ -108,8 +108,7 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
         </div>
 
         <div className="absolute bottom-3 left-3 bg-background/90 text-foreground px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
-          {formatCurrency(room.basePrice || room.pricing?.basePrice || 120000)}{" "}
-          / đêm
+          {formatCurrency(room.basePrice || room.pricing?.basePrice)} / đêm
         </div>
 
         <div

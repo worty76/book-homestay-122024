@@ -46,6 +46,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="image" content="/images/logo.png" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+      </head>
       <body
         className={`${roboto.variable} ${openSans.variable} ${playFair.variable} ${pinyonScript.variable} font-primary antialiased`}
       >

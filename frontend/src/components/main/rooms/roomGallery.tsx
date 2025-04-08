@@ -22,7 +22,7 @@ interface RoomGalleryProps {
 }
 
 const RoomGallery = memo(({ images, alt }: RoomGalleryProps) => {
-  const [mainImage, setMainImage] = useState(images[0] || "");
+  const [mainImage, setMainImage] = useState(images?.[0] || "");
   const [open, setOpen] = useState(false);
   const [fullscreenIndex, setFullscreenIndex] = useState(0);
   const [api, setApi] = useState<CarouselApi>();

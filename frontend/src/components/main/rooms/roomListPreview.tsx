@@ -60,7 +60,31 @@ export default function RoomListPreview({
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <RoomCard room={room} />
+              <RoomCard
+                room={
+                  {
+                    _id: room.id,
+                    name: room.name,
+                    description: room.description,
+                    category: room.category,
+                    status: "available",
+                    amenities: room.amenities || [],
+                    images: room.images,
+                    floor: String(room.floor),
+                    averageRating: room.rating || 0,
+                    dailyRate: room.price,
+                    basePrice: room.price,
+                    capacity: { maxGuests: room.maxCapacity },
+                    facilities: {
+                      roomSize: room.size,
+                      bathrooms: 1,
+                      bedsDescription: [
+                        { type: room.type, count: 1, _id: `${room.id}-bed` },
+                      ],
+                    },
+                  } as any
+                }
+              />
             </motion.div>
           ))}
         </div>

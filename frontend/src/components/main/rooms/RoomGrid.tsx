@@ -71,65 +71,71 @@ const EmptyState = memo(
 const RoomCardWrapper = memo(({ room }: { room: any }) => (
   <RoomCard
     key={room._id}
-    room={{
-      _id: room._id,
-      name: room.name,
-      description: room.description || "",
-      price: room.dailyRate,
-      basePrice:
-        room.pricing?.basePrice || room.basePrice || room.dailyRate || 120000,
-      type: room.facilities?.bedsDescription[0]?.type || "Standard",
-      view: "Window",
-      category: room.category || "Standard",
-      images: room.image || [],
-      maxCapacity: room.capacity?.maxGuests || 2,
-      amenities: room.amenities || [],
-      available: room.status === "available",
-      rating: room.averageRating || 0,
-      floor: parseInt(room.floor || "1"),
-      size: room.facilities?.roomSize || 20,
-      story: room.story || "",
-      mainColors: room.mainColors || ["#FFFFFF", "#F5F5F5"],
-      bathroomAmenities: room.bathroomAmenities || [],
-      maxAdults: room.capacity?.maxAdults || room.capacity?.maxGuests || 2,
-      maxChildren: room.capacity?.maxChildren || 0,
-      cleaningFee: room.pricing?.cleaningFee || 0,
-      securityDeposit: room.pricing?.securityDeposit || 0,
-      pricing: {
+    room={
+      {
+        _id: room._id,
+        name: room.name,
+        description: room.description || "",
         basePrice:
           room.pricing?.basePrice || room.basePrice || room.dailyRate || 120000,
+        type: room.facilities?.bedsDescription[0]?.type || "Standard",
+        view: "Window",
+        category: room.category || "Standard",
+        images: room.image || [],
+        maxCapacity: room.capacity?.maxGuests || 2,
+        amenities: room.amenities || [],
+        available: room.status === "available",
+        rating: room.averageRating || 0,
+        floor: room.floor || "1",
+        size: room.facilities?.roomSize || 20,
+        story: room.story || "",
+        mainColors: room.mainColors || ["#FFFFFF", "#F5F5F5"],
+        bathroomAmenities: room.bathroomAmenities || [],
+        maxAdults: room.capacity?.maxAdults || room.capacity?.maxGuests || 2,
+        maxChildren: room.capacity?.maxChildren || 0,
         cleaningFee: room.pricing?.cleaningFee || 0,
         securityDeposit: room.pricing?.securityDeposit || 0,
-      },
-      bedrooms: room.bedrooms || 1,
-      bathrooms: room.facilities?.bathrooms || 1,
-      checkInTime: room.houseRules?.checkInTime || "14:00",
-      checkOutTime: room.houseRules?.checkOutTime || "12:00",
-      houseRules: {
-        smokingAllowed: room.houseRules?.smokingAllowed || false,
-        petsAllowed: room.houseRules?.petsAllowed || false,
-        partiesAllowed: room.houseRules?.partiesAllowed || false,
+        pricing: {
+          basePrice:
+            room.pricing?.basePrice ||
+            room.basePrice ||
+            room.dailyRate ||
+            120000,
+          cleaningFee: room.pricing?.cleaningFee || 0,
+          securityDeposit: room.pricing?.securityDeposit || 0,
+        },
+        bedrooms: room.bedrooms || 1,
+        bathrooms: room.facilities?.bathrooms || 1,
         checkInTime: room.houseRules?.checkInTime || "14:00",
         checkOutTime: room.houseRules?.checkOutTime || "12:00",
-      },
-      bedsDescription: room.facilities?.bedsDescription
-        ? room.facilities.bedsDescription.map(
-            (bed: { type?: string; count?: number; _id?: string }) => ({
-              type: bed.type || "Standard",
-              count: bed.count || 1,
-              _id:
-                bed._id ||
-                `${room._id}-bed-${Math.random().toString(36).substring(2, 9)}`,
-            })
-          )
-        : [
-            {
-              type: "Standard",
-              count: 1,
-              _id: `${room._id}-default-bed`,
-            },
-          ],
-    }}
+        houseRules: {
+          smokingAllowed: room.houseRules?.smokingAllowed || false,
+          petsAllowed: room.houseRules?.petsAllowed || false,
+          partiesAllowed: room.houseRules?.partiesAllowed || false,
+          checkInTime: room.houseRules?.checkInTime || "14:00",
+          checkOutTime: room.houseRules?.checkOutTime || "12:00",
+        },
+        bedsDescription: room.facilities?.bedsDescription
+          ? room.facilities.bedsDescription.map(
+              (bed: { type?: string; count?: number; _id?: string }) => ({
+                type: bed.type || "Standard",
+                count: bed.count || 1,
+                _id:
+                  bed._id ||
+                  `${room._id}-bed-${Math.random()
+                    .toString(36)
+                    .substring(2, 9)}`,
+              })
+            )
+          : [
+              {
+                type: "Standard",
+                count: 1,
+                _id: `${room._id}-default-bed`,
+              },
+            ],
+      } as any
+    }
   />
 ));
 
