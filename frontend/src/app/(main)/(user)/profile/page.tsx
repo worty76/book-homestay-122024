@@ -76,20 +76,20 @@ export default function ProfilePage() {
           <div className="w-full md:w-1/4">
             <Card>
               <CardContent className="p-4">
-                <nav className="space-y-2">
+                <nav className="space-y-2 overflow-auto">
                   {menuItems.map((item) => (
                     <Button
                       key={item.id}
                       variant="ghost"
-                      className={`w-full justify-start transition-colors ${
+                      className={`w-full justify-start transition-colors whitespace-normal text-left h-auto ${
                         activeSection === item.id
                           ? "bg-primary/10 text-primary hover:bg-primary/20"
                           : ""
                       }`}
                       onClick={() => setActiveSection(item.id)}
                     >
-                      <item.icon className="w-4 h-4 mr-2" />
-                      {item.label}
+                      <item.icon className="w-4 h-4 mr-2 flex-shrink-0" />
+                      <span>{item.label}</span>
                     </Button>
                   ))}
                 </nav>

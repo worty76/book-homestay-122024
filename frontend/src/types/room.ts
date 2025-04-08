@@ -4,14 +4,12 @@ export interface Room {
   description: string;
   category: string;
   image: string[];
-  location: {
-    address: string;
-    city: string;
-  };
+  floor: string;
   amenities: string[];
   status: "available" | "booked";
   averageRating: number;
   dailyRate: number;
+  basePrice?: number;
   capacity: {
     maxGuests: number;
     maxAdults?: number;
@@ -38,10 +36,62 @@ export interface Room {
       _id: string;
     }[];
   };
-  floor?: string;
   bedrooms?: number;
   shared?: boolean;
   bathroomAmenities?: string[];
+  createdAt?: string;
+  bookedDates?: string[];
+  bookings?: any[];
+  ratings?: any[];
+}
+
+export interface RoomCardProps {
+  room: {
+    _id: string;
+    name: string;
+    description: string;
+    category: string;
+    images: string[];
+    floor: string;
+    amenities: string[];
+    status: "available" | "booked";
+    averageRating: number;
+    dailyRate: number;
+    basePrice?: number;
+    capacity: {
+      maxGuests: number;
+      maxAdults?: number;
+      maxChildren?: number;
+    };
+    pricing: {
+      basePrice: number;
+      cleaningFee: number;
+      securityDeposit: number;
+    };
+    houseRules: {
+      smokingAllowed: boolean;
+      petsAllowed: boolean;
+      partiesAllowed: boolean;
+      checkInTime: string;
+      checkOutTime: string;
+    };
+    facilities: {
+      bathrooms: number;
+      roomSize: number;
+      bedsDescription: {
+        type: string;
+        count: number;
+        _id: string;
+      }[];
+    };
+    bedrooms?: number;
+    shared?: boolean;
+    bathroomAmenities?: string[];
+    createdAt?: string;
+    bookedDates?: string[];
+    bookings?: any[];
+    ratings?: any[];
+  };
 }
 
 export type RoomCategory = "room" | "suite" | "apartment";
@@ -56,7 +106,7 @@ export interface DisplayRoom {
   type: string;
   view: string;
   category: string;
-  images: string[];
+  image: string[];
   maxCapacity: number;
   amenities: string[];
   available: boolean;
@@ -78,11 +128,10 @@ export interface RoomDetailDisplay {
     count: number;
     _id: string;
   }[];
-  price: number;
   view: string;
   amenities: string[];
   bathroomAmenities: string[];
-  images: string[];
+  image: string[];
   category: string;
   available: boolean;
   rating: number;
@@ -116,18 +165,19 @@ export interface BookingFormRoom {
   maxCapacity: number;
   maxAdults: number;
   maxChildren: number;
-  price: number;
   available: boolean;
   description: string;
   story?: string;
   mainColors?: string[];
   amenities: string[];
   bathroomAmenities: string[];
-  images: string[];
+  image: string[];
   rating: number;
-  cleaningFee?: number;
-  securityDeposit?: number;
-  basePrice?: number;
+  pricing: {
+    basePrice: number;
+    cleaningFee: number;
+    securityDeposit: number;
+  };
   bedrooms?: number;
   bathrooms?: number;
   checkInTime?: string;
@@ -152,4 +202,6 @@ export interface SearchParams {
   guests?: number;
   adults?: number;
   children?: number;
+  minPrice?: number;
+  maxPrice?: number;
 }

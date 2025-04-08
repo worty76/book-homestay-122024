@@ -21,27 +21,6 @@ type RoomType = "Twin" | "Double" | "Dormitory";
 type ViewType = "Window" | "Balcony";
 type RoomCategory = "Deluxe" | "Standard";
 
-interface Room {
-  id: string;
-  name: string;
-  floor: number;
-  type: RoomType;
-  category: RoomCategory;
-  view: ViewType;
-  size: number;
-  maxCapacity: number;
-  price: number;
-  available: boolean;
-  description: string;
-  story: string;
-  mainColors: string[];
-  amenities: string[];
-  bathroomAmenities: string[];
-  images: string[];
-  rating?: number; // Add rating property
-}
-
-// API Room interface
 interface ApiRoom {
   _id: string;
   name: string;
@@ -50,7 +29,7 @@ interface ApiRoom {
   image: string[];
   status: string;
   floor?: string;
-  dailyRate: number;
+  basePrice: number;
   capacity: {
     maxGuests: number;
   };
@@ -179,63 +158,58 @@ const RoomList = () => {
                         transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                       >
                         <RoomCard
-                          room={{
-                            id: room._id,
-                            name: room.name,
-                            description: room.description || "",
-                            price: room.dailyRate,
-                            // Explicitly cast to RoomType
-                            type: (room.facilities.bedsDescription?.[0]?.type ||
-                              "Double") as RoomType,
-                            // Explicitly cast to ViewType
-                            view: "Window" as ViewType,
-                            // Explicitly cast to RoomCategory
-                            category: room.category as RoomCategory,
-                            images: room.image,
-                            maxCapacity: room.capacity.maxGuests,
-                            amenities: room.amenities,
-                            available: room.status === "available",
-                            rating: room.averageRating || 0,
-                            floor: parseInt(room.floor || "1", 10),
-                            size: room.facilities.roomSize || 20,
-                            // Adding missing required properties with default values
-                            story: "",
-                            mainColors: ["#ffffff", "#f5f5f5"],
-                            bathroomAmenities: [],
-                            // Add the missing properties
-                            maxAdults: room.capacity.maxGuests,
-                            maxChildren: 0,
-                            // Optional properties with default values
-                            cleaningFee: 0,
-                            securityDeposit: 0,
-                            basePrice: room.dailyRate,
-                            bedrooms: 1,
-                            bathrooms: 1,
-                            checkInTime: "14:00",
-                            checkOutTime: "12:00",
-                            houseRules: {
-                              smokingAllowed: false,
-                              petsAllowed: false,
-                              partiesAllowed: false,
+                          room={
+                            {
+                              _id: room._id,
+                              name: room.name,
+                              description: room.description || "",
+                              type: (room.facilities.bedsDescription?.[0]
+                                ?.type || "Double") as RoomType,
+                              view: "Window" as ViewType,
+                              category: room.category as RoomCategory,
+                              images: room.image,
+                              maxCapacity: room.capacity.maxGuests,
+                              amenities: room.amenities,
+                              available: room.status === "available",
+                              rating: room.averageRating || 0,
+                              floor: room.floor || "1",
+                              size: room.facilities.roomSize || 20,
+                              story: "",
+                              mainColors: ["#ffffff", "#f5f5f5"],
+                              bathroomAmenities: [],
+                              maxAdults: room.capacity.maxGuests,
+                              maxChildren: 0,
+                              cleaningFee: 0,
+                              securityDeposit: 0,
+                              basePrice: room.basePrice,
+                              bedrooms: 1,
+                              bathrooms: 1,
                               checkInTime: "14:00",
                               checkOutTime: "12:00",
-                            },
-                            bedsDescription: room.facilities.bedsDescription
-                              ? room.facilities.bedsDescription.map(
-                                  (bed: { type?: string }) => ({
-                                    type: bed.type || "Double",
-                                    count: 1, // Default count value
-                                    _id: room._id + "-bed", // Generate a unique ID
-                                  })
-                                )
-                              : [
-                                  {
-                                    type: "Double",
-                                    count: 1,
-                                    _id: room._id + "-default-bed",
-                                  },
-                                ],
-                          }}
+                              houseRules: {
+                                smokingAllowed: false,
+                                petsAllowed: false,
+                                partiesAllowed: false,
+                                checkInTime: "14:00",
+                                checkOutTime: "12:00",
+                              },
+                              bedsDescription: room.facilities.bedsDescription
+                                ? room.facilities.bedsDescription.map(
+                                    (bed: { type?: string }) => ({
+                                      type: bed.type || "Double",
+                                      count: 1,
+                                      _id: room._id + "-bed",
+                                    })
+                                  )
+                                : [
+                                    {
+                                      type: "Double",
+                                      count: 1,
+                                      _id: room._id + "-default-bed",
+                                    },
+                                  ],
+                            } as any
+                          }
                         />
                       </motion.div>
                     </CarouselItem>

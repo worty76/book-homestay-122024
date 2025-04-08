@@ -16,14 +16,14 @@ import { ChevronDown } from "lucide-react";
 interface BookingSidebarProps {
   pricePerNight?: number;
   cleaningFee?: number;
-  serviceFee?: number;
+  // serviceFee?: number;
   currency?: string;
 }
 
 export default function BookingSidebar({
   pricePerNight = 3000000,
   cleaningFee = 500000,
-  serviceFee = 750000,
+  // serviceFee = 750000,
   currency = "VNĐ",
 }: BookingSidebarProps) {
   const [checkIn, setCheckIn] = useState<Date | undefined>(new Date());
@@ -48,9 +48,9 @@ export default function BookingSidebar({
 
       const accommodationCost =
         pricePerNight * (nightsCount > 0 ? nightsCount : 0);
-      setTotalPrice(accommodationCost + cleaningFee + serviceFee);
+      setTotalPrice(accommodationCost + cleaningFee);
     }
-  }, [checkIn, checkOut, pricePerNight, cleaningFee, serviceFee]);
+  }, [checkIn, checkOut, pricePerNight, cleaningFee]);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("vi-VN").format(amount);
@@ -301,10 +301,10 @@ export default function BookingSidebar({
           <span className="underline">Phí dọn dẹp</span>
           <span>{formatCurrency(cleaningFee)}</span>
         </div>
-        <div className="flex justify-between">
+        {/* <div className="flex justify-between">
           <span className="underline">Phí dịch vụ</span>
           <span>{formatCurrency(serviceFee)}</span>
-        </div>
+        </div> */}
         <div className="flex justify-between border-t pt-4 font-bold">
           <span>Tổng số tiền</span>
           <span>{formatCurrency(totalPrice)}</span>

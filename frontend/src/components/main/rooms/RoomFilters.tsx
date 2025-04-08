@@ -95,7 +95,7 @@ export default function RoomFilters({
 
         <div className="mb-6">
           <label className="text-md font-medium mb-2 block text-[#0a3b33]">
-            Giá phòng
+            Giá phòng (mỗi đêm)
           </label>
           <div className="mb-2 flex justify-between text-md">
             <span>{formatCurrency(priceRange[0])}</span>

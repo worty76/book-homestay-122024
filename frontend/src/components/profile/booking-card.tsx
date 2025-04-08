@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import {
   Booking,
   formatDate,
-  formatPrice,
   BookingStatus,
   PaymentStatus,
   PaymentMethod,
@@ -14,6 +13,7 @@ import {
   PAYMENT_STATUS_CONFIGS,
   PAYMENT_METHOD_CONFIGS,
 } from "@/types/booking";
+import { formatCurrency } from "@/utils/roomUtils";
 
 interface BookingCardProps {
   booking: Booking;
@@ -60,11 +60,8 @@ export function BookingCard({
     return PAYMENT_METHOD_CONFIGS[method] || method;
   };
 
-  // const roomName =
-  //   typeof booking.room === "string"
-  //     ? "Loading..."
-  //     :  || "Unnamed Room";
-
+  const roomName =
+    typeof booking.room === "string" ? booking.room : booking.room?.name;
   const roomImage =
     typeof booking.room === "string" ? undefined : booking.room?.image?.[0];
 
@@ -80,13 +77,13 @@ export function BookingCard({
                 roomImage ||
                 "https://images.unsplash.com/photo-1566073771259-6a8506099945"
               }
-              alt={booking.room?.name}
+              alt={roomName}
               className="w-full h-32 object-cover rounded-lg"
             />
           </div>
           <div className="flex-1 space-y-3">
             <div className="flex items-center justify-between">
-              <h4 className="text-lg font-semibold">{booking.room?.name}</h4>
+              <h4 className="text-lg font-semibold">{roomName}</h4>
               {getStatusBadge(status)}
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -104,7 +101,9 @@ export function BookingCard({
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Tổng tiền</p>
-                <p className="font-medium">{formatPrice(booking.totalPrice)}</p>
+                <p className="font-medium">
+                  {formatCurrency(booking.totalPrice)}
+                </p>
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-3 mt-1">

@@ -35,9 +35,44 @@ export function useBookings() {
         throw new Error("Failed to fetch bookings");
       }
 
-      const data: BookingResponse[] = await response.json();
-      // Transform the API response to our component model
-      const transformedBookings = data.map(mapBookingResponseToBooking);
+      const data = await response.json();
+      const transformedBookings = data.map((item: any) => {
+        const roomData =
+          typeof item.room === "string"
+            ? { name: "", image: [] }
+            : {
+                _id: item.room._id,
+                name: item.room.name || "",
+                image: item.room.image || [],
+                description: item.room.description || "",
+                category: item.room.category || "",
+                amenities: item.room.amenities || [],
+                floor: item.room.floor || "",
+                status: item.room.status || "",
+                capacity: item.room.capacity || {},
+                pricing: item.room.pricing || {},
+                houseRules: item.room.houseRules || {},
+                facilities: item.room.facilities || {},
+                bedrooms: item.room.bedrooms || 0,
+                dailyRate: item.room.dailyRate || 0,
+              };
+
+        return {
+          _id: item._id,
+          startAt: item.startAt,
+          endAt: item.endAt,
+          days: item.days,
+          guests: item.guests,
+          totalPrice: parseFloat(item.totalPrice),
+          status: item.status,
+          paymentStatus: item.paymentStatus || "UNPAID",
+          paymentMethod: item.paymentMethod || "CASH",
+          createdAt: item.createdAt,
+          room: roomData,
+          user: item.user,
+        };
+      });
+
       setBookings(transformedBookings);
     } catch (error) {
       console.error("Error fetching bookings:", error);

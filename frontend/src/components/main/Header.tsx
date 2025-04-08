@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, User, LogOut, Settings, UserCircle } from "lucide-react";
+import { Menu, X, User, LogOut, UserCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   useAuthStore,
@@ -28,23 +28,7 @@ export function Header() {
   const user = useUser();
   const profile = useProfileStore((state) => state.profile);
   const logout = useAuthStore((state) => state.logout);
-  const profileMenuRef = useRef<HTMLDivElement>(null);
 
-  // Close profile menu when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        profileMenuRef.current &&
-        !profileMenuRef.current.contains(event.target as Node)
-      ) {
-        setProfileMenuOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // Close mobile menu on screen resize
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768 && mobileMenuOpen) {
@@ -54,6 +38,20 @@ export function Header() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (profileMenuOpen) {
+        const target = e.target as HTMLElement;
+        if (!target.closest(".profile-menu-container")) {
+          setProfileMenuOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [profileMenuOpen]);
 
   const handleLogout = () => {
     toast.success("Đăng xuất thành công", {
@@ -67,13 +65,16 @@ export function Header() {
   const displayName = profile?.username || user?.name || "Tài khoản";
 
   const ProfileMenu = () => (
-    <div className="relative" ref={profileMenuRef}>
+    <div className="relative profile-menu-container">
       <button
-        onClick={() => setProfileMenuOpen(!profileMenuOpen)}
-        className="flex items-center gap-2 bg-[#9C6B4A] hover:bg-[#7A5230] text-white py-2 px-3 sm:px-4 rounded-full text-xs sm:text-sm font-medium transition-colors whitespace-nowrap"
+        onClick={(e) => {
+          e.stopPropagation();
+          setProfileMenuOpen(!profileMenuOpen);
+        }}
+        className="flex items-center gap-2 bg-[#9C6B4A] hover:bg-[#7A5230] text-white py-2 px-4 rounded-full text-sm font-medium transition-colors whitespace-nowrap"
       >
         <User className="h-4 w-4" />
-        <span>{displayName}</span>
+        <span className="hidden lg:inline">{displayName}</span>
       </button>
 
       <AnimatePresence>
@@ -87,15 +88,21 @@ export function Header() {
           >
             <Link
               href="/profile"
-              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              onClick={() => setProfileMenuOpen(false)}
+              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full"
+              onClick={(e) => {
+                e.stopPropagation();
+                setProfileMenuOpen(false);
+              }}
             >
               <UserCircle className="h-4 w-4" />
               <span>Thông tin cá nhân</span>
             </Link>
             <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleLogout();
+              }}
+              className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left"
             >
               <LogOut className="h-4 w-4" />
               <span>Đăng xuất</span>
@@ -149,9 +156,9 @@ export function Header() {
         </nav>
 
         <div className="md:hidden flex items-center gap-3">
-          {isAuthenticated ? (
-            <ProfileMenu />
-          ) : (
+          {isAuthenticated && <ProfileMenu />}
+
+          {!isAuthenticated && (
             <Link
               href="/login"
               className="flex items-center justify-center bg-[#9C6B4A] hover:bg-[#7A5230] text-white p-2 rounded-full transition-colors"
@@ -185,7 +192,7 @@ export function Header() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-0 right-0 bottom-0 w-full xs:w-80 sm:w-96 max-w-full bg-white p-6 shadow-lg overflow-y-auto"
+              className="fixed top-0 right-0 bottom-0 w-full xs:w-80 max-w-full bg-white p-6 shadow-lg overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-8">

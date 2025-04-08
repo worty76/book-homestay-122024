@@ -1,6 +1,7 @@
 "use client";
 
-import { Bed, Bath, Check, Home } from "lucide-react";
+import { memo } from "react";
+import { Check, Home, Bath } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -8,72 +9,98 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { motion } from "framer-motion";
 
 interface RoomAmenitiesProps {
   amenities: string[];
   bathroomAmenities: string[];
 }
 
-export default function RoomAmenities({
-  amenities,
-  bathroomAmenities,
-}: RoomAmenitiesProps) {
-  return (
-    <Card className="mb-8">
-      <CardHeader>
-        <div className="flex items-center mb-1">
-          <div className="h-0.5 w-5 bg-[#9C6B4A] mr-2"></div>
-          <CardTitle className="text-2xl text-[#0a3b33] font-bold">
-            Tiện nghi
-          </CardTitle>
-        </div>
-        <CardDescription className="text-[#0a3b33]/70">
-          Các tiện nghi có sẵn trong phòng
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Tabs defaultValue="room">
-          <TabsList className="grid w-full grid-cols-2 mb-4 bg-[#f8f3e9] border border-[#5a8d69]/20">
-            <TabsTrigger
-              value="room"
-              className="data-[state=active]:bg-white data-[state=active]:text-[#0a3b33] data-[state=active]:shadow-sm"
-            >
-              <Home className="h-4 w-4 mr-1" />
-              <span>Phòng</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="bathroom"
-              className="data-[state=active]:bg-white data-[state=active]:text-[#0a3b33] data-[state=active]:shadow-sm"
-            >
-              <Bath className="h-4 w-4 mr-1" />
-              <span>Phòng tắm</span>
-            </TabsTrigger>
-          </TabsList>
+// Memoized amenity item to prevent re-renders
+const AmenityItem = memo(({ amenity }: { amenity: string }) => (
+  <motion.div
+    className="flex items-start gap-1.5 sm:gap-2"
+    initial={{ opacity: 0, x: -5 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ duration: 0.2 }}
+  >
+    <Check className="h-4 w-4 sm:h-5 sm:w-5 text-[#5a8d69] flex-shrink-0 mt-0.5" />
+    <span className="text-[#0a3b33] text-sm sm:text-base">{amenity}</span>
+  </motion.div>
+));
 
-          <TabsContent value="room" className="mt-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
-              {amenities.map((amenity, index) => (
-                <div key={index} className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-[#5a8d69] flex-shrink-0 mt-0.5" />
-                  <span className="text-[#0a3b33]">{amenity}</span>
-                </div>
-              ))}
-            </div>
-          </TabsContent>
+AmenityItem.displayName = "AmenityItem";
 
-          <TabsContent value="bathroom" className="mt-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
-              {bathroomAmenities.map((amenity, index) => (
-                <div key={index} className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-[#5a8d69] flex-shrink-0 mt-0.5" />
-                  <span className="text-[#0a3b33]">{amenity}</span>
+const RoomAmenities = memo(
+  ({ amenities, bathroomAmenities }: RoomAmenitiesProps) => {
+    return (
+      <Card className="mb-6 sm:mb-8">
+        <CardHeader className="pb-2 px-3 sm:px-6 pt-4 sm:pt-6">
+          <motion.div
+            className="flex items-center mb-1"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="h-0.5 w-4 sm:w-5 bg-[#9C6B4A] mr-2"></div>
+            <CardTitle className="text-xl sm:text-2xl text-[#0a3b33] font-bold">
+              Tiện nghi
+            </CardTitle>
+          </motion.div>
+          <CardDescription className="text-[#0a3b33]/70 text-sm sm:text-base">
+            Các tiện nghi có sẵn trong phòng
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="px-3 sm:px-6">
+          {amenities.length > 0 || bathroomAmenities.length > 0 ? (
+            <div className="space-y-4">
+              {amenities.length > 0 && (
+                <div>
+                  <motion.div
+                    className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-2 sm:gap-y-3"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {amenities.map((amenity, index) => (
+                      <AmenityItem key={`room-${index}`} amenity={amenity} />
+                    ))}
+                  </motion.div>
                 </div>
-              ))}
+              )}
+
+              {bathroomAmenities.length > 0 && (
+                <div>
+                  <div className="flex items-center mb-2">
+                    <Bath className="h-4 w-4 sm:h-5 sm:w-5 text-[#5a8d69] mr-2" />
+                    <h3 className="font-medium text-[#0a3b33]">Phòng tắm</h3>
+                  </div>
+                  <motion.div
+                    className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-2 sm:gap-y-3"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {bathroomAmenities.map((amenity, index) => (
+                      <AmenityItem
+                        key={`bathroom-${index}`}
+                        amenity={amenity}
+                      />
+                    ))}
+                  </motion.div>
+                </div>
+              )}
             </div>
-          </TabsContent>
-        </Tabs>
-      </CardContent>
-    </Card>
-  );
-}
+          ) : (
+            <p className="text-[#0a3b33]/60 text-sm py-2">
+              Không có thông tin tiện nghi
+            </p>
+          )}
+        </CardContent>
+      </Card>
+    );
+  }
+);
+
+RoomAmenities.displayName = "RoomAmenities";
+export default RoomAmenities;
