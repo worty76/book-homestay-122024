@@ -205,7 +205,7 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
               <RoomGallery images={room.image} alt={room.name} />
 
               <motion.div
-                className="bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8 border border-[#5a8d69]/10"
+                className="rounded-lg"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
@@ -214,7 +214,7 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
               </motion.div>
 
               <motion.div
-                className="bg-white rounded-lg p-4 sm:p-6 md:p-8"
+                className="rounded-lg"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.3 }}
