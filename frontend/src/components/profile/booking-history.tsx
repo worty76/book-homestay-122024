@@ -31,6 +31,9 @@ export function BookingHistory() {
     cancelBooking,
   } = useBookings();
 
+  console.log(upcomingBookings);
+  console.log(pastBookings);
+
   const handleCancelBooking = (bookingId: string) => {
     const booking = [...upcomingBookings, ...pastBookings].find(
       (b) => b._id === bookingId
@@ -75,7 +78,19 @@ export function BookingHistory() {
               upcomingBookings.map((booking) => (
                 <BookingCard
                   key={booking._id}
-                  booking={booking}
+                  booking={{
+                    ...booking,
+                    room: {
+                      name:
+                        typeof booking.room === "string"
+                          ? booking.room
+                          : booking.room.name || "",
+                      image:
+                        typeof booking.room === "string"
+                          ? []
+                          : booking.room.image || [],
+                    },
+                  }}
                   onCancel={handleCancelBooking}
                   cancellingId={cancellingId}
                   showCancelButton={
@@ -103,7 +118,19 @@ export function BookingHistory() {
               pastBookings.map((booking) => (
                 <BookingCard
                   key={booking._id}
-                  booking={booking}
+                  booking={{
+                    ...booking,
+                    room: {
+                      name:
+                        typeof booking.room === "string"
+                          ? booking.room
+                          : booking.room.name || "",
+                      image:
+                        typeof booking.room === "string"
+                          ? []
+                          : booking.room.image || [],
+                    },
+                  }}
                   onCancel={handleCancelBooking}
                   cancellingId={cancellingId}
                   showBookAgainButton={booking.status === "completed"}

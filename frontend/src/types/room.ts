@@ -3,15 +3,13 @@ export interface Room {
   name: string;
   description: string;
   category: string;
-  image: string[];
-  location: {
-    address: string;
-    city: string;
-  };
+  images: string[];
+  floor: string;
   amenities: string[];
   status: "available" | "booked";
   averageRating: number;
   dailyRate: number;
+  basePrice?: number;
   capacity: {
     maxGuests: number;
     maxAdults?: number;
@@ -38,10 +36,17 @@ export interface Room {
       _id: string;
     }[];
   };
-  floor?: string;
   bedrooms?: number;
   shared?: boolean;
   bathroomAmenities?: string[];
+  createdAt?: string;
+  bookedDates?: string[];
+  bookings?: any[];
+  ratings?: any[];
+}
+
+export interface RoomCardProps {
+  room: Room;
 }
 
 export type RoomCategory = "room" | "suite" | "apartment";
@@ -78,7 +83,6 @@ export interface RoomDetailDisplay {
     count: number;
     _id: string;
   }[];
-  price: number;
   view: string;
   amenities: string[];
   bathroomAmenities: string[];
@@ -116,7 +120,6 @@ export interface BookingFormRoom {
   maxCapacity: number;
   maxAdults: number;
   maxChildren: number;
-  price: number;
   available: boolean;
   description: string;
   story?: string;
@@ -125,9 +128,11 @@ export interface BookingFormRoom {
   bathroomAmenities: string[];
   images: string[];
   rating: number;
-  cleaningFee?: number;
-  securityDeposit?: number;
-  basePrice?: number;
+  pricing: {
+    basePrice: number;
+    cleaningFee: number;
+    securityDeposit: number;
+  };
   bedrooms?: number;
   bathrooms?: number;
   checkInTime?: string;
@@ -152,4 +157,6 @@ export interface SearchParams {
   guests?: number;
   adults?: number;
   children?: number;
+  minPrice?: number;
+  maxPrice?: number;
 }

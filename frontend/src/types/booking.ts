@@ -191,7 +191,6 @@ export interface BookingDetails {
   room: BookingRoomDetails;
 }
 
-// Component-specific booking interface with transformed data
 export interface Booking {
   _id: string;
   startAt: string;
@@ -222,7 +221,6 @@ export const formatPrice = (price: number | string) => {
   return new Intl.NumberFormat("vi-VN").format(numericPrice) + " VND";
 };
 
-// Mapper function to convert API response to component model
 export const mapBookingResponseToBooking = (
   response: BookingResponse
 ): Booking => {
@@ -237,8 +235,7 @@ export const mapBookingResponseToBooking = (
     paymentStatus: (response.paymentStatus as PaymentStatus) || "UNPAID",
     paymentMethod: (response.paymentMethod as PaymentMethod) || "CASH",
     createdAt: response.createdAt,
-    // These will be populated after fetching room and user details
-    room: { name: "Loading..." },
+    room: { name: "" },
     user: response.user,
   };
 };

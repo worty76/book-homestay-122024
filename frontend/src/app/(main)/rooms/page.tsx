@@ -81,6 +81,10 @@ export default function RoomsPage({
   }, []);
 
   useEffect(() => {
+    // Update searchParams with price range
+    searchParams.minPrice = priceRange[0];
+    searchParams.maxPrice = priceRange[1];
+
     let searchFiltered = filterRoomsBySearchParams(rooms, searchParams);
 
     let result = [...searchFiltered];
@@ -97,15 +101,25 @@ export default function RoomsPage({
       );
     }
 
-    result = result.filter(
-      (room) =>
-        room.dailyRate >= priceRange[0] && room.dailyRate <= priceRange[1]
-    );
+    // Additional filter by price range for UI consistency
+    result = result.filter((room) => {
+      const roomPrice =
+        room.basePrice || room.pricing?.basePrice || room.dailyRate || 0;
+      return roomPrice >= priceRange[0] && roomPrice <= priceRange[1];
+    });
 
     if (sortBy === "price-asc") {
-      result.sort((a, b) => a.dailyRate - b.dailyRate);
+      result.sort((a, b) => {
+        const priceA = a.basePrice || a.pricing?.basePrice || a.dailyRate || 0;
+        const priceB = b.basePrice || b.pricing?.basePrice || b.dailyRate || 0;
+        return priceA - priceB;
+      });
     } else if (sortBy === "price-desc") {
-      result.sort((a, b) => b.dailyRate - a.dailyRate);
+      result.sort((a, b) => {
+        const priceA = a.basePrice || a.pricing?.basePrice || a.dailyRate || 0;
+        const priceB = b.basePrice || b.pricing?.basePrice || b.dailyRate || 0;
+        return priceB - priceA;
+      });
     } else if (sortBy === "capacity") {
       result.sort((a, b) => b.capacity.maxGuests - a.capacity.maxGuests);
     }

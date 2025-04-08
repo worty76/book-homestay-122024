@@ -71,7 +71,7 @@ export function Hero() {
           initial={{ height: 0 }}
           animate={{ height: "80px" }}
           transition={{ duration: 1, delay: 1 }}
-          className="absolute top-[-160px] left-1/2 -translate-x-1/2 w-[2px] bg-white"
+          className="absolute top-[-160px] left-1/2 -translate-x-1/2 w-[2px] bg-white z-20"
         ></motion.div>
 
         {/* Social icons container - added flex justify-center to center icons */}

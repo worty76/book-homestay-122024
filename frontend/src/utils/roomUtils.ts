@@ -34,17 +34,39 @@ export function filterRoomsBySearchParams(
       }
     }
 
+    if (
+      searchParams.minPrice !== undefined ||
+      searchParams.maxPrice !== undefined
+    ) {
+      const roomPrice =
+        room.basePrice || room.pricing?.basePrice || room.dailyRate || 0;
+
+      if (
+        searchParams.minPrice !== undefined &&
+        roomPrice < searchParams.minPrice
+      ) {
+        return false;
+      }
+
+      if (
+        searchParams.maxPrice !== undefined &&
+        roomPrice > searchParams.maxPrice
+      ) {
+        return false;
+      }
+    }
+
     return room.status === "available";
   });
 }
 
-export const formatCurrency = (amount: number) => {
+export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat("vi-VN", {
     style: "currency",
     currency: "VND",
-    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(amount);
-};
+}
 
 export const mapCategory = (category: string): string => {
   return category === "room" || category === "suite" || category === "apartment"

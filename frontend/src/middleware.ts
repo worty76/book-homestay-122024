@@ -36,24 +36,19 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  console.log("isAuthenticated:", isAuthenticated);
-  console.log("isAdmin:", isAdmin);
-  console.log("isProtectedPath:", isProtectedPath);
-  console.log("isPublicPath:", isPublicPath);
-
   if (isProtectedPath && !isAuthenticated) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // if (pathname.startsWith("/dashboard") && !isAdmin) {
-  //   return NextResponse.redirect(new URL("/", request.url));
-  // }
+  if (pathname.startsWith("/dashboard") && !isAdmin) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
-  // if (isAuthenticated && isPublicPath && pathname === "/login") {
-  //   return NextResponse.redirect(
-  //     new URL(isAdmin ? "/dashboard" : "/", request.url)
-  //   );
-  // }
+  if (isAuthenticated && isPublicPath && pathname === "/login") {
+    return NextResponse.redirect(
+      new URL(isAdmin ? "/dashboard" : "/", request.url)
+    );
+  }
 
   return NextResponse.next();
 }

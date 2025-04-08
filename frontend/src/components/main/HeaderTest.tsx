@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, User, LogOut, UserCircle } from "lucide-react";
+import { Menu, X, User, LogOut, Settings, UserCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   useAuthStore,
@@ -29,30 +29,6 @@ export function Header() {
   const profile = useProfileStore((state) => state.profile);
   const logout = useAuthStore((state) => state.logout);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768 && mobileMenuOpen) {
-        setMobileMenuOpen(false);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [mobileMenuOpen]);
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (profileMenuOpen) {
-        const target = e.target as HTMLElement;
-        if (!target.closest(".profile-menu-container")) {
-          setProfileMenuOpen(false);
-        }
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [profileMenuOpen]);
-
   const handleLogout = () => {
     toast.success("Đăng xuất thành công", {
       description: "Bạn đã đăng xuất thành công.",
@@ -65,58 +41,39 @@ export function Header() {
   const displayName = profile?.username || user?.name || "Tài khoản";
 
   const ProfileMenu = () => (
-    <div className="relative profile-menu-container">
+    <div className="relative">
       <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setProfileMenuOpen(!profileMenuOpen);
-        }}
-        className="flex items-center gap-2 bg-[#9C6B4A] hover:bg-[#7A5230] text-white py-2 px-4 rounded-full text-sm font-medium transition-colors whitespace-nowrap"
+        onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+        className="flex items-center gap-2 bg-[#9C6B4A] hover:bg-[#7A5230] text-white py-2 px-4 rounded-full text-sm font-medium transition-colors"
       >
         <User className="h-4 w-4" />
-        <span className="hidden lg:inline">{displayName}</span>
+        <span>{displayName}</span>
       </button>
 
-      <AnimatePresence>
-        {profileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50"
+      {profileMenuOpen && (
+        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+          <Link
+            href="/profile"
+            className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           >
-            <Link
-              href="/profile"
-              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full"
-              onClick={(e) => {
-                e.stopPropagation();
-                setProfileMenuOpen(false);
-              }}
-            >
-              <UserCircle className="h-4 w-4" />
-              <span>Thông tin cá nhân</span>
-            </Link>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleLogout();
-              }}
-              className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left"
-            >
-              <LogOut className="h-4 w-4" />
-              <span>Đăng xuất</span>
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <UserCircle className="h-4 w-4" />
+            <span>Thông tin cá nhân</span>
+          </Link>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full"
+          >
+            <LogOut className="h-4 w-4" />
+            <span>Đăng xuất</span>
+          </button>
+        </div>
+      )}
     </div>
   );
-
   return (
-    <div className="container mx-auto px-2 sm:px-4">
-      <header className="relative z-10 flex items-center justify-between px-3 sm:px-6 md:px-8 py-2 bg-[rgba(249,245,227,1)] rounded-b-xl sm:rounded-b-2xl md:rounded-b-3xl shadow-sm">
-        <Link href="/" className="flex-shrink-0">
+    <div className="container mx-auto">
+      <header className="relative z-10 flex items-center justify-between px-8 py-2 bg-[rgba(249,245,227,1)] rounded-b-3xl">
+        <Link href="/">
           <Image
             src="/images/LogoKen-03.png"
             alt="Logo"
@@ -156,9 +113,14 @@ export function Header() {
         </nav>
 
         <div className="md:hidden flex items-center gap-3">
-          {isAuthenticated && <ProfileMenu />}
-
-          {!isAuthenticated && (
+          {isAuthenticated ? (
+            <button
+              onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+              className="flex items-center justify-center bg-[#9C6B4A] hover:bg-[#7A5230] text-white p-2 rounded-full transition-colors"
+            >
+              <User className="h-4 w-4" />
+            </button>
+          ) : (
             <Link
               href="/login"
               className="flex items-center justify-center bg-[#9C6B4A] hover:bg-[#7A5230] text-white p-2 rounded-full transition-colors"
@@ -185,18 +147,16 @@ export function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-20 bg-black/50 backdrop-blur-sm"
-            onClick={() => setMobileMenuOpen(false)}
           >
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-0 right-0 bottom-0 w-full xs:w-80 max-w-full bg-white p-6 shadow-lg overflow-y-auto"
-              onClick={(e) => e.stopPropagation()}
+              className="fixed top-0 right-0 bottom-0 w-64 bg-white p-6 shadow-lg"
             >
               <div className="flex items-center justify-between mb-8">
-                <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+                <Link href="/">
                   <Image
                     src="/images/LogoKen-03.png"
                     alt="Logo"
@@ -228,18 +188,16 @@ export function Header() {
                     </li>
                   ))}
 
-                  {!isAuthenticated && (
-                    <li className="pt-4 border-t border-gray-100">
-                      <Link
-                        href="/login"
-                        className="flex items-center gap-2 text-[#9C6B4A] hover:text-[#7A5230] py-1"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        <User className="h-4 w-4" />
-                        <span className="font-bold text-base">ĐĂNG NHẬP</span>
-                      </Link>
-                    </li>
-                  )}
+                  <li className="pt-4 border-t border-gray-100">
+                    <Link
+                      href="/login"
+                      className="flex items-center gap-2 text-[#9C6B4A] hover:text-[#7A5230]"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <User className="h-4 w-4" />
+                      <span className="font-bold text-sm">ĐĂNG NHẬP</span>
+                    </Link>
+                  </li>
                 </ul>
               </nav>
             </motion.div>

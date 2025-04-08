@@ -47,27 +47,26 @@ export default function BookingForm({ room }: BookingFormProps) {
   const [guests, setGuests] = useState("1");
   const [showBookingModal, setShowBookingModal] = useState(false);
 
-  // Calculate number of nights
   const numberOfNights = dateRange.to
     ? differenceInDays(dateRange.to, dateRange.from)
     : 0;
 
-  // Calculate total price
-  const totalPrice = room.price * numberOfNights;
-  const cleaningFee = room.cleaningFee || 150000; // Use room's cleaning fee or default
-  const serviceFee = Math.round(totalPrice * 0.05); // 5% service fee
-  const grandTotal = totalPrice + cleaningFee + serviceFee;
+  const basePrice = room.pricing.basePrice || 0;
+  const cleaningFee = room.pricing.cleaningFee || 0;
+  const totalPrice = basePrice * numberOfNights;
+  const grandTotal = totalPrice + cleaningFee;
+
+  const maxCapacity = room.maxCapacity || 2;
 
   return (
     <Card className="border-none shadow-md overflow-hidden">
       <CardHeader className="bg-[#0a3b33] text-white">
         <CardTitle className="flex items-center justify-between">
-          <span className="text-xl">{formatCurrency(room.price)}</span>
-          <span className="text-sm font-normal text-white/80">/ đêm</span>
+          <span className="text-xl">{formatCurrency(basePrice)}</span>
+          <span className="text-xl font-bold text-white/80">/ đêm</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6 p-6">
-        {/* Date Range Picker */}
         <div className="grid gap-3">
           <Popover>
             <PopoverTrigger asChild>
@@ -111,7 +110,6 @@ export default function BookingForm({ room }: BookingFormProps) {
           </Popover>
         </div>
 
-        {/* Guests */}
         <div className="grid gap-3">
           <Select value={guests} onValueChange={setGuests}>
             <SelectTrigger className="w-full border-[#5a8d69]/30 hover:border-[#5a8d69] hover:bg-[#5a8d69]/5">
@@ -121,7 +119,7 @@ export default function BookingForm({ room }: BookingFormProps) {
               </div>
             </SelectTrigger>
             <SelectContent>
-              {Array.from({ length: room.maxCapacity }, (_, i) => i + 1).map(
+              {Array.from({ length: maxCapacity }, (_, i) => i + 1).map(
                 (num) => (
                   <SelectItem key={num} value={num.toString()}>
                     {num} {num === 1 ? "khách" : "khách"}
@@ -134,11 +132,10 @@ export default function BookingForm({ room }: BookingFormProps) {
 
         <Separator className="my-4 bg-[#5a8d69]/20" />
 
-        {/* Price Details */}
         <div className="space-y-3">
           <div className="flex justify-between">
             <span className="text-[#0a3b33]/80">
-              {formatCurrency(room.price)} x {numberOfNights} đêm
+              {formatCurrency(basePrice)} x {numberOfNights} đêm
             </span>
             <span className="font-medium">{formatCurrency(totalPrice)}</span>
           </div>
@@ -146,11 +143,6 @@ export default function BookingForm({ room }: BookingFormProps) {
           <div className="flex justify-between">
             <span className="text-[#0a3b33]/80">Phí vệ sinh</span>
             <span className="font-medium">{formatCurrency(cleaningFee)}</span>
-          </div>
-
-          <div className="flex justify-between">
-            <span className="text-[#0a3b33]/80">Phí dịch vụ</span>
-            <span className="font-medium">{formatCurrency(serviceFee)}</span>
           </div>
 
           <Separator className="my-3 bg-[#5a8d69]/20" />
@@ -164,7 +156,14 @@ export default function BookingForm({ room }: BookingFormProps) {
 
       <CardFooter className="bg-[#f8f3e9]/50 p-6 pt-0">
         <BookingModal
-          room={room}
+          room={{
+            ...room,
+            pricing: room.pricing || {
+              basePrice,
+              cleaningFee,
+            },
+            maxCapacity: maxCapacity,
+          }}
           dateRange={dateRange}
           numberOfNights={numberOfNights}
           totalPrice={grandTotal}
