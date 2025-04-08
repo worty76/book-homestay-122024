@@ -29,7 +29,9 @@ interface ApiRoom {
   image: string[];
   status: string;
   floor?: string;
-  basePrice: number;
+  pricing: {
+    basePrice: number;
+  };
   capacity: {
     maxGuests: number;
   };
@@ -181,7 +183,7 @@ const RoomList = () => {
                               maxChildren: 0,
                               cleaningFee: 0,
                               securityDeposit: 0,
-                              basePrice: room.basePrice,
+                              basePrice: room.pricing.basePrice,
                               bedrooms: 1,
                               bathrooms: 1,
                               checkInTime: "14:00",

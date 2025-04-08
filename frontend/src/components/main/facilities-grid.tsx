@@ -11,45 +11,45 @@ interface Facility {
 }
 
 const facilities: Facility[] = [
-  {
-    icon: (
-      <svg
-        width="40"
-        height="40"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <path
-          d="M19 17h2v-5l-9-7-9 7v5h2M12 5.3l6 4.7M3 12l9-7 9 7M5 12v5h14v-5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path d="M10 12h4M8 15h8" strokeLinecap="round" />
-      </svg>
-    ),
-    title: "Đưa đón tận nơi",
-    description:
-      "We will pick and drop you off and on the airport at your arrival and departure times.",
-  },
-  {
-    icon: (
-      <svg
-        width="40"
-        height="40"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <path d="M4 9h16M4 15h16M8 5v14M16 5v14" strokeLinecap="round" />
-      </svg>
-    ),
-    title: "Đỗ xe rộng rãi",
-    description:
-      "Chúng tôi có và cung cấp đủ chỗ đậu xe cho khách lưu trú tại khách sạn và khách trong ngày.",
-  },
+  // {
+  //   icon: (
+  //     <svg
+  //       width="40"
+  //       height="40"
+  //       viewBox="0 0 24 24"
+  //       fill="none"
+  //       stroke="currentColor"
+  //       strokeWidth="1.5"
+  //     >
+  //       <path
+  //         d="M19 17h2v-5l-9-7-9 7v5h2M12 5.3l6 4.7M3 12l9-7 9 7M5 12v5h14v-5"
+  //         strokeLinecap="round"
+  //         strokeLinejoin="round"
+  //       />
+  //       <path d="M10 12h4M8 15h8" strokeLinecap="round" />
+  //     </svg>
+  //   ),
+  //   title: "Đưa đón tận nơi",
+  //   description:
+  //     "We will pick and drop you off and on the airport at your arrival and departure times.",
+  // },
+  // {
+  //   icon: (
+  //     <svg
+  //       width="40"
+  //       height="40"
+  //       viewBox="0 0 24 24"
+  //       fill="none"
+  //       stroke="currentColor"
+  //       strokeWidth="1.5"
+  //     >
+  //       <path d="M4 9h16M4 15h16M8 5v14M16 5v14" strokeLinecap="round" />
+  //     </svg>
+  //   ),
+  //   title: "Đỗ xe rộng rãi",
+  //   description:
+  //     "Chúng tôi có và cung cấp đủ chỗ đậu xe cho khách lưu trú tại khách sạn và khách trong ngày.",
+  // },
   {
     icon: (
       <svg
@@ -105,24 +105,24 @@ const facilities: Facility[] = [
     description:
       "Chúng tôi có mạng internet siêu nhanh và cáp trong phòng để kết nối có dây.",
   },
-  {
-    icon: (
-      <svg
-        width="40"
-        height="40"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <path d="M3 12h18M9 5v14M15 5v14" strokeLinecap="round" />
-        <circle cx="12" cy="12" r="2" />
-      </svg>
-    ),
-    title: "Phòng ăn",
-    description:
-      "Chúng tôi cung cấp dịch vụ ăn uống tại phòng với các món ăn do đầu bếp chế biến hoặc gọi món bên ngoài.",
-  },
+  // {
+  //   icon: (
+  //     <svg
+  //       width="40"
+  //       height="40"
+  //       viewBox="0 0 24 24"
+  //       fill="none"
+  //       stroke="currentColor"
+  //       strokeWidth="1.5"
+  //     >
+  //       <path d="M3 12h18M9 5v14M15 5v14" strokeLinecap="round" />
+  //       <circle cx="12" cy="12" r="2" />
+  //     </svg>
+  //   ),
+  //   title: "Phòng ăn",
+  //   description:
+  //     "Chúng tôi cung cấp dịch vụ ăn uống tại phòng với các món ăn do đầu bếp chế biến hoặc gọi món bên ngoài.",
+  // },
 ];
 
 const fadeInUp = {

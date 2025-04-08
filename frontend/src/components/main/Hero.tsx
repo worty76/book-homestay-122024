@@ -120,19 +120,20 @@ export function Hero() {
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.7 }}
-            className="text-white text-lg md:text-2xl tracking-widest font-light"
+            className="text-white/90 text-lg sm:text-xl md:text-2xl lg:text-2xl tracking-widest font-light font-playfair"
           >
-            Hơi thở truyền thống, nhịp sống hiện đại
+            Chào mừng bạn đến với Kén Homestay
           </motion.p>
           <motion.h2
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-white/90 text-2xl sm:text-3xl md:text-4xl lg:text-6xl tracking-wider font-semibold mb-10 pb-2 font-playfair"
+            className="text-white/80 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-6xl tracking-widest font-bold mb-5 sm:mb-8 md:mb-10 pb-2 font-playfair"
           >
-            Chào mừng bạn đến với
-            <br />
-            Kén Homestay
+            Hơi thở truyền thống
+            <br className="hidden xs:inline pb-10" />
+            <div className="xs:hidden"> </div>
+            nhịp sống hiện đại
           </motion.h2>
 
           {/* Only show SearchBar on screens larger than sm */}

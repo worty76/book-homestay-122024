@@ -70,7 +70,7 @@ export default function AboutSection() {
             variants={fadeIn}
           >
             <span className="text-[#5a8d69] uppercase tracking-wider text-sm mb-4 block">
-              Nơi cung cấp dịch vụ tốt nhất
+              Không gian ấm áp, dịch vụ chu đáo
             </span>
 
             <h2 className="font-playfair text-4xl md:text-5xl text-[#0a3b33] lg:leading-[58px] mb-6">
@@ -78,7 +78,7 @@ export default function AboutSection() {
             </h2>
 
             <p className="text-gray-600 mb-8">
-              Đây là homestay tốt nhất mà bạn có thể tìm thấy
+              Hãy để chúng tôi mang đến cho bạn những trải nghiệm đặc biệt
             </p>
 
             <div className="space-y-6 mb-8">
@@ -87,7 +87,7 @@ export default function AboutSection() {
                   <Award className="w-6 h-6 text-[#5a8d69]" />
                 </div>
                 <p className="font-medium text-[#0a3b33]">
-                  Dịch vụ homestay tốt nhất số 1 ở Việt Nam
+                  Tận hưởng sự chăm sóc chu đáo trong từng chi tiết
                 </p>
               </div>
 

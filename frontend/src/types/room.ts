@@ -9,6 +9,7 @@ export interface Room {
   status: "available" | "booked";
   averageRating: number;
   dailyRate: number;
+  size: number;
   basePrice?: number;
   capacity: {
     maxGuests: number;
@@ -53,6 +54,7 @@ export interface RoomCardProps {
     category: string;
     images: string[];
     floor: string;
+    size: number;
     amenities: string[];
     status: "available" | "booked";
     averageRating: number;
@@ -177,6 +179,9 @@ export interface BookingFormRoom {
     basePrice: number;
     cleaningFee: number;
     securityDeposit: number;
+  };
+  facilities: {
+    roomSize: number;
   };
   bedrooms?: number;
   bathrooms?: number;
