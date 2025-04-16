@@ -180,9 +180,6 @@ export interface BookingFormRoom {
     cleaningFee: number;
     securityDeposit: number;
   };
-  facilities: {
-    roomSize: number;
-  };
   bedrooms?: number;
   bathrooms?: number;
   checkInTime?: string;

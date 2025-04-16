@@ -14,12 +14,18 @@ import {
 import Link from "next/link";
 import SearchBar from "./SearchBar";
 import { motion } from "framer-motion";
+import ZaloIcon from "../iconComponents/ZaloIcon";
+import WhatsappIcon from "../iconComponents/Whatsapp";
 
 const socialLinks = [
   { Icon: Facebook, name: "Facebook", url: "https://facebook.com" },
-  { Icon: Instagram, name: "Instagram", url: "https://instagram.com" },
-  { Icon: Twitter, name: "Twitter", url: "https://twitter.com" },
-  { Icon: Linkedin, name: "LinkedIn", url: "https://linkedin.com" },
+  {
+    Icon: Instagram,
+    name: "Instagram",
+    url: "https://www.instagram.com/ken_homestay/?utm_source=ig_web_button_share_sheet",
+  },
+  { Icon: ZaloIcon, name: "Zalo", url: "tel:0925090669" },
+  { Icon: WhatsappIcon, name: "Whatsapp", url: "tel:0925090669" },
 ];
 
 const carouselImages = [
@@ -54,7 +60,7 @@ export function Hero() {
           </div>
           <div className="tracking-widest">
             <div className="font-bold text-2xl text-[#9C6B4A]">RESERVATION</div>
-            <div className="font-medium">0342784206</div>
+            <div className="font-medium">0925 090 669</div>
           </div>
         </div>
       </motion.div>
@@ -90,14 +96,50 @@ export function Hero() {
                   className="group flex items-center justify-center w-8 h-8 overflow-hidden"
                 >
                   <div className="relative w-8 h-6 transition-all duration-300 group-hover:scale-125">
-                    <Icon
-                      size={24}
-                      className="absolute transition-all duration-300 text-white group-hover:translate-x-full group-hover:opacity-0"
-                    />
-                    <Icon
-                      size={28}
-                      className="absolute transition-all duration-300 text-[#9C6B4A] translate-x-full group-hover:translate-x-0 ps-1"
-                    />
+                    {name === "Zalo" || name === "Whatsapp" ? (
+                      <>
+                        {/* default (white) */}
+                        {name === "Zalo" ? (
+                          <ZaloIcon
+                            size={26}
+                            className="absolute transition-all duration-300 group-hover:translate-x-full group-hover:opacity-0"
+                            color="#ffffff"
+                          />
+                        ) : (
+                          <WhatsappIcon
+                            size={26}
+                            className="absolute transition-all duration-300 group-hover:translate-x-full group-hover:opacity-0"
+                            color="#ffffff"
+                          />
+                        )}
+
+                        {/* colored on hover */}
+                        {name === "Zalo" ? (
+                          <ZaloIcon
+                            size={30}
+                            className="absolute transition-all duration-300 translate-x-full -translate-y-[25px] group-hover:translate-x-0 ps-1"
+                            color="#9C6B4A"
+                          />
+                        ) : (
+                          <WhatsappIcon
+                            size={30}
+                            className="absolute transition-all duration-300 translate-x-full -translate-y-[26px] group-hover:translate-x-0 ps-1"
+                            color="#9C6B4A"
+                          />
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <Icon
+                          size={24}
+                          className="absolute transition-all duration-300 text-white group-hover:translate-x-full group-hover:opacity-0"
+                        />
+                        <Icon
+                          size={28}
+                          className="absolute transition-all duration-300 text-[#9C6B4A] translate-x-full group-hover:translate-x-0 ps-1"
+                        />
+                      </>
+                    )}
                   </div>
                 </Link>
               </motion.div>

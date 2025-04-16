@@ -18,7 +18,10 @@ const slideIn = {
 
 export default function AboutSection() {
   return (
-    <section className="bg-[#f8f3e9] py-16 px-4 md:px-8 overflow-hidden">
+    <section
+      className="bg-[#f8f3e9] py-16 px-4 md:px-8 overflow-hidden"
+      id="maps"
+    >
       <div className="container mx-auto max-w-7xl">
         <div className="flex flex-col lg:flex-row items-center gap-24">
           <div className="lg:w-1/2 relative">

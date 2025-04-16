@@ -231,7 +231,7 @@ const PaymentMethodSelector = ({
         </Label>
       </div>
 
-      <div className="flex items-center space-x-2 border rounded-md p-3 cursor-pointer hover:bg-muted/50 transition-colors">
+      {/* <div className="flex items-center space-x-2 border rounded-md p-3 cursor-pointer hover:bg-muted/50 transition-colors">
         <RadioGroupItem value="VNPAY" id="vnpay" />
         <Label
           htmlFor="vnpay"
@@ -245,7 +245,7 @@ const PaymentMethodSelector = ({
             </p>
           </div>
         </Label>
-      </div>
+      </div> */}
     </RadioGroup>
   </div>
 );
