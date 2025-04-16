@@ -69,7 +69,7 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
       name: room.name,
       description: room.description,
       maxCapacity: room.capacity.maxGuests,
-      size: room.facilities.roomSize,
+      size: room.size || room.facilities.roomSize,
       floor: parseInt(room.floor || "1"),
       type: mapRoomType(
         room.facilities?.bedsDescription?.[0]?.type || "Standard"
@@ -130,7 +130,7 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
       bathroomAmenities: room.bathroomAmenities || [],
       rating: room.averageRating,
       floor: parseInt(room.floor || "1"),
-      size: room.facilities?.roomSize || 0,
+      size: room.size || room.facilities?.roomSize || 0,
       bedrooms: room.bedrooms || 1,
       bathrooms: room.facilities?.bathrooms || 1,
       checkInTime: room.houseRules?.checkInTime || "14:00",

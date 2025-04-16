@@ -42,14 +42,14 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
       bathroomAmenities: room.bathroomAmenities || [],
       image: room.images || [],
       rating: room.averageRating || 0,
-      size: room.facilities?.roomSize || 0,
+      size: room.size || room.facilities?.roomSize || 0,
       pricing: {
         basePrice: room.basePrice || room.pricing?.basePrice,
         cleaningFee: room.pricing?.cleaningFee || 0,
         securityDeposit: room.pricing?.securityDeposit || 0,
       },
       facilities: {
-        roomSize: room.facilities?.roomSize || 0,
+        roomSize: room.size || room.facilities?.roomSize || 0,
       },
       bedrooms: room.bedrooms || 1,
       bathrooms: room.facilities?.bathrooms || 1,
@@ -148,7 +148,7 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
 
           <div className="flex items-center gap-1">
             <Maximize className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span>{room.facilities?.roomSize || 0} m²</span>
+            <span>{room.size || room.facilities?.roomSize || 0} m²</span>
           </div>
 
           <div className="flex items-center gap-1">

@@ -29,6 +29,7 @@ interface ApiRoom {
   image: string[];
   status: string;
   floor?: string;
+  size?: number;
   pricing: {
     basePrice: number;
   };
@@ -175,7 +176,7 @@ const RoomList = () => {
                               available: room.status === "available",
                               rating: room.averageRating || 0,
                               floor: room.floor || "1",
-                              size: room.facilities.roomSize || 20,
+                              size: room.size || room.facilities.roomSize || 20,
                               story: "",
                               mainColors: ["#ffffff", "#f5f5f5"],
                               bathroomAmenities: [],
