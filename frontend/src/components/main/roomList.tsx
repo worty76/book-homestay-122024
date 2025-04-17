@@ -29,7 +29,10 @@ interface ApiRoom {
   image: string[];
   status: string;
   floor?: string;
-  basePrice: number;
+  size?: number;
+  pricing: {
+    basePrice: number;
+  };
   capacity: {
     maxGuests: number;
   };
@@ -173,7 +176,7 @@ const RoomList = () => {
                               available: room.status === "available",
                               rating: room.averageRating || 0,
                               floor: room.floor || "1",
-                              size: room.facilities.roomSize || 20,
+                              size: room.size || room.facilities.roomSize || 20,
                               story: "",
                               mainColors: ["#ffffff", "#f5f5f5"],
                               bathroomAmenities: [],
@@ -181,7 +184,7 @@ const RoomList = () => {
                               maxChildren: 0,
                               cleaningFee: 0,
                               securityDeposit: 0,
-                              basePrice: room.basePrice,
+                              basePrice: room.pricing.basePrice,
                               bedrooms: 1,
                               bathrooms: 1,
                               checkInTime: "14:00",

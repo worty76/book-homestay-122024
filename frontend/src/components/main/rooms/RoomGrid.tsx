@@ -87,7 +87,7 @@ const RoomCardWrapper = memo(({ room }: { room: any }) => (
         available: room.status === "available",
         rating: room.averageRating || 0,
         floor: room.floor || "1",
-        size: room.facilities?.roomSize || 20,
+        size: room.size || room.facilities?.roomSize || 20,
         story: room.story || "",
         mainColors: room.mainColors || ["#FFFFFF", "#F5F5F5"],
         bathroomAmenities: room.bathroomAmenities || [],

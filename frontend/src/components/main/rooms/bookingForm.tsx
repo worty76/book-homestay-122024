@@ -36,20 +36,17 @@ interface BookingFormProps {
 }
 
 export default function BookingForm({ room }: BookingFormProps) {
-  const [dateRange, setDateRange] = useState<{
-    from: Date;
-    to?: Date;
-  }>({
-    from: new Date(),
-    to: addDays(new Date(), 3),
-  });
-
+  const [checkInDate, setCheckInDate] = useState<Date>(new Date());
+  const [checkOutDate, setCheckOutDate] = useState<Date>(
+    addDays(new Date(), 3)
+  );
   const [guests, setGuests] = useState("1");
   const [showBookingModal, setShowBookingModal] = useState(false);
 
-  const numberOfNights = dateRange.to
-    ? differenceInDays(dateRange.to, dateRange.from)
-    : 0;
+  const numberOfNights =
+    checkInDate && checkOutDate
+      ? differenceInDays(checkOutDate, checkInDate)
+      : 0;
 
   const basePrice = room.pricing.basePrice || 0;
   const cleaningFee = room.pricing.cleaningFee || 0;
@@ -57,6 +54,11 @@ export default function BookingForm({ room }: BookingFormProps) {
   const grandTotal = totalPrice + cleaningFee;
 
   const maxCapacity = room.maxCapacity || 2;
+
+  const dateRange = {
+    from: checkInDate,
+    to: checkOutDate,
+  };
 
   return (
     <Card className="border-none shadow-md overflow-hidden">
@@ -73,41 +75,80 @@ export default function BookingForm({ room }: BookingFormProps) {
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-start text-left font-normal border-[#5a8d69]/30 hover:border-[#5a8d69] hover:bg-[#5a8d69]/5",
-                  !dateRange && "text-muted-foreground"
+                  "w-full justify-start text-left font-normal border-[#5a8d69]/30 hover:border-[#5a8d69] hover:bg-[#5a8d69]/5"
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4 text-[#5a8d69]" />
-                {dateRange?.from ? (
-                  dateRange.to ? (
-                    <>
-                      {format(dateRange.from, "dd/MM/yyyy", { locale: vi })} -{" "}
-                      {format(dateRange.to, "dd/MM/yyyy", { locale: vi })}
-                    </>
-                  ) : (
-                    format(dateRange.from, "dd/MM/yyyy", { locale: vi })
-                  )
-                ) : (
-                  <span>Chọn ngày</span>
-                )}
+                <div className="flex flex-col items-start">
+                  <span className="text-xs text-muted-foreground">
+                    Nhận phòng
+                  </span>
+                  <span>
+                    {format(checkInDate, "dd/MM/yyyy", { locale: vi })}
+                  </span>
+                </div>
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="center">
+            <PopoverContent className="w-auto p-0" align="start">
               <Calendar
                 initialFocus
-                mode="range"
-                defaultMonth={dateRange.from}
-                selected={dateRange}
-                onSelect={(range) =>
-                  range &&
-                  setDateRange({ from: range.from || new Date(), to: range.to })
-                }
-                numberOfMonths={2}
+                mode="single"
+                selected={checkInDate}
+                onSelect={(date) => {
+                  if (date) {
+                    setCheckInDate(date);
+                    if (differenceInDays(checkOutDate, date) < 1) {
+                      setCheckOutDate(addDays(date, 1));
+                    }
+                  }
+                }}
                 locale={vi}
                 disabled={(date) => date < new Date()}
               />
             </PopoverContent>
           </Popover>
+
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-full justify-start text-left font-normal border-[#5a8d69]/30 hover:border-[#5a8d69] hover:bg-[#5a8d69]/5"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4 text-[#5a8d69]" />
+                <div className="flex flex-col items-start">
+                  <span className="text-xs text-muted-foreground">
+                    Trả phòng
+                  </span>
+                  <span>
+                    {format(checkOutDate, "dd/MM/yyyy", { locale: vi })}
+                  </span>
+                </div>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="end">
+              <Calendar
+                initialFocus
+                mode="single"
+                selected={checkOutDate}
+                onSelect={(date) => {
+                  if (date && differenceInDays(date, checkInDate) >= 1) {
+                    setCheckOutDate(date);
+                  }
+                }}
+                defaultMonth={checkOutDate}
+                locale={vi}
+                disabled={(date) => date <= checkInDate || date < new Date()}
+              />
+            </PopoverContent>
+          </Popover>
+
+          {numberOfNights > 0 && (
+            <div className="text-sm text-center text-muted-foreground">
+              {numberOfNights} đêm
+            </div>
+          )}
         </div>
 
         <div className="grid gap-3">

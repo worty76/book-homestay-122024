@@ -20,8 +20,8 @@ export function Footer() {
               className="text-center"
             />
             <p className="mb-1">Phạm Hùng, Q.Nam Từ Liêm, Hà Nội</p>
-            <p className="mb-1">Hotline (giờ hành chính): 0123456789</p>
-            <p>Email: demo@gmail.com</p>
+            <p className="mb-1">Hotline (giờ hành chính): 0925090669</p>
+            <p>Email: info.kenhomestay@gmail.com</p>
           </div>
 
           {/* Support Information */}
@@ -75,14 +75,14 @@ export function Footer() {
           {/* Social Media Icons */}
           <div className="flex justify-center space-x-4 mb-6 border-t border-b border-[#9c6b4a] w-full py-6">
             <Link
-              href="#"
+              href="tel:0925090669"
               className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
             >
               <Image
-                src="/icons/twitter.svg"
+                src="/icons/whatsappColor.svg"
                 alt="Twitter"
-                width={20}
-                height={20}
+                width={14}
+                height={14}
                 style={{ width: "auto", height: "auto" }}
               />
             </Link>
@@ -99,11 +99,11 @@ export function Footer() {
               />
             </Link>
             <Link
-              href="#"
+              href="tel:0925090669"
               className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
             >
               <Image
-                src="/icons/group.svg"
+                src="/icons/ZaloColor.svg"
                 alt="Group"
                 width={20}
                 height={20}
@@ -111,7 +111,7 @@ export function Footer() {
               />
             </Link>
             <Link
-              href="#"
+              href="https://www.instagram.com/ken_homestay/?utm_source=ig_web_button_share_sheet"
               className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
             >
               <Image
@@ -157,23 +157,23 @@ export function Footer() {
           {/* Bottom Navigation */}
           <div className="bg-[#1D1D1D] w-full py-4 px-6">
             <div className="flex flex-col space-y-4">
-              <Link href="#" className="flex items-center text-white">
+              <Link href="" className="flex items-center text-white">
                 <MapPin className="w-4 h-4 mr-2 text-yellow-500" />
                 Bản đồ điểm đến
               </Link>
               <Link
-                href="tel:0123456789"
+                href="tel:0925090669"
                 className="flex items-center text-white"
               >
                 <Phone className="w-4 h-4 mr-2 text-yellow-500" />
-                Hotline: 0123456789
+                Hotline: 0925090669
               </Link>
               <Link
-                href="mailto:demo@gmail.com"
+                href="mailto:info.kenhomestay@gmail.com"
                 className="flex items-center text-white"
               >
                 <Mail className="w-4 h-4 mr-2 text-yellow-500" />
-                Email: demo@gmail.com
+                Email: info.kenhomestay@gmail.com
               </Link>
               <Link href="#" className="flex items-center text-white">
                 <Camera className="w-4 h-4 mr-2 text-yellow-500" />
@@ -236,11 +236,14 @@ export function Footer() {
                   />
                 </div>
                 <p className="">Phạm Hùng, Q. Nam Từ Liêm, Hà Nội</p>
-                <p className="">Hotline (giờ hành chính): 0123456789</p>
+                <p className="">Hotline (giờ hành chính): 0925090669</p>
                 <p>
                   Email:{" "}
-                  <a href="mailto:demo@gmail.com" className="hover:underline">
-                    demo@gmail.com
+                  <a
+                    href="mailto:info.kenhomestay@gmail.com"
+                    className="hover:underline"
+                  >
+                    info.kenhomestay@gmail.com
                   </a>
                 </p>
               </div>
@@ -262,14 +265,14 @@ export function Footer() {
             <div className="flex space-x-8 z-10 bg-[#f9f5e3]">
               {/* Social icons remain unchanged */}
               <Link
-                href="#"
+                href="tel:0925090669"
                 className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
               >
                 <Image
-                  src="/icons/twitter.svg"
+                  src="/icons/whatsappColor.svg"
                   alt="Twitter"
-                  width={20}
-                  height={20}
+                  width={14}
+                  height={14}
                   style={{ width: "auto", height: "auto" }}
                 />
               </Link>
@@ -286,11 +289,11 @@ export function Footer() {
                 />
               </Link>
               <Link
-                href="#"
+                href="tel:0925090669"
                 className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
               >
                 <Image
-                  src="/icons/group.svg"
+                  src="/icons/ZaloColor.svg"
                   alt="Group"
                   width={20}
                   height={20}
@@ -298,7 +301,7 @@ export function Footer() {
                 />
               </Link>
               <Link
-                href="#"
+                href="https://www.instagram.com/ken_homestay/?utm_source=ig_web_button_share_sheet"
                 className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
               >
                 <Image
@@ -347,24 +350,23 @@ export function Footer() {
             </div>
             <div className="bg-[#1D1D1D] border-t border-gray-800 py-6">
               <div className="flex flex-wrap justify-around items-center container mx-auto">
-                <Link href="#" className="flex items-center">
+                <Link href="/about" className="flex items-center">
                   <MapPin className="w-4 h-4 mr-2 text-yellow-500" /> Bản đồ
                   điểm đến
                 </Link>
-                <Link href="tel:0123456789" className="flex items-center">
+                <Link href="tel:0925090669" className="flex items-center">
                   <Phone className="w-4 h-4 mr-2 text-yellow-500" /> Hotline:
-                  0123456789
+                  0925090669
                 </Link>
                 <Link
-                  href="mailto:demo@gmail.com"
+                  href="mailto:info.kenhomestay@gmail.com"
                   className="flex items-center"
                 >
                   <Mail className="w-4 h-4 mr-2 text-yellow-500" /> Email:
-                  demo@gmail.com
+                  info.kenhomestay@gmail.com
                 </Link>
-                <Link href="#" className="flex items-center">
+                <Link href="/gallery" className="flex items-center">
                   <Camera className="w-4 h-4 mr-2 text-yellow-500" /> Hình ảnh
-                  preview
                 </Link>
               </div>
             </div>

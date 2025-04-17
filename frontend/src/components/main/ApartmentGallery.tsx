@@ -60,7 +60,7 @@ export default function ApartmentGallery() {
           <Title
             title="Hình ảnh homestay"
             titleColor="#5a8d69"
-            subtitle="Luxury"
+            subtitle="Charming"
             subtitleColor="#9C6B4A"
             // opacity="80"
           />
@@ -68,14 +68,22 @@ export default function ApartmentGallery() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           <motion.div
-            className="relative rounded-3xl overflow-hidden col-span-1 md:col-span-2 lg:col-span-1 row-span-2"
+            className="
+      relative 
+      rounded-3xl 
+      overflow-hidden 
+      col-span-1 
+      md:col-span-2 
+      lg:col-span-1 
+      lg:row-span-2
+    "
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
             variants={fadeInUp}
           >
-            <div className="relative h-[500px] md:h-full w-full group">
+            <div className="relative h-[500px] md:h-[500px] lg:h-full w-full group">
               <Image
                 src="/images/view/1.png"
                 alt="Modern apartment space"
@@ -102,7 +110,7 @@ export default function ApartmentGallery() {
                   fill
                   className="object-cover rounded-3xl transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-black/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-black/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
             </motion.div>
           ))}

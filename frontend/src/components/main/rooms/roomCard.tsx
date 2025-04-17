@@ -33,7 +33,6 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
       type: room.category,
       category: room.category,
       view: "",
-      size: room.facilities?.roomSize || 0,
       maxCapacity: room.capacity?.maxGuests,
       maxAdults: room.capacity?.maxAdults || room.capacity?.maxGuests,
       maxChildren: room.capacity?.maxChildren || 0,
@@ -43,10 +42,14 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
       bathroomAmenities: room.bathroomAmenities || [],
       image: room.images || [],
       rating: room.averageRating || 0,
+      size: room.size || room.facilities?.roomSize || 0,
       pricing: {
         basePrice: room.basePrice || room.pricing?.basePrice,
         cleaningFee: room.pricing?.cleaningFee || 0,
         securityDeposit: room.pricing?.securityDeposit || 0,
+      },
+      facilities: {
+        roomSize: room.size || room.facilities?.roomSize || 0,
       },
       bedrooms: room.bedrooms || 1,
       bathrooms: room.facilities?.bathrooms || 1,
@@ -69,7 +72,6 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
     totalPrice: room.basePrice || room.pricing?.basePrice,
     guests: 1,
   };
-  console.log(room);
 
   return (
     <motion.div
@@ -107,17 +109,15 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
           )}
         </div>
 
-        <div className="absolute bottom-3 left-3 bg-background/90 text-foreground px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
+        <div className="absolute bottom-3 left-3 bg-background/90 text-foreground px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
           {formatCurrency(room.basePrice || room.pricing?.basePrice)} / đêm
         </div>
 
         <div
           className={`
             absolute bottom-3 right-3 transition-opacity duration-300 
-            ${
-              isHovered ? "opacity-100" : "opacity-0 sm:opacity-0 md:opacity-0"
-            } 
-            sm:hover:opacity-100
+            ${isHovered ? "opacity-100" : "opacity-0"} 
+            md:hover:opacity-100
           `}
         >
           <BookingModal
@@ -126,7 +126,7 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
               <Button
                 size="sm"
                 variant="secondary"
-                className="bg-[#5a8d69] text-white hover:bg-[#35814c] shadow-sm text-xs sm:text-sm"
+                className="bg-[#5a8d69] text-white hover:bg-[#35814c] shadow-sm text-xs"
               >
                 Đặt ngay
               </Button>
@@ -135,12 +135,12 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
         </div>
       </div>
 
-      <div className="p-3 sm:p-4 flex flex-col flex-grow">
-        <h3 className="text-base sm:text-lg font-semibold mb-1 sm:mb-2 truncate">
+      <div className="p-2 sm:p-3 md:p-4 flex flex-col flex-grow">
+        <h3 className="text-sm sm:text-base md:text-lg font-semibold mb-1 sm:mb-2 truncate">
           {room.name}
         </h3>
 
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground mb-2 sm:mb-3">
+        <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs text-muted-foreground mb-2 sm:mb-3">
           <div className="flex items-center gap-1">
             <Users className="h-3 w-3 sm:h-4 sm:w-4" />
             <span>{room.capacity?.maxGuests || 2} người</span>
@@ -148,34 +148,35 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
 
           <div className="flex items-center gap-1">
             <Maximize className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span>{room.facilities?.roomSize || 0} m²</span>
+            <span>{room.size || room.facilities?.roomSize || 0} m²</span>
           </div>
 
           <div className="flex items-center gap-1">
             <Building2 className="h-3 w-3 sm:h-4 sm:w-4" />
             <span>Tầng {room.floor || 1}</span>
           </div>
+          <div className="flex items-center gap-1">
+            <Badge variant="outline" className="text-xs px-1.5 py-0 h-5">
+              {room.category || "Standard"}
+            </Badge>
+          </div>
         </div>
 
-        <div className="min-h-[40px] sm:min-h-[60px] overflow-hidden mb-3 sm:mb-4 flex-grow">
+        <div className="min-h-[32px] sm:min-h-[40px] md:min-h-[60px] overflow-hidden mb-2 sm:mb-3 flex-grow">
           <p className="text-muted-foreground text-xs sm:text-sm line-clamp-2 sm:line-clamp-3">
             {room.description || ""}
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 mt-auto">
-          <Badge variant="outline" className="mb-2 sm:mb-0 text-xs">
-            {room.category || "Standard"}
-          </Badge>
-
-          <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2 sm:gap-4">
+        <div className="flex items-center justify-between w-full mt-auto pt-1">
+          <div className="flex items-center justify-between w-full gap-2">
             <BookingModal
               {...defaultBookingProps}
               trigger={
                 <Button
                   variant="outline"
                   size="sm"
-                  className="text-xs sm:text-sm bg-[#5a8d69] text-white hover:text-white hover:bg-[#35814c] shadow-sm px-2 py-1 h-auto"
+                  className="text-xs sm:text-sm bg-[#5a8d69] text-white hover:text-white hover:bg-[#35814c] shadow-sm px-1.5 sm:px-2 py-0.5 h-auto"
                 >
                   Đặt phòng
                 </Button>

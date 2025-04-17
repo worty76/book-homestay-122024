@@ -8,7 +8,7 @@ import SidebarArticle from "@/components/main/blog/sidebar-article";
 import BlogPagination from "@/components/main/blog/blog-pagination";
 import { Badge } from "@/components/ui/badge";
 import { BreadcrumbJsonLd } from "@/components/SEO/JsonLd";
-import { BlogArticle } from "@/data/blogs";
+import { BlogArticle } from "@/app/(main)/blog/page";
 
 interface BlogCategory {
   name: string;
@@ -99,13 +99,14 @@ export default function BlogClientPage({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 auto-rows-fr">
               {currentArticles.map((article, index) => (
                 <motion.div
-                  key={article.slug}
+                  key={article._id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="h-full"
                 >
                   <BlogCard {...article} />
                 </motion.div>
@@ -129,7 +130,7 @@ export default function BlogClientPage({
               <h2 className="text-xl font-bold mb-6">Bài viết nổi bật</h2>
               <div className="space-y-6">
                 {featuredArticles.map((article) => (
-                  <SidebarArticle key={article.slug} {...article} />
+                  <SidebarArticle key={article._id} {...article} />
                 ))}
               </div>
             </div>

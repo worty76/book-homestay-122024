@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import axios from "axios";
 import {
   Calendar,
   Clock,
@@ -16,12 +17,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import {
-  getArticleBySlug,
-  getRelatedArticles,
-  BlogArticle,
-} from "@/data/blogs";
+import { BlogArticle } from "@/app/(main)/blog/page";
 import AnotherHeader from "@/components/main/another-header";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 export default function BlogArticlePage({
   params,
@@ -33,15 +32,37 @@ export default function BlogArticlePage({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchedArticle = getArticleBySlug(params.slug);
+    const fetchArticle = async () => {
+      try {
+        // We're using the slug param as the article ID
+        const response = await axios.get(
+          `${API_URL}/api/v1/blog/${params.slug}`
+        );
+        setArticle(response.data);
 
-    if (fetchedArticle) {
-      setArticle(fetchedArticle);
-      const related = getRelatedArticles(params.slug, 3);
-      setRelatedArticles(related);
-    }
+        // For related articles, we'll fetch from the main endpoint and filter
+        const allResponse = await axios.get(`${API_URL}/api/v1/blog`);
+        const allArticles = allResponse.data;
 
-    setIsLoading(false);
+        const related = allArticles
+          .filter((a: BlogArticle) => a._id !== params.slug)
+          .filter(
+            (a: BlogArticle) =>
+              a.category === response.data.category ||
+              a.tags?.some((tag: string) => response.data.tags?.includes(tag))
+          )
+          .slice(0, 3);
+
+        setRelatedArticles(related);
+      } catch (error) {
+        console.error("Error fetching article:", error);
+        setArticle(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchArticle();
   }, [params.slug]);
 
   if (isLoading) {
@@ -78,21 +99,27 @@ export default function BlogArticlePage({
     );
   }
 
-  const formattedDate = new Date(article.date).toLocaleDateString("vi-VN", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const formattedDate = new Date(article.createdAt).toLocaleDateString(
+    "vi-VN",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+  );
 
   const wordCount = article.content.split(/\s+/).length;
   const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
+  // Create an excerpt if not available
+  const excerpt = article.content.substring(0, 150) + "...";
 
   return (
     <>
       <AnotherHeader
         subtitle={article.title}
-        description={article.excerpt}
-        image={article.coverImage}
+        description={excerpt}
+        image={article.imageUrl || "/images/placeholder.jpg"}
         finalPage="Bài viết"
         detailPage={article.title}
       />
@@ -137,12 +164,17 @@ export default function BlogArticlePage({
             {/* Tags */}
             <div className="mt-12 pt-6 border-t">
               <div className="flex flex-wrap gap-2">
-                {article.tags.map((tag) => (
-                  <Badge key={tag} variant="outline" className="text-[#5a8d69]">
-                    <Tag className="h-3 w-3 mr-1" />
-                    {tag}
-                  </Badge>
-                ))}
+                {article.tags &&
+                  article.tags.map((tag) => (
+                    <Badge
+                      key={tag}
+                      variant="outline"
+                      className="text-[#5a8d69]"
+                    >
+                      <Tag className="h-3 w-3 mr-1" />
+                      {tag}
+                    </Badge>
+                  ))}
               </div>
             </div>
 
@@ -151,12 +183,16 @@ export default function BlogArticlePage({
               <Avatar className="h-20 w-20">
                 <AvatarImage
                   src="/images/placeholder.jpg"
-                  alt={article.author}
+                  alt={article.author || "Unknown Author"}
                 />
-                <AvatarFallback>{article.author[0]}</AvatarFallback>
+                <AvatarFallback>
+                  {article.author ? article.author[0] : "?"}
+                </AvatarFallback>
               </Avatar>
               <div>
-                <h3 className="text-xl font-bold mb-2">{article.author}</h3>
+                <h3 className="text-xl font-bold mb-2">
+                  {article.author || "Unknown Author"}
+                </h3>
                 <p className="text-gray-600">
                   Tác giả của nhiều bài viết về văn hóa, du lịch và lối sống tại
                   Việt Nam.
@@ -177,17 +213,19 @@ export default function BlogArticlePage({
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {relatedArticles.map((relatedArticle) => (
                   <motion.article
-                    key={relatedArticle.slug}
+                    key={relatedArticle._id}
                     className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
                   >
-                    <Link href={`/blog/${relatedArticle.slug}`}>
+                    <Link href={`/blog/${relatedArticle._id}`}>
                       <div className="relative h-48">
                         <Image
-                          src={relatedArticle.coverImage}
+                          src={
+                            relatedArticle.imageUrl || "/images/placeholder.jpg"
+                          }
                           alt={relatedArticle.title}
                           fill
                           sizes="(max-width: 768px) 100vw, 33vw"
@@ -200,7 +238,7 @@ export default function BlogArticlePage({
                           {relatedArticle.title}
                         </h3>
                         <p className="text-gray-600 text-sm line-clamp-2">
-                          {relatedArticle.excerpt}
+                          {relatedArticle.content.substring(0, 150) + "..."}
                         </p>
                       </div>
                     </Link>
