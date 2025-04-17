@@ -14,7 +14,10 @@ import {
 import Autoplay, { AutoplayType } from "embla-carousel-autoplay";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getRecentArticles } from "@/data/blogs";
+import axios from "axios";
+import { BlogArticle } from "@/app/(main)/blog/page";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -22,7 +25,31 @@ const fadeIn = {
 };
 
 export default function BlogSection() {
-  const articles = getRecentArticles();
+  const [articles, setArticles] = useState<BlogArticle[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch articles from API
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/v1/blog`);
+        // Sort by date and take the most recent 6
+        const sortedArticles = response.data
+          .sort(
+            (a: BlogArticle, b: BlogArticle) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+          .slice(0, 6);
+        setArticles(sortedArticles);
+      } catch (error) {
+        console.error("Error fetching blog articles:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArticles();
+  }, []);
 
   const [plugin, setPlugin] = useState<AutoplayType | null>(null);
 
@@ -55,6 +82,28 @@ export default function BlogSection() {
   const handleDotClick = (index: number) => {
     if (api) api.scrollTo(index);
   };
+
+  if (loading) {
+    return (
+      <section className="bg-[#f8f3e9] py-16">
+        <div className="container mx-auto max-w-7xl">
+          <div className="flex justify-between items-start mb-12">
+            <div>
+              <span className="text-[#5a8d69] uppercase tracking-wider text-sm mb-4 block">
+                Đọc blog của chúng tôi
+              </span>
+              <h2 className="font-playfair text-4xl md:text-5xl text-[#0a3b33] leading-tight">
+                Bài viết thú vị
+              </h2>
+            </div>
+          </div>
+          <div className="flex justify-center py-20">
+            <div className="animate-pulse">Đang tải bài viết...</div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="bg-[#f8f3e9] py-16">
@@ -94,7 +143,7 @@ export default function BlogSection() {
             <CarouselContent>
               {articles.map((article, index) => (
                 <CarouselItem
-                  key={article.slug}
+                  key={article._id}
                   className="md:basis-1/2 lg:basis-1/3 pl-6"
                 >
                   <motion.article
@@ -107,7 +156,7 @@ export default function BlogSection() {
                   >
                     <div className="relative aspect-[4/3] overflow-hidden">
                       <Image
-                        src={article.coverImage || "/images/placeholder.jpg"}
+                        src={article.imageUrl || "/images/placeholder.jpg"}
                         alt={article.title}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -145,22 +194,25 @@ export default function BlogSection() {
                           <line x1="3" x2="21" y1="10" y2="10" />
                         </svg>
                         <span>
-                          {new Date(article.date).toLocaleDateString("vi-VN")}
+                          {new Date(article.createdAt).toLocaleDateString(
+                            "vi-VN"
+                          )}
                         </span>
                       </div>
 
                       <p className="text-gray-600 mb-4 line-clamp-2">
-                        {article.excerpt}
+                        {article.content.substring(0, 150) + "..."}
                       </p>
 
-                      <motion.a
-                        href={`/blog/${article.slug}`}
-                        className="inline-flex items-center gap-2 text-[#5a8d69] uppercase tracking-wider text-sm group/link"
-                        whileHover={{ x: 4 }}
-                      >
-                        Đọc ngay
-                        <ArrowRight className="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
-                      </motion.a>
+                      <Link href={`/blog/${article._id}`} passHref>
+                        <motion.a
+                          className="inline-flex items-center gap-2 text-[#5a8d69] uppercase tracking-wider text-sm group/link cursor-pointer"
+                          whileHover={{ x: 4 }}
+                        >
+                          Đọc ngay
+                          <ArrowRight className="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
+                        </motion.a>
+                      </Link>
                     </div>
                   </motion.article>
                 </CarouselItem>
