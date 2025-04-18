@@ -1,3 +1,108 @@
+import { Blog } from "@/types/blog";
+
+export const blogs: Blog[] = [
+  {
+    _id: "1",
+    title: "Top 10 Homestay Experiences in Vietnam",
+    content: `Vietnam offers an incredible array of homestay experiences that allow travelers to immerse themselves in local culture. From the terraced rice fields of Sapa to the vibrant streets of Hoi An, homestays provide an authentic glimpse into Vietnamese life.
+
+    When choosing a homestay, consider what type of experience you're looking for. Mountain retreats offer peaceful settings and opportunities to learn about ethnic minority cultures, while urban homestays allow you to experience city life like a local.
+
+    In Sapa, many homestays are operated by H'mong or Red Dao families, where you can learn traditional crafts and agricultural techniques. In the Mekong Delta, homestays often include boat trips through floating markets and fruit orchards.
+
+    Coastal homestays in places like Phu Quoc or Da Nang combine beach relaxation with culinary experiences, often featuring fresh seafood prepared by your hosts.`,
+    author: "Nguyen Van Anh",
+    image: "/images/blog/homestay-vietnam.jpg",
+    category: "Travel Tips",
+    tags: ["homestay", "vietnam", "travel", "accommodation"],
+    views: 1245,
+    likes: {
+      count: 87,
+      users: [],
+    },
+    ratings: [
+      {
+        user: "user123",
+        rating: 5,
+        comment: "Great article with useful tips!",
+        date: "2023-04-10T07:51:21.345Z",
+      },
+    ],
+    averageRating: 4.8,
+    createdAt: "2023-04-10T07:51:21.345Z",
+    updatedAt: "2023-04-10T07:51:21.345Z",
+  },
+  {
+    _id: "2",
+    title: "How to Choose the Perfect Homestay for Your Trip",
+    content: `Choosing the right homestay can make or break your travel experience. Here are some factors to consider when making your selection.
+
+    First, consider the location. Do you want to be in the heart of a city, or in a more remote, peaceful setting? Think about what activities you plan to do and how accessible they are from your potential homestay.
+
+    Next, read reviews carefully. Look for comments about cleanliness, host communication, and accuracy of the listing description. Photos can be misleading, so reviews from previous guests are invaluable.
+
+    Consider what type of cultural experience you're seeking. Some homestays offer a very immersive experience where you'll share meals and activities with your host family. Others provide more privacy and independence.
+
+    Don't forget to check what amenities are important to you. Do you need reliable Wi-Fi? Air conditioning? Private bathroom? Make sure the homestay can meet your basic comfort needs.`,
+    author: "Tran Minh Duc",
+    image: "/images/blog/choose-homestay.jpg",
+    category: "Travel Tips",
+    tags: ["homestay", "booking tips", "accommodation", "travel planning"],
+    views: 982,
+    likes: {
+      count: 65,
+      users: [],
+    },
+    ratings: [
+      {
+        user: "user456",
+        rating: 4,
+        comment: "Helpful guide for first-time homestay guests",
+        date: "2023-05-15T10:32:45.678Z",
+      },
+    ],
+    averageRating: 4.5,
+    createdAt: "2023-05-15T10:32:45.678Z",
+    updatedAt: "2023-05-15T10:32:45.678Z",
+  },
+  {
+    _id: "3",
+    title: "The Rise of Eco-Friendly Homestays",
+    content: `Sustainable travel is becoming increasingly important, and eco-friendly homestays are leading the way in responsible tourism. These accommodations focus on minimizing environmental impact while maximizing positive contributions to local communities.
+
+    Eco-friendly homestays often feature solar power, rainwater harvesting, composting systems, and organic gardens. Many use locally-sourced, natural building materials and implement waste reduction strategies.
+
+    Beyond environmental practices, these homestays typically support local economies by employing local staff, sourcing food from nearby farmers, and promoting local artisans and businesses.
+
+    Staying at an eco-friendly homestay allows travelers to reduce their carbon footprint while enjoying unique, authentic experiences. Many offer activities like organic farming workshops, traditional craft lessons, and guided nature walks that highlight the importance of environmental conservation.`,
+    author: "Le Thi Huong",
+    image: "/images/blog/eco-homestay.jpg",
+    category: "Sustainable Travel",
+    tags: [
+      "eco-friendly",
+      "sustainable travel",
+      "green accommodation",
+      "responsible tourism",
+    ],
+    views: 756,
+    likes: {
+      count: 94,
+      users: [],
+    },
+    ratings: [
+      {
+        user: "user789",
+        rating: 5,
+        comment: "Love these eco-friendly options!",
+        date: "2023-06-20T14:25:33.789Z",
+      },
+    ],
+    averageRating: 4.7,
+    createdAt: "2023-06-20T14:25:33.789Z",
+    updatedAt: "2023-06-20T14:25:33.789Z",
+  },
+];
+
 export interface BlogArticle {
   title: string;
   slug: string;

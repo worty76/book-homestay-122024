@@ -6,12 +6,14 @@ import { LoginForm } from "@/components/auth/login-form";
 import { useAuthStore } from "@/store/useAuthStore";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { useTranslation } from "@/hooks/useTranslation";
+import { Loading } from "@/components/ui/loading";
 
 function LoginContent() {
   const router = useRouter();
   const { isAuthenticated } = useAuthStore();
   const isAdmin = useAuthStore((state) => state.isAdmin());
-
+  const { t } = useTranslation();
   useEffect(() => {
     if (isAuthenticated) {
       if (isAdmin) {
@@ -59,11 +61,10 @@ function LoginContent() {
                 />
                 <div className="mt-8 text-gray-700">
                   <h3 className="text-xl font-semibold mb-2">
-                    Chào mừng đến với Kén Homestay
+                    {t("auth.welcome")}
                   </h3>
                   <p className="text-sm text-gray-600">
-                    Đặt phòng và tận hưởng trải nghiệm lưu trú tại nhà riêng của
-                    bạn.
+                    {t("auth.description")}
                   </p>
                 </div>
               </motion.div>
@@ -83,7 +84,7 @@ export default function LoginPage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center">
-          Loading...
+          <Loading size="md" variant="primary" text="Loading" />
         </div>
       }
     >

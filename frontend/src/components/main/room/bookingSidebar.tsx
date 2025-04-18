@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { format, differenceInDays, addDays } from "date-fns";
-import { vi } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -12,6 +12,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ChevronDown } from "lucide-react";
+import { formatCurrency } from "@/utils/roomUtils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface BookingSidebarProps {
   pricePerNight?: number;
@@ -23,9 +25,9 @@ interface BookingSidebarProps {
 export default function BookingSidebar({
   pricePerNight = 3000000,
   cleaningFee = 500000,
-  // serviceFee = 750000,
   currency = "VNĐ",
 }: BookingSidebarProps) {
+  const { language } = useTranslation();
   const [checkIn, setCheckIn] = useState<Date | undefined>(new Date());
   const [checkOut, setCheckOut] = useState<Date | undefined>(
     addDays(new Date(), 7)
@@ -52,10 +54,6 @@ export default function BookingSidebar({
     }
   }, [checkIn, checkOut, pricePerNight, cleaningFee]);
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN").format(amount);
-  };
-
   const totalGuests = adultCount + childrenCount;
 
   return (
@@ -63,7 +61,7 @@ export default function BookingSidebar({
       <div className="mb-6 flex items-start justify-between">
         <div>
           <span className="text-2xl font-bold">
-            {formatCurrency(pricePerNight)} {currency}
+            {formatCurrency(pricePerNight, language)}
           </span>
           <span className="text-gray-600"> / đêm</span>
         </div>
@@ -102,7 +100,7 @@ export default function BookingSidebar({
                   }}
                   disabled={(date) => date < new Date()}
                   initialFocus
-                  locale={vi}
+                  locale={enUS}
                 />
               </PopoverContent>
             </Popover>
@@ -135,7 +133,7 @@ export default function BookingSidebar({
                     date < new Date() || (checkIn ? date <= checkIn : false)
                   }
                   initialFocus
-                  locale={vi}
+                  locale={enUS}
                 />
               </PopoverContent>
             </Popover>
@@ -151,9 +149,9 @@ export default function BookingSidebar({
                 className="flex w-full items-center justify-between p-0 text-left"
               >
                 <span>
-                  {totalGuests} khách
-                  {infantCount > 0 ? `, ${infantCount} em bé` : ""}
-                  {petCount > 0 ? `, ${petCount} thú cưng` : ""}
+                  {totalGuests} guests
+                  {infantCount > 0 ? `, ${infantCount} infants` : ""}
+                  {petCount > 0 ? `, ${petCount} pets` : ""}
                 </span>
                 <ChevronDown className="h-4 w-4" />
               </Button>
@@ -293,13 +291,13 @@ export default function BookingSidebar({
       <div className="space-y-4">
         <div className="flex justify-between">
           <span className="underline">
-            {formatCurrency(pricePerNight)} x {nights} đêm
+            {formatCurrency(pricePerNight, language)} x {nights} đêm
           </span>
-          <span>{formatCurrency(pricePerNight * nights)}</span>
+          <span>{formatCurrency(pricePerNight * nights, language)}</span>
         </div>
         <div className="flex justify-between">
           <span className="underline">Phí dọn dẹp</span>
-          <span>{formatCurrency(cleaningFee)}</span>
+          <span>{formatCurrency(cleaningFee, language)}</span>
         </div>
         {/* <div className="flex justify-between">
           <span className="underline">Phí dịch vụ</span>
@@ -307,7 +305,7 @@ export default function BookingSidebar({
         </div> */}
         <div className="flex justify-between border-t pt-4 font-bold">
           <span>Tổng số tiền</span>
-          <span>{formatCurrency(totalPrice)}</span>
+          <span>{formatCurrency(totalPrice, language)}</span>
         </div>
       </div>
     </div>

@@ -15,28 +15,28 @@ export function SecuritySettings() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);
-  
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
-  
+
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     currentPassword: "",
     newPassword: "",
-    confirmNewPassword: ""
+    confirmNewPassword: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [id]: value
+      [id]: value,
     }));
-    
+
     if (errorMessage) setErrorMessage(null);
     if (successMessage) setSuccessMessage(null);
   };
@@ -46,23 +46,25 @@ export function SecuritySettings() {
       setErrorMessage("Vui lòng nhập mật khẩu hiện tại");
       return false;
     }
-    
+
     if (!formData.newPassword) {
       setErrorMessage("Vui lòng nhập mật khẩu mới");
       return false;
     }
-    
+
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!passwordRegex.test(formData.newPassword)) {
-      setErrorMessage("Mật khẩu mới phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số");
+      setErrorMessage(
+        "Mật khẩu mới phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số"
+      );
       return false;
     }
-    
+
     if (formData.newPassword !== formData.confirmNewPassword) {
       setErrorMessage("Mật khẩu xác nhận không khớp");
       return false;
     }
-    
+
     return true;
   };
 
@@ -70,26 +72,26 @@ export function SecuritySettings() {
     e.preventDefault();
     setErrorMessage(null);
     setSuccessMessage(null);
-    
+
     if (!validatePasswordForm()) {
       return;
     }
-    
+
     changePassword(formData, {
       onSuccess: (data) => {
         setSuccessMessage("Mật khẩu của bạn đã được cập nhật thành công");
         toast.success("Mật khẩu của bạn đã được cập nhật");
-        
+
         setFormData({
           currentPassword: "",
           newPassword: "",
-          confirmNewPassword: ""
+          confirmNewPassword: "",
         });
       },
       onError: (error) => {
         const errorMsg = error.message || "Đã xảy ra lỗi khi cập nhật mật khẩu";
         setErrorMessage(errorMsg);
-        
+
         if (errorMsg.includes("401") || errorMsg.includes("incorrect")) {
           setErrorMessage("Mật khẩu hiện tại không chính xác");
         } else if (errorMsg.includes("400") || errorMsg.includes("match")) {
@@ -97,9 +99,9 @@ export function SecuritySettings() {
         } else if (errorMsg.includes("404")) {
           setErrorMessage("Không tìm thấy thông tin người dùng");
         }
-        
+
         toast.error("Xảy ra lỗi khi cập nhật mật khẩu!");
-      }
+      },
     });
   };
 

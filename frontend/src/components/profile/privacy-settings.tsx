@@ -10,121 +10,146 @@ import { useGetUserProfile, useUpdateProfile } from "@/api/user";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function PrivacySettings() {
+  const { t } = useTranslation();
   const { data: profileData, isLoading, refetch } = useGetUserProfile();
   const { mutate: updateProfile, isPending } = useUpdateProfile();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [preferences, setPreferences] = useState({
-    language: "vn",
+    language: "en",
     currency: "VND",
     notifications: {
       email: false,
-      sms: false
-    }
+      sms: false,
+    },
   });
 
   useEffect(() => {
     if (profileData?.preferences) {
       setPreferences({
-        language: profileData.preferences.language || "vn",
+        language: profileData.preferences.language || "en",
         currency: profileData.preferences.currency || "VND",
         notifications: {
           email: profileData.preferences.notifications?.email || false,
-          sms: profileData.preferences.notifications?.sms || false
-        }
+          sms: profileData.preferences.notifications?.sms || false,
+        },
       });
     }
   }, [profileData]);
 
-  const handleNotificationChange = (type: 'email' | 'sms', value: boolean) => {
-    setPreferences(prev => ({
+  const handleNotificationChange = (type: "email" | "sms", value: boolean) => {
+    setPreferences((prev) => ({
       ...prev,
       notifications: {
         ...prev.notifications,
-        [type]: value
-      }
+        [type]: value,
+      },
     }));
 
     const updatedPreferences = {
       language: preferences.language,
       currency: preferences.currency,
       notifications: {
-        email: type === 'email' ? value : preferences.notifications.email,
-        sms: type === 'sms' ? value : preferences.notifications.sms
-      }
+        email: type === "email" ? value : preferences.notifications.email,
+        sms: type === "sms" ? value : preferences.notifications.sms,
+      },
     };
 
-    updateProfile({
-      username: profileData?.username,
-      email: profileData?.email,
-      phoneNumber: profileData?.phoneNumber,
-      preferences: updatedPreferences
-    }, {
-      onSuccess: () => {
-        toast.success("Tùy chọn thông báo của bạn đã được cập nhật");
-        refetch();
+    updateProfile(
+      {
+        username: profileData?.username,
+        email: profileData?.email,
+        phoneNumber: profileData?.phoneNumber,
+        preferences: updatedPreferences,
       },
-      onError: (error) => {
-        const errorMsg = error.message || "Đã xảy ra lỗi khi cập nhật cài đặt";
-        setErrorMessage(errorMsg);
-        toast.error(errorMsg);
-        setPreferences(prev => ({
-          ...prev,
-          notifications: {
-            ...prev.notifications,
-            [type]: !value
-          }
-        }));
+      {
+        onSuccess: () => {
+          toast.success(t("common.notifications.success"), {
+            description:
+              t("profile.preferences") + " " + t("profile.settings.updated"),
+          });
+          refetch();
+        },
+        onError: (error) => {
+          const errorMsg = error.message || t("common.notifications.error");
+          setErrorMessage(errorMsg);
+          toast.error(errorMsg);
+          setPreferences((prev) => ({
+            ...prev,
+            notifications: {
+              ...prev.notifications,
+              [type]: !value,
+            },
+          }));
+        },
       }
-    });
+    );
   };
 
-  const handlePreferenceChange = (type: 'language' | 'currency', value: string) => {
-    setPreferences(prev => ({
+  const handlePreferenceChange = (
+    type: "language" | "currency",
+    value: string
+  ) => {
+    setPreferences((prev) => ({
       ...prev,
-      [type]: value
+      [type]: value,
     }));
 
     const updatedPreferences = {
-      language: type === 'language' ? value : preferences.language,
-      currency: type === 'currency' ? value : preferences.currency,
+      language: type === "language" ? value : preferences.language,
+      currency: type === "currency" ? value : preferences.currency,
       notifications: {
         email: preferences.notifications.email,
-        sms: preferences.notifications.sms
-      }
+        sms: preferences.notifications.sms,
+      },
     };
 
-    updateProfile({
-      username: profileData?.username,
-      email: profileData?.email,
-      phoneNumber: profileData?.phoneNumber,
-      preferences: updatedPreferences
-    }, {
-      onSuccess: () => {
-        toast.success(`Tùy chọn ${type === 'language' ? 'ngôn ngữ' : 'tiền tệ'} của bạn đã được cập nhật`);
-        refetch();
+    updateProfile(
+      {
+        username: profileData?.username,
+        email: profileData?.email,
+        phoneNumber: profileData?.phoneNumber,
+        preferences: updatedPreferences,
       },
-      onError: (error) => {
-        const errorMsg = error.message || "Đã xảy ra lỗi khi cập nhật cài đặt";
-        setErrorMessage(errorMsg);
-        toast.error(errorMsg);
-        setPreferences(prev => ({
-          ...prev,
-          [type]: profileData?.preferences?.[type] || (type === 'language' ? 'vn' : 'VND')
-        }));
+      {
+        onSuccess: () => {
+          toast.success(t("common.notifications.success"), {
+            description:
+              t("profile.preferences") + " " + t("profile.settings.updated"),
+          });
+          refetch();
+        },
+        onError: (error) => {
+          const errorMsg = error.message || t("common.notifications.error");
+          setErrorMessage(errorMsg);
+          toast.error(errorMsg);
+          setPreferences((prev) => ({
+            ...prev,
+            [type]:
+              profileData?.preferences?.[type] ||
+              (type === "language" ? "en" : "VND"),
+          }));
+        },
       }
-    });
+    );
   };
 
   if (isLoading) {
     return (
       <>
         <CardHeader>
-          <CardTitle>Quản lý quyền riêng tư và dữ liệu</CardTitle>
+          <CardTitle>{t("profile.privacy")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-4">
@@ -159,103 +184,124 @@ export function PrivacySettings() {
   return (
     <>
       <CardHeader>
-        <CardTitle>Quản lý quyền riêng tư và dữ liệu</CardTitle>
+        <CardTitle>{t("profile.privacy")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         {errorMessage && (
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Lỗi</AlertTitle>
+            <AlertTitle>{t("common.notifications.error")}</AlertTitle>
             <AlertDescription>{errorMessage}</AlertDescription>
           </Alert>
         )}
-        
+
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Tùy chọn cá nhân</h3>
+          <h3 className="text-lg font-semibold">{t("profile.preferences")}</h3>
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div className="space-y-0.5">
-                <Label htmlFor="language-select" className="font-medium">Ngôn ngữ</Label>
-                <div className="text-sm text-muted-foreground">
-                  Lựa chọn ngôn ngữ hiển thị
+            <div className="p-4 border rounded-lg">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <h4 className="font-medium">
+                    {t("profile.fields.language")}
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    {t("profile.settings.languageDescription")}
+                  </p>
                 </div>
+                <Select
+                  defaultValue={preferences.language}
+                  onValueChange={(value) =>
+                    handlePreferenceChange("language", value)
+                  }
+                >
+                  <SelectTrigger className="w-32">
+                    <SelectValue
+                      placeholder={t("profile.settings.selectLanguage")}
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="en">English</SelectItem>
+                    <SelectItem value="vi">Tiếng Việt</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-              <Select 
-                value={preferences.language}
-                onValueChange={(value) => handlePreferenceChange('language', value)}
-                disabled={isPending}
-              >
-                <SelectTrigger className="w-[180px]" id="language-select">
-                  <SelectValue placeholder="Chọn ngôn ngữ" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="vn">Tiếng Việt</SelectItem>
-                  <SelectItem value="en">English</SelectItem>
-                  <SelectItem value="fr">Français</SelectItem>
-                  <SelectItem value="jp">日本語</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
-            
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div className="space-y-0.5">
-                <Label htmlFor="currency-select" className="font-medium">Tiền tệ</Label>
-                <div className="text-sm text-muted-foreground">
-                  Lựa chọn đơn vị tiền tệ
+
+            <div className="p-4 border rounded-lg">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <h4 className="font-medium">
+                    {t("profile.fields.currency")}
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    {t("profile.settings.currencyDescription")}
+                  </p>
                 </div>
+                <Select
+                  defaultValue={preferences.currency}
+                  onValueChange={(value) =>
+                    handlePreferenceChange("currency", value)
+                  }
+                >
+                  <SelectTrigger className="w-32">
+                    <SelectValue
+                      placeholder={t("profile.settings.selectCurrency")}
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="VND">VND (₫)</SelectItem>
+                    <SelectItem value="USD">USD ($)</SelectItem>
+                    <SelectItem value="EUR">EUR (€)</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-              <Select 
-                value={preferences.currency}
-                onValueChange={(value) => handlePreferenceChange('currency', value)}
-                disabled={isPending}
-              >
-                <SelectTrigger className="w-[180px]" id="currency-select">
-                  <SelectValue placeholder="Chọn tiền tệ" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="VND">VND (₫)</SelectItem>
-                  <SelectItem value="USD">USD ($)</SelectItem>
-                  <SelectItem value="EUR">EUR (€)</SelectItem>
-                  <SelectItem value="JPY">JPY (¥)</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
           </div>
         </div>
-        
+
         <Separator />
 
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Thông báo</h3>
+          <h3 className="text-lg font-semibold">
+            {t("profile.notifications")}
+          </h3>
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div className="space-y-0.5">
-                <Label htmlFor="email-notifications" className="font-medium">Email thông báo</Label>
-                <div className="text-sm text-muted-foreground">
-                  Nhận thông báo về đặt phòng và ưu đãi qua email
+            <div className="p-4 border rounded-lg">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <h4 className="font-medium">
+                    {t("profile.settings.emailNotifications")}
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    {t("profile.settings.emailNotificationsDescription")}
+                  </p>
                 </div>
+                <Switch
+                  checked={preferences.notifications.email}
+                  onCheckedChange={(checked) =>
+                    handleNotificationChange("email", checked)
+                  }
+                />
               </div>
-              <Switch 
-                id="email-notifications"
-                checked={preferences.notifications.email}
-                onCheckedChange={(checked) => handleNotificationChange('email', checked)}
-                disabled={isPending}
-              />
             </div>
-            
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div className="space-y-0.5">
-                <Label htmlFor="sms-notifications" className="font-medium">Thông báo SMS</Label>
-                <div className="text-sm text-muted-foreground">
-                  Nhận thông báo về đặt phòng và ưu đãi qua SMS
+
+            <div className="p-4 border rounded-lg">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <h4 className="font-medium">
+                    {t("profile.settings.smsNotifications")}
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    {t("profile.settings.smsNotificationsDescription")}
+                  </p>
                 </div>
+                <Switch
+                  checked={preferences.notifications.sms}
+                  onCheckedChange={(checked) =>
+                    handleNotificationChange("sms", checked)
+                  }
+                />
               </div>
-              <Switch 
-                id="sms-notifications"
-                checked={preferences.notifications.sms}
-                onCheckedChange={(checked) => handleNotificationChange('sms', checked)}
-                disabled={isPending}
-              />
             </div>
           </div>
         </div>

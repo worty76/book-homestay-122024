@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useInView } from "react-intersection-observer";
 import AnotherHeader from "@/components/main/another-header";
+import { useTranslation } from "@/hooks/useTranslation";
+import { OrganizationJsonLd, BreadcrumbJsonLd } from "@/components/SEO/JsonLd";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -25,24 +27,48 @@ const slideInLeft = {
 };
 
 export default function AboutPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-[#f8f3e9]/50">
+      <OrganizationJsonLd
+        name={t("seo.aboutPage.organization.name")}
+        url="https://ken-homestay.com"
+        logo="https://ken-homestay.com/images/logo.png"
+        address={t("seo.aboutPage.organization.address")}
+        telephone={t("seo.aboutPage.organization.telephone")}
+      />
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: t("seo.aboutPage.breadcrumbs.home"),
+            item: "https://ken-homestay.com",
+          },
+          {
+            position: 2,
+            name: t("seo.aboutPage.breadcrumbs.about"),
+            item: "https://ken-homestay.com/about",
+          },
+        ]}
+      />
+
       <AnotherHeader
-        title="Giới Thiệu Về"
-        subtitle="Kén Homestay"
-        description="Hơi thở truyền thống, nhịp sống hiện đại - Boutique Homestay tại Đà Nẵng"
+        title={t("about.header.title")}
+        subtitle={t("about.header.subtitle")}
+        description={t("about.header.description")}
         image="/images/img2.jpg"
-        finalPage="Giới thiệu"
+        finalPage={t("about.header.finalPage")}
       />
 
       <div className="container mx-auto px-4 py-16">
         {/* Our Story Section */}
-        <Section title="Câu Chuyện Của Chúng Tôi" delayOffset={0.1}>
+        <Section title={t("about.story.title")} delayOffset={0.1}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
               <AnimatedImage
                 src="/images/Logo1.png"
-                alt="Câu chuyện của Kén Homestay"
+                alt={t("about.story.imageAlt")}
                 priority
               />
             </div>
@@ -55,31 +81,11 @@ export default function AboutPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <p className="text-[#7a5230] mb-5 leading-relaxed text-lg">
-                “Kén” Homestay – như một chiếc kén nhẹ nhàng ôm ấp tâm hồn bạn,
-                mang đến chốn bình yên, tĩnh lặng giữa bộn bề của cuộc sống
-                thường nhật. Ở đây, bạn có thể hòa mình vào nhịp sống mộc mạc,
-                giản dị của người dân địa phương, tái khám phá sự yên ả và những
-                trải nghiệm chân thật – những cảm giác như trở về “nhà” trên một
-                mảnh đất mới lạ. Chính trong những khoảnh khắc ấy, tinh thần
-                bạn, như đôi cánh bướm sau chuỗi ngày lặng lẽ biến hóa, lại một
-                lần nữa rực rỡ sức sống.
+                <span>{t("about.story.paragraph1")}</span>
               </p>
               <p className="text-[#7a5230] mb-5 leading-relaxed text-lg">
-                Không chỉ vậy, “Kén” còn được lấy cảm hứng từ hành trình của
-                chính Đà Nẵng – một thành phố từng là một phần của tỉnh Quảng
-                Nam, đã trải qua nhiều giai đoạn hình thành và phát triển để trở
-                thành một trong những điểm đến biểu tượng của Việt Nam ngày nay.
-                Giống như chiếc kén nuôi dưỡng sự chuyển mình trước khi hé mở
-                thành sinh mệnh mới, Đà Nẵng cũng đã trải qua cuộc “biến hóa”
-                riêng, để lại dấu ấn về ý chí kiên cường, đổi mới và sự phát
-                triển sôi động.
+                <span>{t("about.story.paragraph2")}</span>
               </p>
-              {/* <p className="text-[#7a5230] leading-relaxed text-lg">
-                Chúng tôi tự hào mang đến một không gian lưu trú theo phong cách
-                boutique cho khách du lịch quốc tế, kết hợp với các hoạt động
-                trải nghiệm địa phương độc đáo, giúp bạn kết nối sâu sắc hơn với
-                vẻ đẹp và văn hóa Đà Nẵng.
-              </p> */}
             </motion.div>
           </div>
         </Section>
@@ -87,7 +93,7 @@ export default function AboutPage() {
         <Separator className="my-20 opacity-30" />
 
         {/* Vision & Mission Section */}
-        <Section title="Tầm Nhìn & Sứ Mệnh" delayOffset={0.2}>
+        <Section title={t("about.visionMission.title")} delayOffset={0.2}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <motion.div
               variants={slideInLeft}
@@ -113,13 +119,10 @@ export default function AboutPage() {
                   <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
                   <circle cx="12" cy="12" r="3" />
                 </svg>
-                Tầm Nhìn
+                <span>{t("about.visionMission.visionTitle")}</span>
               </h3>
               <p className="text-white leading-relaxed">
-                Trở thành thương hiệu Boutique Homestay hàng đầu tại Đà Nẵng,
-                cung cấp cho khách hàng không gian lưu trú tinh tế kết hợp các
-                hoạt động trải nghiệm độc đáo, mang đậm bản sắc văn hóa và
-                truyền thống địa phương.
+                <span>{t("about.visionMission.visionText")}</span>
               </p>
             </motion.div>
 
@@ -147,15 +150,10 @@ export default function AboutPage() {
                   <path d="m22 2-7 20-4-9-9-4Z" />
                   <path d="M22 2 11 13" />
                 </svg>
-                Sứ Mệnh
+                <span>{t("about.visionMission.missionTitle")}</span>
               </h3>
               <p className="text-white leading-relaxed">
-                "Kén" cam kết mang đến cho khách hàng một không gian ấm cúng,
-                thoải mái như "nhà", nơi bạn có thể đắm mình vào lối sống giản
-                dị của người dân địa phương. Chúng tôi không ngừng mang đến
-                những trải nghiệm chân thực và độc đáo, đồng thời góp phần gìn
-                giữ và lan tỏa những giá trị văn hóa đặc sắc của mảnh đất miền
-                Trung.
+                <span>{t("about.visionMission.missionText")}</span>
               </p>
             </motion.div>
           </div>
@@ -164,7 +162,7 @@ export default function AboutPage() {
         <Separator className="my-20 opacity-30" />
 
         {/* Slogan Section */}
-        <Section title="Slogan Của Chúng Tôi" delayOffset={0.2}>
+        <Section title={t("about.slogan.title")} delayOffset={0.2}>
           <motion.div
             variants={fadeIn}
             initial="hidden"
@@ -174,14 +172,10 @@ export default function AboutPage() {
             className="text-center bg-gradient-to-b from-[#344E41] to-[#2C4134] rounded-xl p-12 border border-primary/10"
           >
             <h3 className="text-3xl md:text-4xl font-bold text-[#F3ECDC] mb-6 tracking-tight">
-              "Hơi thở truyền thống, nhịp sống hiện đại"
+              <span>{t("about.slogan.text")}</span>
             </h3>
             <p className="text-[#F3ECDC]/90 max-w-2xl mx-auto text-lg">
-              Slogan của chúng tôi thể hiện triết lý cốt lõi của Kén Homestay -
-              nơi giao thoa giữa giá trị truyền thống và cuộc sống hiện đại.
-              Chúng tôi trân trọng và gìn giữ bản sắc văn hóa Việt Nam, đồng
-              thời mang đến những tiện nghi hiện đại, đáp ứng nhu cầu của du
-              khách thời đại số.
+              <span>{t("about.slogan.description")}</span>
             </p>
           </motion.div>
         </Section>
@@ -189,8 +183,8 @@ export default function AboutPage() {
         <Separator className="my-20 opacity-30" />
 
         <Section
-          title="Giá Trị Cốt Lõi"
-          subtitle="Những nguyên tắc định hướng mọi hoạt động của chúng tôi"
+          title={t("about.values.title")}
+          subtitle={t("about.values.subtitle")}
           delayOffset={0.2}
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -218,8 +212,8 @@ export default function AboutPage() {
                   </svg>
                 </div>
               }
-              title="Tôn Vinh Bản Sắc Việt"
-              description="Không gian lưu trú và hoạt động trải nghiệm kể một câu chuyện độc đáo về văn hóa và con người vùng miền. Thiết kế mộc mạc nhưng không kém phần tinh tế, sự giao hòa giữa hiện đại và vẻ đẹp truyền thống."
+              title={t("about.values.value1.title")}
+              description={t("about.values.value1.description")}
               delay={0.3}
             />
 
@@ -245,8 +239,8 @@ export default function AboutPage() {
                   </svg>
                 </div>
               }
-              title="Khách Hàng Là Trọng Tâm"
-              description="Tạo ra những trải nghiệm được cá nhân hóa, mang đến cảm giác quen thuộc và thoải mái nhất cho khách hàng. Mỗi du khách đều có một câu chuyện riêng, và 'Kén' cung cấp dịch vụ tùy chỉnh để tạo nên trải nghiệm lưu trú đáng nhớ."
+              title={t("about.values.value2.title")}
+              description={t("about.values.value2.description")}
               delay={0.4}
             />
 
@@ -270,8 +264,8 @@ export default function AboutPage() {
                   </svg>
                 </div>
               }
-              title="Phát Triển Thân Thiện Với Môi Trường"
-              description="Khuyến khích du lịch thân thiện với môi trường và giảm thiểu tác động tiêu cực đến môi trường. Chúng tôi cam kết hoạt động theo hướng bền vững, sử dụng nguyên vật liệu địa phương và thân thiện với môi trường."
+              title={t("about.values.value3.title")}
+              description={t("about.values.value3.description")}
               delay={0.5}
             />
           </div>
@@ -281,32 +275,32 @@ export default function AboutPage() {
 
         {/* Team Section */}
         <Section
-          title="Đội Ngũ Của Chúng Tôi"
-          subtitle="Những con người đầy nhiệt huyết đứng sau thành công của Kén Homestay"
+          title={t("about.team.title")}
+          subtitle={t("about.team.subtitle")}
           delayOffset={0.2}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <AnimatedTeamCard
               image="/images/img1.jpg"
-              name="Nguyễn Minh Tuấn"
-              role="Founder & CEO"
-              bio="Với hơn 10 năm kinh nghiệm trong ngành du lịch và khách sạn, anh Tuấn là người đặt nền móng cho Kén Homestay, mang tầm nhìn về sự kết hợp hoàn hảo giữa truyền thống Việt Nam và tiện nghi hiện đại."
+              name={t("about.team.member1.name")}
+              role={t("about.team.member1.role")}
+              bio={t("about.team.member1.bio")}
               delay={0.3}
             />
 
             <AnimatedTeamCard
               image="/images/img2.jpg"
-              name="Trần Thị Mai Anh"
-              role="Design Director"
-              bio="Tốt nghiệp ngành Thiết kế Nội thất, chị Mai Anh là người chịu trách nhiệm cho mọi concept thiết kế độc đáo tại Kén Homestay, mang đậm dấu ấn văn hóa truyền thống Việt Nam với cách tiếp cận hiện đại."
+              name={t("about.team.member2.name")}
+              role={t("about.team.member2.role")}
+              bio={t("about.team.member2.bio")}
               delay={0.4}
             />
 
             <AnimatedTeamCard
               image="/images/img3.jpg"
-              name="Lê Văn Hoàng"
-              role="Experience Manager"
-              bio="Với đam mê mãnh liệt về văn hóa địa phương, anh Hoàng phát triển những hoạt động trải nghiệm độc đáo tại Kén Homestay, giúp du khách kết nối sâu sắc hơn với lối sống và văn hóa của người dân Đà Nẵng."
+              name={t("about.team.member3.name")}
+              role={t("about.team.member3.role")}
+              bio={t("about.team.member3.bio")}
               delay={0.5}
             />
           </div>
@@ -316,43 +310,43 @@ export default function AboutPage() {
 
         {/* Testimonials Section */}
         <Section
-          title="Khách Hàng Nói Gì"
-          subtitle="Những chia sẻ từ khách hàng đã trải nghiệm dịch vụ của chúng tôi"
+          title={t("about.testimonials.title")}
+          subtitle={t("about.testimonials.subtitle")}
           delayOffset={0.2}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <AnimatedTestimonial
-              quote="Một trong những kỳ nghỉ đáng nhớ nhất của tôi tại Đà Nẵng. Phòng ở Kén Homestay thực sự đưa tôi đến gần hơn với văn hóa và thiên nhiên Việt Nam."
-              author="Hà Mai Linh"
-              location="Hà Nội"
+              quote={t("about.testimonials.testimonial1.quote")}
+              author={t("about.testimonials.testimonial1.author")}
+              location={t("about.testimonials.testimonial1.location")}
               delay={0.3}
             />
 
             <AnimatedTestimonial
-              quote="Tôi yêu thích từng chi tiết nhỏ trong thiết kế phòng của Kén Homestay. Các nhân viên vô cùng thân thiện và nhiệt tình. Chắc chắn sẽ quay lại vào lần tới!"
-              author="Trần Minh Đức"
-              location="TP. Hồ Chí Minh"
+              quote={t("about.testimonials.testimonial2.quote")}
+              author={t("about.testimonials.testimonial2.author")}
+              location={t("about.testimonials.testimonial2.location")}
               delay={0.4}
             />
 
             <AnimatedTestimonial
-              quote="Vị trí tuyệt vời, dễ dàng di chuyển đến các điểm du lịch. Kén Homestay sạch sẽ, thoải mái và có thiết kế rất độc đáo. Những hoạt động trải nghiệm địa phương rất đáng giá."
-              author="Phạm Thanh Hà"
-              location="Đà Nẵng"
+              quote={t("about.testimonials.testimonial3.quote")}
+              author={t("about.testimonials.testimonial3.author")}
+              location={t("about.testimonials.testimonial3.location")}
               delay={0.5}
             />
 
             <AnimatedTestimonial
-              quote="Kén Homestay mang đến cảm giác như được trở về nhà trong một không gian văn hóa Đà Nẵng thu nhỏ. Tôi đặc biệt thích thú với cách họ kết hợp nét hiện đại và truyền thống."
-              author="Lê Hoàng Nam"
-              location="Hải Phòng"
+              quote={t("about.testimonials.testimonial4.quote")}
+              author={t("about.testimonials.testimonial4.author")}
+              location={t("about.testimonials.testimonial4.location")}
               delay={0.6}
             />
           </div>
         </Section>
 
         {/* Location & Contact Section */}
-        <Section title="Thông Tin Liên Hệ" delayOffset={0.2}>
+        <Section title={t("about.contact.title")} delayOffset={0.2}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <motion.div
               variants={slideInLeft}
@@ -367,42 +361,42 @@ export default function AboutPage() {
               >
                 <Image
                   src="/images/map.png"
-                  alt="Vị trí homestay"
+                  alt={t("about.contact.mapAlt")}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   priority
                 />
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-4 text-primary">
-                  Vị Trí Của Chúng Tôi
+                  <span>{t("about.contact.locationTitle")}</span>
                 </h3>
                 <p className="text-muted-foreground mb-6">
-                  Kén Homestay tọa lạc tại vị trí lý tưởng ở Đà Nẵng, cách bãi
-                  biển Mỹ Khê chỉ 10 phút đi bộ và gần các điểm du lịch nổi
-                  tiếng như Bà Nà Hills, Cầu Rồng và đặc biệt thuận tiện để di
-                  chuyển đến Phố cổ Hội An.
+                  <span>{t("about.contact.locationDescription")}</span>
                 </p>
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <MapPin className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                     <div>
-                      <h4 className="font-medium">Địa chỉ</h4>
+                      <h4 className="font-medium">
+                        {t("about.contact.addressTitle")}
+                      </h4>
                       <p className="text-muted-foreground">
-                        80 Đường Lê Văn Hiến, Khuê Mỹ, Ngũ Hành Sơn, Đà Nẵng,
-                        Việt Nam
+                        {t("about.contact.address")}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <Clock className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                     <div>
-                      <h4 className="font-medium">Giờ mở cửa</h4>
+                      <h4 className="font-medium">
+                        {t("about.contact.hoursTitle")}
+                      </h4>
                       <p className="text-muted-foreground">
-                        Check-in: 14:00 - 22:00
+                        {t("about.contact.checkInHours")}
                         <br />
-                        Check-out: 12:00
+                        {t("about.contact.checkOutHours")}
                       </p>
                     </div>
                   </div>
@@ -419,20 +413,24 @@ export default function AboutPage() {
             >
               <div className="bg-gradient-to-br from-card/90 to-card p-8 rounded-xl border border-border/40 shadow-sm h-full">
                 <h3 className="text-xl font-semibold mb-6 text-primary">
-                  Liên Hệ Với Kén Homestay
+                  <span>{t("about.contact.contactTitle")}</span>
                 </h3>
                 <div className="space-y-6 mb-8">
                   <div className="flex items-start gap-3">
                     <Phone className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                     <div>
-                      <h4 className="font-medium">Điện thoại</h4>
+                      <h4 className="font-medium">
+                        {t("about.contact.phoneTitle")}
+                      </h4>
                       <p className="text-muted-foreground">+84 925 090 669</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <Mail className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                     <div>
-                      <h4 className="font-medium">Email</h4>
+                      <h4 className="font-medium">
+                        {t("about.contact.emailTitle")}
+                      </h4>
                       <p className="text-muted-foreground">
                         info@kenhomestay.com
                       </p>
@@ -441,7 +439,7 @@ export default function AboutPage() {
                 </div>
 
                 <h4 className="font-medium mb-4 text-primary">
-                  Kết nối với chúng tôi
+                  <span>{t("about.contact.connectTitle")}</span>
                 </h4>
                 <div className="flex items-center gap-4 mb-8">
                   {/** whatsapp icon */}
@@ -521,7 +519,9 @@ export default function AboutPage() {
 
                 <Separator className="my-6 opacity-30" />
 
-                <h4 className="font-medium mb-4">Bạn muốn đặt phòng?</h4>
+                <h4 className="font-medium mb-4">
+                  <span>{t("about.contact.bookingQuestion")}</span>
+                </h4>
                 <Button
                   asChild
                   size="lg"
@@ -531,7 +531,7 @@ export default function AboutPage() {
                     href="/rooms"
                     className="flex items-center justify-center gap-2"
                   >
-                    Trải nghiệm Kén Homestay ngay
+                    <span>{t("about.contact.bookNow")}</span>
                   </Link>
                 </Button>
               </div>
@@ -565,10 +565,12 @@ function Section({
         transition={{ duration: 0.6, delay: delayOffset }}
       >
         <h2 className="text-3xl font-bold mb-3 tracking-tight text-[#0a3b33]">
-          {title}
+          <span>{title}</span>
         </h2>
         {subtitle && (
-          <p className="text-[#5a8d69] max-w-2xl mx-auto">{subtitle}</p>
+          <p className="text-[#5a8d69] max-w-2xl mx-auto">
+            <span>{subtitle}</span>
+          </p>
         )}
       </motion.div>
       {children}
@@ -600,8 +602,12 @@ function AnimatedCard({
       className="bg-gradient-to-br from-card/90 to-card rounded-xl p-6 border border-border/40 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
     >
       <div className="mb-5">{icon}</div>
-      <h3 className="text-lg font-semibold mb-3 text-primary">{title}</h3>
-      <p className="text-muted-foreground">{description}</p>
+      <h3 className="text-lg font-semibold mb-3 text-primary">
+        <span>{title}</span>
+      </h3>
+      <p className="text-muted-foreground">
+        <span>{description}</span>
+      </p>
     </motion.div>
   );
 }
@@ -674,9 +680,15 @@ function AnimatedTeamCard({
         />
       </div>
       <div className="p-6">
-        <h3 className="font-semibold text-lg text-foreground">{name}</h3>
-        <p className="text-primary text-sm mb-3">{role}</p>
-        <p className="text-muted-foreground">{bio}</p>
+        <h3 className="font-semibold text-lg text-foreground">
+          <span>{name}</span>
+        </h3>
+        <p className="text-primary text-sm mb-3">
+          <span>{role}</span>
+        </p>
+        <p className="text-muted-foreground">
+          <span>{bio}</span>
+        </p>
       </div>
     </motion.div>
   );
@@ -723,12 +735,16 @@ function AnimatedTestimonial({
         />
       </svg>
       <p className="text-muted-foreground mb-5 italic leading-relaxed">
-        "{quote}"
+        "<span>{quote}</span>"
       </p>
       <div className="flex items-center justify-between">
         <div>
-          <h4 className="font-medium text-foreground">{author}</h4>
-          <p className="text-muted-foreground text-sm">{location}</p>
+          <h4 className="font-medium text-foreground">
+            <span>{author}</span>
+          </h4>
+          <p className="text-muted-foreground text-sm">
+            <span>{location}</span>
+          </p>
         </div>
         <div className="flex">
           {[...Array(5)].map((_, i) => (

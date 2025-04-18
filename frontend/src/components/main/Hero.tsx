@@ -16,6 +16,7 @@ import SearchBar from "./SearchBar";
 import { motion } from "framer-motion";
 import ZaloIcon from "../iconComponents/ZaloIcon";
 import WhatsappIcon from "../iconComponents/Whatsapp";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const socialLinks = [
   { Icon: Facebook, name: "Facebook", url: "https://facebook.com" },
@@ -35,6 +36,7 @@ const carouselImages = [
 ];
 
 export function Hero() {
+  const { t } = useTranslation();
   const scrollToNextSection = () => {
     const nextSection = document.getElementById("roomCarousel");
     if (nextSection) {
@@ -164,7 +166,7 @@ export function Hero() {
             transition={{ duration: 0.7 }}
             className="text-white/90 text-lg sm:text-xl md:text-2xl lg:text-2xl tracking-widest font-light font-playfair"
           >
-            Chào mừng bạn đến với Kén Homestay
+            <span>{t("hero.title")}</span>
           </motion.p>
           <motion.h2
             initial={{ y: 20, opacity: 0 }}
@@ -172,10 +174,10 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-white/80 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-6xl tracking-widest font-bold mb-5 sm:mb-8 md:mb-10 pb-2 font-playfair"
           >
-            Hơi thở truyền thống
+            <span>{t("hero.subtitle1")}</span>
             <br className="hidden xs:inline pb-10" />
             <div className="xs:hidden"> </div>
-            nhịp sống hiện đại
+            <span>{t("hero.subtitle2")}</span>
           </motion.h2>
 
           {/* Only show SearchBar on screens larger than sm */}

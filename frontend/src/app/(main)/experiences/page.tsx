@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useInView } from "react-intersection-observer";
 import AnotherHeader from "@/components/main/another-header";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -33,32 +34,35 @@ const staggerContainer = {
 };
 
 export default function ExperiencesPage() {
+  const { t } = useTranslation();
+
   return (
     <>
       <AnotherHeader
-        title="Trải Nghiệm Tại "
-        subtitle="Kén Homestay"
-        description="Khám phá nét đẹp văn hóa Việt Nam qua những trải nghiệm độc đáo"
+        title={t("experiences.pageHeader.title")}
+        subtitle={t("experiences.pageHeader.subtitle")}
+        description={t("experiences.pageHeader.description")}
         image="/images/img3.jpg"
-        finalPage="Trải nghiệm dịch vụ"
+        finalPage={t("experiences.pageHeader.finalPage")}
       />
       <div className="bg-[#f8f3e9]">
         <div className="container mx-auto px-4 py-12">
           {/* Vietnamese Morning Lifestyle Section */}
-          <Section title="Vietnamese Morning Lifestyle" delayOffset={0.1}>
+          <Section
+            title={t("experiences.morningLifestyle.title")}
+            delayOffset={0.1}
+          >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h3 className="text-xl font-semibold mb-4 text-[#9C6B4A]">
-                  Eat breakfast, drink Vietnamese tea, filter coffee
+                  {t("experiences.morningLifestyle.subtitle")}
                 </h3>
                 <p className="text-[#5a6065] mb-4 leading-relaxed">
-                  From 7:00 - 9:30 a.m every day, customers at the homestay will
-                  enjoy drinks that are indispensable in the daily lives of
-                  local people.
+                  {t("experiences.morningLifestyle.description")}
                 </p>
 
                 <h4 className="text-lg font-medium mt-6 mb-3 text-[#0a3b33]">
-                  Breakfast Options:
+                  {t("experiences.morningLifestyle.breakfast.title")}
                 </h4>
                 <div className="space-y-3 mb-6">
                   <div className="flex items-start">
@@ -66,11 +70,15 @@ export default function ExperiencesPage() {
                       <Check className="h-5 w-5 text-[#5a8d69]" />
                     </div>
                     <div className="ml-3">
-                      <p className="font-medium text-[#7A5230]">Option 1:</p>
+                      <p className="font-medium text-[#7A5230]">
+                        {t(
+                          "experiences.morningLifestyle.breakfast.option1.title"
+                        )}
+                      </p>
                       <p className="text-[#5a6065]">
-                        Homestay will prepare ingredients for customers to
-                        prepare their own breakfast (sandwiches, eggs, cereal,
-                        fresh milk, lettuce, tomatoes, jam...)
+                        {t(
+                          "experiences.morningLifestyle.breakfast.option1.description"
+                        )}
                       </p>
                     </div>
                   </div>
@@ -79,31 +87,31 @@ export default function ExperiencesPage() {
                       <Check className="h-5 w-5 text-[#5a8d69]" />
                     </div>
                     <div className="ml-3">
-                      <p className="font-medium text-[#7A5230]">Option 2:</p>
+                      <p className="font-medium text-[#7A5230]">
+                        {t(
+                          "experiences.morningLifestyle.breakfast.option2.title"
+                        )}
+                      </p>
                       <p className="text-[#5a6065]">
-                        If the customer wants to eat local food, they will send
-                        dish information to the host the night before. The host
-                        will assist customers in ordering meals.
+                        {t(
+                          "experiences.morningLifestyle.breakfast.option2.description"
+                        )}
                       </p>
                     </div>
                   </div>
                 </div>
 
                 <h4 className="text-lg font-medium mt-6 mb-3 text-[#0a3b33]">
-                  Coffee & Tea Experience:
+                  {t("experiences.morningLifestyle.coffeeTeaTitle")}
                 </h4>
                 <p className="text-[#5a6065] mb-4 leading-relaxed">
-                  The homestay arranges a simple Vietnamese coffee counter
-                  including: dry coffee, filter, sugar packets, condensed milk,
-                  ice and coffee making instructions. The small tea counter
-                  includes: 2 types of dry tea, tea pots, tea brewing
-                  instructions.
+                  {t("experiences.morningLifestyle.coffeeTeaDescription")}
                 </p>
               </div>
               <div className="relative h-[400px] rounded-xl overflow-hidden shadow-lg">
                 <Image
                   src="/images/img2.jpg"
-                  alt="Vietnamese Morning Lifestyle"
+                  alt={t("experiences.morningLifestyle.title")}
                   fill
                   className="object-cover"
                 />
@@ -123,55 +131,63 @@ export default function ExperiencesPage() {
                 <div className="flex items-center mb-4">
                   <Coffee className="h-6 w-6 text-[#9C6B4A] mr-2" />
                   <h3 className="text-xl font-semibold text-[#7A5230]">
-                    Vietnamese Coffee
+                    {t("experiences.morningLifestyle.coffee.title")}
                   </h3>
                 </div>
 
                 <div className="space-y-4">
                   <div>
                     <h4 className="font-medium text-[#0a3b33]">
-                      Iced milk coffee:
+                      {t("experiences.morningLifestyle.coffee.icedMilk.title")}
                     </h4>
                     <ul className="list-disc list-inside space-y-2 mt-2 text-[#5a6065]">
                       <li>
-                        Host supports installation phin into the cup, compress
-                        the coffee.
+                        {t(
+                          "experiences.morningLifestyle.coffee.icedMilk.step1"
+                        )}
                       </li>
                       <li>
-                        Brew coffee for 1-2 minutes with 30ml of boiling water.
+                        {t(
+                          "experiences.morningLifestyle.coffee.icedMilk.step2"
+                        )}
                       </li>
                       <li>
-                        Continue pouring 70-100 ml of boiling water into the
-                        filter and wait for 4-5 minutes.
+                        {t(
+                          "experiences.morningLifestyle.coffee.icedMilk.step3"
+                        )}
                       </li>
                       <li>
-                        Add 2-3 spoons of condensed milk into the glass, stir
-                        well until combined, then add ice and enjoy (Customize
-                        according to customers' preferences).
+                        {t(
+                          "experiences.morningLifestyle.coffee.icedMilk.step4"
+                        )}
                       </li>
                     </ul>
                   </div>
 
                   <div>
                     <h4 className="font-medium text-[#0a3b33]">
-                      Iced black coffee:
+                      {t("experiences.morningLifestyle.coffee.icedBlack.title")}
                     </h4>
                     <ul className="list-disc list-inside space-y-2 mt-2 text-[#5a6065]">
                       <li>
-                        Host supports installation phin into the cup,
-                        compressing the coffee.
+                        {t(
+                          "experiences.morningLifestyle.coffee.icedBlack.step1"
+                        )}
                       </li>
                       <li>
-                        Brew coffee for 2-3 minutes with 30ml of boiling water.
+                        {t(
+                          "experiences.morningLifestyle.coffee.icedBlack.step2"
+                        )}
                       </li>
                       <li>
-                        Pour about 70 ml of boiling water (almost full phin)
-                        enter phin wait for 4-5 minutes.
+                        {t(
+                          "experiences.morningLifestyle.coffee.icedBlack.step3"
+                        )}
                       </li>
                       <li>
-                        Add 1 packet of sugar to the glass, stir well until
-                        combined, then add ice and enjoy (Customize according to
-                        customers' preferences).
+                        {t(
+                          "experiences.morningLifestyle.coffee.icedBlack.step4"
+                        )}
                       </li>
                     </ul>
                   </div>
@@ -206,42 +222,32 @@ export default function ExperiencesPage() {
                     <line x1="14" y1="2" x2="14" y2="4"></line>
                   </svg>
                   <h3 className="text-xl font-semibold text-[#0a3b33]">
-                    Vietnamese Tea
+                    {t("experiences.morningLifestyle.tea.title")}
                   </h3>
                 </div>
 
                 <p className="text-[#5a6065] mb-3">
-                  2 popular types of tea are drunk in the morning: green tea,
-                  long tea, and there are also seasonal teas.
+                  {t("experiences.morningLifestyle.tea.description")}
                 </p>
 
                 <h4 className="font-medium text-[#0a3b33]">
-                  Detailed instructions for visitors:
+                  {t("experiences.morningLifestyle.tea.instructions.title")}
                 </h4>
                 <ul className="list-disc list-inside space-y-2 mt-2 text-[#5a6065]">
                   <li>
-                    Put about 2-3g of tea into a teapot or small cup (depending
-                    on your taste).
+                    {t("experiences.morningLifestyle.tea.instructions.step1")}
                   </li>
                   <li>
-                    Pour water into the tea, wait a few seconds and then pour it
-                    away, helping to remove dirt and making the tea softer.
+                    {t("experiences.morningLifestyle.tea.instructions.step2")}
                   </li>
                   <li>
-                    Pour boiling water into the teapot or cup, about 200ml
-                    (depending on the amount of tea). Do not pour water that is
-                    too boiling (avoid water above 98°C so as not to make the
-                    tea bitter).
+                    {t("experiences.morningLifestyle.tea.instructions.step3")}
                   </li>
                   <li>
-                    Let the tea steep for about 2-3 minutes (depending on the
-                    type of tea, green tea can be steeped for 1-2 minutes, black
-                    tea for 3-4 minutes). Tea steeping time will affect the
-                    strength and flavor of the tea.
+                    {t("experiences.morningLifestyle.tea.instructions.step4")}
                   </li>
                   <li>
-                    After the tea has steeped, you can pour it into individual
-                    glasses and enjoy.
+                    {t("experiences.morningLifestyle.tea.instructions.step5")}
                   </li>
                 </ul>
               </motion.div>
@@ -251,27 +257,34 @@ export default function ExperiencesPage() {
           <Separator className="my-16 opacity-30 bg-[#9C6B4A]" />
 
           {/* Cooking Class Section */}
-          <Section title="Cooking Class" delayOffset={0.2}>
+          <Section
+            title={t("experiences.cookingClass.title")}
+            delayOffset={0.2}
+          >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative h-[400px] rounded-xl overflow-hidden shadow-lg">
                 <Image
                   src="/images/img1.jpg"
-                  alt="Cooking Class"
+                  alt={t("experiences.cookingClass.title")}
                   fill
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a3b33]/80 to-transparent flex flex-col justify-end p-6">
                   <div className="text-white">
                     <Badge className="bg-[#5a8d69] border-0 mb-2">
-                      Daily Activity
+                      {t("experiences.badges.dailyActivity")}
                     </Badge>
                     <div className="flex items-center space-x-2 mb-1">
                       <Clock className="h-4 w-4" />
-                      <span className="text-sm">10:00 AM - 12:00 PM</span>
+                      <span className="text-sm">
+                        {t("experiences.cookingClass.time")}
+                      </span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <DollarSign className="h-4 w-4" />
-                      <span className="text-sm">200.000 VND/person</span>
+                      <span className="text-sm">
+                        {t("experiences.cookingClass.price")}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -279,7 +292,7 @@ export default function ExperiencesPage() {
 
               <div className="order-1 lg:order-2">
                 <h3 className="text-xl font-semibold mb-4 text-[#9C6B4A]">
-                  Learn to Cook Vietnamese Cuisine
+                  {t("experiences.cookingClass.subtitle")}
                 </h3>
                 <div className="flex flex-wrap items-center mb-4 gap-2">
                   <Badge
@@ -287,26 +300,23 @@ export default function ExperiencesPage() {
                     className="text-xs border-[#9C6B4A] text-[#7A5230]"
                   >
                     <MapPin className="h-3 w-3 mr-1" />
-                    Shared kitchen of the homestay
+                    {t("experiences.cookingClass.location")}
                   </Badge>
                   <Badge
                     variant="outline"
                     className="text-xs border-[#5a8d69] text-[#0a3b33]"
                   >
                     <CalendarClock className="h-3 w-3 mr-1" />
-                    Available daily
+                    {t("experiences.cookingClass.availability")}
                   </Badge>
                 </div>
 
                 <p className="text-[#5a6065] mb-4 leading-relaxed">
-                  Experience the authentic flavors of Vietnamese cuisine by
-                  participating in our cooking class. We prepare fresh seasonal
-                  ingredients (vegetables from the market or Kén's garden, meat,
-                  fish, shrimp, squid...) from the local market that day.
+                  {t("experiences.cookingClass.description")}
                 </p>
 
                 <h4 className="text-lg font-medium mt-6 mb-3 text-[#0a3b33]">
-                  Procedure:
+                  {t("experiences.cookingClass.procedure.title")}
                 </h4>
                 <div className="space-y-4">
                   <div className="flex items-start">
@@ -314,12 +324,13 @@ export default function ExperiencesPage() {
                       <span className="font-medium text-[#9C6B4A]">1</span>
                     </div>
                     <div className="ml-4">
-                      <p className="font-medium text-[#7A5230]">Check-in</p>
+                      <p className="font-medium text-[#7A5230]">
+                        {t("experiences.cookingClass.procedure.step1.title")}
+                      </p>
                       <p className="text-[#5a6065]">
-                        When customers arrive to check in, the host will
-                        introduce information about tomorrow's cooking class and
-                        ask if they want to participate. Detailed information
-                        about time, location, and price list will be provided.
+                        {t(
+                          "experiences.cookingClass.procedure.step1.description"
+                        )}
                       </p>
                     </div>
                   </div>
@@ -329,13 +340,13 @@ export default function ExperiencesPage() {
                       <span className="font-medium text-[#9C6B4A]">2</span>
                     </div>
                     <div className="ml-4">
-                      <p className="font-medium text-[#7A5230]">Market</p>
+                      <p className="font-medium text-[#7A5230]">
+                        {t("experiences.cookingClass.procedure.step2.title")}
+                      </p>
                       <p className="text-[#5a6065]">
-                        Go to the morning market around 9:00 AM (Vietnamese
-                        people's time to go to the market to buy fresh
-                        ingredients is from 5:00 - 9:00 AM). Guide and introduce
-                        tourists to visit local markets and buy fresh
-                        ingredients with local people.
+                        {t(
+                          "experiences.cookingClass.procedure.step2.description"
+                        )}
                       </p>
                     </div>
                   </div>
@@ -345,13 +356,13 @@ export default function ExperiencesPage() {
                       <span className="font-medium text-[#9C6B4A]">3</span>
                     </div>
                     <div className="ml-4">
-                      <p className="font-medium text-[#7A5230]">Cook</p>
+                      <p className="font-medium text-[#7A5230]">
+                        {t("experiences.cookingClass.procedure.step3.title")}
+                      </p>
                       <p className="text-[#5a6065]">
-                        The host will be the one conducting the cooking class
-                        with customers to make traditional Vietnamese dishes.
-                        Customers are encouraged to participate in every step of
-                        food preparation (from washing, preparing to seasoning)
-                        to increase the experience.
+                        {t(
+                          "experiences.cookingClass.procedure.step3.description"
+                        )}
                       </p>
                     </div>
                   </div>
@@ -361,11 +372,13 @@ export default function ExperiencesPage() {
                       <span className="font-medium text-[#9C6B4A]">4</span>
                     </div>
                     <div className="ml-4">
-                      <p className="font-medium text-[#7A5230]">Enjoy</p>
+                      <p className="font-medium text-[#7A5230]">
+                        {t("experiences.cookingClass.procedure.step4.title")}
+                      </p>
                       <p className="text-[#5a6065]">
-                        After completing cooking, everyone will enjoy the
-                        prepared dishes together, creating a comfortable and
-                        friendly space for customers to share their feelings.
+                        {t(
+                          "experiences.cookingClass.procedure.step4.description"
+                        )}
                       </p>
                     </div>
                   </div>
@@ -377,21 +390,17 @@ export default function ExperiencesPage() {
           <Separator className="my-16 opacity-30 bg-[#9C6B4A]" />
 
           {/* No-Tech Night Section */}
-          <Section title="No-Tech Night" delayOffset={0.3}>
+          <Section title={t("experiences.noTechNight.title")} delayOffset={0.3}>
             <div className="mb-8 text-center max-w-3xl mx-auto">
               <p className="text-[#5a6065] mb-4 leading-relaxed">
-                Modern life often pulls us into phone screens, causing us to
-                miss out on precious moments. "No-Tech Night" at "Kén" offers
-                guests a chance to step away from the digital world and spend a
-                meaningful evening reconnecting with themselves, nature, and
-                those around them.
+                {t("experiences.noTechNight.description")}
               </p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="bg-white/60 p-6 rounded-lg shadow-sm">
                 <h3 className="text-xl font-semibold mb-4 text-[#9C6B4A]">
-                  Disconnect to Reconnect
+                  {t("experiences.noTechNight.subtitle")}
                 </h3>
                 <div className="flex flex-wrap items-center mb-4 gap-2">
                   <Badge
@@ -399,26 +408,26 @@ export default function ExperiencesPage() {
                     className="text-xs border-[#5a8d69] text-[#0a3b33]"
                   >
                     <Clock className="h-3 w-3 mr-1" />
-                    7:00 PM - 9:00 PM
+                    {t("experiences.noTechNight.time")}
                   </Badge>
                   <Badge
                     variant="outline"
                     className="text-xs border-[#5a8d69] text-[#0a3b33]"
                   >
                     <CalendarClock className="h-3 w-3 mr-1" />
-                    Tuesday, Thursday, Saturday
+                    {t("experiences.noTechNight.days")}
                   </Badge>
                   <Badge
                     variant="outline"
                     className="text-xs border-[#9C6B4A] text-[#7A5230]"
                   >
                     <DollarSign className="h-3 w-3 mr-1" />
-                    250.000 VND/person
+                    {t("experiences.noTechNight.price")}
                   </Badge>
                 </div>
 
                 <h4 className="text-lg font-medium mt-6 mb-3 text-[#0a3b33]">
-                  Experience:
+                  {t("experiences.noTechNight.experience.title")}
                 </h4>
                 <div className="space-y-3 mb-6">
                   <div className="flex items-start">
@@ -427,12 +436,12 @@ export default function ExperiencesPage() {
                     </div>
                     <div className="ml-3">
                       <p className="font-medium text-[#7A5230]">
-                        A Wooden Box for Devices
+                        {t("experiences.noTechNight.experience.feature1.title")}
                       </p>
                       <p className="text-[#5a6065]">
-                        "Kén" provides a beautifully crafted wooden box where
-                        guests can place their electronic devices, allowing them
-                        to take a break from technology.
+                        {t(
+                          "experiences.noTechNight.experience.feature1.description"
+                        )}
                       </p>
                     </div>
                   </div>
@@ -442,31 +451,33 @@ export default function ExperiencesPage() {
                     </div>
                     <div className="ml-3">
                       <p className="font-medium text-[#7A5230]">
-                        Gentle Reminders
+                        {t("experiences.noTechNight.experience.feature2.title")}
                       </p>
                       <p className="text-[#5a6065]">
-                        A charming note in the room reads: "Tonight, turn off
-                        your screens and turn on your emotions!"
+                        {t(
+                          "experiences.noTechNight.experience.feature2.description"
+                        )}
                       </p>
                     </div>
                   </div>
                 </div>
 
                 <h4 className="text-lg font-medium mt-6 mb-3 text-[#0a3b33]">
-                  A Tech-Free Space – Diverse Activities for Everyone:
+                  {t("experiences.noTechNight.activities.title")}
                 </h4>
                 <div className="space-y-4">
                   <div className="flex items-start">
                     <WifiOff className="h-5 w-5 text-[#9C6B4A] mt-1 mr-3" />
                     <div>
                       <p className="font-medium text-[#7A5230]">
-                        "Nhậu" Like a Local (BBQ)
+                        {t(
+                          "experiences.noTechNight.activities.activity1.title"
+                        )}
                       </p>
                       <p className="text-[#5a6065]">
-                        For those who want to experience Vietnam's authentic
-                        drinking culture. Raise your glasses, enjoy fun drinking
-                        games, and share everyday stories (including meats &
-                        beer).
+                        {t(
+                          "experiences.noTechNight.activities.activity1.description"
+                        )}
                       </p>
                     </div>
                   </div>
@@ -475,12 +486,14 @@ export default function ExperiencesPage() {
                     <WifiOff className="h-5 w-5 text-[#9C6B4A] mt-1 mr-3" />
                     <div>
                       <p className="font-medium text-[#7A5230]">
-                        Play Board Games
+                        {t(
+                          "experiences.noTechNight.activities.activity2.title"
+                        )}
                       </p>
                       <p className="text-[#5a6065]">
-                        From familiar games like Uno and "Horse Chess" (Cờ cá
-                        ngựa) to traditional Vietnamese games like Ô Ăn Quan,
-                        all are available for a fun and engaging night.
+                        {t(
+                          "experiences.noTechNight.activities.activity2.description"
+                        )}
                       </p>
                     </div>
                   </div>
@@ -489,12 +502,14 @@ export default function ExperiencesPage() {
                     <WifiOff className="h-5 w-5 text-[#9C6B4A] mt-1 mr-3" />
                     <div>
                       <p className="font-medium text-[#7A5230]">
-                        Read & Enjoy Your Own Space
+                        {t(
+                          "experiences.noTechNight.activities.activity3.title"
+                        )}
                       </p>
                       <p className="text-[#5a6065]">
-                        For those who prefer a quiet evening, "Kén" offers a
-                        cozy reading corner with travel books, literature, and
-                        magazines.
+                        {t(
+                          "experiences.noTechNight.activities.activity3.description"
+                        )}
                       </p>
                     </div>
                   </div>
@@ -503,12 +518,14 @@ export default function ExperiencesPage() {
                     <WifiOff className="h-5 w-5 text-[#9C6B4A] mt-1 mr-3" />
                     <div>
                       <p className="font-medium text-[#7A5230]">
-                        Herbal Tea & Conversations
+                        {t(
+                          "experiences.noTechNight.activities.activity4.title"
+                        )}
                       </p>
                       <p className="text-[#5a6065]">
-                        A warm pot of herbal tea is prepared, encouraging guests
-                        to sit together, chat, and share stories from their
-                        journeys.
+                        {t(
+                          "experiences.noTechNight.activities.activity4.description"
+                        )}
                       </p>
                     </div>
                   </div>
@@ -518,34 +535,32 @@ export default function ExperiencesPage() {
               <div className="relative h-[400px] rounded-xl overflow-hidden shadow-lg">
                 <Image
                   src="/images/img3.jpg"
-                  alt="No-Tech Night"
+                  alt={t("experiences.noTechNight.title")}
                   fill
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a3b33]/80 to-transparent flex flex-col justify-end p-6">
                   <div className="text-white">
                     <h3 className="text-xl font-bold mb-2">
-                      The Value of Disconnection
+                      {t("experiences.noTechNight.value.title")}
                     </h3>
                     <ul className="space-y-1 text-sm">
                       <li className="flex items-start">
                         <Check className="h-4 w-4 text-[#98c799] mr-2 mt-0.5" />
                         <span>
-                          A truly relaxing night, free from notifications and
-                          messages
+                          {t("experiences.noTechNight.value.benefit1")}
                         </span>
                       </li>
                       <li className="flex items-start">
                         <Check className="h-4 w-4 text-[#98c799] mr-2 mt-0.5" />
                         <span>
-                          A unique experience that blends the excitement of
-                          local drinking culture with a peaceful space to unwind
+                          {t("experiences.noTechNight.value.benefit2")}
                         </span>
                       </li>
                       <li className="flex items-start">
                         <Check className="h-4 w-4 text-[#98c799] mr-2 mt-0.5" />
                         <span>
-                          Encouraging real human connections rather than screens
+                          {t("experiences.noTechNight.value.benefit3")}
                         </span>
                       </li>
                     </ul>

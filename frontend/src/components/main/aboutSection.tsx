@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Award, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -17,6 +18,8 @@ const slideIn = {
 };
 
 export default function AboutSection() {
+  const { t } = useTranslation();
+
   return (
     <section
       className="bg-[#f8f3e9] py-16 px-4 md:px-8 overflow-hidden"
@@ -73,15 +76,15 @@ export default function AboutSection() {
             variants={fadeIn}
           >
             <span className="text-[#5a8d69] uppercase tracking-wider text-sm mb-4 block">
-              Không gian ấm áp, dịch vụ chu đáo
+              {t("aboutSection.warmService")}
             </span>
 
             <h2 className="font-playfair text-4xl md:text-5xl text-[#0a3b33] lg:leading-[58px] mb-6">
-              Hơi thở truyền thống Nhịp sống hiện đại
+              {t("aboutSection.tagline")}
             </h2>
 
             <p className="text-gray-600 mb-8">
-              Hãy để chúng tôi mang đến cho bạn những trải nghiệm đặc biệt
+              {t("aboutSection.description")}
             </p>
 
             <div className="space-y-6 mb-8">
@@ -90,7 +93,7 @@ export default function AboutSection() {
                   <Award className="w-6 h-6 text-[#5a8d69]" />
                 </div>
                 <p className="font-medium text-[#0a3b33]">
-                  Tận hưởng sự chăm sóc chu đáo trong từng chi tiết
+                  {t("aboutSection.feature1")}
                 </p>
               </div>
 
@@ -99,7 +102,7 @@ export default function AboutSection() {
                   <Calendar className="w-6 h-6 text-[#5a8d69]" />
                 </div>
                 <p className="font-medium text-[#0a3b33]">
-                  Sẵn sàng phục vụ quý khách nhiệt tình
+                  {t("aboutSection.feature2")}
                 </p>
               </div>
             </div>
@@ -107,7 +110,7 @@ export default function AboutSection() {
             <motion.div whileHover={{ x: 4 }}>
               <Link href={"/rooms"}>
                 <Button className="rounded-full bg-[#5a8d69] hover:bg-[#4a7d59] text-white group px-6">
-                  Đặt phòng ngay
+                  {t("common.buttons.book")}
                   <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </Button>
               </Link>

@@ -15,13 +15,14 @@ import { toast } from "sonner";
 import { handleAuthError } from "@/utils/error-handlers";
 import { ErrorAlert, SuccessAlert } from "./alert-messages";
 import { IconInputField, PasswordField } from "./form-fields";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function RegisterForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  const { t } = useTranslation();
   const registerMutation = useRegister();
 
   const form = useForm<RegisterFormValues>({
@@ -79,7 +80,7 @@ export function RegisterForm() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          Đăng ký tài khoản
+          {t("auth.registerForm.registerTitle")}
         </motion.h1>
         <motion.p
           className="text-gray-500 text-sm"
@@ -87,15 +88,18 @@ export function RegisterForm() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          Điền thông tin bên dưới để tạo tài khoản mới
+          {t("auth.registerForm.registerDescription")}
         </motion.p>
       </div>
 
-      <ErrorAlert title="Đăng ký thất bại" message={error} />
+      <ErrorAlert
+        title={t("auth.registerForm.registerError")}
+        message={error}
+      />
 
       <SuccessAlert
-        title="Đăng ký thành công"
-        message="Đang chuyển hướng đến trang đăng nhập..."
+        title={t("auth.registerForm.registerSuccess")}
+        message={t("auth.registerForm.registerSuccessMessage")}
         show={registerMutation.isSuccess}
       />
 
@@ -110,8 +114,8 @@ export function RegisterForm() {
             <IconInputField
               name="username"
               control={form.control}
-              label="Tên người dùng"
-              placeholder="Nhập tên người dùng của bạn"
+              label={t("auth.registerForm.usernameLabel")}
+              placeholder={t("auth.registerForm.usernamePlaceholder")}
               icon={<User className="h-4 w-4" />}
             />
           </motion.div>
@@ -125,8 +129,8 @@ export function RegisterForm() {
             <IconInputField
               name="email"
               control={form.control}
-              label="Email"
-              placeholder="Địa chỉ email của bạn"
+              label={t("auth.registerForm.emailLabel")}
+              placeholder={t("auth.registerForm.emailPlaceholder")}
               icon={<Mail className="h-4 w-4" />}
               type="email"
               autoComplete="email"
@@ -142,8 +146,8 @@ export function RegisterForm() {
             <PasswordField
               name="password"
               control={form.control}
-              label="Mật khẩu"
-              placeholder="Mật khẩu của bạn"
+              label={t("auth.registerForm.passwordLabel")}
+              placeholder={t("auth.registerForm.passwordPlaceholder")}
               autoComplete="new-password"
               showPassword={showPassword}
               togglePassword={() => setShowPassword(!showPassword)}
@@ -159,8 +163,8 @@ export function RegisterForm() {
             <PasswordField
               name="confirmPassword"
               control={form.control}
-              label="Xác nhận mật khẩu"
-              placeholder="Xác nhận mật khẩu của bạn"
+              label={t("auth.registerForm.confirmPasswordLabel")}
+              placeholder={t("auth.registerForm.confirmPasswordPlaceholder")}
               autoComplete="new-password"
               showPassword={showConfirmPassword}
               togglePassword={() =>
@@ -178,8 +182,8 @@ export function RegisterForm() {
             <IconInputField
               name="phoneNumber"
               control={form.control}
-              label="Số điện thoại"
-              placeholder="Nhập số điện thoại của bạn"
+              label={t("auth.registerForm.phoneNumberLabel")}
+              placeholder={t("auth.registerForm.phoneNumberPlaceholder")}
               icon={<Phone className="h-4 w-4" />}
             />
           </motion.div>
@@ -193,8 +197,10 @@ export function RegisterForm() {
             <IconInputField
               name="identificationNumber"
               control={form.control}
-              label="Số CMND/CCCD"
-              placeholder="Nhập số CMND/CCCD của bạn"
+              label={t("auth.registerForm.identificationNumberLabel")}
+              placeholder={t(
+                "auth.registerForm.identificationNumberPlaceholder"
+              )}
               icon={<CreditCard className="h-4 w-4" />}
             />
           </motion.div>
@@ -214,10 +220,10 @@ export function RegisterForm() {
               {registerMutation.isPending ? (
                 <div className="flex items-center justify-center">
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  <span>Đang đăng ký...</span>
+                  <span>{t("auth.registerForm.registerPending")}</span>
                 </div>
               ) : (
-                "Đăng ký"
+                t("auth.registerForm.registerButton")
               )}
             </Button>
           </motion.div>
@@ -231,12 +237,12 @@ export function RegisterForm() {
         initial="hidden"
         animate="visible"
       >
-        Đã có tài khoản?{" "}
+        <span>{t("auth.registerForm.alreadyHaveAccount")}</span>
         <Link
           href="/login"
           className="text-green-600 hover:text-green-800 font-medium hover:underline transition-colors"
         >
-          Đăng nhập
+          {t("auth.registerForm.loginLink")}
         </Link>
       </motion.div>
 
@@ -247,21 +253,20 @@ export function RegisterForm() {
         initial="hidden"
         animate="visible"
       >
-        Bằng việc đăng ký, bạn đồng ý với{" "}
+        <span>{t("auth.registerForm.agreeToTerms")}</span>
         <Link
           href="/terms"
           className="text-green-600 hover:text-green-800 hover:underline transition-colors"
         >
-          Điều khoản dịch vụ
+          <span> {t("auth.registerForm.termsLink")} </span>
         </Link>{" "}
-        và{" "}
+        <span>{t("auth.registerForm.and")}</span>
         <Link
           href="/privacy"
           className="text-green-600 hover:text-green-800 hover:underline transition-colors"
         >
-          Chính sách bảo mật
+          <span> {t("auth.registerForm.privacyLink")} </span>
         </Link>{" "}
-        của chúng tôi.
       </motion.div>
     </div>
   );

@@ -1,51 +1,29 @@
+"use client";
+
 import { getPaginatedItems, getTotalPages } from "@/lib/pagination";
-import BlogCard from "@/components/main/blog/blog-card";
-import SidebarArticle from "@/components/main/blog/sidebar-article";
-import BlogPagination from "@/components/main/blog/blog-pagination";
 import AnotherHeader from "@/components/main/another-header";
-import { Badge } from "@/components/ui/badge";
-import { generatePageMetadata } from "@/components/SEO/PageSEO";
+import { fetchBlogs } from "@/services/blogService";
+import { Blog } from "@/types/blog";
 import BlogClientPage from "@/components/main/blog/BlogClientPage";
-import axios from "axios";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const POSTS_PER_PAGE = 6;
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
-export const metadata = generatePageMetadata({
-  title: "Blog - Latest Articles and Stories",
-  description:
-    "Discover articles about culture, travel, and lifestyle in Vietnam. Get insights, tips, and inspiration for your next adventure.",
-  keywords:
-    "blog, articles, travel tips, Vietnam culture, lifestyle, homestay blog",
-  canonical: "/blog",
-});
-
 // Blog interface based on API response
-export interface BlogArticle {
-  _id: string;
-  title: string;
-  content: string;
-  author: string;
-  imageUrl: string;
-  category: string;
-  tags: string[];
-  ratings?: {
-    user: string;
-    rating: number;
-    comment: string;
-  }[];
-  averageRating?: number;
-  likes?: string[];
-  views?: number;
-  createdAt: string;
-  updatedAt: string;
+export interface BlogArticle extends Blog {
+  imageUrl?: string; // Additional field for compatibility with existing components
 }
 
 // Fetch all blogs from API
 async function getAllArticles(): Promise<BlogArticle[]> {
   try {
-    const response = await axios.get(`${API_URL}/api/v1/blog`);
-    return response.data;
+    const blogs = await fetchBlogs();
+    // Map to ensure compatibility with existing components
+    return blogs.map((blog) => ({
+      ...blog,
+      imageUrl: blog.image || "", // Map image to imageUrl for backwards compatibility
+    }));
   } catch (error) {
     console.error("Error fetching blogs:", error);
     return [];
@@ -70,7 +48,7 @@ function getAllCategories(
   articles: BlogArticle[]
 ): { name: string; count: number }[] {
   const categories = articles.reduce((acc, article) => {
-    const category = article.category;
+    const category = article.category || "Uncategorized";
     if (!acc[category]) {
       acc[category] = 0;
     }
@@ -105,6 +83,7 @@ export default async function BlogPage({
 }: {
   searchParams: { page?: string; category?: string; tag?: string };
 }) {
+  const { t } = useTranslation();
   const currentPage = Number(searchParams.page) || 1;
   const selectedCategory = searchParams.category || null;
   const selectedTag = searchParams.tag || null;
@@ -119,12 +98,12 @@ export default async function BlogPage({
   let filteredArticles = allArticles;
   if (selectedCategory) {
     filteredArticles = filteredArticles.filter(
-      (article) => article.category === selectedCategory
+      (article) => (article.category || "") === selectedCategory
     );
   }
   if (selectedTag) {
     filteredArticles = filteredArticles.filter((article) =>
-      article.tags.includes(selectedTag)
+      article.tags?.includes(selectedTag)
     );
   }
 
@@ -138,10 +117,10 @@ export default async function BlogPage({
   return (
     <div className="min-h-screen bg-[#f8f3e9]">
       <AnotherHeader
-        subtitle="Bài viết của chúng tôi"
-        description="Khám phá những câu chuyện về văn hóa, du lịch và phong cách sống tại Việt Nam"
+        subtitle={t("blog.title")}
+        description={t("blog.subtitle")}
         image="/images/img3.jpg"
-        finalPage="Bài viết"
+        finalPage={t("blog.pageComponents.finalPage")}
       />
 
       <BlogClientPage

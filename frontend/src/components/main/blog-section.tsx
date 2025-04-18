@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { BlogArticle } from "@/app/(main)/blog/page";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
@@ -25,8 +26,12 @@ const fadeIn = {
 };
 
 export default function BlogSection() {
+  const { t, language } = useTranslation();
   const [articles, setArticles] = useState<BlogArticle[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Language-specific date format
+  const dateFormat = language === "en" ? "en-US" : "vi-VN";
 
   // Fetch articles from API
   useEffect(() => {
@@ -90,15 +95,15 @@ export default function BlogSection() {
           <div className="flex justify-between items-start mb-12">
             <div>
               <span className="text-[#5a8d69] uppercase tracking-wider text-sm mb-4 block">
-                Đọc blog của chúng tôi
+                {t("home.blog.subtitle")}
               </span>
               <h2 className="font-playfair text-4xl md:text-5xl text-[#0a3b33] leading-tight">
-                Bài viết thú vị
+                {t("home.blog.title")}
               </h2>
             </div>
           </div>
           <div className="flex justify-center py-20">
-            <div className="animate-pulse">Đang tải bài viết...</div>
+            <div className="animate-pulse">{t("common.loading")}</div>
           </div>
         </div>
       </section>
@@ -112,10 +117,10 @@ export default function BlogSection() {
         <div className="flex justify-between items-start mb-12">
           <div>
             <span className="text-[#5a8d69] uppercase tracking-wider text-sm mb-4 block">
-              Đọc blog của chúng tôi
+              {t("home.blog.subtitle")}
             </span>
             <h2 className="font-playfair text-4xl md:text-5xl text-[#0a3b33] leading-tight">
-              Bài viết thú vị
+              {t("home.blog.title")}
             </h2>
           </div>
 
@@ -124,7 +129,7 @@ export default function BlogSection() {
               className="hidden md:flex items-center gap-2 text-[#5a8d69] uppercase tracking-wider text-sm group cursor-pointer"
               whileHover={{ x: 4 }}
             >
-              Xem tất cả blog
+              <span>{t("home.blog.viewAll")}</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </motion.a>
           </Link>
@@ -195,7 +200,7 @@ export default function BlogSection() {
                         </svg>
                         <span>
                           {new Date(article.createdAt).toLocaleDateString(
-                            "vi-VN"
+                            dateFormat
                           )}
                         </span>
                       </div>
@@ -209,7 +214,7 @@ export default function BlogSection() {
                           className="inline-flex items-center gap-2 text-[#5a8d69] uppercase tracking-wider text-sm group/link cursor-pointer"
                           whileHover={{ x: 4 }}
                         >
-                          Đọc ngay
+                          <span>{t("common.buttons.readMore")}</span>
                           <ArrowRight className="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
                         </motion.a>
                       </Link>
@@ -243,7 +248,7 @@ export default function BlogSection() {
             className="flex md:hidden items-center gap-2 text-[#5a8d69] uppercase tracking-wider text-sm justify-center cursor-pointer mt-6"
             whileHover={{ x: 4 }}
           >
-            Xem tất cả blog
+            <span>{t("home.blog.viewAll")}</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </motion.a>
         </Link>

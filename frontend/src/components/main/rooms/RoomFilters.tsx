@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { BedType, RoomCategory, ViewType } from "@/types/room";
 import { formatCurrency } from "@/utils/roomUtils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface RoomFiltersProps {
   categoryFilter: RoomCategory | "all";
@@ -40,6 +41,8 @@ export default function RoomFilters({
   resetFilters,
   showFilters = true,
 }: RoomFiltersProps) {
+  const { t, language } = useTranslation();
+
   return (
     <div
       className={`${
@@ -47,11 +50,13 @@ export default function RoomFilters({
       } lg:block col-span-1 space-y-6 text-[#0a3b33]`}
     >
       <div>
-        <h2 className="font-bold mb-4 text-[#0a3b33] text-2xl">Lọc phòng</h2>
+        <h2 className="font-bold mb-4 text-[#0a3b33] text-2xl">
+          {t("rooms.filters.title")}
+        </h2>
 
         <div className="mb-4">
           <label className="text-md font-medium mb-2 block text-[#0a3b33]">
-            Loại giường
+            {t("rooms.filters.bedType")}
           </label>
           <Select
             value={bedTypeFilter}
@@ -60,10 +65,10 @@ export default function RoomFilters({
             }
           >
             <SelectTrigger>
-              <SelectValue placeholder="Tất cả" />
+              <SelectValue placeholder={t("rooms.filters.all")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Tất cả</SelectItem>
+              <SelectItem value="all">{t("rooms.filters.all")}</SelectItem>
               <SelectItem value="Single">Single</SelectItem>
               <SelectItem value="Queen">Queen</SelectItem>
               <SelectItem value="King">King</SelectItem>
@@ -73,7 +78,7 @@ export default function RoomFilters({
 
         <div className="mb-4">
           <label className="text-md font-medium mb-2 block text-[#0a3b33]">
-            Loại phòng
+            {t("rooms.filters.roomType")}
           </label>
           <Select
             value={categoryFilter}
@@ -82,24 +87,26 @@ export default function RoomFilters({
             }
           >
             <SelectTrigger>
-              <SelectValue placeholder="Tất cả" />
+              <SelectValue placeholder={t("rooms.filters.all")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Tất cả</SelectItem>
-              <SelectItem value="room">Phòng</SelectItem>
-              <SelectItem value="suite">Suite</SelectItem>
-              <SelectItem value="apartment">Căn hộ</SelectItem>
+              <SelectItem value="all">{t("rooms.filters.all")}</SelectItem>
+              <SelectItem value="room">{t("rooms.types.room")}</SelectItem>
+              <SelectItem value="suite">{t("rooms.types.suite")}</SelectItem>
+              <SelectItem value="apartment">
+                {t("rooms.types.apartment")}
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <div className="mb-6">
           <label className="text-md font-medium mb-2 block text-[#0a3b33]">
-            Giá phòng (mỗi đêm)
+            {t("rooms.filters.pricePerNight")}
           </label>
           <div className="mb-2 flex justify-between text-md">
-            <span>{formatCurrency(priceRange[0])}</span>
-            <span>{formatCurrency(priceRange[1])}</span>
+            <span>{formatCurrency(priceRange[0], language)}</span>
+            <span>{formatCurrency(priceRange[1], language)}</span>
           </div>
           <Slider
             defaultValue={[0, 10000000]}
@@ -112,7 +119,9 @@ export default function RoomFilters({
         </div>
 
         <div className="mb-4">
-          <label className="text-md font-medium mb-2 block">Sắp xếp theo</label>
+          <label className="text-md font-medium mb-2 block">
+            {t("rooms.sorting.title")}
+          </label>
           <Select
             value={sortBy}
             onValueChange={(value) =>
@@ -123,9 +132,15 @@ export default function RoomFilters({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="price-asc">Giá: Thấp đến cao</SelectItem>
-              <SelectItem value="price-desc">Giá: Cao đến thấp</SelectItem>
-              <SelectItem value="capacity">Sức chứa</SelectItem>
+              <SelectItem value="price-asc">
+                {t("rooms.sorting.priceLowToHigh")}
+              </SelectItem>
+              <SelectItem value="price-desc">
+                {t("rooms.sorting.priceHighToLow")}
+              </SelectItem>
+              <SelectItem value="capacity">
+                {t("rooms.sorting.capacity")}
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -134,7 +149,7 @@ export default function RoomFilters({
           onClick={resetFilters}
           className="w-full mt-4 bg-[#5d8a42] text-white hover:bg-[#5d8a42]/80 hover:text-white"
         >
-          Đặt lại
+          {t("rooms.filters.reset")}
         </Button>
       </div>
     </div>

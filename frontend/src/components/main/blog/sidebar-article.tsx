@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { BlogArticle } from "@/app/(main)/blog/page";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function SidebarArticle({
   _id,
@@ -8,8 +9,13 @@ export default function SidebarArticle({
   imageUrl,
   createdAt,
 }: BlogArticle) {
+  const { language } = useTranslation();
+
   // Create a slug from the ID
   const slug = _id;
+
+  // Use language-specific date format
+  const dateFormat = language === "en" ? "en-US" : "vi-VN";
 
   return (
     <Link href={`/blog/${slug}`} className="flex gap-4 group h-24">
@@ -27,7 +33,7 @@ export default function SidebarArticle({
           {title}
         </h3>
         <p className="text-sm text-gray-500 mt-1">
-          {new Date(createdAt).toLocaleDateString("vi-VN")}
+          {new Date(createdAt).toLocaleDateString(dateFormat)}
         </p>
       </div>
     </Link>

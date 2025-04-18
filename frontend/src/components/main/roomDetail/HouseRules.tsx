@@ -8,27 +8,32 @@ import {
   PawPrint,
   Music,
 } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function HouseRules() {
+  const { t } = useTranslation();
+
   const rules = [
-    { icon: Clock, label: "Check-in: After 4:00 PM" },
-    { icon: CalendarClock, label: "Checkout: 10:00 AM" },
-    { icon: Sparkles, label: "Self check-in with lockbox" },
-    { icon: Ruler, label: "Not suitable for infants (under 2 years)" },
-    { icon: Cigarette, label: "No smoking" },
-    { icon: PawPrint, label: "No pets" },
-    { icon: Music, label: "No parties or events" },
+    { icon: Clock, label: t("roomDetail.rules.checkIn") },
+    { icon: CalendarClock, label: t("roomDetail.rules.checkOut") },
+    { icon: Sparkles, label: t("roomDetail.rules.selfCheckIn") },
+    { icon: Ruler, label: t("roomDetail.rules.noInfants") },
+    { icon: Cigarette, label: t("roomDetail.rules.noSmoking") },
+    { icon: PawPrint, label: t("roomDetail.rules.noPets") },
+    { icon: Music, label: t("roomDetail.rules.noParties") },
   ];
 
   return (
     <Card className="mb-8">
       <CardHeader>
-        <CardTitle>Things to know</CardTitle>
+        <CardTitle>{t("roomDetail.rules.thingsToKnow")}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="font-semibold mb-4">House rules</h3>
+            <h3 className="font-semibold mb-4">
+              {t("roomDetail.rules.houseRules")}
+            </h3>
             <ul className="space-y-2">
               {rules.map((rule, index) => (
                 <li key={index} className="flex items-center space-x-2">
@@ -39,14 +44,16 @@ export default function HouseRules() {
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold mb-4">Health & safety</h3>
-            <p className="text-sm">
-              Committed to Airbnb's enhanced cleaning process. Show more
-            </p>
+            <h3 className="font-semibold mb-4">
+              {t("roomDetail.rules.healthSafety")}
+            </h3>
+            <p className="text-sm">{t("roomDetail.rules.cleaningProcess")}</p>
           </div>
           <div>
-            <h3 className="font-semibold mb-4">Cancellation policy</h3>
-            <p className="text-sm">Free cancellation before Feb 14</p>
+            <h3 className="font-semibold mb-4">
+              {t("roomDetail.rules.cancellationPolicy")}
+            </h3>
+            <p className="text-sm">{t("roomDetail.rules.freeCancellation")}</p>
           </div>
         </div>
       </CardContent>

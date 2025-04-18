@@ -12,6 +12,7 @@ import {
   User,
   ChevronLeft,
   ArrowLeft,
+  Eye,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,11 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { BlogArticle } from "@/app/(main)/blog/page";
 import AnotherHeader from "@/components/main/another-header";
+import { fetchBlogById, incrementBlogViews } from "@/services/blogService";
+import ViewCounter from "@/components/blog/ViewCounter";
+import BlogViewTracker from "@/components/blog/BlogViewTracker";
+import { getCurrentUserId } from "@/services/userService";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
@@ -30,15 +36,22 @@ export default function BlogArticlePage({
   const [article, setArticle] = useState<BlogArticle | null>(null);
   const [relatedArticles, setRelatedArticles] = useState<BlogArticle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentUserId, setCurrentUserId] = useState<string>("");
+  const { t } = useTranslation();
+
+  // Get current user ID on component mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setCurrentUserId(getCurrentUserId());
+    }
+  }, []);
 
   useEffect(() => {
     const fetchArticle = async () => {
       try {
         // We're using the slug param as the article ID
-        const response = await axios.get(
-          `${API_URL}/api/v1/blog/${params.slug}`
-        );
-        setArticle(response.data);
+        const blogData = await fetchBlogById(params.slug);
+        setArticle(blogData);
 
         // For related articles, we'll fetch from the main endpoint and filter
         const allResponse = await axios.get(`${API_URL}/api/v1/blog`);
@@ -48,8 +61,8 @@ export default function BlogArticlePage({
           .filter((a: BlogArticle) => a._id !== params.slug)
           .filter(
             (a: BlogArticle) =>
-              a.category === response.data.category ||
-              a.tags?.some((tag: string) => response.data.tags?.includes(tag))
+              a.category === blogData.category ||
+              a.tags?.some((tag: string) => blogData.tags?.includes(tag))
           )
           .slice(0, 3);
 
@@ -64,6 +77,21 @@ export default function BlogArticlePage({
 
     fetchArticle();
   }, [params.slug]);
+
+  useEffect(() => {
+    // Increment view count when the page is loaded
+    const incrementViews = async () => {
+      if (article && article._id) {
+        try {
+          const updatedBlog = await incrementBlogViews(article._id);
+        } catch (error) {
+          console.error("Error incrementing view count:", error);
+        }
+      }
+    };
+
+    incrementViews();
+  }, [article]);
 
   if (isLoading) {
     return (
@@ -85,14 +113,14 @@ export default function BlogArticlePage({
   if (!article) {
     return (
       <div className="container mx-auto py-16 text-center">
-        <h1 className="text-3xl font-bold mb-4">Bài viết không tồn tại</h1>
-        <p className="mb-8">
-          Bài viết bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.
-        </p>
+        <h1 className="text-3xl font-bold mb-4">
+          {t("blog.articlePage.notFound")}
+        </h1>
+        <p className="mb-8">{t("blog.articlePage.notFoundDescription")}</p>
         <Button variant="outline" asChild>
           <Link href="/blog">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Quay lại trang blog
+            {t("blog.articlePage.returnToBlog")}
           </Link>
         </Button>
       </div>
@@ -120,7 +148,7 @@ export default function BlogArticlePage({
         subtitle={article.title}
         description={excerpt}
         image={article.imageUrl || "/images/placeholder.jpg"}
-        finalPage="Bài viết"
+        finalPage={t("blog.articlePage.article")}
         detailPage={article.title}
       />
 
@@ -133,7 +161,7 @@ export default function BlogArticlePage({
               className="inline-flex items-center text-[#5a8d69] hover:underline"
             >
               <ChevronLeft className="h-4 w-4 mr-1" />
-              Quay lại trang blog
+              {t("blog.articlePage.returnToBlog")}
             </Link>
           </div>
 
@@ -146,12 +174,27 @@ export default function BlogArticlePage({
               </div>
               <div className="flex items-center">
                 <Clock className="h-4 w-4 mr-2" />
-                <span>{readingTime} phút đọc</span>
+                <span>
+                  {readingTime} {t("blog.articlePage.minutesToRead")}
+                </span>
               </div>
               <div className="flex items-center">
                 <User className="h-4 w-4 mr-2" />
                 <span>{article.author}</span>
               </div>
+              {article && (
+                <BlogViewTracker
+                  blogId={article._id}
+                  initialViews={article.views || 0}
+                />
+              )}
+              {/* {article && (
+                <LikeButton
+                  blogId={article._id}
+                  initialLikes={article.likes?.count || 0}
+                  isLiked={article.likes?.users?.includes(currentUserId)}
+                />
+              )} */}
             </div>
 
             {/* Article content */}
@@ -178,27 +221,22 @@ export default function BlogArticlePage({
               </div>
             </div>
 
-            {/* Author box */}
-            <div className="mt-12 bg-gray-50 p-6 rounded-lg flex flex-col md:flex-row gap-6 items-center">
-              <Avatar className="h-20 w-20">
-                <AvatarImage
-                  src="/images/placeholder.jpg"
-                  alt={article.author || "Unknown Author"}
-                />
-                <AvatarFallback>
-                  {article.author ? article.author[0] : "?"}
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <h3 className="text-xl font-bold mb-2">
-                  {article.author || "Unknown Author"}
-                </h3>
-                <p className="text-gray-600">
-                  Tác giả của nhiều bài viết về văn hóa, du lịch và lối sống tại
-                  Việt Nam.
-                </p>
+            {/* After Tags section, add interactive elements like likes and share */}
+            {/* <div className="mt-6 flex justify-between items-center">
+              <div className="flex items-center gap-4">
+                {article && (
+                  <LikeButton
+                    blogId={article._id}
+                    initialLikes={article.likes?.count || 0}
+                    isLiked={article.likes?.users?.includes(currentUserId)}
+                    size="lg"
+                  />
+                )}
+                <span className="text-gray-500">
+                  {t("blog.articlePage.likePrompt")}
+                </span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -207,7 +245,7 @@ export default function BlogArticlePage({
           <div className="bg-gray-50 py-12">
             <div className="container mx-auto px-4">
               <h2 className="text-2xl font-bold mb-8 text-center">
-                Bài viết liên quan
+                {t("blog.articlePage.relatedArticles")}
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

@@ -8,6 +8,7 @@ import { PlayCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { VideoModal } from "@/components/ui/video-modal";
 import { Title } from "./Title";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const apartmentImages = [
   {
@@ -43,6 +44,7 @@ const fadeInUp = {
 };
 
 export default function ApartmentGallery() {
+  const { t } = useTranslation();
   return (
     <section
       className="py-16 md:py-24"
@@ -58,9 +60,9 @@ export default function ApartmentGallery() {
           variants={fadeInUp}
         >
           <Title
-            title="Hình ảnh homestay"
+            title={t("home.gallery.title")}
             titleColor="#5a8d69"
-            subtitle="Charming"
+            subtitle={t("home.gallery.subtitle")}
             subtitleColor="#9C6B4A"
             // opacity="80"
           />
@@ -122,7 +124,7 @@ export default function ApartmentGallery() {
             href="/gallery"
             className="text-[#2d4a3e] font-medium hover:underline flex items-center group"
           >
-            Xem thêm
+            {t("home.gallery.viewAll")}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

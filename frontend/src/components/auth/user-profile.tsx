@@ -16,16 +16,18 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { useLogout } from "@/api/auth";
 import { toast } from "sonner";
 import { useProfileStore } from "@/store/useProfileStore";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function UserProfile() {
+  const { t } = useTranslation();
   const router = useRouter();
   const { user } = useAuthStore();
   const profile = useProfileStore((state) => state.profile);
   const logout = useLogout();
 
   const handleLogout = () => {
-    toast.success("Đăng xuất thành công", {
-      description: "Bạn đã đăng xuất thành công.",
+    toast.success(t("common.notifications.logoutSuccess"), {
+      description: t("common.notifications.logoutSuccessMessage"),
     });
     logout();
     router.push("/login");
@@ -61,16 +63,16 @@ export function UserProfile() {
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => router.push("/profile")}>
           <User className="mr-2 h-4 w-4" />
-          <span>Profile</span>
+          <span>{t("navigation.profile")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => router.push("/notifications")}>
           <Bell className="mr-2 h-4 w-4" />
-          <span>Notifications</span>
+          <span>{t("navigation.notifications")}</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" />
-          <span>Log out</span>
+          <span>{t("navigation.logout")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type PageSEOProps = {
   title: string;
@@ -67,4 +68,41 @@ export function generatePageMetadata({
       canonical: canonical ? `${baseUrl}${canonical}` : baseUrl,
     },
   };
+}
+
+// New component that uses the translation system
+export function PageSEO({
+  titleKey,
+  descriptionKey,
+  keywordsKey,
+  ogImage = "/images/og-image.jpg",
+  canonical = "",
+  noIndex = false,
+}: {
+  titleKey: string;
+  descriptionKey: string;
+  keywordsKey?: string;
+  ogImage?: string;
+  canonical?: string;
+  noIndex?: boolean;
+}) {
+  const { t, language } = useTranslation();
+
+  // Map language to locale format
+  const localeMap: Record<string, string> = {
+    en: "en_US",
+    vi: "vi_VN",
+  };
+
+  const metadata = generatePageMetadata({
+    title: t(titleKey),
+    description: t(descriptionKey),
+    keywords: keywordsKey ? t(keywordsKey) : "",
+    ogImage,
+    canonical,
+    noIndex,
+    locale: localeMap[language] || "en_US",
+  });
+
+  return null; // This component doesn't render anything visible, it's for metadata only
 }

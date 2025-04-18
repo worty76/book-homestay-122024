@@ -10,8 +10,10 @@ import { Button } from "@/components/ui/button";
 import BookingModal from "./bookingModal";
 import { RoomCardProps } from "@/types/room";
 import { formatCurrency } from "@/utils/roomUtils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const RoomCard = memo(({ room }: RoomCardProps) => {
+  const { t, language } = useTranslation();
   const [isHovered, setIsHovered] = useState(false);
   const fallbackImage = "";
 
@@ -110,7 +112,8 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
         </div>
 
         <div className="absolute bottom-3 left-3 bg-background/90 text-foreground px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
-          {formatCurrency(room.basePrice || room.pricing?.basePrice)} / đêm
+          {formatCurrency(room.basePrice || room.pricing?.basePrice, language)}{" "}
+          {t("rooms.roomCard.perNight")}
         </div>
 
         <div
@@ -128,7 +131,7 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
                 variant="secondary"
                 className="bg-[#5a8d69] text-white hover:bg-[#35814c] shadow-sm text-xs"
               >
-                Đặt ngay
+                {t("rooms.roomCard.bookNow")}
               </Button>
             }
           />
@@ -143,7 +146,9 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
         <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs text-muted-foreground mb-2 sm:mb-3">
           <div className="flex items-center gap-1">
             <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span>{room.capacity?.maxGuests || 2} người</span>
+            <span>
+              {room.capacity?.maxGuests || 2} {t("rooms.roomCard.people")}
+            </span>
           </div>
 
           <div className="flex items-center gap-1">
@@ -153,7 +158,9 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
 
           <div className="flex items-center gap-1">
             <Building2 className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span>Tầng {room.floor || 1}</span>
+            <span>
+              {t("rooms.roomCard.floor")} {room.floor || 1}
+            </span>
           </div>
           <div className="flex items-center gap-1">
             <Badge variant="outline" className="text-xs px-1.5 py-0 h-5">
@@ -178,7 +185,7 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
                   size="sm"
                   className="text-xs sm:text-sm bg-[#5a8d69] text-white hover:text-white hover:bg-[#35814c] shadow-sm px-1.5 sm:px-2 py-0.5 h-auto"
                 >
-                  Đặt phòng
+                  {t("rooms.roomCard.bookRoom")}
                 </Button>
               }
             />
@@ -188,7 +195,7 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
                 className="flex items-center text-[#5a8d69] text-xs sm:text-sm group cursor-pointer"
                 whileHover={{ x: 4 }}
               >
-                Xem chi tiết
+                <span>{t("rooms.roomCard.viewDetails")}</span>
                 <ArrowRight className="w-2 h-2 sm:w-3 sm:h-3 transition-transform group-hover:translate-x-1 ml-1" />
               </motion.a>
             </Link>

@@ -14,8 +14,11 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import { toast } from "sonner";
 import { useProfileStore } from "@/store/useProfileStore";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function PersonalInfo() {
+  const { t } = useTranslation();
+
   const {
     data: profileData,
     isLoading: isLoadingProfile,
@@ -101,23 +104,23 @@ export function PersonalInfo() {
 
   const validateForm = (): boolean => {
     if (!formData.username.trim()) {
-      setErrorMessage("Tên người dùng là bắt buộc");
+      setErrorMessage(t("profile.validation.usernameRequired"));
       return false;
     }
 
     if (!formData.email.trim()) {
-      setErrorMessage("Email là bắt buộc");
+      setErrorMessage(t("profile.validation.emailRequired"));
       return false;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      setErrorMessage("Email không hợp lệ");
+      setErrorMessage(t("profile.validation.emailInvalid"));
       return false;
     }
 
     if (formData.phoneNumber && !/^\+?[0-9]{10,}$/.test(formData.phoneNumber)) {
-      setErrorMessage("Số điện thoại không hợp lệ");
+      setErrorMessage(t("profile.validation.phoneInvalid"));
       return false;
     }
 
@@ -125,7 +128,7 @@ export function PersonalInfo() {
       formData.identificationNumber &&
       !/^[0-9]{9,12}$/.test(formData.identificationNumber)
     ) {
-      setErrorMessage("Số CMND/CCCD không hợp lệ (phải có 9-12 chữ số)");
+      setErrorMessage(t("profile.validation.idInvalid"));
       return false;
     }
 
@@ -156,16 +159,15 @@ export function PersonalInfo() {
 
     updateProfile(updateData, {
       onSuccess: () => {
-        toast.success("Cập nhật thành công", {
-          description: "Thông tin cá nhân của bạn đã được cập nhật.",
+        toast.success(t("profile.update.success"), {
+          description: t("profile.update.successMessage"),
         });
         refetch();
       },
       onError: (error) => {
-        const errorMsg =
-          error.message || "Đã xảy ra lỗi khi cập nhật thông tin.";
+        const errorMsg = error.message || t("profile.update.defaultError");
         setErrorMessage(errorMsg);
-        toast.error("Cập nhật thất bại", {
+        toast.error(t("profile.update.error"), {
           description: errorMsg,
         });
       },
@@ -179,8 +181,8 @@ export function PersonalInfo() {
     try {
       setIsUploadingImage(true);
 
-      toast.info("Đang tải lên...", {
-        description: "Hình ảnh đang được tải lên, vui lòng đợi.",
+      toast.info(t("profile.image.uploading"), {
+        description: t("profile.image.uploadingMessage"),
       });
 
       const userId = profileData?.id || storedProfile?.id;
@@ -192,17 +194,17 @@ export function PersonalInfo() {
         profileImage: result.secure_url,
       }));
 
-      toast.success("Tải lên thành công", {
-        description: "Hình ảnh đã được tải lên thành công.",
+      toast.success(t("profile.image.success"), {
+        description: t("profile.image.successMessage"),
       });
     } catch (error) {
       console.error("Error uploading image:", error);
 
-      toast.error("Lỗi tải lên", {
+      toast.error(t("profile.image.error"), {
         description:
           error instanceof Error
             ? error.message
-            : "Đã xảy ra lỗi khi tải lên hình ảnh.",
+            : t("profile.image.errorMessage"),
       });
     } finally {
       setIsUploadingImage(false);
@@ -214,7 +216,7 @@ export function PersonalInfo() {
       return (
         <>
           <CardHeader>
-            <CardTitle>Thông tin cá nhân</CardTitle>
+            <CardTitle>{t("profile.personalInfo")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-center">
@@ -228,7 +230,7 @@ export function PersonalInfo() {
     return (
       <>
         <CardHeader>
-          <CardTitle>Thông tin cá nhân</CardTitle>
+          <CardTitle>{t("profile.personalInfo")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex justify-center mb-6">
@@ -256,13 +258,13 @@ export function PersonalInfo() {
   return (
     <>
       <CardHeader>
-        <CardTitle>Thông tin cá nhân</CardTitle>
+        <CardTitle>{t("profile.personalInfo")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         {errorMessage && (
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Lỗi</AlertTitle>
+            <AlertTitle>{t("common.notifications.error")}</AlertTitle>
             <AlertDescription>{errorMessage}</AlertDescription>
           </Alert>
         )}
@@ -304,7 +306,7 @@ export function PersonalInfo() {
                   onChange={handleImageUpload}
                   disabled={isUploadingImage}
                 />
-                <span className="sr-only">Upload profile picture</span>
+                <span className="sr-only">{t("profile.image.upload")}</span>
               </Label>
             </div>
           </div>
@@ -312,11 +314,14 @@ export function PersonalInfo() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <h3 className="text-lg font-medium mb-4">Thông tin cơ bản</h3>
+            <h3 className="text-lg font-medium mb-4">
+              {t("profile.basicInfo")}
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="username">
-                  Tên người dùng <span className="text-destructive">*</span>
+                  {t("profile.fields.username")}{" "}
+                  <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="username"
@@ -327,7 +332,8 @@ export function PersonalInfo() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">
-                  Địa chỉ email <span className="text-destructive">*</span>
+                  {t("profile.fields.email")}{" "}
+                  <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="email"
@@ -338,21 +344,21 @@ export function PersonalInfo() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="phoneNumber">Số điện thoại</Label>
+                <Label htmlFor="phoneNumber">{t("profile.fields.phone")}</Label>
                 <Input
                   id="phoneNumber"
                   type="tel"
-                  placeholder="Thêm số điện thoại"
+                  placeholder={t("profile.placeholders.phone")}
                   value={formData.phoneNumber}
                   onChange={handleChange}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="dateOfBirth">Ngày sinh</Label>
+                <Label htmlFor="dateOfBirth">{t("profile.fields.dob")}</Label>
                 <Input
                   id="dateOfBirth"
                   type="date"
-                  placeholder="Nhập ngày sinh"
+                  placeholder={t("profile.placeholders.dob")}
                   value={
                     formData.dateOfBirth
                       ? formData.dateOfBirth.split("T")[0]
@@ -362,10 +368,12 @@ export function PersonalInfo() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="identificationNumber">CMND/CCCD</Label>
+                <Label htmlFor="identificationNumber">
+                  {t("profile.fields.id")}
+                </Label>
                 <Input
                   id="identificationNumber"
-                  placeholder="CMND/CCCD"
+                  placeholder={t("profile.placeholders.id")}
                   value={formData.identificationNumber}
                   onChange={handleChange}
                 />
@@ -377,37 +385,39 @@ export function PersonalInfo() {
 
           <div>
             <h3 className="text-lg font-medium mb-4">
-              Thông tin liên hệ khẩn cấp
+              {t("profile.emergencyContact")}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="emergencyContact.name">Tên người liên hệ</Label>
+                <Label htmlFor="emergencyContact.name">
+                  {t("profile.fields.contactName")}
+                </Label>
                 <Input
                   id="emergencyContact.name"
-                  placeholder="Người liên hệ khẩn cấp"
+                  placeholder={t("profile.placeholders.contactName")}
                   value={formData.emergencyContact.name}
                   onChange={handleChange}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="emergencyContact.relationship">
-                  Mối quan hệ
+                  {t("profile.fields.relationship")}
                 </Label>
                 <Input
                   id="emergencyContact.relationship"
-                  placeholder="Ví dụ: Vợ/chồng, Anh/chị, Bạn"
+                  placeholder={t("profile.placeholders.relationship")}
                   value={formData.emergencyContact.relationship}
                   onChange={handleChange}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="emergencyContact.phoneNumber">
-                  Số điện thoại liên hệ
+                  {t("profile.fields.contactPhone")}
                 </Label>
                 <Input
                   id="emergencyContact.phoneNumber"
                   type="tel"
-                  placeholder="Số điện thoại liên hệ khẩn cấp"
+                  placeholder={t("profile.placeholders.contactPhone")}
                   value={formData.emergencyContact.phoneNumber}
                   onChange={handleChange}
                 />
@@ -424,10 +434,10 @@ export function PersonalInfo() {
               {isPending ? (
                 <>
                   <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                  Đang lưu...
+                  {t("profile.buttons.saving")}
                 </>
               ) : (
-                "Lưu thay đổi"
+                t("profile.buttons.save")
               )}
             </Button>
           </div>

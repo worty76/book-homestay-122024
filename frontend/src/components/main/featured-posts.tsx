@@ -118,7 +118,7 @@ export default function FeaturedPosts() {
 
                 <div className="text-gray-500 text-sm flex items-center mb-3">
                   <Calendar className="w-4 h-4 mr-2" />
-                  {new Date(article.createdAt).toLocaleDateString("vi-VN")}
+                  {new Date(article.createdAt).toLocaleDateString("en-US")}
                 </div>
 
                 <p className="text-gray-600 mb-4 line-clamp-3 flex-grow">

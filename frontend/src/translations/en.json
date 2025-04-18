@@ -1,4 +1,360 @@
 {
+  "common": {
+    "buttons": {
+      "search": "Search",
+      "submit": "Submit",
+      "cancel": "Cancel",
+      "save": "Save",
+      "book": "Book Now",
+      "bookRoom": "Book Room",
+      "readMore": "Read More",
+      "viewAll": "View All",
+      "showMore": "Show More",
+      "close": "Close",
+      "confirm": "Confirm"
+    },
+    "form": {
+      "required": "Required",
+      "optional": "Optional",
+      "email": "Email",
+      "password": "Password",
+      "username": "Username",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "phoneNumber": "Phone Number"
+    },
+    "validation": {
+      "required": "This field is required",
+      "email": "Please enter a valid email address",
+      "minLength": "Must be at least {{length}} characters",
+      "maxLength": "Must be less than {{length}} characters"
+    },
+    "notifications": {
+      "success": "Success!",
+      "error": "Error!",
+      "warning": "Warning!",
+      "info": "Information",
+      "logoutSuccess": "Logout Successful",
+      "logoutSuccessMessage": "You have been logged out of your account.",
+      "logoutError": "Logout Failed",
+      "logoutErrorMessage": "An error occurred during logout."
+    },
+    "dates": {
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "selectDate": "Select Date",
+      "nights": "{{count}} nights",
+      "night": "night",
+      "days": "days"
+    },
+    "guests": {
+      "adults": "Adults",
+      "children": "Children",
+      "infants": "Infants",
+      "pets": "Pets",
+      "guest": "guest",
+      "guests": "guests"
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "rooms": "Rooms",
+    "about": "About Us",
+    "contact": "Contact",
+    "blog": "Blog",
+    "login": "Login",
+    "register": "Register",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "notifications": "Notifications",
+    "experiences": "Experiences"
+  },
+  "home": {
+    "hero": {
+      "title": "Find Your Perfect Getaway",
+      "subtitle": "Book unique places to stay and experiences",
+      "cta": "Explore Now"
+    },
+    "featured": {
+      "title": "Featured Rooms",
+      "subtitle": "Our most popular accommodations",
+      "viewAll": "View all rooms"
+    },
+    "blog": {
+      "title": "Our Blog",
+      "subtitle": "Read interesting articles",
+      "viewAll": "View all posts"
+    },
+    "testimonials": {
+      "title": "What Customers Say",
+      "subtitle": "Real experiences from real people"
+    },
+    "gallery": {
+      "title": "Homestay Gallery",
+      "subtitle": "Charming",
+      "viewAll": "View more"
+    },
+    "roomList": {
+      "title": "Explore Our Rooms",
+      "subtitle": "Featured Rooms",
+      "viewAll": "View all rooms",
+      "error": "Could not load rooms: {{error}}"
+    },
+    "FacilitiesGrid": {
+      "roomServiceTitle1": "Room Service",
+      "roomServiceDescription1": "Our professional and dedicated room service staff will keep your room spotless.",
+      "roomServiceTitle2": "Breathtaking View",
+      "roomServiceDescription2": "Our homestay has the most breathtaking and beautiful views.",
+      "roomServiceTitle3": "Fast Internet",
+      "roomServiceDescription3": "We have super fast internet and cabling in rooms for wired connection.",
+      "title": "SERVICES & FACILITIES",
+      "subtitle": "Homestay facilities"
+    }
+  },
+  "rooms": {
+    "filters": {
+      "title": "Filter Rooms",
+      "price": "Price",
+      "guests": "Guests",
+      "amenities": "Amenities",
+      "apply": "Apply Filters",
+      "reset": "Reset",
+      "all": "All",
+      "bedType": "Bed Type",
+      "roomType": "Room Type",
+      "pricePerNight": "Price per night"
+    },
+    "types": {
+      "room": "Room",
+      "suite": "Suite",
+      "apartment": "Apartment"
+    },
+    "sorting": {
+      "title": "Sort by",
+      "priceLowToHigh": "Price: Low to High",
+      "priceHighToLow": "Price: High to Low",
+      "rating": "Rating",
+      "capacity": "Capacity"
+    },
+    "booking": {
+      "title": "Book Room",
+      "guestCount": "Guest Count",
+      "totalPrice": "Total Price",
+      "cleaning": "Cleaning Fee",
+      "taxes": "Taxes",
+      "total": "Total",
+      "confirmation": "Booking Confirmation",
+      "special": "Special Requests"
+    },
+    "pageComponents": {
+      "subtitle": "Our Rooms",
+      "description": "Explore our rooms",
+      "finalPage": "Rooms",
+      "filtersButton": "Filters"
+    },
+    "roomGrid": {
+      "noRoomsFound": "No rooms found",
+      "noMatchSearch": "No rooms match your criteria. Please try again with different dates or number of guests.",
+      "noMatchFilters": "No rooms match your criteria. Please try again with different filters.",
+      "resetFilters": "Reset filters",
+      "showingRoomsSearch": "Showing {{count}} rooms matching your criteria",
+      "showingRooms": "Showing {{count}} rooms"
+    },
+    "roomCard": {
+      "perNight": "/ night",
+      "bookNow": "Book Now",
+      "people": "people",
+      "floor": "Floor",
+      "bookRoom": "Book Room",
+      "viewDetails": "View Details"
+    },
+    "roomDetail": {
+      "errorOccurred": "An error occurred",
+      "tryAgain": "Try Again",
+      "roomDetailsFor": "Room details for {{roomName}}",
+      "exploreOurRooms": "Explore our rooms",
+      "rooms": "Rooms"
+    },
+    "roomDetails": {
+      "title": "Room Details",
+      "subtitle": "Information about the room and amenities",
+      "roomType": "Room Type",
+      "standardRoom": "Standard Room",
+      "doubleRoom": "Double Room",
+      "area": "Area",
+      "floor": "Floor",
+      "floorNumber": "Floor {{floor}}",
+      "capacity": "Capacity",
+      "capacityValue": "{{capacity}} people",
+      "bedInfo": "Bed Information",
+      "bathroom": "Bathroom",
+      "bedroom": "Bedroom",
+      "checkInOutTime": "Check-in & Check-out Time",
+      "checkIn": "Check-in:",
+      "from": "From {{time}}",
+      "checkOut": "Check-out:",
+      "before": "Before {{time}}",
+      "keyAmenities": "Key Amenities",
+      "rules": "Rules",
+      "smokingAllowed": "Smoking allowed",
+      "noSmoking": "No smoking",
+      "petsAllowed": "Pets allowed",
+      "noPets": "No pets",
+      "partiesAllowed": "Parties allowed",
+      "noParties": "No parties",
+      "designConcept": "Design Concept",
+      "priceDetails": "Price Details",
+      "basePrice": "Base Price",
+      "cleaningFee": "Cleaning Fee",
+      "deposit": "Deposit"
+    },
+    "roomAmenities": {
+      "title": "Amenities",
+      "subtitle": "Available amenities in the room",
+      "bathroom": "Bathroom",
+      "noAmenities": "No amenities information"
+    },
+    "bookingForm": {
+      "perNight": "/ night",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "nights": "{{count}} nights",
+      "night": "night",
+      "guest": "guest",
+      "guests": "guests",
+      "guestCount": "Number of guests",
+      "cleaningFee": "Cleaning fee",
+      "total": "Total",
+      "bookRoom": "Book Room"
+    },
+    "bookingModal": {
+      "title": "Book Room: {{roomName}}",
+      "subtitle": "Complete your room booking information",
+      "roomDetails": "Room booking details",
+      "paymentDetails": "Payment details",
+      "dateLabel": "Check-in / check-out date",
+      "chooseCheckout": "Choose check-out date",
+      "chooseDate": "Choose date",
+      "stayDuration": "Stay duration: {{count}} nights",
+      "minStay": "Minimum stay must be 1 night",
+      "specialRequests": "Special requests (optional)",
+      "specialRequestsPlaceholder": "Please let us know if you have any special requests",
+      "paymentMethod": "Payment method",
+      "payAtCheckIn": "Pay at check-in",
+      "payAtCheckInDesc": "Pay cash or swipe card at check-in",
+      "payViaVnpay": "Pay via VNPAY",
+      "vnpayDesc": "Secure payment via VNPAY gateway",
+      "roomType": {
+        "twin": "Double room with 2 single beds",
+        "double": "Double room with 1 large bed",
+        "shared": "Shared room",
+        "people": "people"
+      },
+      "paymentSummary": {
+        "paymentMethod": "Payment method",
+        "payAtCheckIn": "Pay at check-in",
+        "paymentNotice": "Payment will be made at check-in.",
+        "depositNotice": "A 30% deposit may be required to secure your booking."
+      },
+      "errors": {
+        "loginRequired": "Please log in to book a room",
+        "checkErrors": "Please check the following:"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "confirmBooking": "Confirm booking",
+        "processing": "Processing...",
+        "payViaVnpay": "Pay via VNPAY"
+      }
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "bookings": "Booking History",
+    "personalInfo": "Personal Information",
+    "basicInfo": "Basic Information",
+    "emergencyContact": "Emergency Contact",
+    "preferences": "Preferences",
+    "privacy": "Privacy Settings",
+    "payment": "Payment Methods",
+    "language": "Language",
+    "currency": "Currency",
+    "notifications": "Notifications",
+    "booking": {
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "noUpcoming": "No upcoming bookings",
+      "noHistory": "No booking history",
+      "cancelConfirmTitle": "Confirm Booking Cancellation",
+      "cancelConfirmDescription": "Are you sure you want to cancel this booking? This action cannot be undone.",
+      "processing": "Processing...",
+      "confirmCancel": "Confirm Cancellation",
+      "cancelling": "Cancelling...",
+      "cancelBooking": "Cancel Booking",
+      "payNow": "Pay Now",
+      "bookAgain": "Book Again",
+      "bookingId": "Booking ID"
+    },
+    "settings": {
+      "updated": "has been updated",
+      "languageDescription": "Choose your preferred interface language",
+      "currencyDescription": "Set your currency for prices and payments",
+      "selectLanguage": "Select language",
+      "selectCurrency": "Select currency",
+      "emailNotifications": "Email notifications",
+      "emailNotificationsDescription": "Receive booking updates and promotions via email",
+      "smsNotifications": "SMS notifications",
+      "smsNotificationsDescription": "Receive booking updates and promotions via SMS"
+    },
+    "validation": {
+      "usernameRequired": "Username is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Email is invalid",
+      "phoneInvalid": "Phone number is invalid",
+      "idInvalid": "ID number is invalid (must be 9-12 digits)"
+    },
+    "update": {
+      "success": "Update Successful",
+      "successMessage": "Your personal information has been updated.",
+      "error": "Update Failed",
+      "defaultError": "An error occurred while updating information."
+    },
+    "image": {
+      "uploading": "Uploading...",
+      "uploadingMessage": "Your image is being uploaded, please wait.",
+      "success": "Upload Successful",
+      "successMessage": "Your image has been uploaded successfully.",
+      "error": "Upload Error",
+      "errorMessage": "An error occurred while uploading the image.",
+      "upload": "Upload Profile Picture"
+    },
+    "fields": {
+      "username": "Username",
+      "email": "Email address",
+      "phone": "Phone number",
+      "dob": "Date of birth",
+      "id": "ID number",
+      "contactName": "Contact name",
+      "relationship": "Relationship",
+      "contactPhone": "Contact phone",
+      "language": "Language",
+      "currency": "Currency"
+    },
+    "placeholders": {
+      "phone": "Add phone number",
+      "dob": "Enter date of birth",
+      "id": "ID number",
+      "contactName": "Emergency contact person",
+      "relationship": "Example: Spouse, Sibling, Friend",
+      "contactPhone": "Emergency contact phone"
+    },
+    "buttons": {
+      "save": "Save changes",
+      "saving": "Saving..."
+    }
+  },
   "dashboard": {
     "navigation": {
       "dashboard": "Dashboard",
@@ -8,7 +364,7 @@
       "analytics": "Analytics"
     },
     "search": {
-      "placeholder": "Search products..."
+      "placeholder": "Search for products..."
     },
     "userMenu": {
       "label": "My Account",
@@ -18,14 +374,455 @@
     },
     "upgrade": {
       "title": "Upgrade to Pro",
-      "description": "Unlock all features and get unlimited access to our support team",
+      "description": "Unlock all features and receive unlimited support",
       "button": "Upgrade"
     },
     "title": "Inventory",
     "emptyState": {
-      "title": "You have no products",
-      "description": "You can start selling as soon as you add a product",
+      "title": "You don't have any products",
+      "description": "You can start selling once you add products",
       "button": "Add Product"
+    }
+  },
+  "seo": {
+    "defaultTitle": "Book Homestay - Find Your Perfect Accommodation",
+    "defaultDescription": "Book unique accommodations and experiences with Book Homestay. Find the perfect place for your next trip.",
+    "defaultKeywords": "homestay, booking, accommodation, travel, vacation, rooms",
+    "homePage": {
+      "title": "Book Homestay - Your Home Away From Home",
+      "description": "Discover and book unique accommodations around the world. Find the perfect homestay for any trip or adventure.",
+      "keywords": "book homestay, rent accommodation, unique stays, travel"
+    },
+    "roomsPage": {
+      "title": "Explore Our Rooms - Book Homestay",
+      "description": "Browse our selection of comfortable and stylish rooms. Find the perfect accommodation for your stay.",
+      "keywords": "rooms, accommodation, book room, homestay rooms"
+    },
+    "blogPage": {
+      "title": "Travel Blog - Book Homestay",
+      "description": "Read the latest travel tips, destination guides, and homestay recommendations on our blog.",
+      "keywords": "travel blog, travel tips, destination guides, homestay blog"
+    },
+    "contactPage": {
+      "title": "Contact Us - Book Homestay",
+      "description": "Get in touch with our team for any questions, booking assistance, or feedback on our services.",
+      "keywords": "contact, support, help, booking assistance"
+    },
+    "aboutPage": {
+      "title": "About Us - Book Homestay",
+      "description": "Learn about our story, mission, and how we're changing the way people experience travel and accommodation.",
+      "keywords": "about us, homestay mission, our story, accommodation services",
+      "organization": {
+        "name": "Ken Homestay",
+        "description": "Experience a peaceful homestay that combines traditional hospitality with modern comfort",
+        "address": "123 Main Street, City, Country",
+        "telephone": "+1234567890",
+        "email": "info@kenhomestay.com"
+      },
+      "breadcrumbs": {
+        "home": "Home",
+        "about": "About Us"
+      }
+    }
+  },
+  "aboutSection": {
+    "warmService": "Warm space, attentive service",
+    "tagline": "Traditional breath Modern living rhythm",
+    "description": "Let us bring you special experiences",
+    "feature1": "Enjoy attentive care in every detail",
+    "feature2": "Ready to serve you enthusiastically"
+  },
+  "hero": {
+    "title": "Welcome to Ken Homestay",
+    "subtitle1": "Traditional breath",
+    "subtitle2": "Modern living rhythm"
+  },
+  "auth": {
+    "welcome": "Welcome to Ken Homestay",
+    "description": "Book rooms and enjoy the experience of staying at your own home.",
+    "noAccount": "Don't have an account?",
+    "register": "Register",
+    "registerWelcome": "Create a new account",
+    "registerDescription": "Sign up to receive special offers and experience our best service.",
+    "loginForm": {
+      "loginInstructions": "Enter your login details to access your account",
+      "loggingIn": "Logging in...",
+      "registerLink": "Register a new account",
+      "loginSuccess": "Login successful",
+      "welcomeBack": "Welcome back",
+      "registerSuccess": "Registration successful! You can now log in."
+    },
+    "registerForm": {
+      "registerTitle": "Register an account",
+      "registerDescription": "Fill in the information below to create a new account",
+      "registerSuccess": "Registration successful! You can now log in.",
+      "registerError": "Registration failed",
+      "registerSuccessMessage": "Registration successful! You can now log in.",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Enter your username",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Your email address",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Your password",
+      "confirmPasswordLabel": "Confirm password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "phoneNumberLabel": "Phone number",
+      "phoneNumberPlaceholder": "Enter your phone number",
+      "identificationNumberLabel": "ID number",
+      "identificationNumberPlaceholder": "Enter your ID number",
+      "registerButton": "Register",
+      "registerPending": "Registering...",
+      "alreadyHaveAccount": "Already have an account?",
+      "loginLink": "Login",
+      "agreeToTerms": "By registering, you agree to our",
+      "termsLink": " Terms of Service ",
+      "privacyLink": " Privacy Policy ",
+      "and": "and"
+    }
+  },
+  "about": {
+    "header": {
+      "title": "About",
+      "subtitle": "Ken Homestay",
+      "description": "Traditional breath, modern living rhythm - Boutique Homestay in Da Nang",
+      "finalPage": "About"
+    },
+    "story": {
+      "title": "Our Story",
+      "paragraph1": "“Ken“ Homestay – like a cocoon gently embracing your soul, bringing a place of peace and tranquility amidst the hustle and bustle of everyday life. Here, you can immerse yourself in the simple, rustic rhythm of the locals, rediscover serenity and authentic experiences – feelings like coming “home“ in a new land. It is in these moments that your spirit, like butterfly wings after days of quiet metamorphosis, once again radiates with life.",
+      "imageAlt": "Ken Homestay's story",
+      "paragraph2": "Not only that, “Ken“ is also inspired by the journey of Da Nang itself – a city that was once part of Quang Nam province, has gone through many stages of formation and development to become one of Vietnam's iconic destinations today. Like a cocoon nurturing transformation before revealing a new life, Da Nang has also undergone its own “metamorphosis“, leaving an impression of resilience, innovation and vibrant development."
+    },
+    "visionMission": {
+      "title": "Vision And Mission",
+      "visionTitle": "Vision",
+      "visionText": "To become the leading Boutique Homestay brand in Da Nang, providing customers with sophisticated accommodation spaces combined with unique experience activities, imbued with local cultural identity and traditions.",
+      "missionTitle": "Mission",
+      "missionText": "“Ken” is committed to providing customers with a cozy, comfortable space like “home”, where you can immerse yourself in the simple lifestyle of the locals. We constantly bring authentic and unique experiences, while contributing to preserving and spreading the distinctive cultural values of the Central region."
+    },
+    "slogan": {
+      "title": "Our Slogan",
+      "text": "“Traditional breath, modern living rhythm“",
+      "description": "Our slogan expresses the core philosophy of Ken Homestay - a place of intersection between traditional values and modern living. We value and preserve Vietnamese cultural identity, while providing modern amenities that meet the needs of travelers in the digital age."
+    },
+    "values": {
+      "title": "Core Values",
+      "subtitle": "The principles that guide all our activities",
+      "value1": {
+        "title": "Honoring Vietnamese Identity",
+        "description": "Accommodation spaces and experience activities tell a unique story about regional culture and people. Rustic but sophisticated design, the harmony between modernity and traditional beauty."
+      },
+      "value2": {
+        "title": "Customer-Centric",
+        "description": "Creating personalized experiences, bringing the most familiar and comfortable feeling to customers. Each traveler has their own story, and 'Ken' provides customized services to create a memorable stay experience."
+      },
+      "value3": {
+        "title": "Environmentally Friendly Development",
+        "description": "Encouraging eco-friendly tourism and minimizing negative impacts on the environment. We are committed to operating sustainably, using local and environmentally friendly materials."
+      }
+    },
+    "team": {
+      "title": "Our Team",
+      "subtitle": "The passionate people behind Ken Homestay's success",
+      "member1": {
+        "name": "Nguyen Van A",
+        "role": "Director",
+        "bio": "With over 10 years of experience in the tourism and hospitality industry, Mr. Tuan is the founder of Ken Homestay, bringing a vision of the perfect combination of Vietnamese tradition and modern amenities."
+      },
+      "member2": {
+        "name": "Nguyen Van B",
+        "role": "Deputy Director",
+        "bio": "With over 10 years of experience in the tourism and hospitality industry, Mr. Tuan is the founder of Ken Homestay, bringing a vision of the perfect combination of Vietnamese tradition and modern amenities."
+      },
+      "member3": {
+        "name": "Nguyen Van C",
+        "role": "Manager",
+        "bio": "With over 10 years of experience in the tourism and hospitality industry, Mr. Tuan is the founder of Ken Homestay, bringing a vision of the perfect combination of Vietnamese tradition and modern amenities."
+      }
+    },
+    "testimonials": {
+      "title": "Customer Feedback",
+      "subtitle": "Shares from customers who have experienced our service",
+      "testimonial1": {
+        "quote": "One of my most memorable vacations in Da Nang. The room at Ken Homestay truly brought me closer to Vietnamese culture and nature.",
+        "author": "Ha Mai Linh",
+        "location": "Hanoi"
+      },
+      "testimonial2": {
+        "quote": "I love every little detail in Ken Homestay's room design. The staff are extremely friendly and enthusiastic. I will definitely return next time!",
+        "author": "Tran Minh Duc",
+        "location": "Ho Chi Minh City"
+      },
+      "testimonial3": {
+        "quote": "Great location, easy access to tourist attractions. Ken Homestay is clean, comfortable and has a very unique design. The local experience activities are very worthwhile.",
+        "author": "Pham Thanh Ha",
+        "location": "Da Nang"
+      },
+      "testimonial4": {
+        "quote": "Ken Homestay brings a feeling of coming home in a miniature Da Nang cultural space. I particularly enjoy how they combine modern and traditional elements.",
+        "author": "Le Hoang Nam",
+        "location": "Da Nang"
+      }
+    },
+    "contact": {
+      "title": "Contact Information",
+      "mapAlt": "Map of Ken Homestay location",
+      "subtitle": "Leave your information and we will contact you as soon as possible.",
+      "locationTitle": "Our Location",
+      "locationDescription": "Ken Homestay is located in an ideal location in Da Nang, just a 10-minute walk from My Khe Beach and close to famous tourist attractions such as Ba Na Hills, Dragon Bridge, and especially convenient for traveling to Hoi An Ancient Town.",
+      "addressTitle": "Address",
+      "address": "80 Le Van Hien Street, Khue My, Ngu Hanh Son, Da Nang, Vietnam",
+      "hoursTitle": "Opening Hours",
+      "checkInHours": "Check-in: 14:00 - 22:00",
+      "checkOutHours": "Check-out: 12:00",
+      "contactTitle": "Contact Ken Homestay",
+      "phoneTitle": "Phone Number",
+      "emailTitle": "Email",
+      "connectTitle": "Connect With Us",
+      "bookingQuestion": "Want to book a room?",
+      "bookNow": "Book now",
+      "form": {
+        "name": "Your name",
+        "email": "Your email",
+        "phone": "Phone number",
+        "message": "Message content",
+        "send": "Send message",
+        "sending": "Sending...",
+        "success": "Message sent successfully",
+        "error": "Failed to send message",
+        "required": "Required field",
+        "invalidEmail": "Invalid email",
+        "invalidPhone": "Invalid phone number"
+      },
+      "contactInfo": {
+        "address": "Address",
+        "phone": "Phone number",
+        "email": "Email",
+        "hours": "Working hours",
+        "social": "Connect with us"
+      }
+    }
+  },
+  "experiences": {
+    "pageHeader": {
+      "title": "Experiences At",
+      "subtitle": "Ken Homestay",
+      "description": "Discover Vietnamese culture through unique experiences",
+      "finalPage": "Experiences"
+    },
+    "morningLifestyle": {
+      "title": "Vietnamese Morning Lifestyle",
+      "subtitle": "Eat breakfast, drink Vietnamese tea, filter coffee",
+      "description": "From 7:00 - 9:30 a.m every day, customers at the homestay will enjoy drinks that are indispensable in the daily lives of local people.",
+      "breakfast": {
+        "title": "Breakfast Options:",
+        "option1": {
+          "title": "Option 1:",
+          "description": "Homestay will prepare ingredients for customers to prepare their own breakfast (sandwiches, eggs, cereal, fresh milk, lettuce, tomatoes, jam...)"
+        },
+        "option2": {
+          "title": "Option 2:",
+          "description": "If the customer wants to eat local food, they will send dish information to the host the night before. The host will assist customers in ordering meals."
+        }
+      },
+      "coffeeTeaTitle": "Coffee & Tea Experience:",
+      "coffeeTeaDescription": "The homestay arranges a simple Vietnamese coffee counter including: dry coffee, filter, sugar packets, condensed milk, ice and coffee making instructions. The small tea counter includes: 2 types of dry tea, tea pots, tea brewing instructions.",
+      "coffee": {
+        "title": "Vietnamese Coffee",
+        "icedMilk": {
+          "title": "Iced milk coffee:",
+          "step1": "Host supports installation phin into the cup, compress the coffee.",
+          "step2": "Brew coffee for 1-2 minutes with 30ml of boiling water.",
+          "step3": "Continue pouring 70-100 ml of boiling water into the filter and wait for 4-5 minutes.",
+          "step4": "Add 2-3 spoons of condensed milk into the glass, stir well until combined, then add ice and enjoy (Customize according to customers' preferences)."
+        },
+        "icedBlack": {
+          "title": "Iced black coffee:",
+          "step1": "Host supports installation phin into the cup, compressing the coffee.",
+          "step2": "Brew coffee for 2-3 minutes with 30ml of boiling water.",
+          "step3": "Pour about 70 ml of boiling water (almost full phin) enter phin wait for 4-5 minutes.",
+          "step4": "Add 1 packet of sugar to the glass, stir well until combined, then add ice and enjoy (Customize according to customers' preferences)."
+        }
+      },
+      "tea": {
+        "title": "Vietnamese Tea",
+        "description": "2 popular types of tea are drunk in the morning: green tea, long tea, and there are also seasonal teas.",
+        "instructions": {
+          "title": "Detailed instructions for visitors:",
+          "step1": "Put about 2-3g of tea into a teapot or small cup (depending on your taste).",
+          "step2": "Pour water into the tea, wait a few seconds and then pour it away, helping to remove dirt and making the tea softer.",
+          "step3": "Pour boiling water into the teapot or cup, about 200ml (depending on the amount of tea). Do not pour water that is too boiling (avoid water above 98°C so as not to make the tea bitter).",
+          "step4": "Let the tea steep for about 2-3 minutes (depending on the type of tea, green tea can be steeped for 1-2 minutes, black tea for 3-4 minutes). Tea steeping time will affect the strength and flavor of the tea.",
+          "step5": "After the tea has steeped, you can pour it into individual glasses and enjoy."
+        }
+      }
+    },
+    "cookingClass": {
+      "title": "Cooking Class",
+      "subtitle": "Learn to Cook Vietnamese Cuisine",
+      "description": "Experience the authentic flavors of Vietnamese cuisine by participating in our cooking class. We prepare fresh seasonal ingredients (vegetables from the market or Kén's garden, meat, fish, shrimp, squid...) from the local market that day.",
+      "location": "Shared kitchen of the homestay",
+      "availability": "Available daily",
+      "time": "10:00 AM - 12:00 PM",
+      "price": "200.000 VND/person",
+      "procedure": {
+        "title": "Procedure:",
+        "step1": {
+          "title": "Check-in",
+          "description": "When customers arrive to check in, the host will introduce information about tomorrow's cooking class and ask if they want to participate. Detailed information about time, location, and price list will be provided."
+        },
+        "step2": {
+          "title": "Market",
+          "description": "Go to the morning market around 9:00 AM (Vietnamese people's time to go to the market to buy fresh ingredients is from 5:00 - 9:00 AM). Guide and introduce tourists to visit local markets and buy fresh ingredients with local people."
+        },
+        "step3": {
+          "title": "Cook",
+          "description": "The host will be the one conducting the cooking class with customers to make traditional Vietnamese dishes. Customers are encouraged to participate in every step of food preparation (from washing, preparing to seasoning) to increase the experience."
+        },
+        "step4": {
+          "title": "Enjoy",
+          "description": "After completing cooking, everyone will enjoy the prepared dishes together, creating a comfortable and friendly space for customers to share their feelings."
+        }
+      }
+    },
+    "noTechNight": {
+      "title": "No-Tech Night",
+      "description": "Modern life often pulls us into phone screens, causing us to miss out on precious moments. \"No-Tech Night\" at \"Kén\" offers guests a chance to step away from the digital world and spend a meaningful evening reconnecting with themselves, nature, and those around them.",
+      "subtitle": "Disconnect to Reconnect",
+      "time": "7:00 PM - 9:00 PM",
+      "days": "Tuesday, Thursday, Saturday",
+      "price": "250.000 VND/person",
+      "experience": {
+        "title": "Experience:",
+        "feature1": {
+          "title": "A Wooden Box for Devices",
+          "description": "\"Kén\" provides a beautifully crafted wooden box where guests can place their electronic devices, allowing them to take a break from technology."
+        },
+        "feature2": {
+          "title": "Gentle Reminders",
+          "description": "A charming note in the room reads: \"Tonight, turn off your screens and turn on your emotions!\""
+        }
+      },
+      "activities": {
+        "title": "A Tech-Free Space – Diverse Activities for Everyone:",
+        "activity1": {
+          "title": "\"Nhậu\" Like a Local (BBQ)",
+          "description": "For those who want to experience Vietnam's authentic drinking culture. Raise your glasses, enjoy fun drinking games, and share everyday stories (including meats & beer)."
+        },
+        "activity2": {
+          "title": "Play Board Games",
+          "description": "From familiar games like Uno and \"Horse Chess\" (Cờ cá ngựa) to traditional Vietnamese games like Ô Ăn Quan, all are available for a fun and engaging night."
+        },
+        "activity3": {
+          "title": "Read & Enjoy Your Own Space",
+          "description": "For those who prefer a quiet evening, \"Kén\" offers a cozy reading corner with travel books, literature, and magazines."
+        },
+        "activity4": {
+          "title": "Herbal Tea & Conversations",
+          "description": "A warm pot of herbal tea is prepared, encouraging guests to sit together, chat, and share stories from their journeys."
+        }
+      },
+      "value": {
+        "title": "The Value of Disconnection",
+        "benefit1": "A truly relaxing night, free from notifications and messages",
+        "benefit2": "A unique experience that blends the excitement of local drinking culture with a peaceful space to unwind",
+        "benefit3": "Encouraging real human connections rather than screens"
+      }
+    },
+    "badges": {
+      "dailyActivity": "Daily Activity"
+    }
+  },
+  "contact": {
+    "homestayName": "Kén Homestay",
+    "description": "Boutique Homestay in Da Nang, where traditional breath meets modern living rhythm. We bring you an elegant living space and memorable local experiences.",
+    "booking": "Booking",
+    "email": "Email",
+    "address": "Address",
+    "addressDetails": "123 Nguyen Van Linh Street, Hai Chau District, Da Nang, Vietnam",
+    "formTitle": "Contact Us",
+    "formDescription": "Fill in the information below and we will respond as soon as possible",
+    "fullname": "Enter your full name",
+    "emailInput": "Enter your email address",
+    "subject": "Enter subject",
+    "message": "Enter your message",
+    "sendButton": "SEND MESSAGE",
+    "sending": "SENDING...",
+    "successTitle": "Message sent successfully!",
+    "successDescription": "We will contact you as soon as possible.",
+    "timeoutError": "Request timed out",
+    "timeoutDescription": "Please check your connection and try again later.",
+    "sendError": "Could not send message",
+    "unknownError": "An unknown error occurred. Please try again later."
+  },
+  "footer": {
+    "supportInfo": "Support Information",
+    "guide": "Guide",
+    "faq": "FAQ",
+    "about": "About Us",
+    "policy": "Policy",
+    "feedback": "Feedback",
+    "services": "Services",
+    "openingHours": "Opening Hours",
+    "monToFri": "Monday - Friday: 6:00AM - 23:00PM",
+    "satToSun": "Saturday - Sunday: 7:00AM - 23:00PM",
+    "copyright": "© Copyright belongs to ATeam | Provided by slimweb.vn",
+    "destinationMap": "Destination Map",
+    "hotline": "Hotline",
+    "email": "Email",
+    "gallery": "Gallery",
+    "officialHours": "official hours",
+    "bottomLinks": {
+      "map": "Destination Map",
+      "images": "Images"
+    }
+  },
+  "gallery": {
+    "title": "Image Gallery",
+    "description": "Explore our collection of beautiful images",
+    "finalPage": "Image Gallery",
+    "categories": {
+      "all": "All images",
+      "exterior": "Exterior views",
+      "rooms": "Room views"
+    },
+    "loadingMore": "Loading more images...",
+    "photographer": "Photographer"
+  },
+  "blog": {
+    "title": "Our Blog",
+    "subtitle": "Read interesting articles",
+    "viewAll": "View all posts",
+    "pageComponents": {
+      "subtitle": "Our Blog",
+      "description": "Explore our latest articles and stories",
+      "finalPage": "Blog"
+    },
+    "categories": {
+      "title": "Categories",
+      "all": "All Categories"
+    },
+    "tags": {
+      "title": "Tags",
+      "all": "All Tags"
+    },
+    "featured": {
+      "title": "Featured Articles"
+    },
+    "readMore": "Read More",
+    "relatedPosts": "Related Posts",
+    "viewAllPosts": "View All Posts",
+    "noArticles": "No articles found",
+    "searchResults": "Showing {{count}} results",
+    "publishedOn": "Published on",
+    "articlePage": {
+      "notFound": "Article not found",
+      "notFoundDescription": "The article you are looking for does not exist or has been removed.",
+      "returnToBlog": "Return to blog page",
+      "article": "Article",
+      "minutesToRead": "minutes read",
+      "relatedArticles": "Related Articles",
+      "likePrompt": "Like this article if you found it helpful!"
     }
   }
 }

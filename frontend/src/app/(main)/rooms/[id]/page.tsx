@@ -12,6 +12,7 @@ import RoomHeader from "@/components/main/rooms/RoomHeader";
 import { Room, RoomDetailDisplay, BookingFormRoom } from "@/types/room";
 import { mapCategory, mapRoomType, mapViewType } from "@/utils/roomUtils";
 import { fetchRoomById } from "@/services/roomService";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const AnotherHeader = dynamic(
   () => import("@/components/main/another-header"),
@@ -32,6 +33,7 @@ const BookingForm = dynamic(
 );
 
 export default function RoomDetailPage({ params }: { params: { id: string } }) {
+  const { t } = useTranslation();
   const [room, setRoom] = useState<Room | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -160,14 +162,14 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
           className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md mx-auto"
         >
           <h2 className="text-xl sm:text-2xl font-bold text-red-600 mb-3">
-            Đã xảy ra lỗi
+            {t("rooms.roomDetail.errorOccurred")}
           </h2>
           <p className="text-sm sm:text-base text-gray-700">{error}</p>
           <button
             onClick={() => fetchRoom()}
             className="mt-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm transition-colors"
           >
-            Thử lại
+            {t("rooms.roomDetail.tryAgain")}
           </button>
         </motion.div>
       </div>
@@ -185,10 +187,10 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
       transition={{ duration: 0.5 }}
     >
       <AnotherHeader
-        subtitle={`Chi tiết phòng ${room.name}`}
-        description="Khám phá những phòng của chúng tôi"
+        subtitle={t("rooms.roomDetail.roomDetailsFor", { roomName: room.name })}
+        description={t("rooms.roomDetail.exploreOurRooms")}
         image="/images/img3.jpg"
-        finalPage="Phòng"
+        finalPage={t("rooms.roomDetail.rooms")}
         detailPage={room.name}
       />
 

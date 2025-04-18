@@ -17,8 +17,10 @@ import {
   HeartIcon,
   BookMarked,
 } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function ProfilePage() {
+  const { t } = useTranslation();
   const [activeSection, setActiveSection] = useState("personal");
   const [isMounted, setIsMounted] = useState(false);
 
@@ -27,14 +29,14 @@ export default function ProfilePage() {
   }, []);
 
   const menuItems = [
-    { id: "personal", icon: UserIcon, label: "Thông tin cá nhân" },
-    { id: "security", icon: LockIcon, label: "Cài đặt bảo mật" },
-    { id: "bookings", icon: BookMarked, label: "Lịch sử đặt phòng" },
-    // { id: "payment", icon: MapPinIcon, label: "Phương thức thanh toán" },
+    { id: "personal", icon: UserIcon, label: "profile.personalInfo" },
+    { id: "security", icon: LockIcon, label: "profile.security" },
+    { id: "bookings", icon: BookMarked, label: "profile.bookings" },
+    // { id: "payment", icon: MapPinIcon, label: "profile.payment" },
     {
       id: "privacy",
       icon: HeartIcon,
-      label: "Quản lý quyền riêng tư và dữ liệu",
+      label: "profile.privacy",
     },
   ];
 
@@ -42,7 +44,7 @@ export default function ProfilePage() {
     if (!isMounted) {
       return (
         <div className="p-6 text-center">
-          <p>Đang tải...</p>
+          <p>{t("common.loading")}</p>
         </div>
       );
     }
@@ -66,9 +68,9 @@ export default function ProfilePage() {
   return (
     <>
       <AnotherHeader
-        subtitle="Hồ sơ của tôi"
-        description="Quản lý thông tin cá nhân"
-        finalPage="Hồ sơ"
+        subtitle={t("profile.title")}
+        description={t("profile.manageInfo")}
+        finalPage={t("profile.title")}
       />
 
       <div className="container mx-auto py-10">
@@ -89,7 +91,7 @@ export default function ProfilePage() {
                       onClick={() => setActiveSection(item.id)}
                     >
                       <item.icon className="w-4 h-4 mr-2 flex-shrink-0" />
-                      <span>{item.label}</span>
+                      <span>{t(item.label)}</span>
                     </Button>
                   ))}
                 </nav>

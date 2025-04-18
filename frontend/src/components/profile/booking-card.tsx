@@ -14,6 +14,7 @@ import {
   PAYMENT_METHOD_CONFIGS,
 } from "@/types/booking";
 import { formatCurrency } from "@/utils/roomUtils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface BookingCardProps {
   booking: Booking;
@@ -32,6 +33,8 @@ export function BookingCard({
   showBookAgainButton = false,
   showPayNowButton = false,
 }: BookingCardProps) {
+  const { t, language } = useTranslation();
+
   const getStatusBadge = (status: BookingStatus) => {
     const config = STATUS_CONFIGS[status];
     return (
@@ -88,21 +91,29 @@ export function BookingCard({
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div>
-                <p className="text-sm text-muted-foreground">Mã đặt phòng</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("profile.booking.bookingId")}
+                </p>
                 <p className="font-medium">#{booking._id.substring(0, 8)}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Check-in</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("common.dates.checkIn")}
+                </p>
                 <p className="font-medium">{formatDate(booking.startAt)}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Check-out</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("common.dates.checkOut")}
+                </p>
                 <p className="font-medium">{formatDate(booking.endAt)}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Tổng tiền</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("rooms.booking.totalPrice")}
+                </p>
                 <p className="font-medium">
-                  {formatCurrency(booking.totalPrice)}
+                  {formatCurrency(booking.totalPrice, language)}
                 </p>
               </div>
             </div>
@@ -110,7 +121,8 @@ export function BookingCard({
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Users className="w-4 h-4" />
                 <span>
-                  {booking.guests} người · {booking.days} đêm
+                  {booking.guests} {t("common.guests.guests")} · {booking.days}{" "}
+                  {t("common.dates.night")}
                 </span>
               </div>
               {booking.paymentStatus && (
@@ -136,20 +148,22 @@ export function BookingCard({
                   {cancellingId === booking._id ? (
                     <>
                       <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent"></span>
-                      Đang hủy...
+                      {t("profile.booking.cancelling")}
                     </>
                   ) : (
-                    "Hủy đặt phòng"
+                    t("profile.booking.cancelBooking")
                   )}
                 </Button>
               )}
               {showPayNowButton && (
                 <Button className="bg-[#5d8b40] hover:bg-[#5d8b40]/90">
-                  Thanh toán ngay
+                  {t("profile.booking.payNow")}
                 </Button>
               )}
               {showBookAgainButton && (
-                <Button variant="secondary">Đặt lại</Button>
+                <Button variant="secondary">
+                  {t("profile.booking.bookAgain")}
+                </Button>
               )}
             </div>
           </div>

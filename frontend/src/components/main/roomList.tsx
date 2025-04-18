@@ -15,7 +15,7 @@ import Autoplay, { AutoplayType } from "embla-carousel-autoplay";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import RoomCard from "./rooms/roomCard";
-
+import { useTranslation } from "@/hooks/useTranslation";
 // Define types locally to avoid import issues
 type RoomType = "Twin" | "Double" | "Dormitory";
 type ViewType = "Window" | "Balcony";
@@ -45,6 +45,7 @@ interface ApiRoom {
 }
 
 const RoomList = () => {
+  const { t } = useTranslation();
   const [rooms, setRooms] = useState<ApiRoom[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -111,10 +112,10 @@ const RoomList = () => {
         <div className="flex justify-between items-start mb-12">
           <div>
             <span className="text-[#5a8d69] uppercase tracking-wider text-sm mb-4 block">
-              Khám phá các phòng
+              {t("home.roomList.title")}
             </span>
             <h2 className="font-playfair text-4xl md:text-5xl text-[#0a3b33] leading-tight">
-              Phòng tiêu biểu
+              {t("home.roomList.subtitle")}
             </h2>
           </div>
 
@@ -123,7 +124,7 @@ const RoomList = () => {
               className="hidden md:flex items-center gap-2 text-[#5a8d69] uppercase tracking-wider text-sm group cursor-pointer"
               whileHover={{ x: 4 }}
             >
-              Xem tất cả phòng
+              <span>{t("home.roomList.viewAll")}</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </motion.a>
           </Link>
@@ -136,7 +137,7 @@ const RoomList = () => {
             </div>
           ) : error ? (
             <div className="text-center text-red-500 py-8">
-              <p>Unable to load rooms: {error}</p>
+              <p>{t("home.roomList.error")}</p>
             </div>
           ) : (
             <>
@@ -245,7 +246,7 @@ const RoomList = () => {
             className="flex md:hidden items-center gap-2 text-[#5a8d69] uppercase tracking-wider text-sm justify-center cursor-pointer mt-6"
             whileHover={{ x: 4 }}
           >
-            Xem tất cả phòng
+            <span>{t("home.roomList.viewAll")}</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </motion.a>
         </Link>

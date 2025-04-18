@@ -6,11 +6,11 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { RegisterForm } from "@/components/auth/register-form";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
-
+import { useTranslation } from "@/hooks/useTranslation";
 export default function RegisterPage() {
   const router = useRouter();
   const { isAuthenticated } = useAuthStore();
-
+  const { t } = useTranslation();
   useEffect(() => {
     if (isAuthenticated) {
       router.push("/dashboard");
@@ -37,29 +37,31 @@ export default function RegisterPage() {
               </motion.div>
             </div>
           </div>
-          
+
           <div className="hidden md:block md:w-1/2 bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef] relative overflow-hidden">
             <div className="absolute inset-0 bg-opacity-10 bg-[url('/images/pattern.png')] mix-blend-soft-light"></div>
             <div className="w-full h-full flex items-center justify-center p-12 relative">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.7, delay: 0.3 }}
                 className="text-center relative z-10"
               >
-                <img 
-                  src="/images/image4.png" 
-                  alt="Kén Homestay Logo" 
+                <img
+                  src="/images/image4.png"
+                  alt="Kén Homestay Logo"
                   className="mx-auto drop-shadow-lg"
                 />
                 <div className="mt-8 text-gray-700">
-                  <h3 className="text-xl font-semibold mb-2">Tạo tài khoản mới</h3>
+                  <h3 className="text-xl font-semibold mb-2">
+                    {t("auth.registerWelcome")}
+                  </h3>
                   <p className="text-sm text-gray-600">
-                    Đăng ký để nhận ưu đãi đặc biệt và trải nghiệm dịch vụ tốt nhất.
+                    {t("auth.registerDescription")}
                   </p>
                 </div>
               </motion.div>
-              
+
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-100 to-green-200 rounded-bl-full opacity-70"></div>
               <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-[#f8d7da] to-[#f5c6cb] rounded-tr-full opacity-50"></div>
             </div>
@@ -68,4 +70,4 @@ export default function RegisterPage() {
       </motion.div>
     </div>
   );
-} 
+}
