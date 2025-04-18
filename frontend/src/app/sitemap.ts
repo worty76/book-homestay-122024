@@ -3,7 +3,6 @@ import { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://ken-homestay.com";
 
-  // Main pages
   const mainRoutes = [
     {
       url: baseUrl,
@@ -49,8 +48,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // You would typically fetch these dynamically from your API/database
-  // This is a placeholder - implement actual data fetching in production
+
   const roomRoutes = [
     { slug: "deluxe-room" },
     { slug: "standard-room" },

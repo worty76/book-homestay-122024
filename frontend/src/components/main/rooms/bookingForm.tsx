@@ -37,7 +37,7 @@ interface BookingFormProps {
 }
 
 export default function BookingForm({ room }: BookingFormProps) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const [checkInDate, setCheckInDate] = useState<Date>(new Date());
   const [checkOutDate, setCheckOutDate] = useState<Date>(
     addDays(new Date(), 3)
@@ -66,7 +66,7 @@ export default function BookingForm({ room }: BookingFormProps) {
     <Card className="border-none shadow-md overflow-hidden">
       <CardHeader className="bg-[#0a3b33] text-white">
         <CardTitle className="flex items-center justify-between">
-          <span className="text-xl">{formatCurrency(basePrice)}</span>
+          <span className="text-xl">{formatCurrency(basePrice, language)}</span>
           <span className="text-xl font-bold text-white/80">
             {t("rooms.bookingForm.perNight")}
           </span>
@@ -183,26 +183,32 @@ export default function BookingForm({ room }: BookingFormProps) {
         <div className="space-y-3">
           <div className="flex justify-between">
             <span className="text-[#0a3b33]/80">
-              {formatCurrency(basePrice)} x {numberOfNights}{" "}
+              {formatCurrency(basePrice, language)} x {numberOfNights}{" "}
               {numberOfNights === 1
                 ? t("rooms.bookingForm.night")
                 : t("common.dates.night")}
             </span>
-            <span className="font-medium">{formatCurrency(totalPrice)}</span>
+            <span className="font-medium">
+              {formatCurrency(totalPrice, language)}
+            </span>
           </div>
 
           <div className="flex justify-between">
             <span className="text-[#0a3b33]/80">
               {t("rooms.bookingForm.cleaningFee")}
             </span>
-            <span className="font-medium">{formatCurrency(cleaningFee)}</span>
+            <span className="font-medium">
+              {formatCurrency(cleaningFee, language)}
+            </span>
           </div>
 
           <Separator className="my-3 bg-[#5a8d69]/20" />
 
           <div className="flex justify-between font-semibold text-lg">
             <span>{t("rooms.bookingForm.total")}</span>
-            <span className="text-[#9C6B4A]">{formatCurrency(grandTotal)}</span>
+            <span className="text-[#9C6B4A]">
+              {formatCurrency(grandTotal, language)}
+            </span>
           </div>
         </div>
       </CardContent>

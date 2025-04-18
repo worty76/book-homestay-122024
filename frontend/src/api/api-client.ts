@@ -74,7 +74,6 @@ export const handleApiError = (error: unknown): string => {
   let errorResponse: ApiErrorResponse;
 
   if (axios.isAxiosError(error)) {
-    // If our interceptor already formatted the error, use it
     const responseData = error.response?.data as ApiErrorResponse;
     if (
       responseData &&
@@ -103,7 +102,6 @@ export const handleApiError = (error: unknown): string => {
     };
   }
 
-  // Return the message as a string
   return errorResponse.message;
 };
 

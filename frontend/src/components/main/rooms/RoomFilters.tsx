@@ -41,7 +41,7 @@ export default function RoomFilters({
   resetFilters,
   showFilters = true,
 }: RoomFiltersProps) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   return (
     <div
@@ -105,8 +105,8 @@ export default function RoomFilters({
             {t("rooms.filters.pricePerNight")}
           </label>
           <div className="mb-2 flex justify-between text-md">
-            <span>{formatCurrency(priceRange[0])}</span>
-            <span>{formatCurrency(priceRange[1])}</span>
+            <span>{formatCurrency(priceRange[0], language)}</span>
+            <span>{formatCurrency(priceRange[1], language)}</span>
           </div>
           <Slider
             defaultValue={[0, 10000000]}

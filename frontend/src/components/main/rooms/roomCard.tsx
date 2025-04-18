@@ -13,7 +13,7 @@ import { formatCurrency } from "@/utils/roomUtils";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const RoomCard = memo(({ room }: RoomCardProps) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const [isHovered, setIsHovered] = useState(false);
   const fallbackImage = "";
 
@@ -112,7 +112,7 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
         </div>
 
         <div className="absolute bottom-3 left-3 bg-background/90 text-foreground px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
-          {formatCurrency(room.basePrice || room.pricing?.basePrice)}{" "}
+          {formatCurrency(room.basePrice || room.pricing?.basePrice, language)}{" "}
           {t("rooms.roomCard.perNight")}
         </div>
 

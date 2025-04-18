@@ -33,7 +33,7 @@ export function BookingCard({
   showBookAgainButton = false,
   showPayNowButton = false,
 }: BookingCardProps) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   const getStatusBadge = (status: BookingStatus) => {
     const config = STATUS_CONFIGS[status];
@@ -113,7 +113,7 @@ export function BookingCard({
                   {t("rooms.booking.totalPrice")}
                 </p>
                 <p className="font-medium">
-                  {formatCurrency(booking.totalPrice)}
+                  {formatCurrency(booking.totalPrice, language)}
                 </p>
               </div>
             </div>

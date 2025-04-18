@@ -307,31 +307,31 @@ const PriceSummary = ({
   grandTotal: number;
   paymentMethod: PaymentMethod;
 }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   return (
     <>
       <div className="space-y-1.5 sm:space-y-2 text-sm sm:text-base">
         <div className="flex justify-between">
           <span>
-            {formatCurrency(roomPrice)} x {nights}{" "}
+            {formatCurrency(roomPrice, language)} x {nights}{" "}
             {nights === 1
               ? t("rooms.bookingForm.night")
               : t("common.dates.night")}
           </span>
-          <span>{formatCurrency(roomPrice * nights)}</span>
+          <span>{formatCurrency(roomPrice * nights, language)}</span>
         </div>
 
         <div className="flex justify-between">
           <span>{t("rooms.bookingForm.cleaningFee")}</span>
-          <span>{formatCurrency(cleaningFee)}</span>
+          <span>{formatCurrency(cleaningFee, language)}</span>
         </div>
 
         <Separator className="my-3 sm:my-4" />
 
         <div className="flex justify-between font-medium text-base sm:text-lg">
           <span>{t("rooms.bookingForm.total")}</span>
-          <span>{formatCurrency(grandTotal)}</span>
+          <span>{formatCurrency(grandTotal, language)}</span>
         </div>
       </div>
 
@@ -357,7 +357,7 @@ export default function BookingModal({
   guests: initialGuests,
   trigger,
 }: BookingModalProps) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const authState = useAuthStore();
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState<BookingFormData>({
