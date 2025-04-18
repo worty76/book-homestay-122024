@@ -15,7 +15,7 @@ export const handleAuthError = (
   options: ErrorHandlerOptions = {}
 ) => {
   const { setError, setFormError, formValues, showToast = true } = options;
-  let errorMessage = "Đã xảy ra lỗi. Vui lòng thử lại.";
+  let errorMessage = "An error occurred. Please try again later.";
 
   if (axios.isAxiosError(error)) {
     // Get our standardized error response
@@ -53,56 +53,86 @@ export const handleAuthError = (
         // Authentication errors
         case "INVALID_CREDENTIALS":
           errorMessage =
-            "Email hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại.";
+            "Invalid email or password. Please check and try again.";
           setFormError?.("email", { type: "server", message: errorMessage });
           setFormError?.("password", { type: "server", message: errorMessage });
           break;
-
-        // Registration-specific errors
-        case "EMAIL_ALREADY_EXISTS":
+        case "EMAIL_EXISTS":
           errorMessage =
-            "Email này đã được sử dụng. Vui lòng thử email khác hoặc đăng nhập.";
+            "This email is already registered. Please use a different email or login.";
           setFormError?.("email", { type: "server", message: errorMessage });
           break;
+        case "USERNAME_EXISTS":
+          errorMessage =
+            "This username is already taken. Please choose a different one.";
+          setFormError?.("username", { type: "server", message: errorMessage });
+          break;
+        case "USER_NOT_FOUND":
+          errorMessage = "User not found. Please check your email or register.";
+          break;
+        case "ACCOUNT_DISABLED":
+          errorMessage =
+            "Your account has been disabled. Please contact support.";
+          break;
+        case "INVALID_TOKEN":
+          errorMessage =
+            "Invalid or expired authentication token. Please login again.";
+          break;
+        case "SESSION_EXPIRED":
+          errorMessage = "Your session has expired. Please login again.";
+          break;
+        case "WEAK_PASSWORD":
+          errorMessage =
+            "Password is too weak. Please use a stronger password.";
+          setFormError?.("password", { type: "server", message: errorMessage });
+          break;
+        case "PASSWORD_MISMATCH":
+          errorMessage = "Passwords don't match. Please check and try again.";
+          setFormError?.("confirmPassword", {
+            type: "server",
+            message: errorMessage,
+          });
+          break;
+        case "RESET_TOKEN_EXPIRED":
+          errorMessage =
+            "Password reset link has expired. Please request a new one.";
+          break;
+        case "TOO_MANY_ATTEMPTS":
+          errorMessage = "Too many login attempts. Please try again later.";
+          break;
+
+        // Registration-specific errors
         case "PHONE_ALREADY_EXISTS":
           errorMessage =
-            "Số điện thoại này đã được sử dụng. Vui lòng thử số khác.";
+            "This phone number is already registered. Please use a different one.";
           setFormError?.("phoneNumber", {
             type: "server",
             message: errorMessage,
           });
           break;
         case "ID_ALREADY_EXISTS":
-          errorMessage = "Số CMND/CCCD đã được sử dụng. Vui lòng kiểm tra lại.";
+          errorMessage =
+            "This ID number is already registered. Please check again.";
           setFormError?.("identificationNumber", {
             type: "server",
             message: errorMessage,
           });
           break;
-        case "WEAK_PASSWORD":
-          errorMessage =
-            "Mật khẩu không đủ mạnh. Vui lòng sử dụng ít nhất 8 ký tự bao gồm chữ hoa, chữ thường và số.";
-          setFormError?.("password", { type: "server", message: errorMessage });
-          break;
-        case "INVALID_USERNAME":
-          errorMessage =
-            "Tên người dùng không hợp lệ. Vui lòng sử dụng chỉ chữ cái và số.";
-          setFormError?.("username", { type: "server", message: errorMessage });
-          break;
+
+        // Validation errors
         case "INVALID_EMAIL":
-          errorMessage =
-            "Email không hợp lệ. Vui lòng kiểm tra lại định dạng email.";
+          errorMessage = "Invalid email format. Please check and try again.";
           setFormError?.("email", { type: "server", message: errorMessage });
           break;
         case "INVALID_PHONE":
-          errorMessage = "Số điện thoại không hợp lệ. Vui lòng kiểm tra lại.";
+          errorMessage = "Invalid phone number. Please check and try again.";
           setFormError?.("phoneNumber", {
             type: "server",
             message: errorMessage,
           });
           break;
         case "INVALID_ID":
-          errorMessage = "Số CMND/CCCD không hợp lệ. Vui lòng kiểm tra lại.";
+          errorMessage = "Invalid ID number. Please check and try again.";
           setFormError?.("identificationNumber", {
             type: "server",
             message: errorMessage,
@@ -111,26 +141,28 @@ export const handleAuthError = (
 
         // HTTP errors
         case "HTTP_400":
-          errorMessage = "Thông tin không hợp lệ. Vui lòng kiểm tra lại.";
+          errorMessage = "Invalid information. Please check and try again.";
           break;
         case "HTTP_401":
           errorMessage =
-            "Tài khoản của bạn chưa được xác thực hoặc đã bị khóa.";
+            "Your account is not authenticated or has been locked.";
           break;
         case "HTTP_403":
-          errorMessage = "Tài khoản của bạn không có quyền truy cập.";
+          errorMessage =
+            "Your account doesn't have permission to access this resource.";
           break;
         case "HTTP_404":
           errorMessage =
-            "Tài khoản không tồn tại. Vui lòng kiểm tra email hoặc đăng ký.";
+            "Account not found. Please check your email or register.";
           break;
         case "HTTP_429":
-          errorMessage = "Quá nhiều yêu cầu. Vui lòng thử lại sau.";
+          errorMessage = "Too many requests. Please try again later.";
           break;
         case "HTTP_500":
         case "HTTP_502":
         case "HTTP_503":
-          errorMessage = "Hệ thống đang gặp sự cố. Vui lòng thử lại sau.";
+          errorMessage =
+            "System is experiencing issues. Please try again later.";
           break;
         default:
           // Use the message from the API if available
@@ -141,30 +173,32 @@ export const handleAuthError = (
       const statusCode = error.response?.status;
       switch (statusCode) {
         case 400:
-          errorMessage = "Thông tin không hợp lệ. Vui lòng kiểm tra lại.";
+          errorMessage = "Invalid information. Please check and try again.";
           break;
         case 401:
           errorMessage =
-            "Tài khoản của bạn chưa được xác thực hoặc đã bị khóa.";
+            "Your account is not authenticated or has been locked.";
           break;
         case 403:
-          errorMessage = "Tài khoản của bạn không có quyền truy cập.";
+          errorMessage =
+            "Your account doesn't have permission to access this resource.";
           break;
         case 404:
           errorMessage =
-            "Tài khoản không tồn tại. Vui lòng kiểm tra email hoặc đăng ký.";
+            "Account not found. Please check your email or register.";
           break;
         case 409:
           errorMessage =
-            "Thông tin đã tồn tại trong hệ thống. Vui lòng kiểm tra lại.";
+            "Information already exists in the system. Please check again.";
           break;
         case 429:
-          errorMessage = "Quá nhiều yêu cầu. Vui lòng thử lại sau.";
+          errorMessage = "Too many requests. Please try again later.";
           break;
         case 500:
         case 502:
         case 503:
-          errorMessage = "Hệ thống đang gặp sự cố. Vui lòng thử lại sau.";
+          errorMessage =
+            "System is experiencing issues. Please try again later.";
           break;
       }
     }
@@ -185,7 +219,7 @@ export const handleAuthError = (
 
   // Show toast if required
   if (showToast) {
-    toast.error("Đã xảy ra lỗi", {
+    toast.error("An error occurred", {
       description: errorMessage,
       duration: 3000,
     });

@@ -9,55 +9,69 @@ import { Button } from "@/components/ui/button";
 import { Search, X, Download, Heart, Plus, Loader2 } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 import { cn } from "@/lib/utils";
-
-const generateImages = (startIndex: number, count: number) => {
-  const categories = ["View bên ngoài", "View phòng"];
-  const widths = [300, 350, 400, 450, 500];
-  const heights = [200, 250, 300, 350, 400, 450, 500];
-
-  const imageFilenames = [
-    "img1.jpg",
-    "img2.jpg",
-    "img3.jpg",
-    "view/1.png",
-    "view/2.png",
-    "view/3.png",
-    "view/4.png",
-    "view/5.png",
-    "view/6.png",
-    "view/7.png",
-    "view/8.png",
-    "view/9.png",
-  ];
-
-  return Array.from({ length: count }, (_, i) => {
-    const id = startIndex + i;
-    const category = categories[Math.floor(Math.random() * categories.length)];
-    const width = widths[Math.floor(Math.random() * widths.length)];
-    const height = heights[Math.floor(Math.random() * heights.length)];
-    const imageFilename = imageFilenames[id % imageFilenames.length];
-
-    return {
-      id,
-      url: `/images/${imageFilename}`,
-      alt: `Image ${id}`,
-      width,
-      height,
-      category,
-      photographer: `Photographer ${(id % 10) + 1}`,
-    };
-  });
-};
+import AnotherHeader from "@/components/main/another-header";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function GalleryPage() {
+  const { t } = useTranslation();
+
+  const generateImages = (startIndex: number, count: number) => {
+    const categories = [
+      t("gallery.categories.exterior"),
+      t("gallery.categories.rooms"),
+    ];
+    const widths = [300, 350, 400, 450, 500];
+    const heights = [200, 250, 300, 350, 400, 450, 500];
+
+    const imageFilenames = [
+      "img1.jpg",
+      "img2.jpg",
+      "img3.jpg",
+      "view/1.png",
+      "view/2.png",
+      "view/3.png",
+      "view/4.png",
+      "view/5.png",
+      "view/6.png",
+      "view/7.png",
+      "view/8.png",
+      "view/9.png",
+    ];
+
+    return Array.from({ length: count }, (_, i) => {
+      const id = startIndex + i;
+      const category =
+        categories[Math.floor(Math.random() * categories.length)];
+      const width = widths[Math.floor(Math.random() * widths.length)];
+      const height = heights[Math.floor(Math.random() * heights.length)];
+      const imageFilename = imageFilenames[id % imageFilenames.length];
+
+      return {
+        id,
+        url: `/images/${imageFilename}`,
+        alt: `Image ${id}`,
+        width,
+        height,
+        category,
+        photographer: `${t("gallery.photographer")} ${(id % 10) + 1}`,
+      };
+    });
+  };
+
   const [images, setImages] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [selectedImage, setSelectedImage] = useState<any | null>(null);
-  const [activeCategory, setActiveCategory] = useState("Tất cả ảnh");
+  const [activeCategory, setActiveCategory] = useState<string>(
+    t("gallery.categories.all")
+  );
 
-  const categories = ["Tất cả ảnh", "View bên ngoài", "View phòng"];
+  const categories = [
+    t("gallery.categories.all"),
+    t("gallery.categories.exterior"),
+    t("gallery.categories.rooms"),
+  ];
 
   const { ref, inView } = useInView({
     threshold: 0.1,
@@ -92,7 +106,8 @@ export default function GalleryPage() {
       image.photographer.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesCategory =
-      activeCategory === "Tất cả ảnh" || image.category === activeCategory;
+      activeCategory === t("gallery.categories.all") ||
+      image.category === activeCategory;
 
     return matchesSearch && matchesCategory;
   });
@@ -107,9 +122,10 @@ export default function GalleryPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <AnotherHero
-        title="Image Gallery"
-        description="Explore our collection of beautiful images"
+      <AnotherHeader
+        title={t("gallery.title")}
+        description={t("gallery.description")}
+        finalPage={t("gallery.finalPage")}
       />
 
       <section className="container mx-auto px-4 py-8">
@@ -175,7 +191,7 @@ export default function GalleryPage() {
             <div className="flex items-center gap-2">
               <Loader2 className="h-5 w-5 animate-spin text-primary" />
               <span className="text-sm text-gray-500">
-                Tải thêm hình ảnh...
+                {t("gallery.loadingMore")}
               </span>
             </div>
           )}

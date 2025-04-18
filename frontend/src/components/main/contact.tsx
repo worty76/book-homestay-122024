@@ -10,8 +10,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { contactSchema, ContactFormValues } from "@/schema/contact.schema";
 import Image from "next/image";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function Contact() {
+  const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -33,58 +35,62 @@ export function Contact() {
     setTimeout(() => reset(), 500);
   }
 
-  const onSubmit = useCallback(async (data: ContactFormValues) => {
-    setIsSubmitting(true);
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 15000);
+  const onSubmit = useCallback(
+    async (data: ContactFormValues) => {
+      setIsSubmitting(true);
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const result = await response.json();
-
-      if (result.success) {
-        toast.success("Tin nhắn đã được gửi thành công!", {
-          description: "Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.",
-          duration: 5000,
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+          signal: controller.signal,
         });
-      } else {
-        throw new Error(result.message || "Có lỗi xảy ra");
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        if (error.name === "AbortError") {
-          toast.error("Yêu cầu hết thời gian chờ", {
-            description: "Vui lòng kiểm tra kết nối và thử lại sau.",
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+          toast.success(t("contact.contactForm.successTitle"), {
+            description: t("contact.contactForm.successDescription"),
+            duration: 5000,
           });
         } else {
-          toast.error("Không thể gửi tin nhắn", {
-            description: "Vui lòng thử lại sau. Lỗi: " + error.message,
+          throw new Error(result.message || t("contact.contactForm.sendError"));
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          if (error.name === "AbortError") {
+            toast.error(t("contact.contactForm.timeoutError"), {
+              description: t("contact.contactForm.timeoutDescription"),
+            });
+          } else {
+            toast.error(t("contact.contactForm.sendError"), {
+              description:
+                t("contact.contactForm.unknownError") + error.message,
+            });
+          }
+        } else {
+          toast.error(t("contact.contactForm.sendError"), {
+            description: t("contact.contactForm.unknownError"),
           });
         }
-      } else {
-        toast.error("Không thể gửi tin nhắn", {
-          description: "Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.",
-        });
+        console.error("Error submitting form:", error);
+      } finally {
+        setIsSubmitting(false);
       }
-      console.error("Error submitting form:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  }, []);
+    },
+    [t]
+  );
 
   return (
     <section className="py-16 md:py-24 mx-auto">
@@ -92,11 +98,11 @@ export function Contact() {
         <div className="grid gap-12 lg:grid-cols-2">
           <div className="space-y-8">
             <div className="space-y-4">
-              <h2 className="text-4xl font-medium">Kén Homestay</h2>
+              <h2 className="text-4xl font-medium">
+                {t("contact.contactForm.homestayName")}
+              </h2>
               <p className="text-muted-foreground">
-                Boutique Homestay tại Đà Nẵng, nơi giao thoa giữa hơi thở truyền
-                thống và nhịp sống hiện đại. Chúng tôi mang đến cho bạn không
-                gian lưu trú tinh tế và những trải nghiệm địa phương đáng nhớ.
+                {t("contact.contactForm.description")}
               </p>
             </div>
 
@@ -105,7 +111,7 @@ export function Contact() {
                 <Phone className="h-6 w-6 text-black" />
                 <div>
                   <p className="text-sm uppercase text-muted-foreground">
-                    Đặt phòng
+                    {t("contact.contactForm.booking")}
                   </p>
                   <p className="text-lg">+84 236 1234 567</p>
                 </div>
@@ -115,7 +121,7 @@ export function Contact() {
                 <Mail className="h-6 w-6 text-black" />
                 <div>
                   <p className="text-sm uppercase text-muted-foreground">
-                    Email
+                    {t("contact.contactForm.email")}
                   </p>
                   <p className="text-lg">info@kenhomestay.com</p>
                 </div>
@@ -125,12 +131,10 @@ export function Contact() {
                 <MapPin className="h-6 w-6 text-black" />
                 <div>
                   <p className="text-sm uppercase text-muted-foreground">
-                    Địa chỉ
+                    {t("contact.contactForm.address")}
                   </p>
                   <p className="text-lg">
-                    123 Đường Nguyễn Văn Linh,
-                    <br />
-                    Quận Hải Châu, Đà Nẵng, Việt Nam
+                    {t("contact.contactForm.addressDetails")}
                   </p>
                 </div>
               </div>
@@ -139,10 +143,11 @@ export function Contact() {
 
           <div className="rounded-lg bg-white p-8 shadow-md">
             <div className="mb-8">
-              <h3 className="text-2xl font-medium">Liên Hệ Với Chúng Tôi</h3>
+              <h3 className="text-2xl font-medium">
+                {t("contact.contactForm.formTitle")}
+              </h3>
               <p className="text-muted-foreground mt-2">
-                Điền thông tin bên dưới và chúng tôi sẽ phản hồi trong thời gian
-                sớm nhất
+                {t("contact.contactForm.formDescription")}
               </p>
             </div>
 
@@ -154,7 +159,7 @@ export function Contact() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Input
-                    placeholder="Nhập họ tên của bạn"
+                    placeholder={t("contact.contactForm.fullname")}
                     className="bg-white"
                     {...register("fullname")}
                     aria-invalid={errors.fullname ? "true" : "false"}
@@ -175,7 +180,7 @@ export function Contact() {
                 <div className="space-y-2">
                   <Input
                     type="email"
-                    placeholder="Nhập địa chỉ email của bạn"
+                    placeholder={t("contact.contactForm.emailInput")}
                     className="bg-white"
                     {...register("email")}
                     aria-invalid={errors.email ? "true" : "false"}
@@ -196,7 +201,7 @@ export function Contact() {
               <div className="grid gap-4">
                 <div className="space-y-2">
                   <Input
-                    placeholder="Nhập tiêu đề"
+                    placeholder={t("contact.contactForm.subject")}
                     className="bg-white"
                     {...register("subject")}
                     aria-invalid={errors.subject ? "true" : "false"}
@@ -218,7 +223,7 @@ export function Contact() {
 
               <div className="space-y-2">
                 <Textarea
-                  placeholder="Nhập nội dung tin nhắn"
+                  placeholder={t("contact.contactForm.message")}
                   className="min-h-[120px] bg-white"
                   {...register("message")}
                   aria-invalid={errors.message ? "true" : "false"}
@@ -244,11 +249,11 @@ export function Contact() {
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> ĐANG
-                    GỬI...
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+                    {t("contact.contactForm.sending")}
                   </>
                 ) : (
-                  "GỬI TIN NHẮN"
+                  t("contact.contactForm.sendButton")
                 )}
               </Button>
             </form>

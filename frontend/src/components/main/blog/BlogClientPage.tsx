@@ -9,6 +9,7 @@ import BlogPagination from "@/components/main/blog/blog-pagination";
 import { Badge } from "@/components/ui/badge";
 import { BreadcrumbJsonLd } from "@/components/SEO/JsonLd";
 import { BlogArticle } from "@/app/(main)/blog/page";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface BlogCategory {
   name: string;
@@ -41,6 +42,7 @@ export default function BlogClientPage({
   selectedCategory: initialSelectedCategory,
   selectedTag: initialSelectedTag,
 }: BlogClientPageProps) {
+  const { t } = useTranslation();
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
     initialSelectedCategory
@@ -89,9 +91,17 @@ export default function BlogClientPage({
   return (
     <>
       <BreadcrumbJsonLd
-        items={[
-          { name: "Home", item: "https://ken-homestay.com" },
-          { name: "Blog", item: "https://ken-homestay.com/blog" },
+        itemListElements={[
+          {
+            position: 1,
+            name: t("navigation.home"),
+            item: "https://ken-homestay.com",
+          },
+          {
+            position: 2,
+            name: t("navigation.blog"),
+            item: "https://ken-homestay.com/blog",
+          },
         ]}
       />
 
@@ -127,7 +137,9 @@ export default function BlogClientPage({
           <div className="lg:col-span-1 space-y-8">
             {/* Featured Articles */}
             <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h2 className="text-xl font-bold mb-6">Bài viết nổi bật</h2>
+              <h2 className="text-xl font-bold mb-6">
+                {t("home.featured.title")}
+              </h2>
               <div className="space-y-6">
                 {featuredArticles.map((article) => (
                   <SidebarArticle key={article._id} {...article} />
@@ -137,7 +149,9 @@ export default function BlogClientPage({
 
             {/* Categories */}
             <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h2 className="text-xl font-bold mb-4">Danh mục</h2>
+              <h2 className="text-xl font-bold mb-4">
+                {t("rooms.filters.title")}
+              </h2>
               <div className="space-y-2">
                 {categories.map(({ name, count }) => (
                   <button
@@ -157,7 +171,7 @@ export default function BlogClientPage({
 
             {/* Tags */}
             <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h2 className="text-xl font-bold mb-4">Thẻ</h2>
+              <h2 className="text-xl font-bold mb-4">{t("blog.tags.all")}</h2>
               <div className="flex flex-wrap gap-2">
                 {tags.map(({ name, count }) => (
                   <Badge

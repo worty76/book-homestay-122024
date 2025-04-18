@@ -4,6 +4,7 @@ import RoomCard from "@/components/main/rooms/roomCard";
 import { SearchParams } from "@/types/room";
 import { memo, useMemo } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface RoomGridProps {
   loading: boolean;
@@ -46,26 +47,30 @@ const EmptyState = memo(
   }: {
     searchParams: SearchParams;
     resetFilters: () => void;
-  }) => (
-    <motion.div
-      className="text-center py-8 sm:py-12 px-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
-    >
-      <h3 className="text-lg sm:text-xl font-medium mb-2">
-        Không tìm thấy phòng nào
-      </h3>
-      <p className="text-muted-foreground text-sm sm:text-base mb-4 sm:mb-6 max-w-md mx-auto">
-        {searchParams.checkIn
-          ? "Không có phòng nào phù hợp với tiêu chí tìm kiếm của bạn. Vui lòng thử lại với các ngày hoặc số lượng khách khác."
-          : "Không có phòng nào phù hợp với bộ lọc của bạn. Vui lòng thử lại với các tiêu chí khác."}
-      </p>
-      <Button onClick={resetFilters} className="w-full sm:w-auto">
-        Đặt lại bộ lọc
-      </Button>
-    </motion.div>
-  )
+  }) => {
+    const { t } = useTranslation();
+
+    return (
+      <motion.div
+        className="text-center py-8 sm:py-12 px-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        <h3 className="text-lg sm:text-xl font-medium mb-2">
+          {t("rooms.roomGrid.noRoomsFound")}
+        </h3>
+        <p className="text-muted-foreground text-sm sm:text-base mb-4 sm:mb-6 max-w-md mx-auto">
+          {searchParams.checkIn
+            ? t("rooms.roomGrid.noMatchSearch")
+            : t("rooms.roomGrid.noMatchFilters")}
+        </p>
+        <Button onClick={resetFilters} className="w-full sm:w-auto">
+          {t("rooms.roomGrid.resetFilters")}
+        </Button>
+      </motion.div>
+    );
+  }
 );
 
 const RoomCardWrapper = memo(({ room }: { room: any }) => (
@@ -145,13 +150,14 @@ const RoomGrid = ({
   searchParams,
   resetFilters,
 }: RoomGridProps) => {
+  const { t } = useTranslation();
   const skeletonArray = useMemo(() => Array.from({ length: 6 }), []);
 
   const resultText = useMemo(() => {
     return searchParams.checkIn
-      ? `Hiển thị ${filteredRooms.length} phòng phù hợp với tìm kiếm của bạn`
-      : `Hiển thị ${filteredRooms.length} phòng`;
-  }, [filteredRooms.length, searchParams.checkIn]);
+      ? t("rooms.roomGrid.showingRoomsSearch", { count: filteredRooms.length })
+      : t("rooms.roomGrid.showingRooms", { count: filteredRooms.length });
+  }, [filteredRooms.length, searchParams.checkIn, t]);
 
   if (loading) {
     return (

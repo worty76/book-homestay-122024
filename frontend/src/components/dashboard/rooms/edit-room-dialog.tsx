@@ -17,6 +17,7 @@ import PricingTab from "./form-sections/pricing-tab";
 import AmenitiesTab from "./form-sections/amenities-tab";
 import FacilitiesTab from "./form-sections/facilities-tab";
 import HouseRulesTab from "./form-sections/house-rules-tab";
+import { Loading } from "@/components/ui/loading";
 
 const ImagesTab = lazy(() => import("./images-tab"));
 
@@ -105,7 +106,9 @@ export const EditRoomDialog = memo(function EditRoomDialog({
           </TabsContent>
 
           <TabsContent value="images">
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense
+              fallback={<Loading size="md" variant="primary" text="Loading" />}
+            >
               <ImagesTab
                 formData={formData}
                 setFormData={setFormData}

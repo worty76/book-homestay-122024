@@ -2,6 +2,7 @@
 
 import { Footer } from "@/components/main/Footer";
 import QueryProvider from "@/providers/query-provider";
+import LanguageProvider from "@/providers/language-provider";
 import NextTopLoader from "nextjs-toploader";
 import { usePathname } from "next/navigation";
 import { colorMap } from "@/lib/color-map";
@@ -31,8 +32,10 @@ export default function ClientLayout({
     <>
       <NextTopLoader color="#008000" />
       <QueryProvider>
-        {children}
-        <Toaster richColors closeButton position="top-right" />
+        <LanguageProvider>
+          {children}
+          <Toaster richColors closeButton position="top-right" />
+        </LanguageProvider>
       </QueryProvider>
       {showFooter && <Footer />}
     </>

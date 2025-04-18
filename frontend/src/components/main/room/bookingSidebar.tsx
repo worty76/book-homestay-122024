@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { format, differenceInDays, addDays } from "date-fns";
-import { vi } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -53,7 +53,7 @@ export default function BookingSidebar({
   }, [checkIn, checkOut, pricePerNight, cleaningFee]);
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN").format(amount);
+    return new Intl.NumberFormat("en-US").format(amount);
   };
 
   const totalGuests = adultCount + childrenCount;
@@ -102,7 +102,7 @@ export default function BookingSidebar({
                   }}
                   disabled={(date) => date < new Date()}
                   initialFocus
-                  locale={vi}
+                  locale={enUS}
                 />
               </PopoverContent>
             </Popover>
@@ -135,7 +135,7 @@ export default function BookingSidebar({
                     date < new Date() || (checkIn ? date <= checkIn : false)
                   }
                   initialFocus
-                  locale={vi}
+                  locale={enUS}
                 />
               </PopoverContent>
             </Popover>
@@ -151,9 +151,9 @@ export default function BookingSidebar({
                 className="flex w-full items-center justify-between p-0 text-left"
               >
                 <span>
-                  {totalGuests} khách
-                  {infantCount > 0 ? `, ${infantCount} em bé` : ""}
-                  {petCount > 0 ? `, ${petCount} thú cưng` : ""}
+                  {totalGuests} guests
+                  {infantCount > 0 ? `, ${infantCount} infants` : ""}
+                  {petCount > 0 ? `, ${petCount} pets` : ""}
                 </span>
                 <ChevronDown className="h-4 w-4" />
               </Button>

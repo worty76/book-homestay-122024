@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { format, differenceInDays } from "date-fns";
-import { vi } from "date-fns/locale";
+import { format, differenceInDays, addDays } from "date-fns";
+import { enUS } from "date-fns/locale";
 import { Calendar } from "@/components/ui/calendar";
 import type { DateRange } from "react-day-picker";
 import {
@@ -46,6 +46,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ReactNode } from "react";
 import { BookingFormRoom } from "@/types/room";
 import { formatCurrency } from "@/utils/roomUtils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -89,10 +90,13 @@ const DateRangeSelector = ({
   calendarOpen: boolean;
   setCalendarOpen: (open: boolean) => void;
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div>
       <Label className="text-sm sm:text-base">
-        Ngày check-in / check-out <span className="text-red-500">*</span>
+        {t("rooms.bookingModal.dateLabel")}{" "}
+        <span className="text-red-500">*</span>
       </Label>
       <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
         <PopoverTrigger asChild>
@@ -107,19 +111,19 @@ const DateRangeSelector = ({
             {dateRange?.from ? (
               dateRange.to ? (
                 <>
-                  {format(dateRange.from, "dd/MM/yyyy", { locale: vi })} -{" "}
-                  {format(dateRange.to, "dd/MM/yyyy", { locale: vi })}
+                  {format(dateRange.from, "MM/dd/yyyy", { locale: enUS })} -{" "}
+                  {format(dateRange.to, "MM/dd/yyyy", { locale: enUS })}
                 </>
               ) : (
                 <>
-                  {format(dateRange.from, "dd/MM/yyyy", { locale: vi })} -{" "}
+                  {format(dateRange.from, "MM/dd/yyyy", { locale: enUS })} -{" "}
                   <span className="text-muted-foreground">
-                    Chọn ngày trả phòng
+                    {t("rooms.bookingModal.chooseCheckout")}
                   </span>
                 </>
               )
             ) : (
-              <span>Chọn ngày</span>
+              <span>{t("rooms.bookingModal.chooseDate")}</span>
             )}
           </Button>
         </PopoverTrigger>
@@ -135,7 +139,7 @@ const DateRangeSelector = ({
               }
             }}
             numberOfMonths={window.innerWidth < 768 ? 1 : 2}
-            locale={vi}
+            locale={enUS}
             disabled={(date: Date) => date < new Date()}
             className="rounded-md border"
             showOutsideDays={false}
@@ -143,7 +147,7 @@ const DateRangeSelector = ({
           {dateRange.from && !dateRange.to && (
             <div className="p-3 text-center text-sm text-muted-foreground bg-muted/20">
               <AlertCircle className="w-4 h-4 inline-block mr-1 text-amber-500" />
-              Vui lòng chọn ngày trả phòng
+              {t("rooms.bookingModal.chooseCheckout")}
             </div>
           )}
           {dateRange.from &&
@@ -151,15 +155,16 @@ const DateRangeSelector = ({
             differenceInDays(dateRange.to, dateRange.from) < 1 && (
               <div className="p-3 text-center text-sm text-muted-foreground bg-red-100">
                 <AlertCircle className="w-4 h-4 inline-block mr-1 text-red-500" />
-                Thời gian lưu trú phải ít nhất 1 đêm
+                {t("rooms.bookingModal.minStay")}
               </div>
             )}
           {dateRange.from &&
             dateRange.to &&
             differenceInDays(dateRange.to, dateRange.from) >= 1 && (
               <div className="p-3 text-center text-sm text-green-600 bg-green-50">
-                Thời gian lưu trú:{" "}
-                {differenceInDays(dateRange.to, dateRange.from)} đêm
+                {t("rooms.bookingModal.stayDuration", {
+                  count: differenceInDays(dateRange.to, dateRange.from),
+                })}
               </div>
             )}
         </PopoverContent>
@@ -176,28 +181,36 @@ const GuestSelector = ({
   guests: string;
   setGuests: (guests: string) => void;
   maxCapacity: number;
-}) => (
-  <div>
-    <Label className="text-sm sm:text-base">
-      Số lượng khách <span className="text-red-500">*</span>
-    </Label>
-    <Select value={guests} onValueChange={setGuests}>
-      <SelectTrigger className="w-full mt-1 text-sm sm:text-base">
-        <div className="flex items-center">
-          <Users className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-          <SelectValue placeholder="Số lượng khách" />
-        </div>
-      </SelectTrigger>
-      <SelectContent>
-        {Array.from({ length: maxCapacity }, (_, i) => i + 1).map((num) => (
-          <SelectItem key={num} value={num.toString()}>
-            {num} {num === 1 ? "khách" : "khách"}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  </div>
-);
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <div>
+      <Label className="text-sm sm:text-base">
+        {t("rooms.bookingForm.guestCount")}{" "}
+        <span className="text-red-500">*</span>
+      </Label>
+      <Select value={guests} onValueChange={setGuests}>
+        <SelectTrigger className="w-full mt-1 text-sm sm:text-base">
+          <div className="flex items-center">
+            <Users className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+            <SelectValue placeholder={t("rooms.bookingForm.guestCount")} />
+          </div>
+        </SelectTrigger>
+        <SelectContent>
+          {Array.from({ length: maxCapacity }, (_, i) => i + 1).map((num) => (
+            <SelectItem key={num} value={num.toString()}>
+              {num}{" "}
+              {num === 1
+                ? t("rooms.bookingForm.guest")
+                : t("rooms.bookingForm.guests")}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+};
 
 const PaymentMethodSelector = ({
   paymentMethod,
@@ -205,70 +218,81 @@ const PaymentMethodSelector = ({
 }: {
   paymentMethod: PaymentMethod;
   setPaymentMethod: (method: PaymentMethod) => void;
-}) => (
-  <div>
-    <Label className="text-sm sm:text-base mb-2 block">
-      Phương thức thanh toán <span className="text-red-500">*</span>
-    </Label>
-    <RadioGroup
-      value={paymentMethod}
-      onValueChange={(value) => setPaymentMethod(value as PaymentMethod)}
-      className="flex flex-col gap-3"
-    >
-      <div className="flex items-center space-x-2 border rounded-md p-3 cursor-pointer hover:bg-muted/50 transition-colors">
-        <RadioGroupItem value="CASH" id="cash" />
-        <Label
-          htmlFor="cash"
-          className="flex items-center gap-2 cursor-pointer"
-        >
-          <Wallet className="h-4 w-4" />
-          <div>
-            <p className="font-medium">Thanh toán khi nhận phòng</p>
-            <p className="text-sm text-muted-foreground">
-              Trả tiền mặt hoặc quẹt thẻ khi check-in
-            </p>
-          </div>
-        </Label>
-      </div>
+}) => {
+  const { t } = useTranslation();
 
-      {/* <div className="flex items-center space-x-2 border rounded-md p-3 cursor-pointer hover:bg-muted/50 transition-colors">
-        <RadioGroupItem value="VNPAY" id="vnpay" />
-        <Label
-          htmlFor="vnpay"
-          className="flex items-center gap-2 cursor-pointer"
-        >
-          <CreditCard className="h-4 w-4" />
-          <div>
-            <p className="font-medium">Thanh toán qua VNPAY</p>
-            <p className="text-sm text-muted-foreground">
-              Thanh toán an toàn qua cổng VNPAY
-            </p>
-          </div>
-        </Label>
-      </div> */}
-    </RadioGroup>
-  </div>
-);
-
-const RoomDetails = ({ room }: { room: BookingFormRoom }) => (
-  <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
-    <div className="bg-primary/10 text-primary p-1.5 sm:p-2 rounded-md">
-      <Users className="h-4 w-4 sm:h-5 sm:w-5" />
-    </div>
+  return (
     <div>
-      <h4 className="font-medium text-sm sm:text-base">{room.name}</h4>
-      <p className="text-xs sm:text-sm text-muted-foreground">
-        {room.type === "Twin"
-          ? "Phòng đôi với 2 giường đơn"
-          : room.type === "Double"
-          ? "Phòng đôi với 1 giường lớn"
-          : "Phòng ngủ tập thể"}
-        {" · "}
-        {room.maxCapacity} người
-      </p>
+      <Label className="text-sm sm:text-base mb-2 block">
+        {t("rooms.bookingModal.paymentMethod")}{" "}
+        <span className="text-red-500">*</span>
+      </Label>
+      <RadioGroup
+        value={paymentMethod}
+        onValueChange={(value) => setPaymentMethod(value as PaymentMethod)}
+        className="flex flex-col gap-3"
+      >
+        <div className="flex items-center space-x-2 border rounded-md p-3 cursor-pointer hover:bg-muted/50 transition-colors">
+          <RadioGroupItem value="CASH" id="cash" />
+          <Label
+            htmlFor="cash"
+            className="flex items-center gap-2 cursor-pointer"
+          >
+            <Wallet className="h-4 w-4" />
+            <div>
+              <p className="font-medium">
+                {t("rooms.bookingModal.payAtCheckIn")}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {t("rooms.bookingModal.payAtCheckInDesc")}
+              </p>
+            </div>
+          </Label>
+        </div>
+
+        {/* <div className="flex items-center space-x-2 border rounded-md p-3 cursor-pointer hover:bg-muted/50 transition-colors">
+          <RadioGroupItem value="VNPAY" id="vnpay" />
+          <Label
+            htmlFor="vnpay"
+            className="flex items-center gap-2 cursor-pointer"
+          >
+            <CreditCard className="h-4 w-4" />
+            <div>
+              <p className="font-medium">{t("rooms.bookingModal.payViaVnpay")}</p>
+              <p className="text-sm text-muted-foreground">
+                {t("rooms.bookingModal.vnpayDesc")}
+              </p>
+            </div>
+          </Label>
+        </div> */}
+      </RadioGroup>
     </div>
-  </div>
-);
+  );
+};
+
+const RoomDetails = ({ room }: { room: BookingFormRoom }) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
+      <div className="bg-primary/10 text-primary p-1.5 sm:p-2 rounded-md">
+        <Users className="h-4 w-4 sm:h-5 sm:w-5" />
+      </div>
+      <div>
+        <h4 className="font-medium text-sm sm:text-base">{room.name}</h4>
+        <p className="text-xs sm:text-sm text-muted-foreground">
+          {room.type === "Twin"
+            ? t("rooms.bookingModal.roomType.twin")
+            : room.type === "Double"
+            ? t("rooms.bookingModal.roomType.double")
+            : t("rooms.bookingModal.roomType.shared")}
+          {" · "}
+          {room.maxCapacity} {t("rooms.bookingModal.roomType.people")}
+        </p>
+      </div>
+    </div>
+  );
+};
 
 const PriceSummary = ({
   roomPrice,
@@ -282,39 +306,48 @@ const PriceSummary = ({
   cleaningFee: number;
   grandTotal: number;
   paymentMethod: PaymentMethod;
-}) => (
-  <>
-    <div className="space-y-1.5 sm:space-y-2 text-sm sm:text-base">
-      <div className="flex justify-between">
-        <span>
-          {formatCurrency(roomPrice)} x {nights} đêm
-        </span>
-        <span>{formatCurrency(roomPrice * nights)}</span>
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <>
+      <div className="space-y-1.5 sm:space-y-2 text-sm sm:text-base">
+        <div className="flex justify-between">
+          <span>
+            {formatCurrency(roomPrice)} x {nights}{" "}
+            {nights === 1
+              ? t("rooms.bookingForm.night")
+              : t("common.dates.night")}
+          </span>
+          <span>{formatCurrency(roomPrice * nights)}</span>
+        </div>
+
+        <div className="flex justify-between">
+          <span>{t("rooms.bookingForm.cleaningFee")}</span>
+          <span>{formatCurrency(cleaningFee)}</span>
+        </div>
+
+        <Separator className="my-3 sm:my-4" />
+
+        <div className="flex justify-between font-medium text-base sm:text-lg">
+          <span>{t("rooms.bookingForm.total")}</span>
+          <span>{formatCurrency(grandTotal)}</span>
+        </div>
       </div>
 
-      <div className="flex justify-between">
-        <span>Phí vệ sinh</span>
-        <span>{formatCurrency(cleaningFee)}</span>
+      <div className="mt-3 border-t pt-3">
+        <div className="flex justify-between text-sm">
+          <span>{t("rooms.bookingModal.paymentSummary.paymentMethod")}</span>
+          <span className="font-medium">
+            {paymentMethod === "CASH"
+              ? t("rooms.bookingModal.paymentSummary.payAtCheckIn")
+              : "VNPAY"}
+          </span>
+        </div>
       </div>
-
-      <Separator className="my-3 sm:my-4" />
-
-      <div className="flex justify-between font-medium text-base sm:text-lg">
-        <span>Tổng tiền</span>
-        <span>{formatCurrency(grandTotal)}</span>
-      </div>
-    </div>
-
-    <div className="mt-3 border-t pt-3">
-      <div className="flex justify-between text-sm">
-        <span>Phương thức thanh toán</span>
-        <span className="font-medium">
-          {paymentMethod === "CASH" ? "Thanh toán khi nhận phòng" : "VNPAY"}
-        </span>
-      </div>
-    </div>
-  </>
-);
+    </>
+  );
+};
 
 export default function BookingModal({
   room,
@@ -324,6 +357,7 @@ export default function BookingModal({
   guests: initialGuests,
   trigger,
 }: BookingModalProps) {
+  const { t } = useTranslation();
   const authState = useAuthStore();
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState<BookingFormData>({
@@ -404,17 +438,17 @@ export default function BookingModal({
     const newErrors: string[] = [];
 
     if (!dateRange.to) {
-      newErrors.push("Vui lòng chọn ngày check-out");
+      newErrors.push("Please choose check-out date");
     } else if (
       dateRange.from &&
       dateRange.to &&
       differenceInDays(dateRange.to, dateRange.from) < 1
     ) {
-      newErrors.push("Thời gian lưu trú phải ít nhất 1 đêm");
+      newErrors.push("Minimum stay must be 1 night");
     }
 
     if (!authState.isAuthenticated) {
-      newErrors.push("Vui lòng đăng nhập để đặt phòng");
+      newErrors.push("Please log in to book a room");
     }
 
     setErrors(newErrors);
@@ -429,7 +463,7 @@ export default function BookingModal({
       if (!validateForm()) return;
 
       if (!dateRange.to) {
-        toast.error("Vui lòng chọn ngày check-out");
+        toast.error("Please choose check-out date");
         return;
       }
 
@@ -438,15 +472,15 @@ export default function BookingModal({
         dateRange.to &&
         differenceInDays(dateRange.to, dateRange.from) < 1
       ) {
-        toast.error("Thời gian lưu trú không hợp lệ", {
-          description: "Thời gian lưu trú phải ít nhất 1 đêm",
+        toast.error("Invalid stay duration", {
+          description: "Minimum stay must be 1 night",
         });
         return;
       }
 
       if (!authState.isAuthenticated) {
-        toast.error("Vui lòng đăng nhập", {
-          description: "Bạn cần đăng nhập để đặt phòng",
+        toast.error("Please log in", {
+          description: "You need to log in to book a room",
         });
         return;
       }
@@ -455,8 +489,8 @@ export default function BookingModal({
       const tokenToUse = authState.token || cookieToken;
 
       if (!tokenToUse) {
-        toast.error("Phiên đăng nhập không hợp lệ", {
-          description: "Vui lòng đăng nhập lại để tiếp tục",
+        toast.error("Invalid login session", {
+          description: "Please log in again to continue",
         });
         return;
       }
@@ -513,8 +547,8 @@ export default function BookingModal({
 
         // Handle payment method
         if (paymentMethod === "CASH") {
-          toast.success("Đặt phòng thành công!", {
-            description: "Bạn sẽ thanh toán khi nhận phòng.",
+          toast.success("Booking successful!", {
+            description: "You will pay at check-in.",
           });
 
           setFormData({ specialRequests: "" });
@@ -556,8 +590,8 @@ export default function BookingModal({
               console.error("Failed to cancel booking:", cancelError);
             }
 
-            toast.error("Không thể tạo giao dịch thanh toán", {
-              description: paymentError.message || "Vui lòng thử lại sau.",
+            toast.error("Could not create payment transaction", {
+              description: paymentError.message || "Please try again later.",
             });
           } finally {
             setProcessingPayment(false);
@@ -572,8 +606,8 @@ export default function BookingModal({
             });
           });
         } else {
-          toast.error("Đặt phòng thất bại", {
-            description: "Có lỗi xảy ra, vui lòng thử lại sau.",
+          toast.error("Booking failed", {
+            description: "An error occurred, please try again later.",
           });
         }
       } finally {
@@ -599,24 +633,24 @@ export default function BookingModal({
       <DialogTrigger asChild>
         {trigger || (
           <Button size="sm" className="gap-1">
-            Đặt phòng
+            {t("rooms.bookingForm.bookRoom")}
           </Button>
         )}
       </DialogTrigger>
       <DialogContent className="max-w-3xl w-[95vw] p-4 sm:p-6 overflow-y-auto max-h-[90vh]">
         <DialogHeader className="mb-2 sm:mb-4">
           <DialogTitle className="text-lg sm:text-xl">
-            Đặt phòng: {room.name}
+            {t("rooms.bookingModal.title", { roomName: room.name })}
           </DialogTitle>
           <DialogDescription className="text-sm">
-            Hoàn tất thông tin đặt phòng của bạn
+            {t("rooms.bookingModal.subtitle")}
           </DialogDescription>
         </DialogHeader>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           <div>
             <h3 className="text-base sm:text-lg font-medium mb-2 sm:mb-4">
-              Chi tiết đặt phòng
+              {t("rooms.bookingModal.roomDetails")}
             </h3>
             <form onSubmit={handleBooking} className="space-y-3 sm:space-y-4">
               <DateRangeSelector
@@ -637,12 +671,14 @@ export default function BookingModal({
                   htmlFor="specialRequests"
                   className="text-sm sm:text-base"
                 >
-                  Yêu cầu đặc biệt (tùy chọn)
+                  {t("rooms.bookingModal.specialRequests")}
                 </Label>
                 <textarea
                   id="specialRequests"
                   name="specialRequests"
-                  placeholder="Vui lòng cho chúng tôi biết nếu bạn có yêu cầu đặc biệt"
+                  placeholder={t(
+                    "rooms.bookingModal.specialRequestsPlaceholder"
+                  )}
                   value={formData.specialRequests}
                   onChange={handleInputChange}
                   rows={3}
@@ -660,7 +696,7 @@ export default function BookingModal({
           {/* Right column - Payment summary */}
           <div className="bg-muted/30 p-4 sm:p-6 rounded-lg mt-4 lg:mt-0">
             <h3 className="text-base sm:text-lg font-medium mb-2 sm:mb-4">
-              Chi tiết thanh toán
+              {t("rooms.bookingModal.paymentDetails")}
             </h3>
 
             <RoomDetails room={room} />
@@ -676,9 +712,9 @@ export default function BookingModal({
             />
 
             <div className="mt-4 sm:mt-6 text-xs sm:text-sm text-muted-foreground">
-              <p>Thanh toán được thực hiện khi nhận phòng.</p>
+              <p>{t("rooms.bookingModal.paymentSummary.paymentNotice")}</p>
               <p className="mt-1">
-                Đặt cọc 30% có thể được yêu cầu để đảm bảo đặt phòng của bạn.
+                {t("rooms.bookingModal.paymentSummary.depositNotice")}
               </p>
             </div>
 
@@ -686,7 +722,7 @@ export default function BookingModal({
             {!authState.isAuthenticated && (
               <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
                 <p className="text-blue-600 font-medium text-sm">
-                  Vui lòng đăng nhập để đặt phòng
+                  {t("rooms.bookingModal.errors.loginRequired")}
                 </p>
               </div>
             )}
@@ -695,7 +731,7 @@ export default function BookingModal({
             {errors.length > 0 && (
               <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
                 <p className="text-red-600 font-medium text-sm">
-                  Vui lòng kiểm tra lại thông tin:
+                  {t("rooms.bookingModal.errors.checkErrors")}
                 </p>
                 <ul className="list-disc ml-5 mt-1">
                   {errors.map((error, index) => (
@@ -716,7 +752,7 @@ export default function BookingModal({
             onClick={() => setOpen(false)}
             disabled={isSubmitting || processingPayment}
           >
-            Hủy
+            {t("rooms.bookingModal.buttons.cancel")}
           </Button>
           <Button
             type="submit"
@@ -733,10 +769,10 @@ export default function BookingModal({
             }
           >
             {isSubmitting || processingPayment
-              ? "Đang xử lý..."
+              ? t("rooms.bookingModal.buttons.processing")
               : paymentMethod === "VNPAY"
-              ? "Thanh toán qua VNPAY"
-              : "Xác nhận đặt phòng"}
+              ? t("rooms.bookingModal.buttons.payViaVnpay")
+              : t("rooms.bookingModal.buttons.confirmBooking")}
           </Button>
         </DialogFooter>
       </DialogContent>

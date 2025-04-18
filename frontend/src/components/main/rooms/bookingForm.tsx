@@ -25,17 +25,19 @@ import {
 } from "@/components/ui/select";
 import { addDays, differenceInDays, format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { vi } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { BookingFormRoom } from "@/types/room";
 import { Separator } from "@/components/ui/separator";
 import BookingModal from "./bookingModal";
 import { formatCurrency } from "@/utils/roomUtils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface BookingFormProps {
   room: BookingFormRoom;
 }
 
 export default function BookingForm({ room }: BookingFormProps) {
+  const { t } = useTranslation();
   const [checkInDate, setCheckInDate] = useState<Date>(new Date());
   const [checkOutDate, setCheckOutDate] = useState<Date>(
     addDays(new Date(), 3)
@@ -65,7 +67,9 @@ export default function BookingForm({ room }: BookingFormProps) {
       <CardHeader className="bg-[#0a3b33] text-white">
         <CardTitle className="flex items-center justify-between">
           <span className="text-xl">{formatCurrency(basePrice)}</span>
-          <span className="text-xl font-bold text-white/80">/ đêm</span>
+          <span className="text-xl font-bold text-white/80">
+            {t("rooms.bookingForm.perNight")}
+          </span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6 p-6">
@@ -81,10 +85,10 @@ export default function BookingForm({ room }: BookingFormProps) {
                 <CalendarIcon className="mr-2 h-4 w-4 text-[#5a8d69]" />
                 <div className="flex flex-col items-start">
                   <span className="text-xs text-muted-foreground">
-                    Nhận phòng
+                    {t("rooms.bookingForm.checkIn")}
                   </span>
                   <span>
-                    {format(checkInDate, "dd/MM/yyyy", { locale: vi })}
+                    {format(checkInDate, "MM/dd/yyyy", { locale: enUS })}
                   </span>
                 </div>
               </Button>
@@ -102,7 +106,7 @@ export default function BookingForm({ room }: BookingFormProps) {
                     }
                   }
                 }}
-                locale={vi}
+                locale={enUS}
                 disabled={(date) => date < new Date()}
               />
             </PopoverContent>
@@ -119,10 +123,10 @@ export default function BookingForm({ room }: BookingFormProps) {
                 <CalendarIcon className="mr-2 h-4 w-4 text-[#5a8d69]" />
                 <div className="flex flex-col items-start">
                   <span className="text-xs text-muted-foreground">
-                    Trả phòng
+                    {t("rooms.bookingForm.checkOut")}
                   </span>
                   <span>
-                    {format(checkOutDate, "dd/MM/yyyy", { locale: vi })}
+                    {format(checkOutDate, "MM/dd/yyyy", { locale: enUS })}
                   </span>
                 </div>
               </Button>
@@ -138,7 +142,7 @@ export default function BookingForm({ room }: BookingFormProps) {
                   }
                 }}
                 defaultMonth={checkOutDate}
-                locale={vi}
+                locale={enUS}
                 disabled={(date) => date <= checkInDate || date < new Date()}
               />
             </PopoverContent>
@@ -146,7 +150,7 @@ export default function BookingForm({ room }: BookingFormProps) {
 
           {numberOfNights > 0 && (
             <div className="text-sm text-center text-muted-foreground">
-              {numberOfNights} đêm
+              {t("rooms.bookingForm.nights", { count: numberOfNights })}
             </div>
           )}
         </div>
@@ -156,14 +160,17 @@ export default function BookingForm({ room }: BookingFormProps) {
             <SelectTrigger className="w-full border-[#5a8d69]/30 hover:border-[#5a8d69] hover:bg-[#5a8d69]/5">
               <div className="flex items-center">
                 <Users className="mr-2 h-4 w-4 text-[#5a8d69]" />
-                <SelectValue placeholder="Số lượng khách" />
+                <SelectValue placeholder={t("rooms.bookingForm.guestCount")} />
               </div>
             </SelectTrigger>
             <SelectContent>
               {Array.from({ length: maxCapacity }, (_, i) => i + 1).map(
                 (num) => (
                   <SelectItem key={num} value={num.toString()}>
-                    {num} {num === 1 ? "khách" : "khách"}
+                    {num}{" "}
+                    {num === 1
+                      ? t("rooms.bookingForm.guest")
+                      : t("rooms.bookingForm.guests")}
                   </SelectItem>
                 )
               )}
@@ -176,20 +183,25 @@ export default function BookingForm({ room }: BookingFormProps) {
         <div className="space-y-3">
           <div className="flex justify-between">
             <span className="text-[#0a3b33]/80">
-              {formatCurrency(basePrice)} x {numberOfNights} đêm
+              {formatCurrency(basePrice)} x {numberOfNights}{" "}
+              {numberOfNights === 1
+                ? t("rooms.bookingForm.night")
+                : t("common.dates.night")}
             </span>
             <span className="font-medium">{formatCurrency(totalPrice)}</span>
           </div>
 
           <div className="flex justify-between">
-            <span className="text-[#0a3b33]/80">Phí vệ sinh</span>
+            <span className="text-[#0a3b33]/80">
+              {t("rooms.bookingForm.cleaningFee")}
+            </span>
             <span className="font-medium">{formatCurrency(cleaningFee)}</span>
           </div>
 
           <Separator className="my-3 bg-[#5a8d69]/20" />
 
           <div className="flex justify-between font-semibold text-lg">
-            <span>Tổng tiền</span>
+            <span>{t("rooms.bookingForm.total")}</span>
             <span className="text-[#9C6B4A]">{formatCurrency(grandTotal)}</span>
           </div>
         </div>
@@ -214,7 +226,7 @@ export default function BookingForm({ room }: BookingFormProps) {
               className="w-full bg-[#9C6B4A] hover:bg-[#9C6B4A]/90 text-white"
               size="lg"
             >
-              Đặt phòng
+              {t("rooms.bookingForm.bookRoom")}
             </Button>
           }
         />

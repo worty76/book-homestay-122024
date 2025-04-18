@@ -12,7 +12,7 @@ import { useState } from "react";
 import { CalendarIcon, UsersIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { addDays, formatISO, format } from "date-fns";
-import { vi } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function SearchBar() {
@@ -40,10 +40,10 @@ export default function SearchBar() {
   const [adults, setAdults] = useState(initialAdults);
   const [children, setChildren] = useState(initialChildren);
 
-  // Format date to Vietnamese style (DD/MM/YYYY)
-  const formatDateVietnamese = (date?: Date) => {
+  // Format date to English style (MM/DD/YYYY)
+  const formatDateEnglish = (date?: Date) => {
     if (!date) return "";
-    return format(date, "dd/MM/yyyy", { locale: vi });
+    return format(date, "MM/dd/yyyy", { locale: enUS });
   };
 
   const handleSearch = () => {
@@ -122,9 +122,7 @@ export default function SearchBar() {
                   className="flex items-center justify-between sm:justify-start space-x-1 px-3 py-1.5 w-full text-xs sm:text-sm h-auto"
                 >
                   <CalendarIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
-                  <span className="truncate">
-                    {formatDateVietnamese(checkIn)}
-                  </span>
+                  <span className="truncate">{formatDateEnglish(checkIn)}</span>
                 </Button>
               </motion.div>
             </PopoverTrigger>
@@ -145,7 +143,7 @@ export default function SearchBar() {
                     }
                     initialFocus
                     className="scale-75 sm:scale-100 origin-top-left"
-                    locale={vi}
+                    locale={enUS}
                   />
                 </motion.div>
               </PopoverContent>
@@ -167,7 +165,7 @@ export default function SearchBar() {
                 >
                   <CalendarIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
                   <span className="truncate">
-                    {formatDateVietnamese(checkOut)}
+                    {formatDateEnglish(checkOut)}
                   </span>
                 </Button>
               </motion.div>
@@ -191,7 +189,7 @@ export default function SearchBar() {
                     }
                     initialFocus
                     className="scale-75 sm:scale-100 origin-top-left"
-                    locale={vi}
+                    locale={enUS}
                   />
                 </motion.div>
               </PopoverContent>

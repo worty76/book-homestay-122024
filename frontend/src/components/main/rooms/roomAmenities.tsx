@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface RoomAmenitiesProps {
   amenities: string[];
@@ -33,6 +34,8 @@ AmenityItem.displayName = "AmenityItem";
 
 const RoomAmenities = memo(
   ({ amenities, bathroomAmenities }: RoomAmenitiesProps) => {
+    const { t } = useTranslation();
+
     return (
       <Card className="mb-6 sm:mb-8">
         <CardHeader className="pb-2 px-3 sm:px-6 pt-4 sm:pt-6">
@@ -44,11 +47,11 @@ const RoomAmenities = memo(
           >
             <div className="h-0.5 w-4 sm:w-5 bg-[#9C6B4A] mr-2"></div>
             <CardTitle className="text-xl sm:text-2xl text-[#0a3b33] font-bold">
-              Tiện nghi
+              {t("rooms.roomAmenities.title")}
             </CardTitle>
           </motion.div>
           <CardDescription className="text-[#0a3b33]/70 text-sm sm:text-base">
-            Các tiện nghi có sẵn trong phòng
+            {t("rooms.roomAmenities.subtitle")}
           </CardDescription>
         </CardHeader>
         <CardContent className="px-3 sm:px-6">
@@ -73,7 +76,9 @@ const RoomAmenities = memo(
                 <div>
                   <div className="flex items-center mb-2">
                     <Bath className="h-4 w-4 sm:h-5 sm:w-5 text-[#5a8d69] mr-2" />
-                    <h3 className="font-medium text-[#0a3b33]">Phòng tắm</h3>
+                    <h3 className="font-medium text-[#0a3b33]">
+                      {t("rooms.roomAmenities.bathroom")}
+                    </h3>
                   </div>
                   <motion.div
                     className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-2 sm:gap-y-3"
@@ -93,7 +98,7 @@ const RoomAmenities = memo(
             </div>
           ) : (
             <p className="text-[#0a3b33]/60 text-sm py-2">
-              Không có thông tin tiện nghi
+              {t("rooms.roomAmenities.noAmenities")}
             </p>
           )}
         </CardContent>

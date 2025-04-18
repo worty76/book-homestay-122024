@@ -54,8 +54,8 @@ apiClient.interceptors.response.use(
       }
 
       if (statusCode === 401) {
-        toast.error("Phiên đăng nhập đã hết hạn", {
-          description: "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.",
+        toast.error("Session expired", {
+          description: "Your session has expired. Please log in again.",
         });
 
         useAuthStore.getState().logout();

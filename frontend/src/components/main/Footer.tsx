@@ -3,8 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Phone, Mail, Camera } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-[#f9f5e3] text-[#9c6b4a] text-sm font-sans pt-20">
       <div className="mx-auto">
@@ -20,44 +23,46 @@ export function Footer() {
               className="text-center"
             />
             <p className="mb-1">Phạm Hùng, Q.Nam Từ Liêm, Hà Nội</p>
-            <p className="mb-1">Hotline (giờ hành chính): 0925090669</p>
-            <p>Email: info.kenhomestay@gmail.com</p>
+            <p className="mb-1">
+              Hotline ({t("footer.officialHours")}): 0925090669
+            </p>
+            <p>{t("footer.email")}: info.kenhomestay@gmail.com</p>
           </div>
 
           {/* Support Information */}
           <div className="w-full mb-8">
             <h3 className="text-lg font-bold mb-4 text-left">
-              Thông tin hỗ trợ
+              {t("footer.supportInfo")}
             </h3>
             <ul className="grid grid-cols-2 gap-4 text-left">
               <li>
                 <Link href="#" className="hover:underline">
-                  Cẩm nang
+                  {t("footer.guide")}
                 </Link>
               </li>
               <li>
                 <Link href="#" className="hover:underline">
-                  FAQ
+                  {t("footer.faq")}
                 </Link>
               </li>
               <li>
                 <Link href="#" className="hover:underline">
-                  Giới thiệu
+                  {t("footer.about")}
                 </Link>
               </li>
               <li>
                 <Link href="#" className="hover:underline">
-                  Chính sách
+                  {t("footer.policy")}
                 </Link>
               </li>
               <li>
                 <Link href="#" className="hover:underline">
-                  Góp ý
+                  {t("footer.feedback")}
                 </Link>
               </li>
               <li>
                 <Link href="#" className="hover:underline">
-                  Dịch vụ
+                  {t("footer.services")}
                 </Link>
               </li>
             </ul>
@@ -65,10 +70,12 @@ export function Footer() {
 
           {/* Opening Hours */}
           <div className="w-full mb-8">
-            <h3 className="text-lg font-bold mb-4 text-left">Giờ mở cửa</h3>
+            <h3 className="text-lg font-bold mb-4 text-left">
+              {t("footer.openingHours")}
+            </h3>
             <div className="text-left">
-              <p className="mb-2">Thứ 2 - Thứ 6: 6:00AM - 23:00PM</p>
-              <p>Thứ 7 - CN: 7:00AM - 23:00PM</p>
+              <p className="mb-2">{t("footer.monToFri")}</p>
+              <p>{t("footer.satToSun")}</p>
             </div>
           </div>
 
@@ -126,9 +133,7 @@ export function Footer() {
 
           {/* Copyright and Payment Methods */}
           <div className="text-center mb-6">
-            <p className="mb-4">
-              © Bản quyền thuộc về ATeam | Cung cấp bởi slimweb.vn
-            </p>
+            <p className="mb-4">{t("footer.copyright")}</p>
             <div className="flex justify-center gap-4">
               <Image
                 src="/images/VCB.svg"
@@ -159,25 +164,25 @@ export function Footer() {
             <div className="flex flex-col space-y-4">
               <Link href="" className="flex items-center text-white">
                 <MapPin className="w-4 h-4 mr-2 text-yellow-500" />
-                Bản đồ điểm đến
+                {t("footer.destinationMap")}
               </Link>
               <Link
                 href="tel:0925090669"
                 className="flex items-center text-white"
               >
                 <Phone className="w-4 h-4 mr-2 text-yellow-500" />
-                Hotline: 0925090669
+                {t("footer.hotline")}: 0925090669
               </Link>
               <Link
                 href="mailto:info.kenhomestay@gmail.com"
                 className="flex items-center text-white"
               >
                 <Mail className="w-4 h-4 mr-2 text-yellow-500" />
-                Email: info.kenhomestay@gmail.com
+                {t("footer.email")}: info.kenhomestay@gmail.com
               </Link>
               <Link href="#" className="flex items-center text-white">
                 <Camera className="w-4 h-4 mr-2 text-yellow-500" />
-                Hình ảnh preview
+                {t("footer.gallery")}
               </Link>
             </div>
           </div>
@@ -189,36 +194,38 @@ export function Footer() {
             <div className="flex justify-between items-start mb-[56px] mr-[56px] ml-[56px]">
               {/* Support Information */}
               <div className="flex flex-col justify-start items-start w-60">
-                <h3 className="text-lg font-bold mb-4">Thông tin hỗ trợ</h3>
+                <h3 className="text-lg font-bold mb-4">
+                  {t("footer.supportInfo")}
+                </h3>
                 <ul className="grid grid-cols-2 gap-4 gap-x-10">
                   <li>
                     <Link href="#" className="hover:underline">
-                      Cẩm nang
+                      {t("footer.guide")}
                     </Link>
                   </li>
                   <li>
                     <Link href="#" className="hover:underline">
-                      FAQ
+                      {t("footer.faq")}
                     </Link>
                   </li>
                   <li>
                     <Link href="#" className="hover:underline">
-                      Giới thiệu
+                      {t("footer.about")}
                     </Link>
                   </li>
                   <li>
                     <Link href="#" className="hover:underline">
-                      Chính sách
+                      {t("footer.policy")}
                     </Link>
                   </li>
                   <li>
                     <Link href="#" className="hover:underline">
-                      Góp ý
+                      {t("footer.feedback")}
                     </Link>
                   </li>
                   <li>
                     <Link href="#" className="hover:underline">
-                      Dịch vụ
+                      {t("footer.services")}
                     </Link>
                   </li>
                 </ul>
@@ -236,9 +243,12 @@ export function Footer() {
                   />
                 </div>
                 <p className="">Phạm Hùng, Q. Nam Từ Liêm, Hà Nội</p>
-                <p className="">Hotline (giờ hành chính): 0925090669</p>
+                <p className="">
+                  {t("footer.hotline")} ({t("footer.officialHours")}):
+                  0925090669
+                </p>
                 <p>
-                  Email:{" "}
+                  {t("footer.email")}:{" "}
                   <a
                     href="mailto:info.kenhomestay@gmail.com"
                     className="hover:underline"
@@ -251,9 +261,11 @@ export function Footer() {
               {/* Opening Hours */}
               <div className="flex justify-end items-start ms-4">
                 <div className="flex flex-col justify-end items-start">
-                  <h3 className="text-lg font-bold mb-4">Giờ mở cửa</h3>
-                  <p className="mb-2">Thứ 2 - Thứ 6: 6:00AM - 23:00PM</p>
-                  <p>Thứ 7 - CN: 7:00AM - 23:00PM</p>
+                  <h3 className="text-lg font-bold mb-4">
+                    {t("footer.openingHours")}
+                  </h3>
+                  <p className="mb-2">{t("footer.monToFri")}</p>
+                  <p>{t("footer.satToSun")}</p>
                 </div>
               </div>
             </div>
@@ -320,9 +332,7 @@ export function Footer() {
           <>
             <div className="container mx-auto">
               <div className="py-4 px-14 flex justify-between items-center">
-                <span>
-                  © Bản quyền thuộc về ATeam | Cung cấp bởi slimweb.vn
-                </span>
+                <span>{t("footer.copyright")}</span>
                 <div className="flex gap-4">
                   <Image
                     src="/images/VCB.svg"
@@ -351,22 +361,23 @@ export function Footer() {
             <div className="bg-[#1D1D1D] border-t border-gray-800 py-6">
               <div className="flex flex-wrap justify-around items-center container mx-auto">
                 <Link href="/about" className="flex items-center">
-                  <MapPin className="w-4 h-4 mr-2 text-yellow-500" /> Bản đồ
-                  điểm đến
+                  <MapPin className="w-4 h-4 mr-2 text-yellow-500" />{" "}
+                  {t("footer.bottomLinks.map")}
                 </Link>
                 <Link href="tel:0925090669" className="flex items-center">
-                  <Phone className="w-4 h-4 mr-2 text-yellow-500" /> Hotline:
-                  0925090669
+                  <Phone className="w-4 h-4 mr-2 text-yellow-500" />{" "}
+                  {t("footer.hotline")}: 0925090669
                 </Link>
                 <Link
                   href="mailto:info.kenhomestay@gmail.com"
                   className="flex items-center"
                 >
-                  <Mail className="w-4 h-4 mr-2 text-yellow-500" /> Email:
-                  info.kenhomestay@gmail.com
+                  <Mail className="w-4 h-4 mr-2 text-yellow-500" />{" "}
+                  {t("footer.email")}: info.kenhomestay@gmail.com
                 </Link>
                 <Link href="/gallery" className="flex items-center">
-                  <Camera className="w-4 h-4 mr-2 text-yellow-500" /> Hình ảnh
+                  <Camera className="w-4 h-4 mr-2 text-yellow-500" />{" "}
+                  {t("footer.bottomLinks.images")}
                 </Link>
               </div>
             </div>

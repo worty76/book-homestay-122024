@@ -22,7 +22,7 @@ interface BreadcrumbNavProps {
 }
 
 const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({
-  homeElement = "Trang chủ",
+  homeElement = "Home",
   separator,
   containerClassName = "",
   listClassName = "",
@@ -34,14 +34,13 @@ const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({
 
   // Map segment names to display names
   const segmentMap: Record<string, string> = {
-    about: "Giới thiệu",
-    blog: "Bài viết",
-    rooms: "Phòng",
-    contact: "Liên hệ",
-    // Remove concepts mapping
+    about: "About",
+    blog: "Blog",
+    rooms: "Rooms",
+    contact: "Contact",
   };
 
-  // Translate path segments to Vietnamese labels
+  // Translate path segments to English labels
   const getPathLabel = (path: string): string => {
     return segmentMap[path.toLowerCase()] || path;
   };

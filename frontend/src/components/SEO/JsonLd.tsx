@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import React from "react";
 
 type OrganizationProps = {
   name: string;
@@ -42,42 +43,103 @@ type ArticleProps = {
   url: string;
 };
 
-export const OrganizationJsonLd = ({
+// Base Organization Data
+interface OrganizationJsonLdProps {
+  name: string;
+  url: string;
+  logo: string;
+  address: string;
+  telephone: string;
+}
+
+// Accommodation Data
+interface AccommodationJsonLdProps {
+  name: string;
+  description: string;
+  image: string;
+  url: string;
+  priceRange: string;
+  address: string;
+  rating?: number;
+  reviewCount?: number;
+}
+
+// Article Data
+interface ArticleJsonLdProps {
+  title: string;
+  description: string;
+  publishedTime: string;
+  modifiedTime?: string;
+  authorName: string;
+  authorUrl?: string;
+  image: string;
+  url: string;
+}
+
+// Event Data
+interface EventJsonLdProps {
+  name: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  location: {
+    name: string;
+    address: string;
+  };
+  image: string;
+  url: string;
+  offers?: {
+    price: number;
+    currency: string;
+    availability: "InStock" | "SoldOut" | "PreOrder";
+  };
+}
+
+// FAQ Data
+interface FAQJsonLdProps {
+  questions: {
+    question: string;
+    answer: string;
+  }[];
+}
+
+// BreadcrumbList Data
+interface BreadcrumbJsonLdProps {
+  itemListElements: {
+    position: number;
+    name: string;
+    item: string;
+  }[];
+}
+
+// Organization schema
+export function OrganizationJsonLd({
   name,
   url,
   logo,
   address,
   telephone,
-}: OrganizationProps) => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return null;
-
-  const data = {
+}: OrganizationJsonLdProps) {
+  const orgSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name,
-    url,
-    logo,
-    ...(address && {
-      address: { "@type": "PostalAddress", streetAddress: address },
-    }),
-    ...(telephone && { telephone }),
+    name: name,
+    url: url,
+    logo: logo,
+    address: address,
+    telephone: telephone,
   };
 
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
     />
   );
-};
+}
 
-export const AccommodationJsonLd = ({
+// Accommodation/Hotel schema
+export function AccommodationJsonLd({
   name,
   description,
   image,
@@ -86,23 +148,15 @@ export const AccommodationJsonLd = ({
   address,
   rating,
   reviewCount,
-}: AccommodationProps) => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return null;
-
-  const data = {
+}: AccommodationJsonLdProps) {
+  const schema = {
     "@context": "https://schema.org",
-    "@type": "LodgingBusiness",
-    name,
-    description,
-    image,
-    url,
-    priceRange,
+    "@type": "Hotel",
+    name: name,
+    description: description,
+    image: image,
+    url: url,
+    priceRange: priceRange,
     address: {
       "@type": "PostalAddress",
       streetAddress: address,
@@ -119,80 +173,43 @@ export const AccommodationJsonLd = ({
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
-};
+}
 
-export const BreadcrumbJsonLd = ({ items }: BreadcrumbProps) => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return null;
-
-  const itemListElement = items.map((item, index) => ({
-    "@type": "ListItem",
-    position: index + 1,
-    name: item.name,
-    item: item.item,
-  }));
-
-  const data = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement,
-  };
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
-};
-
-export const ArticleJsonLd = ({
+// Article schema
+export function ArticleJsonLd({
   title,
   description,
-  images,
+  publishedTime,
+  modifiedTime,
   authorName,
-  publisherName,
-  publisherLogo,
-  datePublished,
-  dateModified,
+  authorUrl,
+  image,
   url,
-}: ArticleProps) => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return null;
-
-  const data = {
+}: ArticleJsonLdProps) {
+  const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: title,
-    description,
-    image: images,
+    description: description,
+    image: image,
+    datePublished: publishedTime,
+    dateModified: modifiedTime || publishedTime,
     author: {
       "@type": "Person",
       name: authorName,
+      url: authorUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: publisherName,
+      name: "Ken Homestay",
       logo: {
         "@type": "ImageObject",
-        url: publisherLogo,
+        url: "https://ken-homestay.com/images/logo.png",
       },
     },
-    datePublished,
-    dateModified: dateModified || datePublished,
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": url,
@@ -202,7 +219,97 @@ export const ArticleJsonLd = ({
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
     />
   );
-};
+}
+
+// Event schema
+export function EventJsonLd({
+  name,
+  description,
+  startDate,
+  endDate,
+  location,
+  image,
+  url,
+  offers,
+}: EventJsonLdProps) {
+  const eventSchema = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: name,
+    description: description,
+    startDate: startDate,
+    endDate: endDate,
+    location: {
+      "@type": "Place",
+      name: location.name,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: location.address,
+      },
+    },
+    image: image,
+    url: url,
+    ...(offers && {
+      offers: {
+        "@type": "Offer",
+        price: offers.price,
+        priceCurrency: offers.currency,
+        availability: `https://schema.org/${offers.availability}`,
+      },
+    }),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema) }}
+    />
+  );
+}
+
+// FAQ schema
+export function FAQJsonLd({ questions }: FAQJsonLdProps) {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: questions.map((q) => ({
+      "@type": "Question",
+      name: q.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: q.answer,
+      },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+    />
+  );
+}
+
+// BreadcrumbList schema
+export function BreadcrumbJsonLd({ itemListElements }: BreadcrumbJsonLdProps) {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: itemListElements.map((item) => ({
+      "@type": "ListItem",
+      position: item.position,
+      name: item.name,
+      item: item.item,
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+    />
+  );
+}

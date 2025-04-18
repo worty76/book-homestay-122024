@@ -1,4 +1,382 @@
 {
+  "common": {
+    "buttons": {
+      "search": "Tìm kiếm",
+      "submit": "Gửi",
+      "cancel": "Hủy",
+      "save": "Lưu",
+      "book": "Đặt ngay",
+      "bookRoom": "Đặt phòng",
+      "readMore": "Đọc thêm",
+      "viewAll": "Xem tất cả",
+      "showMore": "Hiển thị thêm",
+      "close": "Đóng",
+      "confirm": "Xác nhận"
+    },
+    "form": {
+      "required": "Bắt buộc",
+      "optional": "Tùy chọn",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "username": "Tên người dùng",
+      "firstName": "Tên",
+      "lastName": "Họ",
+      "phoneNumber": "Số điện thoại"
+    },
+    "validation": {
+      "required": "Trường này là bắt buộc",
+      "email": "Vui lòng nhập địa chỉ email hợp lệ",
+      "minLength": "Phải có ít nhất {{length}} ký tự",
+      "maxLength": "Phải có ít hơn {{length}} ký tự"
+    },
+    "notifications": {
+      "success": "Thành công!",
+      "error": "Lỗi!",
+      "warning": "Cảnh báo!",
+      "info": "Thông tin",
+      "logoutSuccess": "Đăng xuất thành công",
+      "logoutSuccessMessage": "Bạn đã đăng xuất khỏi tài khoản của mình.",
+      "logoutError": "Đăng xuất thất bại",
+      "logoutErrorMessage": "Đã xảy ra lỗi khi đăng xuất."
+    },
+    "dates": {
+      "checkIn": "Nhận phòng",
+      "checkOut": "Trả phòng",
+      "selectDate": "Chọn ngày",
+      "nights": "{{count}} đêm",
+      "night": "đêm",
+      "days": "ngày"
+    },
+    "guests": {
+      "adults": "Người lớn",
+      "children": "Trẻ em",
+      "infants": "Em bé",
+      "pets": "Thú cưng",
+      "guest": "khách",
+      "guests": "khách"
+    }
+  },
+  "navigation": {
+    "home": "Trang chủ",
+    "rooms": "Phòng",
+    "about": "Về chúng tôi",
+    "contact": "Liên hệ",
+    "blog": "Blog",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "profile": "Hồ sơ",
+    "settings": "Cài đặt",
+    "logout": "Đăng xuất",
+    "dashboard": "Bảng điều khiển",
+    "notifications": "Thông báo",
+    "experiences": "Trải nghiệm"
+  },
+  "home": {
+    "hero": {
+      "title": "Tìm Kỳ Nghỉ Hoàn Hảo Của Bạn",
+      "subtitle": "Đặt chỗ ở độc đáo và trải nghiệm thú vị",
+      "cta": "Khám phá ngay"
+    },
+    "featured": {
+      "title": "Phòng nổi bật",
+      "subtitle": "Chỗ ở phổ biến nhất của chúng tôi",
+      "viewAll": "Xem tất cả phòng"
+    },
+    "blog": {
+      "title": "Blog của chúng tôi",
+      "subtitle": "Đọc các bài viết thú vị",
+      "viewAll": "Xem tất cả bài viết",
+      "pageComponents": {
+        "subtitle": "Blog của chúng tôi",
+        "description": "Khám phá những bài viết và câu chuyện mới nhất",
+        "finalPage": "Blog"
+      },
+      "categories": {
+        "title": "Danh mục",
+        "all": "Tất cả danh mục"
+      },
+      "tags": {
+        "title": "Thẻ",
+        "all": "Tất cả thẻ"
+      },
+      "featured": {
+        "title": "Bài viết nổi bật"
+      },
+      "readMore": "Đọc thêm",
+      "relatedPosts": "Bài viết liên quan",
+      "viewAllPosts": "Xem tất cả bài viết",
+      "noArticles": "Không tìm thấy bài viết nào",
+      "searchResults": "Hiển thị {{count}} kết quả",
+      "publishedOn": "Đăng vào ngày"
+    },
+    "testimonials": {
+      "title": "Khách hàng nói gì",
+      "subtitle": "Trải nghiệm thực tế từ những người thực"
+    },
+    "gallery": {
+      "title": "Hình ảnh homestay",
+      "subtitle": "Charming",
+      "viewAll": "Xem thêm"
+    },
+    "roomList": {
+      "title": "Khám phá các phòng",
+      "subtitle": "Phòng tiêu biểu",
+      "viewAll": "Xem tất cả phòng",
+      "error": "Không thể tải phòng: {{error}}"
+    },
+    "FacilitiesGrid": {
+      "roomServiceTitle1": "Dịch vụ phòng",
+      "roomServiceDescription1": "Đội ngũ nhân viên phục vụ phòng chuyên nghiệp và tận tình sẽ giữ cho phòng của bạn luôn sạch sẽ.",
+      "roomServiceTitle2": "Quang cảnh thoáng đãng",
+      "roomServiceDescription2": "Homestay chúng tôi có quang cảnh thoáng đãng và đẹp nhất.",
+      "roomServiceTitle3": "Mạng Internet nhanh",
+      "roomServiceDescription3": "Chúng tôi có mạng internet siêu nhanh và cáp trong phòng để kết nối có dây.",
+      "title": "DỊCH VỤ VÀ CƠ SỞ VẬT CHẤT",
+      "subtitle": "Cơ sở vật chất homestay"
+    }
+  },
+  "rooms": {
+    "filters": {
+      "title": "Lọc phòng",
+      "price": "Giá",
+      "guests": "Khách",
+      "amenities": "Tiện nghi",
+      "apply": "Áp dụng bộ lọc",
+      "reset": "Đặt lại",
+      "all": "Tất cả",
+      "bedType": "Loại giường",
+      "roomType": "Loại phòng",
+      "pricePerNight": "Giá một đêm"
+    },
+    "types": {
+      "room": "Phòng",
+      "suite": "Suít",
+      "apartment": "Căn hộ"
+    },
+    "sorting": {
+      "title": "Sắp xếp theo",
+      "priceLowToHigh": "Giá: Thấp đến cao",
+      "priceHighToLow": "Giá: Cao đến thấp",
+      "rating": "Đánh giá",
+      "capacity": "Sức chứa"
+    },
+    "booking": {
+      "title": "Đặt phòng",
+      "guestCount": "Số lượng khách",
+      "totalPrice": "Tổng tiền",
+      "cleaning": "Phí dọn dẹp",
+      "taxes": "Thuế",
+      "total": "Tổng cộng",
+      "confirmation": "Xác nhận đặt phòng",
+      "special": "Yêu cầu đặc biệt"
+    },
+    "pageComponents": {
+      "subtitle": "Phòng của chúng tôi",
+      "description": "Khám phá những phòng của chúng tôi",
+      "finalPage": "Phòng",
+      "filtersButton": "Bộ lọc"
+    },
+    "roomGrid": {
+      "noRoomsFound": "Không tìm thấy phòng",
+      "noMatchSearch": "Không có phòng phù hợp với tiêu chí của bạn. Vui lòng thử lại với ngày khác hoặc số khách.",
+      "noMatchFilters": "Không có phòng phù hợp với tiêu chí của bạn. Vui lòng thử lại với tiêu chí khác.",
+      "resetFilters": "Đặt lại bộ lọc",
+      "showingRoomsSearch": "Hiển thị {{count}} phòng phù hợp với tiêu chí của bạn",
+      "showingRooms": "Hiển thị {{count}} phòng"
+    },
+    "roomCard": {
+      "perNight": "/ đêm",
+      "bookNow": "Đặt phòng",
+      "people": "người",
+      "floor": "Tầng",
+      "bookRoom": "Đặt phòng",
+      "viewDetails": "Xem chi tiết"
+    },
+    "roomDetail": {
+      "errorOccurred": "Đã xảy ra lỗi",
+      "tryAgain": "Thử lại",
+      "roomDetailsFor": "Chi tiết phòng {{roomName}}",
+      "exploreOurRooms": "Khám phá những phòng của chúng tôi",
+      "rooms": "Phòng"
+    },
+    "roomDetails": {
+      "title": "Chi tiết phòng",
+      "subtitle": "Thông tin về phòng và tiện nghi",
+      "roomType": "Loại phòng",
+      "standardRoom": "Phòng tiêu chuẩn",
+      "doubleRoom": "Phòng đôi",
+      "area": "Diện tích",
+      "floor": "Tầng",
+      "floorNumber": "Tầng {{floor}}",
+      "capacity": "Sức chứa",
+      "capacityValue": "{{capacity}} người",
+      "bedInfo": "Thông tin giường ngủ",
+      "bathroom": "Phòng tắm",
+      "bedroom": "Phòng ngủ",
+      "checkInOutTime": "Thời gian nhận & trả phòng",
+      "checkIn": "Nhận phòng:",
+      "from": "Từ {{time}}",
+      "checkOut": "Trả phòng:",
+      "before": "Trước {{time}}",
+      "keyAmenities": "Tiện nghi nổi bật",
+      "rules": "Quy định",
+      "smokingAllowed": "Được phép hút thuốc",
+      "noSmoking": "Không hút thuốc",
+      "petsAllowed": "Cho phép thú cưng",
+      "noPets": "Không thú cưng",
+      "partiesAllowed": "Cho phép tổ chức tiệc",
+      "noParties": "Không tổ chức tiệc",
+      "designConcept": "Concept thiết kế",
+      "priceDetails": "Chi tiết giá",
+      "basePrice": "Giá cơ bản",
+      "cleaningFee": "Phí dọn dẹp",
+      "deposit": "Đặt cọc"
+    },
+    "roomAmenities": {
+      "title": "Tiện nghi",
+      "subtitle": "Các tiện nghi có sẵn trong phòng",
+      "bathroom": "Phòng tắm",
+      "noAmenities": "Không có thông tin tiện nghi"
+    },
+    "bookingForm": {
+      "perNight": "/ đêm",
+      "checkIn": "Nhận phòng",
+      "checkOut": "Trả phòng",
+      "nights": "{{count}} đêm",
+      "night": "đêm",
+      "guest": "khách",
+      "guests": "khách",
+      "guestCount": "Số lượng khách",
+      "cleaningFee": "Phí dọn dẹp",
+      "total": "Tổng cộng",
+      "bookRoom": "Đặt phòng"
+    },
+    "bookingModal": {
+      "title": "Đặt phòng: {{roomName}}",
+      "subtitle": "Hoàn thành thông tin đặt phòng của bạn",
+      "roomDetails": "Chi tiết đặt phòng",
+      "paymentDetails": "Chi tiết thanh toán",
+      "dateLabel": "Ngày nhận / trả phòng",
+      "chooseCheckout": "Chọn ngày trả phòng",
+      "chooseDate": "Chọn ngày",
+      "stayDuration": "Thời gian lưu trú: {{count}} đêm",
+      "minStay": "Thời gian lưu trú tối thiểu là 1 đêm",
+      "specialRequests": "Yêu cầu đặc biệt (tùy chọn)",
+      "specialRequestsPlaceholder": "Vui lòng cho chúng tôi biết nếu bạn có yêu cầu đặc biệt",
+      "paymentMethod": "Phương thức thanh toán",
+      "payAtCheckIn": "Thanh toán khi nhận phòng",
+      "payAtCheckInDesc": "Thanh toán tiền mặt hoặc thẻ khi nhận phòng",
+      "payViaVnpay": "Thanh toán qua VNPAY",
+      "vnpayDesc": "Thanh toán an toàn qua cổng VNPAY",
+      "roomType": {
+        "twin": "Phòng đôi với 2 giường đơn",
+        "double": "Phòng đôi với 1 giường lớn",
+        "shared": "Phòng ở ghép",
+        "people": "người"
+      },
+      "paymentSummary": {
+        "paymentMethod": "Phương thức thanh toán",
+        "payAtCheckIn": "Thanh toán khi nhận phòng",
+        "paymentNotice": "Thanh toán sẽ được thực hiện khi nhận phòng.",
+        "depositNotice": "Có thể cần đặt cọc 30% để giữ phòng cho bạn."
+      },
+      "errors": {
+        "loginRequired": "Vui lòng đăng nhập để đặt phòng",
+        "checkErrors": "Vui lòng kiểm tra các mục sau:"
+      },
+      "buttons": {
+        "cancel": "Hủy",
+        "confirmBooking": "Xác nhận đặt phòng",
+        "processing": "Đang xử lý...",
+        "payViaVnpay": "Thanh toán qua VNPAY"
+      }
+    }
+  },
+  "profile": {
+    "title": "Hồ sơ của tôi",
+    "bookings": "Lịch sử đặt phòng",
+    "personalInfo": "Thông tin cá nhân",
+    "basicInfo": "Thông tin cơ bản",
+    "emergencyContact": "Thông tin liên hệ khẩn cấp",
+    "preferences": "Tùy chọn",
+    "privacy": "Cài đặt quyền riêng tư",
+    "payment": "Phương thức thanh toán",
+    "language": "Ngôn ngữ",
+    "currency": "Tiền tệ",
+    "notifications": "Thông báo",
+    "booking": {
+      "upcoming": "Sắp tới",
+      "completed": "Đã hoàn thành",
+      "noUpcoming": "Không có đặt phòng sắp tới",
+      "noHistory": "Không có lịch sử đặt phòng",
+      "cancelConfirmTitle": "Xác nhận hủy đặt phòng",
+      "cancelConfirmDescription": "Bạn có chắc chắn muốn hủy đặt phòng này không? Hành động này không thể hoàn tác.",
+      "processing": "Đang xử lý...",
+      "confirmCancel": "Xác nhận hủy",
+      "cancelling": "Đang hủy...",
+      "cancelBooking": "Hủy đặt phòng",
+      "payNow": "Thanh toán ngay",
+      "bookAgain": "Đặt lại",
+      "bookingId": "Mã đặt phòng"
+    },
+    "settings": {
+      "updated": "đã được cập nhật",
+      "languageDescription": "Chọn ngôn ngữ giao diện ưa thích của bạn",
+      "currencyDescription": "Đặt đơn vị tiền tệ cho giá và thanh toán",
+      "selectLanguage": "Chọn ngôn ngữ",
+      "selectCurrency": "Chọn tiền tệ",
+      "emailNotifications": "Thông báo qua email",
+      "emailNotificationsDescription": "Nhận cập nhật đặt phòng và khuyến mãi qua email",
+      "smsNotifications": "Thông báo qua SMS",
+      "smsNotificationsDescription": "Nhận cập nhật đặt phòng và khuyến mãi qua SMS"
+    },
+    "validation": {
+      "usernameRequired": "Tên người dùng là bắt buộc",
+      "emailRequired": "Email là bắt buộc",
+      "emailInvalid": "Email không hợp lệ",
+      "phoneInvalid": "Số điện thoại không hợp lệ",
+      "idInvalid": "Số CMND/CCCD không hợp lệ (phải có 9-12 chữ số)"
+    },
+    "update": {
+      "success": "Cập nhật thành công",
+      "successMessage": "Thông tin cá nhân của bạn đã được cập nhật.",
+      "error": "Cập nhật thất bại",
+      "defaultError": "Đã xảy ra lỗi khi cập nhật thông tin."
+    },
+    "image": {
+      "uploading": "Đang tải lên...",
+      "uploadingMessage": "Hình ảnh đang được tải lên, vui lòng đợi.",
+      "success": "Tải lên thành công",
+      "successMessage": "Hình ảnh đã được tải lên thành công.",
+      "error": "Lỗi tải lên",
+      "errorMessage": "Đã xảy ra lỗi khi tải lên hình ảnh.",
+      "upload": "Tải lên ảnh đại diện"
+    },
+    "fields": {
+      "username": "Tên người dùng",
+      "email": "Địa chỉ email",
+      "phone": "Số điện thoại",
+      "dob": "Ngày sinh",
+      "id": "CMND/CCCD",
+      "contactName": "Tên người liên hệ",
+      "relationship": "Mối quan hệ",
+      "contactPhone": "Số điện thoại liên hệ",
+      "language": "Ngôn ngữ",
+      "currency": "Tiền tệ"
+    },
+    "placeholders": {
+      "phone": "Thêm số điện thoại",
+      "dob": "Nhập ngày sinh",
+      "id": "CMND/CCCD",
+      "contactName": "Người liên hệ khẩn cấp",
+      "relationship": "Ví dụ: Vợ/chồng, Anh/chị, Bạn",
+      "contactPhone": "Số điện thoại liên hệ khẩn cấp"
+    },
+    "buttons": {
+      "save": "Lưu thay đổi",
+      "saving": "Đang lưu..."
+    }
+  },
   "dashboard": {
     "navigation": {
       "dashboard": "Bảng điều khiển",
@@ -18,14 +396,460 @@
     },
     "upgrade": {
       "title": "Nâng cấp lên Pro",
-      "description": "Mở khóa tất cả tính năng và nhận hỗ trợ không giới hạn từ đội ngũ của chúng tôi",
+      "description": "Mở khóa tất cả các tính năng và nhận hỗ trợ không giới hạn",
       "button": "Nâng cấp"
     },
     "title": "Kho hàng",
     "emptyState": {
-      "title": "Bạn chưa có sản phẩm nào",
+      "title": "Bạn không có sản phẩm nào",
       "description": "Bạn có thể bắt đầu bán hàng ngay khi thêm sản phẩm",
       "button": "Thêm sản phẩm"
+    }
+  },
+  "seo": {
+    "defaultTitle": "Book Homestay - Tìm Chỗ Ở Hoàn Hảo Của Bạn",
+    "defaultDescription": "Đặt chỗ ở và trải nghiệm độc đáo với Book Homestay. Tìm địa điểm hoàn hảo cho chuyến đi tiếp theo của bạn.",
+    "defaultKeywords": "homestay, đặt phòng, chỗ ở, du lịch, kỳ nghỉ, phòng",
+    "homePage": {
+      "title": "Book Homestay - Ngôi Nhà Thứ Hai Của Bạn",
+      "description": "Khám phá và đặt chỗ ở độc đáo trên khắp thế giới. Tìm homestay hoàn hảo cho mọi chuyến đi hoặc cuộc phiêu lưu.",
+      "keywords": "đặt homestay, thuê nhà nghỉ, chỗ ở độc đáo, du lịch"
+    },
+    "roomsPage": {
+      "title": "Khám Phá Phòng Của Chúng Tôi - Book Homestay",
+      "description": "Duyệt qua lựa chọn các phòng thoải mái và phong cách của chúng tôi. Tìm chỗ ở hoàn hảo cho kỳ nghỉ của bạn.",
+      "keywords": "phòng, chỗ ở, đặt phòng, phòng homestay"
+    },
+    "blogPage": {
+      "title": "Blog Du Lịch - Book Homestay",
+      "description": "Đọc các mẹo du lịch mới nhất, hướng dẫn điểm đến và các đề xuất homestay trên blog của chúng tôi.",
+      "keywords": "blog du lịch, mẹo du lịch, hướng dẫn điểm đến, blog homestay"
+    },
+    "contactPage": {
+      "title": "Liên Hệ Với Chúng Tôi - Book Homestay",
+      "description": "Liên hệ với đội ngũ của chúng tôi cho bất kỳ câu hỏi, hỗ trợ đặt phòng hoặc phản hồi về dịch vụ của chúng tôi.",
+      "keywords": "liên hệ, hỗ trợ, giúp đỡ, hỗ trợ đặt phòng"
+    },
+    "aboutPage": {
+      "title": "Về Chúng Tôi - Book Homestay",
+      "description": "Tìm hiểu về câu chuyện, sứ mệnh của chúng tôi và cách chúng tôi đang thay đổi cách mọi người trải nghiệm du lịch và chỗ ở.",
+      "keywords": "về chúng tôi, sứ mệnh homestay, câu chuyện của chúng tôi, dịch vụ chỗ ở",
+      "organization": {
+        "name": "Kén Homestay",
+        "description": "Trải nghiệm homestay yên bình kết hợp giữa sự hiếu khách truyền thống và sự thoải mái hiện đại",
+        "address": "123 đường Main, Thành phố, Quốc gia",
+        "telephone": "+1234567890",
+        "email": "info@kenhomestay.com"
+      },
+      "breadcrumbs": {
+        "home": "Trang chủ",
+        "about": "Về chúng tôi"
+      }
+    }
+  },
+  "aboutSection": {
+    "warmService": "Không gian ấm áp, dịch vụ chu đáo",
+    "tagline": "Hơi thở truyền thống Nhịp sống hiện đại",
+    "description": "Hãy để chúng tôi mang đến cho bạn những trải nghiệm đặc biệt",
+    "feature1": "Tận hưởng sự chăm sóc chu đáo trong từng chi tiết",
+    "feature2": "Sẵn sàng phục vụ quý khách nhiệt tình"
+  },
+  "hero": {
+    "title": "Chào mừng bạn đến với Kén Homestay",
+    "subtitle1": "Hơi thở truyền thống",
+    "subtitle2": "Nhịp sống hiện đại"
+  },
+  "auth": {
+    "welcome": "Chào mừng bạn đến với Kén Homestay",
+    "description": "Đặt phòng và tận hưởng trải nghiệm lưu trú tại nhà riêng của bạn.",
+    "noAccount": "Không có tài khoản?",
+    "register": "Đăng ký",
+    "registerWelcome": "Tạo tài khoản mới",
+    "registerDescription": "Đăng ký để nhận ưu đãi đặc biệt và trải nghiệm dịch vụ tốt nhất.",
+    "loginForm": {
+      "loginInstructions": "Nhập thông tin đăng nhập để truy cập tài khoản của bạn",
+      "loggingIn": "Đang đăng nhập...",
+      "registerLink": "Đăng ký tài khoản mới",
+      "loginSuccess": "Đăng nhập thành công",
+      "welcomeBack": "Chào mừng trở lại",
+      "registerSuccess": "Đăng ký thành công! Bạn có thể đăng nhập."
+    },
+    "registerForm": {
+      "registerTitle": "Đăng ký tài khoản",
+      "registerDescription": "Điền thông tin bên dưới để tạo tài khoản mới",
+      "registerSuccess": "Đăng ký thành công! Bạn có thể đăng nhập.",
+      "registerError": "Đăng ký thất bại",
+      "registerSuccessMessage": "Đăng ký thành công! Bạn có thể đăng nhập.",
+      "usernameLabel": "Tên người dùng",
+      "usernamePlaceholder": "Nhập tên người dùng của bạn",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Địa chỉ email của bạn",
+      "passwordLabel": "Mật khẩu",
+      "passwordPlaceholder": "Mật khẩu của bạn",
+      "confirmPasswordLabel": "Xác nhận mật khẩu",
+      "confirmPasswordPlaceholder": "Xác nhận mật khẩu của bạn",
+      "phoneNumberLabel": "Số điện thoại",
+      "phoneNumberPlaceholder": "Nhập số điện thoại của bạn",
+      "identificationNumberLabel": "Số CMND/CCCD",
+      "identificationNumberPlaceholder": "Nhập số CMND/CCCD của bạn",
+      "registerButton": "Đăng ký",
+      "registerPending": "Đang đăng ký...",
+      "alreadyHaveAccount": "Đã có tài khoản?",
+      "loginLink": "Đăng nhập",
+      "agreeToTerms": "Bằng việc đăng ký, bạn đồng ý với",
+      "termsLink": " Điều khoản dịch vụ ",
+      "privacyLink": " Chính sách bảo mật ",
+      "and": "và"
+    }
+  },
+  "about": {
+    "header": {
+      "title": "Giới Thiệu Về",
+      "subtitle": "Kén Homestay",
+      "description": "Hơi thở truyền thống, nhịp sống hiện đại - Boutique Homestay tại Đà Nẵng",
+      "finalPage": "Giới thiệu"
+    },
+    "story": {
+      "title": "Câu Chuyện Của Chúng Tôi",
+      "paragraph1": "“Kén” Homestay – như một chiếc kén nhẹ nhàng ôm ấp tâm hồn bạn, mang đến chốn bình yên, tĩnh lặng giữa bộn bề của cuộc sống thường nhật. Ở đây, bạn có thể hòa mình vào nhịp sống mộc mạc, giản dị của người dân địa phương, tái khám phá sự yên ả và những trải nghiệm chân thật – những cảm giác như trở về “nhà” trên một mảnh đất mới lạ. Chính trong những khoảnh khắc ấy, tinh thần bạn, như đôi cánh bướm sau chuỗi ngày lặng lẽ biến hóa, lại một lần nữa rực rỡ sức sống.",
+      "imageAlt": "Câu chuyện của Kén Homestay",
+      "paragraph2": "Không chỉ vậy, “Kén” còn được lấy cảm hứng từ hành trình của chính Đà Nẵng – một thành phố từng là một phần của tỉnh Quảng Nam, đã trải qua nhiều giai đoạn hình thành và phát triển để trở thành một trong những điểm đến biểu tượng của Việt Nam ngày nay. Giống như chiếc kén nuôi dưỡng sự chuyển mình trước khi hé mở thành sinh mệnh mới, Đà Nẵng cũng đã trải qua cuộc “biến hóa” riêng, để lại dấu ấn về ý chí kiên cường, đổi mới và sự phát triển sôi động."
+    },
+    "visionMission": {
+      "title": "Tầm Nhìn Và Sứ Mệnh",
+      "visionTitle": "Tầm Nhìn",
+      "visionText": "Trở thành thương hiệu Boutique Homestay hàng đầu tại Đà Nẵng, cung cấp cho khách hàng không gian lưu trú tinh tế kết hợp các hoạt động trải nghiệm độc đáo, mang đậm bản sắc văn hóa và truyền thống địa phương.",
+      "missionTitle": "Sứ Mệnh",
+      "missionText": "“Kén” cam kết mang đến cho khách hàng một không gian ấm cúng, thoải mái như “nhà”, nơi bạn có thể đắm mình vào lối sống giản dị của người dân địa phương. Chúng tôi không ngừng mang đến những trải nghiệm chân thực và độc đáo, đồng thời góp phần gìn giữ và lan tỏa những giá trị văn hóa đặc sắc của mảnh đất miền Trung."
+    },
+    "slogan": {
+      "title": "Slogan Của Chúng Tôi",
+      "text": "“Hơi thở truyền thống, nhịp sống hiện đại“",
+      "description": "Slogan của chúng tôi thể hiện triết lý cốt lõi của Kén Homestay - nơi giao thoa giữa giá trị truyền thống và cuộc sống hiện đại. Chúng tôi trân trọng và gìn giữ bản sắc văn hóa Việt Nam, đồng thời mang đến những tiện nghi hiện đại, đáp ứng nhu cầu của du khách thời đại số."
+    },
+    "values": {
+      "title": "Giá Trị Cốt Lõi",
+      "subtitle": "Những nguyên tắc định hướng mọi hoạt động của chúng tôi",
+      "value1": {
+        "title": "Tôn Vinh Bản Sắc Việt",
+        "description": "Không gian lưu trú và hoạt động trải nghiệm kể một câu chuyện độc đáo về văn hóa và con người vùng miền. Thiết kế mộc mạc nhưng không kém phần tinh tế, sự giao hòa giữa hiện đại và vẻ đẹp truyền thống."
+      },
+      "value2": {
+        "title": "Khách Hàng Là Trọng Tâm",
+        "description": "Tạo ra những trải nghiệm được cá nhân hóa, mang đến cảm giác quen thuộc và thoải mái nhất cho khách hàng. Mỗi du khách đều có một câu chuyện riêng, và 'Kén' cung cấp dịch vụ tùy chỉnh để tạo nên trải nghiệm lưu trú đáng nhớ."
+      },
+      "value3": {
+        "title": "Phát Triển Thân Thiện Với Môi Trường",
+        "description": "Khuyến khích du lịch thân thiện với môi trường và giảm thiểu tác động tiêu cực đến môi trường. Chúng tôi cam kết hoạt động theo hướng bền vững, sử dụng nguyên vật liệu địa phương và thân thiện với môi trường."
+      }
+    },
+    "team": {
+      "title": "Đội Ngũ Của Chúng Tôi",
+      "subtitle": "Những con người đầy nhiệt huyết đứng sau thành công của Kén Homestay",
+      "member1": {
+        "name": "Nguyễn Văn A",
+        "role": "Giám đốc",
+        "bio": "Với hơn 10 năm kinh nghiệm trong ngành du lịch và khách sạn, anh Tuấn là người đặt nền móng cho Kén Homestay, mang tầm nhìn về sự kết hợp hoàn hảo giữa truyền thống Việt Nam và tiện nghi hiện đại."
+      },
+      "member2": {
+        "name": "Nguyễn Văn B",
+        "role": "Phó giám đốc",
+        "bio": "Với hơn 10 năm kinh nghiệm trong ngành du lịch và khách sạn, anh Tuấn là người đặt nền móng cho Kén Homestay, mang tầm nhìn về sự kết hợp hoàn hảo giữa truyền thống Việt Nam và tiện nghi hiện đại."
+      },
+      "member3": {
+        "name": "Nguyễn Văn C",
+        "role": "Trưởng phòng",
+        "bio": "Với hơn 10 năm kinh nghiệm trong ngành du lịch và khách sạn, anh Tuấn là người đặt nền móng cho Kén Homestay, mang tầm nhìn về sự kết hợp hoàn hảo giữa truyền thống Việt Nam và tiện nghi hiện đại."
+      }
+    },
+    "testimonials": {
+      "title": "Cảm Nhận Của Khách Hàng",
+      "subtitle": "Những chia sẻ từ khách hàng đã trải nghiệm dịch vụ của chúng tôi",
+      "testimonial1": {
+        "quote": "Một trong những kỳ nghỉ đáng nhớ nhất của tôi tại Đà Nẵng. Phòng ở Kén Homestay thực sự đưa tôi đến gần hơn với văn hóa và thiên nhiên Việt Nam.",
+        "author": "Hà Mai Linh",
+        "location": "Hà Nội"
+      },
+      "testimonial2": {
+        "quote": "Tôi yêu thích từng chi tiết nhỏ trong thiết kế phòng của Kén Homestay. Các nhân viên vô cùng thân thiện và nhiệt tình. Chắc chắn sẽ quay lại vào lần tới!",
+        "author": "Trần Minh Đức",
+        "location": "TP. Hồ Chí Minh"
+      },
+      "testimonial3": {
+        "quote": "Vị trí tuyệt vời, dễ dàng di chuyển đến các điểm du lịch. Kén Homestay sạch sẽ, thoải mái và có thiết kế rất độc đáo. Những hoạt động trải nghiệm địa phương rất đáng giá.",
+        "author": "Phạm Thanh Hà",
+        "location": "Đà Nẵng"
+      },
+      "testimonial4": {
+        "quote": "Kén Homestay mang đến cảm giác như được trở về nhà trong một không gian văn hóa Đà Nẵng thu nhỏ. Tôi đặc biệt thích thú với cách họ kết hợp nét hiện đại và truyền thống.",
+        "author": "Lê Hoàng Nam",
+        "location": "Đà Nẵng"
+      }
+    },
+    "contact": {
+      "title": "Thông Tin Liên Hệ",
+      "mapAlt": "Bản đồ vị trí Kén Homestay",
+      "subtitle": "Hãy để lại thông tin của bạn và chúng tôi sẽ liên hệ lại cho bạn trong thời gian sớm nhất có thể.",
+      "locationTitle": "Vị Trí Của Chúng Tôi",
+      "locationDescription": "Kén Homestay tọa lạc tại vị trí lý tưởng ở Đà Nẵng, cách bãi biển Mỹ Khê chỉ 10 phút đi bộ và gần các điểm du lịch nổi tiếng như Bà Nà Hills, Cầu Rồng và đặc biệt thuận tiện để di chuyển đến Phố cổ Hội An.",
+      "addressTitle": "Địa Chỉ",
+      "address": "80 Đường Lê Văn Hiến, Khuê Mỹ, Ngũ Hành Sơn, Đà Nẵng, Việt Nam",
+      "hoursTitle": "Giờ mở cửa",
+      "checkInHours": "Check-in: 14:00 - 22:00",
+      "checkOutHours": "Check-out: 12:00",
+      "contactTitle": "Liên Hệ Với Kén Homestay",
+      "phoneTitle": "Số Điện Thoại",
+      "emailTitle": "Email",
+      "connectTitle": "Kết Nối Với Chúng Tôi",
+      "bookingQuestion": "Bạn muốn đặt phòng?",
+      "bookNow": "Đặt phòng ngay",
+      "form": {
+        "name": "Tên của bạn",
+        "email": "Email của bạn",
+        "phone": "Số điện thoại",
+        "message": "Nội dung tin nhắn",
+        "send": "Gửi tin nhắn",
+        "sending": "ĐANG GỬI...",
+        "success": "Gửi tin nhắn thành công",
+        "error": "Gửi tin nhắn thất bại",
+        "required": "Bắt buộc phải nhập",
+        "invalidEmail": "Email không hợp lệ",
+        "invalidPhone": "Số điện thoại không hợp lệ"
+      },
+      "contactInfo": {
+        "address": "Địa chỉ",
+        "phone": "Số điện thoại",
+        "email": "Email",
+        "hours": "Giờ làm việc",
+        "social": "Kết nối với chúng tôi"
+      }
+    }
+  },
+  "experiences": {
+    "pageHeader": {
+      "title": "Trải Nghiệm Tại",
+      "subtitle": "Kén Homestay",
+      "description": "Khám phá nét đẹp văn hóa Việt Nam qua những trải nghiệm độc đáo",
+      "finalPage": "Trải nghiệm dịch vụ"
+    },
+    "morningLifestyle": {
+      "title": "Lối Sống Buổi Sáng Kiểu Việt Nam",
+      "subtitle": "Ăn sáng, uống trà Việt Nam, cà phê phin",
+      "description": "Từ 7:00 - 9:30 sáng hàng ngày, khách ở homestay sẽ được thưởng thức những đồ uống không thể thiếu trong cuộc sống hàng ngày của người dân địa phương.",
+      "breakfast": {
+        "title": "Các lựa chọn bữa sáng:",
+        "option1": {
+          "title": "Tùy chọn 1:",
+          "description": "Homestay sẽ chuẩn bị nguyên liệu để khách tự chuẩn bị bữa sáng (bánh mì sandwich, trứng, ngũ cốc, sữa tươi, rau xà lách, cà chua, mứt...)"
+        },
+        "option2": {
+          "title": "Tùy chọn 2:",
+          "description": "Nếu khách muốn ăn đồ ăn địa phương, họ sẽ gửi thông tin món ăn cho chủ nhà vào tối hôm trước. Chủ nhà sẽ hỗ trợ khách đặt món."
+        }
+      },
+      "coffeeTeaTitle": "Trải nghiệm cà phê & trà:",
+      "coffeeTeaDescription": "Homestay bố trí một quầy cà phê Việt Nam đơn giản bao gồm: cà phê khô, phin, gói đường, sữa đặc, đá và hướng dẫn pha cà phê. Quầy trà nhỏ bao gồm: 2 loại trà khô, ấm trà, hướng dẫn pha trà.",
+      "coffee": {
+        "title": "Cà Phê Việt Nam",
+        "icedMilk": {
+          "title": "Cà phê sữa đá:",
+          "step1": "Chủ nhà hỗ trợ lắp phin vào cốc, nén cà phê.",
+          "step2": "Ủ cà phê trong 1-2 phút với 30ml nước sôi.",
+          "step3": "Tiếp tục đổ 70-100 ml nước sôi vào phin và đợi 4-5 phút.",
+          "step4": "Cho 2-3 thìa sữa đặc vào ly, khuấy đều cho đến khi hòa quyện, sau đó thêm đá và thưởng thức (Tùy chỉnh theo sở thích của khách)."
+        },
+        "icedBlack": {
+          "title": "Cà phê đen đá:",
+          "step1": "Chủ nhà hỗ trợ lắp phin vào cốc, nén cà phê.",
+          "step2": "Ủ cà phê trong 2-3 phút với 30ml nước sôi.",
+          "step3": "Đổ khoảng 70 ml nước sôi (gần đầy phin) vào phin đợi 4-5 phút.",
+          "step4": "Cho 1 gói đường vào ly, khuấy đều cho đến khi hòa quyện, sau đó thêm đá và thưởng thức (Tùy chỉnh theo sở thích của khách)."
+        }
+      },
+      "tea": {
+        "title": "Trà Việt Nam",
+        "description": "2 loại trà phổ biến được uống vào buổi sáng: trà xanh, trà ô long, và còn có các loại trà theo mùa.",
+        "instructions": {
+          "title": "Hướng dẫn chi tiết cho du khách:",
+          "step1": "Cho khoảng 2-3g trà vào ấm trà hoặc cốc nhỏ (tùy theo khẩu vị).",
+          "step2": "Đổ nước vào trà, đợi vài giây rồi đổ đi, giúp loại bỏ bụi bẩn và làm trà mềm hơn.",
+          "step3": "Đổ nước sôi vào ấm trà hoặc cốc, khoảng 200ml (tùy theo lượng trà). Không đổ nước quá sôi (tránh nước trên 98°C để trà không bị đắng).",
+          "step4": "Để trà ngâm khoảng 2-3 phút (tùy theo loại trà, trà xanh có thể ngâm 1-2 phút, trà đen 3-4 phút). Thời gian ngâm trà sẽ ảnh hưởng đến độ đậm và hương vị của trà.",
+          "step5": "Sau khi trà đã ngâm, bạn có thể rót ra từng ly và thưởng thức."
+        }
+      }
+    },
+    "cookingClass": {
+      "title": "Lớp Học Nấu Ăn",
+      "subtitle": "Học Nấu Ẩm Thực Việt Nam",
+      "description": "Trải nghiệm hương vị đích thực của ẩm thực Việt Nam bằng cách tham gia lớp học nấu ăn của chúng tôi. Chúng tôi chuẩn bị các nguyên liệu tươi theo mùa (rau từ chợ hoặc vườn của Kén, thịt, cá, tôm, mực...) từ chợ địa phương ngày hôm đó.",
+      "location": "Nhà bếp chung của homestay",
+      "availability": "Có sẵn hàng ngày",
+      "time": "10:00 - 12:00",
+      "price": "200.000 VNĐ/người",
+      "procedure": {
+        "title": "Quy trình:",
+        "step1": {
+          "title": "Nhận phòng",
+          "description": "Khi khách đến nhận phòng, chủ nhà sẽ giới thiệu thông tin về lớp học nấu ăn ngày mai và hỏi xem họ có muốn tham gia không. Thông tin chi tiết về thời gian, địa điểm và bảng giá sẽ được cung cấp."
+        },
+        "step2": {
+          "title": "Chợ",
+          "description": "Đi chợ vào khoảng 9:00 sáng (thời gian người Việt Nam đi chợ mua nguyên liệu tươi sống là từ 5:00 - 9:00 sáng). Hướng dẫn và giới thiệu du khách tham quan chợ địa phương và mua nguyên liệu tươi với người dân địa phương."
+        },
+        "step3": {
+          "title": "Nấu ăn",
+          "description": "Chủ nhà sẽ là người hướng dẫn lớp học nấu ăn với khách hàng để làm các món ăn truyền thống Việt Nam. Khách hàng được khuyến khích tham gia vào mọi bước chuẩn bị thức ăn (từ rửa, chuẩn bị đến nêm nếm) để tăng thêm trải nghiệm."
+        },
+        "step4": {
+          "title": "Thưởng thức",
+          "description": "Sau khi hoàn thành nấu ăn, mọi người sẽ cùng nhau thưởng thức các món đã chế biến, tạo không gian thoải mái và thân thiện để khách hàng chia sẻ cảm nhận."
+        }
+      }
+    },
+    "noTechNight": {
+      "title": "Đêm Không Công Nghệ",
+      "description": "Cuộc sống hiện đại thường kéo chúng ta vào màn hình điện thoại, khiến chúng ta bỏ lỡ những khoảnh khắc quý giá. \"Đêm Không Công Nghệ\" tại \"Kén\" mang đến cho khách cơ hội rời xa thế giới kỹ thuật số và dành một buổi tối ý nghĩa để kết nối lại với bản thân, thiên nhiên và những người xung quanh.",
+      "subtitle": "Ngắt kết nối để Kết nối lại",
+      "time": "19:00 - 21:00",
+      "days": "Thứ Ba, Thứ Năm, Thứ Bảy",
+      "price": "250.000 VNĐ/người",
+      "experience": {
+        "title": "Trải nghiệm:",
+        "feature1": {
+          "title": "Hộp gỗ đựng thiết bị",
+          "description": "\"Kén\" cung cấp một chiếc hộp gỗ được chế tác đẹp mắt nơi khách có thể đặt các thiết bị điện tử của họ, cho phép họ tạm nghỉ khỏi công nghệ."
+        },
+        "feature2": {
+          "title": "Lời nhắc nhở nhẹ nhàng",
+          "description": "Một ghi chú duyên dáng trong phòng viết: \"Tối nay, tắt màn hình và bật cảm xúc của bạn!\""
+        }
+      },
+      "activities": {
+        "title": "Không gian không công nghệ - Hoạt động đa dạng cho mọi người:",
+        "activity1": {
+          "title": "\"Nhậu\" như người địa phương (BBQ)",
+          "description": "Dành cho những ai muốn trải nghiệm văn hóa nhậu đích thực của Việt Nam. Nâng ly, tận hưởng các trò chơi uống vui nhộn và chia sẻ những câu chuyện đời thường (bao gồm thịt & bia)."
+        },
+        "activity2": {
+          "title": "Chơi boardgame",
+          "description": "Từ những trò chơi quen thuộc như Uno và \"Cờ cá ngựa\" đến các trò chơi truyền thống Việt Nam như Ô Ăn Quan, tất cả đều có sẵn cho một đêm vui vẻ và hấp dẫn."
+        },
+        "activity3": {
+          "title": "Đọc sách & tận hưởng không gian riêng",
+          "description": "Dành cho những ai thích một buổi tối yên tĩnh, \"Kén\" cung cấp một góc đọc sách ấm cúng với sách du lịch, văn học và tạp chí."
+        },
+        "activity4": {
+          "title": "Trà thảo mộc & trò chuyện",
+          "description": "Một ấm trà thảo mộc ấm được chuẩn bị, khuyến khích khách ngồi cùng nhau, trò chuyện và chia sẻ những câu chuyện từ hành trình của họ."
+        }
+      },
+      "value": {
+        "title": "Giá trị của việc ngắt kết nối",
+        "benefit1": "Một đêm thư giãn thực sự, không còn thông báo và tin nhắn",
+        "benefit2": "Một trải nghiệm độc đáo kết hợp giữa sự phấn khích của văn hóa uống địa phương với không gian yên bình để thư giãn",
+        "benefit3": "Khuyến khích kết nối con người thực sự thay vì màn hình"
+      }
+    },
+    "badges": {
+      "dailyActivity": "Hoạt động hàng ngày"
+    }
+  },
+  "contact": {
+    "title": "Liên hệ với chúng tôi",
+    "description": "Liên hệ với chúng tôi để nhận được sự hỗ trợ tốt nhất.",
+    "finalPage": "Liên hệ",
+    "contactForm": {
+      "homestayName": "Kén Homestay",
+      "description": "Boutique Homestay in Da Nang, where traditional breath meets modern living rhythm. We bring you an elegant living space and memorable local experiences.",
+      "booking": "Booking",
+      "email": "Email",
+      "address": "Address",
+      "addressDetails": "123 Nguyen Van Linh Street, Hai Chau District, Da Nang, Vietnam",
+      "formTitle": "Contact Us",
+      "formDescription": "Fill in the information below and we will respond as soon as possible",
+      "fullname": "Enter your full name",
+      "emailInput": "Enter your email address",
+      "subject": "Enter subject",
+      "message": "Enter your message",
+      "sendButton": "SEND MESSAGE",
+      "sending": "SENDING...",
+      "successTitle": "Message sent successfully!",
+      "successDescription": "We will contact you as soon as possible.",
+      "timeoutError": "Request timed out",
+      "timeoutDescription": "Please check your connection and try again later.",
+      "sendError": "Could not send message",
+      "unknownError": "An unknown error occurred. Please try again later."
+    }
+  },
+  "footer": {
+    "supportInfo": "Thông tin hỗ trợ",
+    "guide": "Cẩm nang",
+    "faq": "FAQ",
+    "about": "Giới thiệu",
+    "policy": "Chính sách",
+    "feedback": "Góp ý",
+    "services": "Dịch vụ",
+    "openingHours": "Giờ mở cửa",
+    "monToFri": "Thứ 2 - Thứ 6: 6:00AM - 23:00PM",
+    "satToSun": "Thứ 7 - CN: 7:00AM - 23:00PM",
+    "copyright": "© Bản quyền thuộc về Solw | Cung cấp bởi Solw",
+    "destinationMap": "Bản đồ điểm đến",
+    "hotline": "Hotline",
+    "email": "Email",
+    "gallery": "Hình ảnh",
+    "officialHours": "giờ hành chính",
+    "bottomLinks": {
+      "map": "Bản đồ điểm đến",
+      "images": "Hình ảnh"
+    }
+  },
+  "gallery": {
+    "title": "Thư viện ảnh",
+    "description": "Khám phá bộ sưu tập hình ảnh đẹp của chúng tôi",
+    "finalPage": "Thư viện ảnh",
+    "categories": {
+      "all": "Tất cả ảnh",
+      "exterior": "View bên ngoài",
+      "rooms": "View phòng"
+    },
+    "loadingMore": "Tải thêm hình ảnh...",
+    "photographer": "Nhiếp ảnh gia"
+  },
+  "blog": {
+    "title": "Blog của chúng tôi",
+    "subtitle": "Đọc các bài viết thú vị",
+    "viewAll": "Xem tất cả bài viết",
+    "pageComponents": {
+      "subtitle": "Blog của chúng tôi",
+      "description": "Khám phá những bài viết và câu chuyện mới nhất",
+      "finalPage": "Blog"
+    },
+    "categories": {
+      "title": "Danh mục",
+      "all": "Tất cả danh mục"
+    },
+    "tags": {
+      "title": "Thẻ",
+      "all": "Tất cả thẻ"
+    },
+    "featured": {
+      "title": "Bài viết nổi bật"
+    },
+    "readMore": "Đọc thêm",
+    "relatedPosts": "Bài viết liên quan",
+    "viewAllPosts": "Xem tất cả bài viết",
+    "noArticles": "Không tìm thấy bài viết nào",
+    "searchResults": "Hiển thị {{count}} kết quả",
+    "publishedOn": "Đăng vào ngày",
+    "articlePage": {
+      "notFound": "Bài viết không tồn tại",
+      "notFoundDescription": "Bài viết bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.",
+      "returnToBlog": "Quay lại trang blog",
+      "article": "Bài viết",
+      "minutesToRead": "phút đọc",
+      "relatedArticles": "Bài viết liên quan",
+      "likePrompt": "Thích bài viết này nếu nó hữu ích cho bạn!"
     }
   }
 }

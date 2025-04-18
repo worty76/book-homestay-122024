@@ -1,15 +1,19 @@
+"use client";
+
 import AnotherHeader from "@/components/main/another-header";
 import { Contact } from "@/components/main/contact";
 import React from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function ContactPage() {
+  const { t } = useTranslation();
   return (
     <>
       <AnotherHeader
-        subtitle="Liên hệ chúng tôi"
-        description="Liên hệ với chúng tôi để nhận được sự hỗ trợ tốt nhất."
+        subtitle={t("contact.title")}
+        description={t("contact.description")}
         image="/images/img2.jpg"
-        finalPage="Liên hệ"
+        finalPage={t("contact.finalPage")}
       />
       <Contact />
     </>

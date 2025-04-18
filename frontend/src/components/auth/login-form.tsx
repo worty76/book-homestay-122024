@@ -16,8 +16,10 @@ import { toast } from "sonner";
 import { handleAuthError } from "@/utils/error-handlers";
 import { ErrorAlert, SuccessAlert } from "./alert-messages";
 import { IconInputField, PasswordField } from "./form-fields";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function LoginForm() {
+  const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
@@ -29,9 +31,9 @@ export function LoginForm() {
   useEffect(() => {
     const registered = searchParams.get("registered");
     if (registered === "true") {
-      setSuccessMessage("Đăng ký thành công! Bạn có thể đăng nhập.");
+      setSuccessMessage(t("auth.loginForm.registerSuccess"));
     }
-  }, [searchParams]);
+  }, [searchParams, t]);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -47,8 +49,8 @@ export function LoginForm() {
 
     try {
       await loginMutation.mutateAsync(data);
-      toast.success("Đăng nhập thành công!", {
-        description: "Chào mừng bạn quay trở lại!",
+      toast.success(t("auth.loginForm.loginSuccess"), {
+        description: t("auth.loginForm.welcomeBack"),
         duration: 3000,
       });
 
@@ -90,7 +92,7 @@ export function LoginForm() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          Đăng nhập
+          {t("navigation.login")}
         </motion.h1>
         <motion.p
           className="text-gray-500 text-sm"
@@ -98,15 +100,15 @@ export function LoginForm() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          Nhập thông tin đăng nhập để truy cập tài khoản của bạn
+          {t("auth.loginForm.loginInstructions")}
         </motion.p>
       </div>
 
-      <ErrorAlert title="Lỗi" message={error} />
+      <ErrorAlert title={t("common.notifications.error")} message={error} />
 
       {successMessage && (
         <SuccessAlert
-          title="Thành công"
+          title={t("common.notifications.success")}
           message={successMessage}
           show={!!successMessage}
         />
@@ -123,7 +125,7 @@ export function LoginForm() {
             <IconInputField
               name="email"
               control={form.control}
-              label="Email"
+              label={t("common.form.email")}
               placeholder="your.email@example.com"
               icon={<Mail className="h-4 w-4" />}
               type="email"
@@ -140,7 +142,7 @@ export function LoginForm() {
             <PasswordField
               name="password"
               control={form.control}
-              label="Mật khẩu"
+              label={t("common.form.password")}
               placeholder="••••••••"
               autoComplete="current-password"
               showPassword={showPassword}
@@ -162,10 +164,10 @@ export function LoginForm() {
               {loginMutation.isPending ? (
                 <div className="flex items-center justify-center">
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  <span>Đang đăng nhập...</span>
+                  <span>{t("auth.loggingIn")}</span>
                 </div>
               ) : (
-                "Đăng nhập"
+                <span>{t("navigation.login")}</span>
               )}
             </Button>
           </motion.div>
@@ -179,12 +181,12 @@ export function LoginForm() {
         initial="hidden"
         animate="visible"
       >
-        Không có tài khoản?{" "}
+        <span>{t("auth.noAccount")} </span>
         <Link
           href="/register"
           className="text-green-600 hover:text-green-800 font-medium hover:underline transition-colors"
         >
-          Tạo tài khoản
+          {t("auth.loginForm.registerLink")}
         </Link>
       </motion.div>
     </div>

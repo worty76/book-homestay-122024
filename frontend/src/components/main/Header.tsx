@@ -12,16 +12,35 @@ import {
 } from "@/store/useAuthStore";
 import { toast } from "sonner";
 import { useProfileStore } from "@/store/useProfileStore";
+import LanguageSwitcher from "@/components/language-switcher";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const menuItems = [
-  { name: "GIỚI THIỆU", url: "/about" },
-  { name: "TRẢI NGHIỆM", url: "/experiences" },
-  { name: "ĐẶT PHÒNG", url: "/rooms" },
-  { name: "BÀI VIẾT", url: "/blog" },
-  { name: "LIÊN HỆ", url: "/contact" },
+  {
+    name: "navigation.about",
+    translationKey: "navigation.about",
+    url: "/about",
+  },
+  {
+    name: "navigation.experiences",
+    translationKey: "navigation.experiences",
+    url: "/experiences",
+  },
+  {
+    name: "navigation.rooms",
+    translationKey: "navigation.rooms",
+    url: "/rooms",
+  },
+  { name: "navigation.blog", translationKey: "navigation.blog", url: "/blog" },
+  {
+    name: "navigation.contact",
+    translationKey: "navigation.contact",
+    url: "/contact",
+  },
 ];
 
 export function Header() {
+  const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const isAuthenticated = useIsAuthenticated();
@@ -54,15 +73,15 @@ export function Header() {
   }, [profileMenuOpen]);
 
   const handleLogout = () => {
-    toast.success("Đăng xuất thành công", {
-      description: "Bạn đã đăng xuất thành công.",
+    toast.success(t("common.notifications.success"), {
+      description: "You have been logged out successfully.",
     });
     logout();
     setProfileMenuOpen(false);
     window.location.href = "/login";
   };
 
-  const displayName = profile?.username || user?.name || "Tài khoản";
+  const displayName = profile?.username || user?.name || "Account";
 
   const ProfileMenu = () => (
     <div className="relative profile-menu-container">
@@ -95,7 +114,7 @@ export function Header() {
               }}
             >
               <UserCircle className="h-4 w-4" />
-              <span>Thông tin cá nhân</span>
+              <span>{t("navigation.profile")}</span>
             </Link>
             <button
               onClick={(e) => {
@@ -105,7 +124,7 @@ export function Header() {
               className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left"
             >
               <LogOut className="h-4 w-4" />
-              <span>Đăng xuất</span>
+              <span>{t("navigation.logout")}</span>
             </button>
           </motion.div>
         )}
@@ -136,33 +155,38 @@ export function Header() {
                   href={item.url}
                   className="text-xs lg:text-sm transition-colors hover:text-[#7A5230]"
                 >
-                  {item.name}
+                  {t(item.translationKey || item.name).toUpperCase()}
                 </Link>
               </li>
             ))}
           </ul>
 
-          {isAuthenticated ? (
-            <ProfileMenu />
-          ) : (
-            <Link
-              href="/login"
-              className="flex items-center gap-2 bg-[#9C6B4A] hover:bg-[#7A5230] text-white py-2 px-4 rounded-full text-sm font-medium transition-colors"
-            >
-              <User className="h-4 w-4" />
-              <span>Đăng nhập</span>
-            </Link>
-          )}
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            {isAuthenticated ? (
+              <ProfileMenu />
+            ) : (
+              <Link
+                href="/login"
+                className="flex items-center gap-2 bg-[#9C6B4A] hover:bg-[#7A5230] text-white py-2 px-4 rounded-full text-sm font-medium transition-colors"
+              >
+                <User className="h-4 w-4" />
+                <span>{t("navigation.login")}</span>
+              </Link>
+            )}
+          </div>
         </nav>
 
         <div className="md:hidden flex items-center gap-3">
+          <LanguageSwitcher />
+
           {isAuthenticated && <ProfileMenu />}
 
           {!isAuthenticated && (
             <Link
               href="/login"
               className="flex items-center justify-center bg-[#9C6B4A] hover:bg-[#7A5230] text-white p-2 rounded-full transition-colors"
-              aria-label="Đăng nhập"
+              aria-label="Login"
             >
               <User className="h-4 w-4" />
             </Link>
@@ -192,51 +216,43 @@ export function Header() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-0 right-0 bottom-0 w-full xs:w-80 max-w-full bg-white p-6 shadow-lg overflow-y-auto"
+              className="fixed right-0 top-0 bottom-0 w-64 sm:w-80 bg-white shadow-xl p-6 z-30"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between mb-8">
-                <Link href="/" onClick={() => setMobileMenuOpen(false)}>
-                  <Image
-                    src="/images/LogoKen-03.png"
-                    alt="Logo"
-                    width={80}
-                    height={80}
-                    style={{ width: "auto", height: "auto" }}
-                    className="w-16 h-auto sm:w-20"
-                  />
-                </Link>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="font-bold text-xl text-[#9C6B4A]">
+                  {t("navigation.home")}
+                </h2>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
+                  className="p-1.5"
                   aria-label="Close mobile menu"
-                  className="p-1.5 hover:bg-gray-100 rounded-full transition-colors"
                 >
                   <X className="h-6 w-6 text-[#9C6B4A]" />
                 </button>
               </div>
+
               <nav>
-                <ul className="flex flex-col space-y-5 text-[#9C6B4A] font-bold">
+                <ul className="space-y-4">
                   {menuItems.map((item) => (
                     <li key={item.name}>
                       <Link
                         href={item.url}
-                        className="text-base transition-colors hover:text-[#7A5230] block py-1"
+                        className="text-[#9C6B4A] hover:text-[#7A5230] transition-colors block py-2 border-b border-gray-200"
                         onClick={() => setMobileMenuOpen(false)}
                       >
-                        {item.name}
+                        {t(item.translationKey || item.name).toUpperCase()}
                       </Link>
                     </li>
                   ))}
-
                   {!isAuthenticated && (
-                    <li className="pt-4 border-t border-gray-100">
+                    <li>
                       <Link
                         href="/login"
-                        className="flex items-center gap-2 text-[#9C6B4A] hover:text-[#7A5230] py-1"
+                        className="text-[#9C6B4A] hover:text-[#7A5230] transition-colors block py-2 border-b border-gray-200"
                         onClick={() => setMobileMenuOpen(false)}
                       >
-                        <User className="h-4 w-4" />
-                        <span className="font-bold text-base">ĐĂNG NHẬP</span>
+                        {t("navigation.login").toUpperCase()}
                       </Link>
                     </li>
                   )}

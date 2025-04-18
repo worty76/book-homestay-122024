@@ -20,8 +20,10 @@ import { BookingCard } from "./booking-card";
 import { BookingEmptyState } from "./booking-empty-state";
 import { useBookings } from "@/hooks/use-bookings";
 import type { Booking } from "@/types/booking";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function BookingHistory() {
+  const { t } = useTranslation();
   const [bookingToCancel, setBookingToCancel] = useState<Booking | null>(null);
   const {
     upcomingBookings,
@@ -54,7 +56,7 @@ export function BookingHistory() {
     return (
       <>
         <CardHeader>
-          <CardTitle>Lịch sử đặt phòng</CardTitle>
+          <CardTitle>{t("profile.bookings")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center p-8">
@@ -68,11 +70,13 @@ export function BookingHistory() {
   return (
     <>
       <CardHeader>
-        <CardTitle>Lịch sử đặt phòng</CardTitle>
+        <CardTitle>{t("profile.bookings")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Sắp tới</h3>
+          <h3 className="text-lg font-semibold">
+            {t("profile.booking.upcoming")}
+          </h3>
           <div className="grid gap-4">
             {upcomingBookings.length > 0 ? (
               upcomingBookings.map((booking) => (
@@ -105,14 +109,16 @@ export function BookingHistory() {
                 />
               ))
             ) : (
-              <BookingEmptyState message="Không có đặt phòng sắp tới" />
+              <BookingEmptyState message={t("profile.booking.noUpcoming")} />
             )}
           </div>
         </div>
 
         {/* Past Bookings */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Đã hoàn thành</h3>
+          <h3 className="text-lg font-semibold">
+            {t("profile.booking.completed")}
+          </h3>
           <div className="grid gap-4">
             {pastBookings.length > 0 ? (
               pastBookings.map((booking) => (
@@ -137,7 +143,7 @@ export function BookingHistory() {
                 />
               ))
             ) : (
-              <BookingEmptyState message="Không có lịch sử đặt phòng" />
+              <BookingEmptyState message={t("profile.booking.noHistory")} />
             )}
           </div>
         </div>
@@ -149,19 +155,22 @@ export function BookingHistory() {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Xác nhận hủy đặt phòng</AlertDialogTitle>
+            <AlertDialogTitle>
+              {t("profile.booking.cancelConfirmTitle")}
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              Bạn có chắc chắn muốn hủy đặt phòng này không? Hành động này không
-              thể hoàn tác.
+              {t("profile.booking.cancelConfirmDescription")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Hủy bỏ</AlertDialogCancel>
+            <AlertDialogCancel>{t("common.buttons.cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmCancelBooking}
               disabled={cancellingId !== null}
             >
-              {cancellingId ? "Đang xử lý..." : "Xác nhận hủy"}
+              {cancellingId
+                ? t("profile.booking.processing")
+                : t("profile.booking.confirmCancel")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

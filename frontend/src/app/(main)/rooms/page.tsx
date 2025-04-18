@@ -16,12 +16,14 @@ import {
 } from "@/types/room";
 import { filterRoomsBySearchParams } from "@/utils/roomUtils";
 import { fetchRooms } from "@/services/roomService";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function RoomsPage({
   searchParams: urlSearchParams,
 }: {
   searchParams: { [key: string]: string };
 }) {
+  const { t } = useTranslation();
   const [rooms, setRooms] = useState<Room[]>([]);
   const [filteredRooms, setFilteredRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(true);
@@ -138,10 +140,10 @@ export default function RoomsPage({
   return (
     <div className="bg-[#f8f3e9]/50">
       <AnotherHeader
-        subtitle="Phòng của chúng tôi"
-        description="Khám phá những phòng của chúng tôi"
+        subtitle={t("rooms.pageComponents.subtitle")}
+        description={t("rooms.pageComponents.description")}
         image="/images/img3.jpg"
-        finalPage="Phòng"
+        finalPage={t("rooms.pageComponents.finalPage")}
       />
       <div className="container mx-auto px-4 py-8">
         <SearchSummary searchParams={searchParams} />
@@ -154,7 +156,7 @@ export default function RoomsPage({
           >
             <div className="flex items-center">
               <Filter className="mr-2 h-4 w-4" />
-              <span>Bộ lọc</span>
+              <span>{t("rooms.pageComponents.filtersButton")}</span>
             </div>
             {showFilters ? (
               <X className="h-4 w-4" />

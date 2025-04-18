@@ -1,35 +1,44 @@
-import Image from "next/image"
-import { Bed, User, Bath, Square, Check } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import Image from "next/image";
+import { Bed, User, Bath, Square, Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface RoomSpec {
-  icon: "bed" | "user" | "bath" | "size"
-  text: string
+  icon: "bed" | "user" | "bath" | "size";
+  text: string;
 }
 
 interface RoomCardProps {
-  title: string
-  image: string
-  price: string
-  specs: RoomSpec[]
-  facilities: string[]
+  title: string;
+  image: string;
+  price: string;
+  specs: RoomSpec[];
+  facilities: string[];
 }
 
-export default function RoomCard({ title, image, price, specs, facilities }: RoomCardProps) {
+export default function RoomCard({
+  title,
+  image,
+  price,
+  specs,
+  facilities,
+}: RoomCardProps) {
+  const { t } = useTranslation();
+
   const renderIcon = (icon: string) => {
     switch (icon) {
       case "bed":
-        return <Bed className="w-4 h-4 text-[#0a3b33]" />
+        return <Bed className="w-4 h-4 text-[#0a3b33]" />;
       case "user":
-        return <User className="w-4 h-4 text-[#0a3b33]" />
+        return <User className="w-4 h-4 text-[#0a3b33]" />;
       case "bath":
-        return <Bath className="w-4 h-4 text-[#0a3b33]" />
+        return <Bath className="w-4 h-4 text-[#0a3b33]" />;
       case "size":
-        return <Square className="w-4 h-4 text-[#0a3b33]" />
+        return <Square className="w-4 h-4 text-[#0a3b33]" />;
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   return (
     <div className="flex flex-col md:flex-row gap-6 border-b pb-8">
@@ -57,7 +66,9 @@ export default function RoomCard({ title, image, price, specs, facilities }: Roo
           </div>
 
           <div className="mb-4">
-            <p className="text-sm font-medium mb-2">Tersedia Fasilitas :</p>
+            <p className="text-sm font-medium mb-2">
+              {t("rooms.facilities.available")}:
+            </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-1">
               {facilities.map((facility, index) => (
                 <div key={index} className="flex items-center gap-2">
@@ -72,15 +83,14 @@ export default function RoomCard({ title, image, price, specs, facilities }: Roo
         <div className="flex flex-col items-end justify-between mt-4 md:mt-0">
           <div className="text-right">
             <p className="text-xl font-medium text-[#0a3b33]">{price}</p>
-            <p className="text-xs text-gray-500">Harga malam</p>
+            <p className="text-xs text-gray-500">{t("rooms.price.perNight")}</p>
           </div>
 
           <Button variant="outline" className="rounded-full px-6 mt-4">
-            Tentukan tanggal
+            {t("rooms.booking.selectDates")}
           </Button>
         </div>
       </div>
     </div>
-  )
+  );
 }
-
