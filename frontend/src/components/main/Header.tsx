@@ -162,7 +162,6 @@ export function Header() {
           </ul>
 
           <div className="flex items-center gap-3">
-            <LanguageSwitcher />
             {isAuthenticated ? (
               <ProfileMenu />
             ) : (
@@ -178,8 +177,6 @@ export function Header() {
         </nav>
 
         <div className="md:hidden flex items-center gap-3">
-          <LanguageSwitcher />
-
           {isAuthenticated && <ProfileMenu />}
 
           {!isAuthenticated && (

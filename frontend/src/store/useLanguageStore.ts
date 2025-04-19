@@ -5,7 +5,7 @@ interface Translations {
   [key: string]: string | Translations;
 }
 
-type Language = "en" | "vi";
+type Language = "en";
 
 interface LanguageState {
   language: Language;

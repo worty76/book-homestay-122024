@@ -19,49 +19,22 @@ export default function LanguageProvider({ children }: LanguageProviderProps) {
       setError(null);
 
       try {
-        // Check for user's preferred language in localStorage first
-        const preferredLanguage = localStorage.getItem("preferred-language") as
-          | "en"
-          | "vi"
-          | null;
-        const langToLoad = preferredLanguage || language;
-
-        // If there's a preferred language different from the current one, update the store
-        if (preferredLanguage && preferredLanguage !== language) {
-          setLanguage(preferredLanguage);
-        }
-
-        const translations = (await import(`@/translations/${langToLoad}.json`))
-          .default;
+        const translations = (await import(`@/translations/en.json`)).default;
         setTranslations(translations);
+        setLanguage("en");
+
+        localStorage.setItem("preferred-language", "en");
       } catch (error) {
         console.error("Failed to load translations:", error);
         setError("Failed to load translations. Using fallback content.");
-
-        // Try to load English as fallback
-        if (language !== "en") {
-          try {
-            const fallbackTranslations = (
-              await import("@/translations/en.json")
-            ).default;
-            setTranslations(fallbackTranslations);
-            setLanguage("en");
-          } catch (fallbackError) {
-            console.error(
-              "Failed to load fallback translations:",
-              fallbackError
-            );
-          }
-        }
       } finally {
         setIsLoading(false);
       }
     };
 
     loadTranslations();
-  }, [language, setLanguage, setTranslations]);
+  }, [setLanguage, setTranslations]);
 
-  // Simple loading state - you can customize this with a nicer loading component
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -70,10 +43,8 @@ export default function LanguageProvider({ children }: LanguageProviderProps) {
     );
   }
 
-  // Error state
   if (error) {
     console.warn(error);
-    // Continue rendering children so the application doesn't break completely
   }
 
   return <>{children}</>;

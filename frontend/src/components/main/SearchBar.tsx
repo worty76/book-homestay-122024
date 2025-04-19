@@ -14,10 +14,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { addDays, formatISO, format } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function SearchBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
 
   const initialCheckIn = searchParams.get("checkIn")
     ? new Date(searchParams.get("checkIn") as string)
@@ -109,7 +111,7 @@ export default function SearchBar() {
         variants={containerVariants}
         className="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full"
       >
-        {/* Ngày nhận phòng */}
+        {/* Check-in */}
         <motion.div variants={itemVariants}>
           <Popover>
             <PopoverTrigger asChild>
@@ -151,7 +153,7 @@ export default function SearchBar() {
           </Popover>
         </motion.div>
 
-        {/* Ngày trả phòng */}
+        {/* Check-out */}
         <motion.div variants={itemVariants}>
           <Popover>
             <PopoverTrigger asChild>
@@ -197,7 +199,7 @@ export default function SearchBar() {
           </Popover>
         </motion.div>
 
-        {/* Khách */}
+        {/* Guests */}
         <motion.div variants={itemVariants}>
           <Popover>
             <PopoverTrigger asChild>
@@ -210,7 +212,9 @@ export default function SearchBar() {
                   className="flex items-center justify-between sm:justify-start space-x-1 px-3 py-1.5 w-full text-xs sm:text-sm h-auto"
                 >
                   <UsersIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
-                  <span className="truncate">{totalGuests} người</span>
+                  <span className="truncate">
+                    {totalGuests} {t("common.guests.guests")}
+                  </span>
                 </Button>
               </motion.div>
             </PopoverTrigger>
@@ -221,7 +225,7 @@ export default function SearchBar() {
                 transition={{ duration: 0.2 }}
                 className="space-y-2"
               >
-                <label className="text-sm">Người lớn:</label>
+                <label className="text-sm">{t("common.guests.adults")}:</label>
                 <Input
                   type="number"
                   min={1}
@@ -232,7 +236,9 @@ export default function SearchBar() {
                   }
                   className="w-full"
                 />
-                <label className="text-sm">Trẻ em:</label>
+                <label className="text-sm">
+                  {t("common.guests.children")}:
+                </label>
                 <Input
                   type="number"
                   min={0}
@@ -249,13 +255,13 @@ export default function SearchBar() {
         </motion.div>
       </motion.div>
 
-      {/* Button Tìm */}
+      {/* Search Button */}
       <motion.div variants={itemVariants} whileHover="hover" whileTap="tap">
         <Button
           className="px-4 py-1.5 text-xs sm:text-sm font-medium bg-[#5d8b3e] text-white rounded-lg hover:bg-[#4d7534] w-full sm:w-auto h-auto transition-colors"
           onClick={handleSearch}
         >
-          TÌM
+          {t("common.buttons.search")}
         </Button>
       </motion.div>
     </motion.div>

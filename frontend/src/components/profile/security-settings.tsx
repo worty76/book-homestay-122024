@@ -9,8 +9,10 @@ import { useChangePassword } from "@/api/user";
 import { LoaderCircle, AlertCircle, Eye, EyeOff } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function SecuritySettings() {
+  const { t } = useTranslation();
   const { mutate: changePassword, isPending } = useChangePassword();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -43,25 +45,25 @@ export function SecuritySettings() {
 
   const validatePasswordForm = (): boolean => {
     if (!formData.currentPassword) {
-      setErrorMessage("Vui lòng nhập mật khẩu hiện tại");
+      setErrorMessage("Please enter your current password");
       return false;
     }
 
     if (!formData.newPassword) {
-      setErrorMessage("Vui lòng nhập mật khẩu mới");
+      setErrorMessage("Please enter a new password");
       return false;
     }
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!passwordRegex.test(formData.newPassword)) {
       setErrorMessage(
-        "Mật khẩu mới phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số"
+        "New password must be at least 8 characters and include uppercase, lowercase, and numbers"
       );
       return false;
     }
 
     if (formData.newPassword !== formData.confirmNewPassword) {
-      setErrorMessage("Mật khẩu xác nhận không khớp");
+      setErrorMessage("Confirm password does not match");
       return false;
     }
 
@@ -79,8 +81,8 @@ export function SecuritySettings() {
 
     changePassword(formData, {
       onSuccess: (data) => {
-        setSuccessMessage("Mật khẩu của bạn đã được cập nhật thành công");
-        toast.success("Mật khẩu của bạn đã được cập nhật");
+        setSuccessMessage("Your password has been updated successfully");
+        toast.success("Your password has been updated");
 
         setFormData({
           currentPassword: "",
@@ -89,18 +91,19 @@ export function SecuritySettings() {
         });
       },
       onError: (error) => {
-        const errorMsg = error.message || "Đã xảy ra lỗi khi cập nhật mật khẩu";
+        const errorMsg =
+          error.message || "An error occurred while updating the password";
         setErrorMessage(errorMsg);
 
         if (errorMsg.includes("401") || errorMsg.includes("incorrect")) {
-          setErrorMessage("Mật khẩu hiện tại không chính xác");
+          setErrorMessage("Current password is incorrect");
         } else if (errorMsg.includes("400") || errorMsg.includes("match")) {
-          setErrorMessage("Mật khẩu mới và xác nhận mật khẩu không khớp");
+          setErrorMessage("New password and confirm password do not match");
         } else if (errorMsg.includes("404")) {
-          setErrorMessage("Không tìm thấy thông tin người dùng");
+          setErrorMessage("User information not found");
         }
 
-        toast.error("Xảy ra lỗi khi cập nhật mật khẩu!");
+        toast.error("Error updating password!");
       },
     });
   };
@@ -108,30 +111,30 @@ export function SecuritySettings() {
   return (
     <>
       <CardHeader>
-        <CardTitle>Cài đặt bảo mật</CardTitle>
+        <CardTitle>{t("profile.security")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         {errorMessage && (
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Lỗi</AlertTitle>
+            <AlertTitle>Error</AlertTitle>
             <AlertDescription>{errorMessage}</AlertDescription>
           </Alert>
         )}
 
         {successMessage && (
           <Alert variant="default" className="bg-green-50 border-green-200">
-            <AlertTitle>Thành công</AlertTitle>
+            <AlertTitle>Success</AlertTitle>
             <AlertDescription>{successMessage}</AlertDescription>
           </Alert>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
-            <h3 className="text-lg font-medium">Thay đổi mật khẩu</h3>
+            <h3 className="text-lg font-medium">Change Password</h3>
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="currentPassword">Mật khẩu hiện tại</Label>
+                <Label htmlFor="currentPassword">Current Password</Label>
                 <div className="relative">
                   <Input
                     id="currentPassword"
@@ -160,7 +163,7 @@ export function SecuritySettings() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="newPassword">Mật khẩu mới</Label>
+                <Label htmlFor="newPassword">New Password</Label>
                 <div className="relative">
                   <Input
                     id="newPassword"
@@ -187,15 +190,13 @@ export function SecuritySettings() {
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường
-                  và số
+                  Password must be at least 8 characters with uppercase,
+                  lowercase, and numbers
                 </p>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirmNewPassword">
-                  Xác nhận mật khẩu mới
-                </Label>
+                <Label htmlFor="confirmNewPassword">Confirm New Password</Label>
                 <div className="relative">
                   <Input
                     id="confirmNewPassword"
@@ -234,10 +235,10 @@ export function SecuritySettings() {
               {isPending ? (
                 <>
                   <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                  Đang cập nhật...
+                  Updating...
                 </>
               ) : (
-                "Cập nhật mật khẩu"
+                "Update Password"
               )}
             </Button>
           </div>
