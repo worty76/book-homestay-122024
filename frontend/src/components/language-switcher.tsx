@@ -30,17 +30,9 @@ export default function LanguageSwitcher() {
       textColor: "text-white",
       hoverColor: "hover:bg-blue-700",
     },
-    {
-      code: "vi",
-      label: "Tiếng Việt",
-      flag: "🇻🇳",
-      bgColor: "bg-red-600",
-      textColor: "text-white",
-      hoverColor: "hover:bg-red-700",
-    },
   ];
 
-  const changeLanguage = async (newLanguage: "en" | "vi") => {
+  const changeLanguage = async (newLanguage: "en") => {
     if (newLanguage === language) return;
 
     try {
@@ -63,7 +55,6 @@ export default function LanguageSwitcher() {
   useEffect(() => {
     const preferredLanguage = localStorage.getItem("preferred-language") as
       | "en"
-      | "vi"
       | null;
     if (preferredLanguage && preferredLanguage !== language) {
       changeLanguage(preferredLanguage);
@@ -77,11 +68,7 @@ export default function LanguageSwitcher() {
       <Button
         variant="ghost"
         size="sm"
-        className={`relative h-9 w-9 rounded-full opacity-70 ${
-          language === "en" ? "bg-blue-600" : "bg-red-600"
-        } text-white ${
-          language === "en" ? "hover:bg-blue-700" : "hover:bg-red-700"
-        }`}
+        className={`relative h-9 w-9 rounded-full opacity-70 bg-blue-600 text-white hover:bg-blue-700`}
         disabled
       >
         <div className="absolute inset-0 flex items-center justify-center">
@@ -118,14 +105,14 @@ export default function LanguageSwitcher() {
           <DropdownMenuItem
             key={lang.code}
             onClick={() => {
-              changeLanguage(lang.code as "en" | "vi");
+              changeLanguage(lang.code as "en");
               setIsOpen(false);
             }}
             className={`flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors 
             ${
               language === lang.code
                 ? `${lang.bgColor} ${lang.textColor} ${lang.hoverColor} hover:text-white`
-                : `hover:${lang.code === "en" ? "bg-blue-100" : "bg-red-100"}`
+                : `hover:bg-blue-100`
             }`}
           >
             <span className="text-xl">{lang.flag}</span>

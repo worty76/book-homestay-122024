@@ -61,46 +61,18 @@ export function filterRoomsBySearchParams(
 }
 
 export function formatCurrency(amount: number, language?: string): string {
-  // Default exchange rate: 1 USD = 24,500 VND
-  const exchangeRate = 24500;
-
-  // If language is not provided, try to get it from localStorage
-  if (!language) {
-    if (typeof window !== "undefined") {
-      language = localStorage.getItem("preferred-language") || "en";
-    } else {
-      language = "en";
-    }
-  }
-
-  // Use Vietnamese formatting and currency for Vietnamese language
-  if (language === "vi") {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      maximumFractionDigits: 0,
-    }).format(amount);
-  }
-
-  // Otherwise use USD for English and other languages
-  // Convert VND to USD
-  const amountInUsd = amount / exchangeRate;
-
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("vi-VN", {
     style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(amountInUsd);
+    currency: "VND",
+    maximumFractionDigits: 0,
+  }).format(amount);
 }
 
-// Helper function to convert between currencies
 export function convertCurrency(
   amount: number,
   fromCurrency: "VND" | "USD",
   toCurrency: "VND" | "USD"
 ): number {
-  // Default exchange rate: 1 USD = 24,500 VND
   const exchangeRate = 24500;
 
   if (fromCurrency === toCurrency) {

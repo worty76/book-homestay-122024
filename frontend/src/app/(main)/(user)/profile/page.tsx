@@ -30,7 +30,7 @@ export default function ProfilePage() {
 
   const menuItems = [
     { id: "personal", icon: UserIcon, label: "profile.personalInfo" },
-    { id: "security", icon: LockIcon, label: "profile.security" },
+    { id: "security", icon: LockIcon, label: t("profile.security") },
     { id: "bookings", icon: BookMarked, label: "profile.bookings" },
     // { id: "payment", icon: MapPinIcon, label: "profile.payment" },
     {
