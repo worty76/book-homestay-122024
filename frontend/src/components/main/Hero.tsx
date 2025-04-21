@@ -19,7 +19,11 @@ import WhatsappIcon from "../iconComponents/Whatsapp";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const socialLinks = [
-  { Icon: Facebook, name: "Facebook", url: "https://facebook.com" },
+  {
+    Icon: Facebook,
+    name: "Facebook",
+    url: "https://www.facebook.com/kenhomestaydn",
+  },
   {
     Icon: Instagram,
     name: "Instagram",

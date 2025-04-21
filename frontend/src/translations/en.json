@@ -414,7 +414,7 @@
       "description": "Learn about our story, mission, and how we're changing the way people experience travel and accommodation.",
       "keywords": "about us, homestay mission, our story, accommodation services",
       "organization": {
-        "name": "Ken Homestay",
+        "name": "Kén Homestay",
         "description": "Experience a peaceful homestay that combines traditional hospitality with modern comfort",
         "address": "123 Main Street, City, Country",
         "telephone": "+1234567890",
@@ -428,18 +428,18 @@
   },
   "aboutSection": {
     "warmService": "Warm space, attentive service",
-    "tagline": "Traditional breath Modern living rhythm",
+    "tagline": "Traditional breath Modern life",
     "description": "Let us bring you special experiences",
     "feature1": "Enjoy attentive care in every detail",
     "feature2": "Ready to serve you enthusiastically"
   },
   "hero": {
-    "title": "Welcome to Ken Homestay",
+    "title": "Welcome to Kén Homestay",
     "subtitle1": "Traditional breath",
-    "subtitle2": "Modern living rhythm"
+    "subtitle2": "Modern life"
   },
   "auth": {
-    "welcome": "Welcome to Ken Homestay",
+    "welcome": "Welcome to Kén Homestay",
     "description": "Book rooms and enjoy the experience of staying at your own home.",
     "noAccount": "Don't have an account?",
     "register": "Register",
@@ -484,14 +484,14 @@
   "about": {
     "header": {
       "title": "About",
-      "subtitle": "Ken Homestay",
-      "description": "Traditional breath, modern living rhythm - Boutique Homestay in Da Nang",
+      "subtitle": "Kén Homestay",
+      "description": "Traditional breath, modern life - Boutique Homestay in Da Nang",
       "finalPage": "About"
     },
     "story": {
       "title": "Our Story",
       "paragraph1": "“Ken“ Homestay – like a cocoon gently embracing your soul, bringing a place of peace and tranquility amidst the hustle and bustle of everyday life. Here, you can immerse yourself in the simple, rustic rhythm of the locals, rediscover serenity and authentic experiences – feelings like coming “home“ in a new land. It is in these moments that your spirit, like butterfly wings after days of quiet metamorphosis, once again radiates with life.",
-      "imageAlt": "Ken Homestay's story",
+      "imageAlt": "Kén Homestay's story",
       "paragraph2": "Not only that, “Ken“ is also inspired by the journey of Da Nang itself – a city that was once part of Quang Nam province, has gone through many stages of formation and development to become one of Vietnam's iconic destinations today. Like a cocoon nurturing transformation before revealing a new life, Da Nang has also undergone its own “metamorphosis“, leaving an impression of resilience, innovation and vibrant development."
     },
     "visionMission": {
@@ -503,8 +503,8 @@
     },
     "slogan": {
       "title": "Our Slogan",
-      "text": "“Traditional breath, modern living rhythm“",
-      "description": "Our slogan expresses the core philosophy of Ken Homestay - a place of intersection between traditional values and modern living. We value and preserve Vietnamese cultural identity, while providing modern amenities that meet the needs of travelers in the digital age."
+      "text": "“Traditional breath, modern life“",
+      "description": "Our slogan expresses the core philosophy of Kén Homestay - a place of intersection between traditional values and modern living. We value and preserve Vietnamese cultural identity, while providing modern amenities that meet the needs of travelers in the digital age."
     },
     "values": {
       "title": "Core Values",
@@ -515,7 +515,7 @@
       },
       "value2": {
         "title": "Customer-Centric",
-        "description": "Creating personalized experiences, bringing the most familiar and comfortable feeling to customers. Each traveler has their own story, and 'Ken' provides customized services to create a memorable stay experience."
+        "description": "Creating personalized experiences, bringing the most familiar and comfortable feeling to customers. Each traveler has their own story, and 'Kén' provides customized services to create a memorable stay experience."
       },
       "value3": {
         "title": "Environmentally Friendly Development",
@@ -524,59 +524,59 @@
     },
     "team": {
       "title": "Our Team",
-      "subtitle": "The passionate people behind Ken Homestay's success",
+      "subtitle": "The passionate people behind Kén Homestay's success",
       "member1": {
         "name": "Nguyen Van A",
         "role": "Director",
-        "bio": "With over 10 years of experience in the tourism and hospitality industry, Mr. Tuan is the founder of Ken Homestay, bringing a vision of the perfect combination of Vietnamese tradition and modern amenities."
+        "bio": "With over 10 years of experience in the tourism and hospitality industry, Mr. Tuan is the founder of Kén Homestay, bringing a vision of the perfect combination of Vietnamese tradition and modern amenities."
       },
       "member2": {
         "name": "Nguyen Van B",
         "role": "Deputy Director",
-        "bio": "With over 10 years of experience in the tourism and hospitality industry, Mr. Tuan is the founder of Ken Homestay, bringing a vision of the perfect combination of Vietnamese tradition and modern amenities."
+        "bio": "With over 10 years of experience in the tourism and hospitality industry, Mr. Tuan is the founder of Kén Homestay, bringing a vision of the perfect combination of Vietnamese tradition and modern amenities."
       },
       "member3": {
         "name": "Nguyen Van C",
         "role": "Manager",
-        "bio": "With over 10 years of experience in the tourism and hospitality industry, Mr. Tuan is the founder of Ken Homestay, bringing a vision of the perfect combination of Vietnamese tradition and modern amenities."
+        "bio": "With over 10 years of experience in the tourism and hospitality industry, Mr. Tuan is the founder of Kén Homestay, bringing a vision of the perfect combination of Vietnamese tradition and modern amenities."
       }
     },
     "testimonials": {
       "title": "Customer Feedback",
       "subtitle": "Shares from customers who have experienced our service",
       "testimonial1": {
-        "quote": "One of my most memorable vacations in Da Nang. The room at Ken Homestay truly brought me closer to Vietnamese culture and nature.",
+        "quote": "One of my most memorable vacations in Da Nang. The room at Kén Homestay truly brought me closer to Vietnamese culture and nature.",
         "author": "Ha Mai Linh",
         "location": "Hanoi"
       },
       "testimonial2": {
-        "quote": "I love every little detail in Ken Homestay's room design. The staff are extremely friendly and enthusiastic. I will definitely return next time!",
+        "quote": "I love every little detail in Kén Homestay's room design. The staff are extremely friendly and enthusiastic. I will definitely return next time!",
         "author": "Tran Minh Duc",
         "location": "Ho Chi Minh City"
       },
       "testimonial3": {
-        "quote": "Great location, easy access to tourist attractions. Ken Homestay is clean, comfortable and has a very unique design. The local experience activities are very worthwhile.",
+        "quote": "Great location, easy access to tourist attractions. Kén Homestay is clean, comfortable and has a very unique design. The local experience activities are very worthwhile.",
         "author": "Pham Thanh Ha",
         "location": "Da Nang"
       },
       "testimonial4": {
-        "quote": "Ken Homestay brings a feeling of coming home in a miniature Da Nang cultural space. I particularly enjoy how they combine modern and traditional elements.",
+        "quote": "Kén Homestay brings a feeling of coming home in a miniature Da Nang cultural space. I particularly enjoy how they combine modern and traditional elements.",
         "author": "Le Hoang Nam",
         "location": "Da Nang"
       }
     },
     "contact": {
       "title": "Contact Information",
-      "mapAlt": "Map of Ken Homestay location",
+      "mapAlt": "Map of Kén Homestay location",
       "subtitle": "Leave your information and we will contact you as soon as possible.",
       "locationTitle": "Our Location",
-      "locationDescription": "Ken Homestay is located in an ideal location in Da Nang, just a 10-minute walk from My Khe Beach and close to famous tourist attractions such as Ba Na Hills, Dragon Bridge, and especially convenient for traveling to Hoi An Ancient Town.",
+      "locationDescription": "Kén Homestay is located in an ideal location in Da Nang, just a 10-minute walk from My Khe Beach and close to famous tourist attractions such as Ba Na Hills, Dragon Bridge, and especially convenient for traveling to Hoi An Ancient Town.",
       "addressTitle": "Address",
       "address": "80 Le Van Hien Street, Khue My, Ngu Hanh Son, Da Nang, Vietnam",
       "hoursTitle": "Opening Hours",
       "checkInHours": "Check-in: 14:00 - 22:00",
       "checkOutHours": "Check-out: 12:00",
-      "contactTitle": "Contact Ken Homestay",
+      "contactTitle": "Contact Kén Homestay",
       "phoneTitle": "Phone Number",
       "emailTitle": "Email",
       "connectTitle": "Connect With Us",
@@ -607,7 +607,7 @@
   "experiences": {
     "pageHeader": {
       "title": "Experiences At",
-      "subtitle": "Ken Homestay",
+      "subtitle": "Kén Homestay",
       "description": "Discover Vietnamese culture through unique experiences",
       "finalPage": "Experiences"
     },
@@ -735,26 +735,31 @@
     }
   },
   "contact": {
-    "homestayName": "Kén Homestay",
-    "description": "Boutique Homestay in Da Nang, where traditional breath meets modern living rhythm. We bring you an elegant living space and memorable local experiences.",
-    "booking": "Booking",
-    "email": "Email",
-    "address": "Address",
-    "addressDetails": "123 Nguyen Van Linh Street, Hai Chau District, Da Nang, Vietnam",
-    "formTitle": "Contact Us",
-    "formDescription": "Fill in the information below and we will respond as soon as possible",
-    "fullname": "Enter your full name",
-    "emailInput": "Enter your email address",
-    "subject": "Enter subject",
-    "message": "Enter your message",
-    "sendButton": "SEND MESSAGE",
-    "sending": "SENDING...",
-    "successTitle": "Message sent successfully!",
-    "successDescription": "We will contact you as soon as possible.",
-    "timeoutError": "Request timed out",
-    "timeoutDescription": "Please check your connection and try again later.",
-    "sendError": "Could not send message",
-    "unknownError": "An unknown error occurred. Please try again later."
+    "title": "Liên hệ với chúng tôi",
+    "description": "Liên hệ với chúng tôi để nhận được sự hỗ trợ tốt nhất.",
+    "finalPage": "Liên hệ",
+    "contactForm": {
+      "homestayName": "Kén Homestay",
+      "description": "Boutique Homestay in Da Nang, where traditional breath meets modern life. We bring you an elegant living space and memorable local experiences.",
+      "booking": "Booking",
+      "email": "Email",
+      "address": "Address",
+      "addressDetails": "123 Nguyen Van Linh Street, Hai Chau District, Da Nang, Vietnam",
+      "formTitle": "Contact Us",
+      "formDescription": "Fill in the information below and we will respond as soon as possible",
+      "fullname": "Enter your full name",
+      "emailInput": "Enter your email address",
+      "subject": "Enter subject",
+      "message": "Enter your message",
+      "sendButton": "SEND MESSAGE",
+      "sending": "SENDING...",
+      "successTitle": "Message sent successfully!",
+      "successDescription": "We will contact you as soon as possible.",
+      "timeoutError": "Request timed out",
+      "timeoutDescription": "Please check your connection and try again later.",
+      "sendError": "Could not send message",
+      "unknownError": "An unknown error occurred. Please try again later."
+    }
   },
   "footer": {
     "supportInfo": "Support Information",
@@ -790,6 +795,7 @@
     "loadingMore": "Loading more images...",
     "photographer": "Photographer"
   },
+
   "blog": {
     "title": "Our Blog",
     "subtitle": "Read interesting articles",
