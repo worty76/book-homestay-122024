@@ -20,7 +20,7 @@ export function Footer() {
               alt="Logo"
               width={140}
               height={70}
-              className="text-center"
+              className="text-center mb-4"
             />
             <p className="mb-1">Phạm Hùng, Q.Nam Từ Liêm, Hà Nội</p>
             <p className="mb-1">
@@ -94,7 +94,7 @@ export function Footer() {
               />
             </Link>
             <Link
-              href="#"
+              href="https://www.facebook.com/kenhomestaydn"
               className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
             >
               <Image
@@ -190,10 +190,10 @@ export function Footer() {
 
         {/* Desktop Layout */}
         <div className="hidden lg:block">
-          <div className="container mx-auto">
-            <div className="flex justify-between items-start mb-[56px] mr-[56px] ml-[56px]">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-wrap justify-between items-start mb-12">
               {/* Support Information */}
-              <div className="flex flex-col justify-start items-start w-60">
+              <div className="w-60 md:flex-none">
                 <h3 className="text-lg font-bold mb-4">
                   {t("footer.supportInfo")}
                 </h3>
@@ -232,18 +232,18 @@ export function Footer() {
               </div>
 
               {/* Contact Information */}
-              <div className="text-center text-base font-normal border-[#9c6b4a] border-x px-60">
-                <div className="flex justify-center items-center mb-[14px]">
+              <div className="text-center text-base font-normal border-[#9c6b4a] border-x px-20 md:px-40 lg:px-60">
+                <div className="flex flex-col items-center mb-[14px]">
                   <Image
                     src="/images/LogoKen-03.png"
                     alt="Logo"
                     width={140}
                     height={70}
-                    className="text-center"
+                    className="mb-4"
                   />
                 </div>
-                <p className="">Phạm Hùng, Q. Nam Từ Liêm, Hà Nội</p>
-                <p className="">
+                <p className="mb-1">Phạm Hùng, Q. Nam Từ Liêm, Hà Nội</p>
+                <p className="mb-1">
                   {t("footer.hotline")} ({t("footer.officialHours")}):
                   0925090669
                 </p>
@@ -272,10 +272,9 @@ export function Footer() {
           </div>
 
           {/* Social Icons for Desktop */}
-          <div className="relative flex items-center justify-center space-x-8">
+          <div className="relative flex items-center justify-center space-x-8 my-8">
             <div className="absolute left-0 top-1/2 h-px bg-[#9c6b4a] w-[calc(50%-2rem)]"></div>
             <div className="flex space-x-8 z-10 bg-[#f9f5e3]">
-              {/* Social icons remain unchanged */}
               <Link
                 href="tel:0925090669"
                 className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
@@ -289,7 +288,7 @@ export function Footer() {
                 />
               </Link>
               <Link
-                href="#"
+                href="https://www.facebook.com/kenhomestaydn"
                 className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
               >
                 <Image
@@ -329,59 +328,68 @@ export function Footer() {
           </div>
 
           {/* Desktop Copyright and Links */}
-          <>
-            <div className="container mx-auto">
-              <div className="py-4 px-14 flex justify-between items-center">
-                <span>{t("footer.copyright")}</span>
-                <div className="flex gap-4">
-                  <Image
-                    src="/images/VCB.svg"
-                    alt="vcb"
-                    width={40}
-                    height={30}
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                  <Image
-                    src="/images/BIDV.svg"
-                    alt="bidv"
-                    width={30}
-                    height={30}
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                  <Image
-                    src="/images/VTB.svg"
-                    alt="vtb"
-                    width={40}
-                    height={30}
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                </div>
+          <div className="container mx-auto">
+            <div className="py-4 px-4 md:px-14 flex flex-wrap justify-between items-center">
+              <span className="text-center w-full md:w-auto mb-4 md:mb-0">
+                {t("footer.copyright")}
+              </span>
+              <div className="flex gap-4 justify-center w-full md:w-auto">
+                <Image
+                  src="/images/VCB.svg"
+                  alt="vcb"
+                  width={40}
+                  height={30}
+                  style={{ width: "auto", height: "auto" }}
+                />
+                <Image
+                  src="/images/BIDV.svg"
+                  alt="bidv"
+                  width={30}
+                  height={30}
+                  style={{ width: "auto", height: "auto" }}
+                />
+                <Image
+                  src="/images/VTB.svg"
+                  alt="vtb"
+                  width={40}
+                  height={30}
+                  style={{ width: "auto", height: "auto" }}
+                />
               </div>
             </div>
-            <div className="bg-[#1D1D1D] border-t border-gray-800 py-6">
-              <div className="flex flex-wrap justify-around items-center container mx-auto">
-                <Link href="/about" className="flex items-center">
-                  <MapPin className="w-4 h-4 mr-2 text-yellow-500" />{" "}
-                  {t("footer.bottomLinks.map")}
-                </Link>
-                <Link href="tel:0925090669" className="flex items-center">
-                  <Phone className="w-4 h-4 mr-2 text-yellow-500" />{" "}
-                  {t("footer.hotline")}: 0925090669
-                </Link>
-                <Link
-                  href="mailto:info.kenhomestay@gmail.com"
-                  className="flex items-center"
-                >
-                  <Mail className="w-4 h-4 mr-2 text-yellow-500" />{" "}
-                  {t("footer.email")}: info.kenhomestay@gmail.com
-                </Link>
-                <Link href="/gallery" className="flex items-center">
-                  <Camera className="w-4 h-4 mr-2 text-yellow-500" />{" "}
-                  {t("footer.bottomLinks.images")}
-                </Link>
-              </div>
+          </div>
+          <div className="bg-[#1D1D1D] border-t border-gray-800 py-6">
+            <div className="flex flex-wrap justify-around items-center container mx-auto px-4">
+              <Link
+                href="/about"
+                className="flex items-center text-white mb-3 md:mb-0"
+              >
+                <MapPin className="w-4 h-4 mr-2 text-yellow-500" />{" "}
+                {t("footer.bottomLinks.map")}
+              </Link>
+              <Link
+                href="tel:0925090669"
+                className="flex items-center text-white mb-3 md:mb-0"
+              >
+                <Phone className="w-4 h-4 mr-2 text-yellow-500" />{" "}
+                {t("footer.hotline")}: 0925090669
+              </Link>
+              <Link
+                href="mailto:info.kenhomestay@gmail.com"
+                className="flex items-center text-white mb-3 md:mb-0"
+              >
+                <Mail className="w-4 h-4 mr-2 text-yellow-500" />{" "}
+                {t("footer.email")}: info.kenhomestay@gmail.com
+              </Link>
+              <Link
+                href="/gallery"
+                className="flex items-center text-white mb-3 md:mb-0"
+              >
+                <Camera className="w-4 h-4 mr-2 text-yellow-500" />{" "}
+                {t("footer.bottomLinks.images")}
+              </Link>
             </div>
-          </>
+          </div>
         </div>
       </div>
     </footer>
