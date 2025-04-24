@@ -9,81 +9,42 @@ export function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className="bg-[#f9f5e3] text-[#9c6b4a] text-sm font-sans pt-20">
+    <footer className="bg-[#f9f5e3] text-[#9c6b4a] text-sm font-sans pt-12">
       <div className="mx-auto">
         {/* Mobile Layout */}
         <div className="lg:hidden px-6 py-8 flex flex-col items-center text-center">
           {/* Logo Section */}
-          <div className="mb-6 flex flex-col items-center">
+          <div className="mb-8 flex flex-col items-center">
             <Image
               src="/images/LogoKen-03.png"
               alt="Logo"
               width={140}
               height={70}
-              className="text-center mb-4"
+              className="text-center mb-6"
             />
-            <p className="mb-1">Phạm Hùng, Q.Nam Từ Liêm, Hà Nội</p>
-            <p className="mb-1">
+            <p className="mb-2">Phạm Hùng, Q.Nam Từ Liêm, Hà Nội</p>
+            <p className="mb-2">
               Hotline ({t("footer.officialHours")}): 0925090669
             </p>
             <p>{t("footer.email")}: info.kenhomestay@gmail.com</p>
           </div>
 
-          {/* Support Information */}
-          <div className="w-full mb-8">
-            <h3 className="text-lg font-bold mb-4 text-left">
-              {t("footer.supportInfo")}
-            </h3>
-            <ul className="grid grid-cols-2 gap-4 text-left">
-              <li>
-                <Link href="#" className="hover:underline">
-                  {t("footer.guide")}
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:underline">
-                  {t("footer.faq")}
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:underline">
-                  {t("footer.about")}
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:underline">
-                  {t("footer.policy")}
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:underline">
-                  {t("footer.feedback")}
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:underline">
-                  {t("footer.services")}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
           {/* Opening Hours */}
           <div className="w-full mb-8">
-            <h3 className="text-lg font-bold mb-4 text-left">
+            <h3 className="text-lg font-bold mb-4 text-center">
               {t("footer.openingHours")}
             </h3>
-            <div className="text-left">
+            <div className="text-center">
               <p className="mb-2">{t("footer.monToFri")}</p>
               <p>{t("footer.satToSun")}</p>
             </div>
           </div>
 
           {/* Social Media Icons */}
-          <div className="flex justify-center space-x-4 mb-6 border-t border-b border-[#9c6b4a] w-full py-6">
+          <div className="flex justify-center space-x-5 mb-8 border-t border-b border-[#9c6b4a] w-full py-6">
             <Link
               href="tel:0925090669"
-              className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
+              className="flex items-center justify-center w-11 h-11 rounded-full border border-[#9c6b4a] hover:bg-[#9c6b4a] hover:text-white transition-all duration-300"
             >
               <Image
                 src="/icons/whatsappColor.svg"
@@ -95,7 +56,7 @@ export function Footer() {
             </Link>
             <Link
               href="https://www.facebook.com/kenhomestaydn"
-              className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
+              className="flex items-center justify-center w-11 h-11 rounded-full border border-[#9c6b4a] hover:bg-[#9c6b4a] hover:text-white transition-all duration-300"
             >
               <Image
                 src="/icons/facebook.svg"
@@ -107,7 +68,7 @@ export function Footer() {
             </Link>
             <Link
               href="tel:0925090669"
-              className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
+              className="flex items-center justify-center w-11 h-11 rounded-full border border-[#9c6b4a] hover:bg-[#9c6b4a] hover:text-white transition-all duration-300"
             >
               <Image
                 src="/icons/ZaloColor.svg"
@@ -119,7 +80,7 @@ export function Footer() {
             </Link>
             <Link
               href="https://www.instagram.com/ken_homestay/?utm_source=ig_web_button_share_sheet"
-              className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
+              className="flex items-center justify-center w-11 h-11 rounded-full border border-[#9c6b4a] hover:bg-[#9c6b4a] hover:text-white transition-all duration-300"
             >
               <Image
                 src="/icons/insta.svg"
@@ -131,57 +92,40 @@ export function Footer() {
             </Link>
           </div>
 
-          {/* Copyright and Payment Methods */}
-          <div className="text-center mb-6">
-            <p className="mb-4">{t("footer.copyright")}</p>
-            <div className="flex justify-center gap-4">
-              <Image
-                src="/images/VCB.svg"
-                alt="vcb"
-                width={40}
-                height={30}
-                style={{ width: "auto", height: "auto" }}
-              />
-              <Image
-                src="/images/BIDV.svg"
-                alt="bidv"
-                width={30}
-                height={30}
-                style={{ width: "auto", height: "auto" }}
-              />
-              <Image
-                src="/images/VTB.svg"
-                alt="vtb"
-                width={40}
-                height={30}
-                style={{ width: "auto", height: "auto" }}
-              />
-            </div>
+          {/* Copyright */}
+          <div className="text-center mb-8">
+            <p>{t("footer.copyright")}</p>
           </div>
 
           {/* Bottom Navigation */}
-          <div className="bg-[#1D1D1D] w-full py-4 px-6">
+          <div className="bg-[#1D1D1D] w-full py-5 px-6 rounded-t-lg">
             <div className="flex flex-col space-y-4">
-              <Link href="" className="flex items-center text-white">
-                <MapPin className="w-4 h-4 mr-2 text-yellow-500" />
+              <Link
+                href=""
+                className="flex items-center text-white hover:text-yellow-400 transition-colors"
+              >
+                <MapPin className="w-4 h-4 mr-3 text-yellow-500" />
                 {t("footer.destinationMap")}
               </Link>
               <Link
                 href="tel:0925090669"
-                className="flex items-center text-white"
+                className="flex items-center text-white hover:text-yellow-400 transition-colors"
               >
-                <Phone className="w-4 h-4 mr-2 text-yellow-500" />
+                <Phone className="w-4 h-4 mr-3 text-yellow-500" />
                 {t("footer.hotline")}: 0925090669
               </Link>
               <Link
                 href="mailto:info.kenhomestay@gmail.com"
-                className="flex items-center text-white"
+                className="flex items-center text-white hover:text-yellow-400 transition-colors"
               >
-                <Mail className="w-4 h-4 mr-2 text-yellow-500" />
+                <Mail className="w-4 h-4 mr-3 text-yellow-500" />
                 {t("footer.email")}: info.kenhomestay@gmail.com
               </Link>
-              <Link href="#" className="flex items-center text-white">
-                <Camera className="w-4 h-4 mr-2 text-yellow-500" />
+              <Link
+                href="#"
+                className="flex items-center text-white hover:text-yellow-400 transition-colors"
+              >
+                <Camera className="w-4 h-4 mr-3 text-yellow-500" />
                 {t("footer.gallery")}
               </Link>
             </div>
@@ -190,60 +134,21 @@ export function Footer() {
 
         {/* Desktop Layout */}
         <div className="hidden lg:block">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-wrap justify-between items-start mb-12">
-              {/* Support Information */}
-              <div className="w-60 md:flex-none">
-                <h3 className="text-lg font-bold mb-4">
-                  {t("footer.supportInfo")}
-                </h3>
-                <ul className="grid grid-cols-2 gap-4 gap-x-10">
-                  <li>
-                    <Link href="#" className="hover:underline">
-                      {t("footer.guide")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="hover:underline">
-                      {t("footer.faq")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="hover:underline">
-                      {t("footer.about")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="hover:underline">
-                      {t("footer.policy")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="hover:underline">
-                      {t("footer.feedback")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="hover:underline">
-                      {t("footer.services")}
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-
+          <div className="container mx-auto px-6">
+            <div className="flex justify-between items-start mb-12">
               {/* Contact Information */}
-              <div className="text-center text-base font-normal border-[#9c6b4a] border-x px-20 md:px-40 lg:px-60">
-                <div className="flex flex-col items-center mb-[14px]">
+              <div className="text-center text-base font-normal justify-center">
+                <div className="flex flex-col items-center mb-6">
                   <Image
                     src="/images/LogoKen-03.png"
                     alt="Logo"
                     width={140}
                     height={70}
-                    className="mb-4"
+                    className="mb-6"
                   />
                 </div>
-                <p className="mb-1">Phạm Hùng, Q. Nam Từ Liêm, Hà Nội</p>
-                <p className="mb-1">
+                <p className="mb-2">Phạm Hùng, Q. Nam Từ Liêm, Hà Nội</p>
+                <p className="mb-2">
                   {t("footer.hotline")} ({t("footer.officialHours")}):
                   0925090669
                 </p>
@@ -259,25 +164,23 @@ export function Footer() {
               </div>
 
               {/* Opening Hours */}
-              <div className="flex justify-end items-start ms-4">
-                <div className="flex flex-col justify-end items-start">
-                  <h3 className="text-lg font-bold mb-4">
-                    {t("footer.openingHours")}
-                  </h3>
-                  <p className="mb-2">{t("footer.monToFri")}</p>
-                  <p>{t("footer.satToSun")}</p>
-                </div>
+              <div className="flex flex-col justify-center items-start my-auto">
+                <h3 className="text-lg font-bold mb-4">
+                  {t("footer.openingHours")}
+                </h3>
+                <p className="mb-2">{t("footer.monToFri")}</p>
+                <p>{t("footer.satToSun")}</p>
               </div>
             </div>
           </div>
 
           {/* Social Icons for Desktop */}
-          <div className="relative flex items-center justify-center space-x-8 my-8">
-            <div className="absolute left-0 top-1/2 h-px bg-[#9c6b4a] w-[calc(50%-2rem)]"></div>
-            <div className="flex space-x-8 z-10 bg-[#f9f5e3]">
+          <div className="relative flex items-center justify-center space-x-8 my-10">
+            <div className="absolute left-0 top-1/2 h-px bg-[#9c6b4a] w-[calc(50%-8rem)]"></div>
+            <div className="flex space-x-10 z-10 bg-[#f9f5e3] px-8">
               <Link
                 href="tel:0925090669"
-                className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
+                className="flex items-center justify-center w-12 h-12 rounded-full border border-[#9c6b4a] hover:bg-[#9c6b4a] hover:text-white transition-all duration-300"
               >
                 <Image
                   src="/icons/whatsappColor.svg"
@@ -289,7 +192,7 @@ export function Footer() {
               </Link>
               <Link
                 href="https://www.facebook.com/kenhomestaydn"
-                className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
+                className="flex items-center justify-center w-12 h-12 rounded-full border border-[#9c6b4a] hover:bg-[#9c6b4a] hover:text-white transition-all duration-300"
               >
                 <Image
                   src="/icons/facebook.svg"
@@ -301,7 +204,7 @@ export function Footer() {
               </Link>
               <Link
                 href="tel:0925090669"
-                className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
+                className="flex items-center justify-center w-12 h-12 rounded-full border border-[#9c6b4a] hover:bg-[#9c6b4a] hover:text-white transition-all duration-300"
               >
                 <Image
                   src="/icons/ZaloColor.svg"
@@ -313,7 +216,7 @@ export function Footer() {
               </Link>
               <Link
                 href="https://www.instagram.com/ken_homestay/?utm_source=ig_web_button_share_sheet"
-                className="flex items-center justify-center w-10 h-10 rounded-full border border-[#9c6b4a] hover:border-black transition"
+                className="flex items-center justify-center w-12 h-12 rounded-full border border-[#9c6b4a] hover:bg-[#9c6b4a] hover:text-white transition-all duration-300"
               >
                 <Image
                   src="/icons/insta.svg"
@@ -324,68 +227,45 @@ export function Footer() {
                 />
               </Link>
             </div>
-            <div className="absolute right-0 top-1/2 h-px bg-[#9c6b4a] w-[calc(50%-2rem)]"></div>
+            <div className="absolute right-0 top-1/2 h-px bg-[#9c6b4a] w-[calc(50%-8rem)]"></div>
           </div>
 
-          {/* Desktop Copyright and Links */}
+          {/* Desktop Copyright */}
           <div className="container mx-auto">
-            <div className="py-4 px-4 md:px-14 flex flex-wrap justify-between items-center">
-              <span className="text-center w-full md:w-auto mb-4 md:mb-0">
-                {t("footer.copyright")}
-              </span>
-              <div className="flex gap-4 justify-center w-full md:w-auto">
-                <Image
-                  src="/images/VCB.svg"
-                  alt="vcb"
-                  width={40}
-                  height={30}
-                  style={{ width: "auto", height: "auto" }}
-                />
-                <Image
-                  src="/images/BIDV.svg"
-                  alt="bidv"
-                  width={30}
-                  height={30}
-                  style={{ width: "auto", height: "auto" }}
-                />
-                <Image
-                  src="/images/VTB.svg"
-                  alt="vtb"
-                  width={40}
-                  height={30}
-                  style={{ width: "auto", height: "auto" }}
-                />
-              </div>
+            <div className="py-4 px-6 md:px-14 flex justify-center items-center">
+              <span className="text-center">{t("footer.copyright")}</span>
             </div>
           </div>
-          <div className="bg-[#1D1D1D] border-t border-gray-800 py-6">
-            <div className="flex flex-wrap justify-around items-center container mx-auto px-4">
+
+          {/* Bottom Navigation */}
+          <div className="bg-[#1D1D1D] border-t border-gray-800 py-6 rounded-t-lg">
+            <div className="flex flex-wrap justify-around items-center container mx-auto px-6">
               <Link
                 href="/about"
-                className="flex items-center text-white mb-3 md:mb-0"
+                className="flex items-center text-white hover:text-yellow-400 transition-colors"
               >
-                <MapPin className="w-4 h-4 mr-2 text-yellow-500" />{" "}
+                <MapPin className="w-4 h-4 mr-3 text-yellow-500" />{" "}
                 {t("footer.bottomLinks.map")}
               </Link>
               <Link
                 href="tel:0925090669"
-                className="flex items-center text-white mb-3 md:mb-0"
+                className="flex items-center text-white hover:text-yellow-400 transition-colors"
               >
-                <Phone className="w-4 h-4 mr-2 text-yellow-500" />{" "}
+                <Phone className="w-4 h-4 mr-3 text-yellow-500" />{" "}
                 {t("footer.hotline")}: 0925090669
               </Link>
               <Link
                 href="mailto:info.kenhomestay@gmail.com"
-                className="flex items-center text-white mb-3 md:mb-0"
+                className="flex items-center text-white hover:text-yellow-400 transition-colors"
               >
-                <Mail className="w-4 h-4 mr-2 text-yellow-500" />{" "}
+                <Mail className="w-4 h-4 mr-3 text-yellow-500" />{" "}
                 {t("footer.email")}: info.kenhomestay@gmail.com
               </Link>
               <Link
                 href="/gallery"
-                className="flex items-center text-white mb-3 md:mb-0"
+                className="flex items-center text-white hover:text-yellow-400 transition-colors"
               >
-                <Camera className="w-4 h-4 mr-2 text-yellow-500" />{" "}
+                <Camera className="w-4 h-4 mr-3 text-yellow-500" />{" "}
                 {t("footer.bottomLinks.images")}
               </Link>
             </div>

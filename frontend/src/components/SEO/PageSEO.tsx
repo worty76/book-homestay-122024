@@ -21,7 +21,7 @@ export function generatePageMetadata({
   locale = "en_US",
 }: PageSEOProps): Metadata {
   const baseUrl = "https://ken-homestay.com";
-  const fullTitle = `${title} | Ken Homestay`;
+  const fullTitle = `${title} | Kén Homestay`;
 
   return {
     title: fullTitle,
@@ -31,7 +31,7 @@ export function generatePageMetadata({
       title: fullTitle,
       description,
       url: canonical ? `${baseUrl}${canonical}` : baseUrl,
-      siteName: "Ken Homestay",
+      siteName: "Kén Homestay",
       images: [
         {
           url: ogImage.startsWith("http") ? ogImage : `${baseUrl}${ogImage}`,

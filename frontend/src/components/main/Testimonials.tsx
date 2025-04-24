@@ -73,16 +73,6 @@ export function Testimonials() {
                 transition={{ duration: 0.5 }}
                 className="flex flex-col items-center"
               >
-                <div className="mb-8">
-                  <Avatar className="w-20 h-20 border-4 border-[#8a9a5b] shadow-xl">
-                    <AvatarImage
-                      src={testimonials[currentTestimonial].avatar}
-                    />
-                    <AvatarFallback>
-                      {testimonials[currentTestimonial].author[0]}
-                    </AvatarFallback>
-                  </Avatar>
-                </div>
                 <blockquote className="max-w-3xl mx-auto mb-8">
                   <p className="text-xl leading-relaxed text-[#F3ECDC]/90 italic">
                     "{testimonials[currentTestimonial].content}"

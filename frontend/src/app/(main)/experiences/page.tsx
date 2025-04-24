@@ -309,6 +309,13 @@ export default function ExperiencesPage() {
                     <CalendarClock className="h-3 w-3 mr-1" />
                     {t("experiences.cookingClass.availability")}
                   </Badge>
+                  <Badge
+                    variant="outline"
+                    className="text-xs border-[#9C6B4A] text-[#7A5230]"
+                  >
+                    <DollarSign className="h-3 w-3 mr-1" />
+                    {t("experiences.cookingClass.price")}
+                  </Badge>
                 </div>
 
                 <p className="text-[#5a6065] mb-4 leading-relaxed">

@@ -4,7 +4,7 @@ import ClientLayout from "@/components/layouts/ClientLayout";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
-  title: "Ken Homestay - Find Your Perfect Stay",
+  title: "Kén Homestay - Find Your Perfect Stay",
   description:
     "Book comfortable and authentic homestays for your next adventure. Find the perfect accommodation with our curated selection of homestays.",
   metadataBase: new URL(

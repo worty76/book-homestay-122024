@@ -27,7 +27,7 @@ const AnotherHero = ({ title, description }: Props) => {
               Contact
             </p>
             <h2 className="text-white  font-serif tracking-wider">
-              <span>Trang chủ</span> &gt; <span>Liên hệ</span>
+              <span>Home page</span> &gt; <span>Contact</span>
             </h2>
           </div>
         </main>
