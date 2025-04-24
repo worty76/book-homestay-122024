@@ -18,19 +18,19 @@ function HomeContent() {
   return (
     <>
       <OrganizationJsonLd
-        name="Ken Homestay"
+        name="Kén Homestay"
         url="https://ken-homestay.com"
         logo="https://ken-homestay.com/images/logo.png"
-        address="123 Main Street, City, Country"
+        address="80 Main Street, City, Country"
         telephone="+1234567890"
       />
       <AccommodationJsonLd
-        name="Ken Homestay"
-        description="Experience luxury homestay accommodations with Ken Homestay. Book your perfect stay with premium amenities, comfortable rooms and authentic local experiences."
+        name="Kén Homestay"
+        description="Experience luxury homestay accommodations with Kén Homestay. Book your perfect stay with premium amenities, comfortable rooms and authentic local experiences."
         image="https://ken-homestay.com/images/homestay-exterior.jpg"
         url="https://ken-homestay.com"
         priceRange="$$$"
-        address="123 Main Street, City, Country"
+        address="80 Le Van Hien Street, Khue My, Ngu Hanh Son, Da Nang, Vietnam"
         rating={4.8}
         reviewCount={124}
       />

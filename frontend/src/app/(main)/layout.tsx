@@ -3,23 +3,23 @@ import "@/app/globals.css";
 import { openSans, pinyonScript, playFair, roboto } from "@/lib/fonts";
 
 export const metadata: Metadata = {
-  title: "Ken Homestay - Your Perfect Vacation Stay",
+  title: "Kén Homestay - Your Perfect Vacation Stay",
   description:
     "Discover beautiful and comfortable homestays for your next adventure. Book directly for the best rates and authentic local experiences.",
   keywords:
     "homestay, accommodation, vacation rental, local experience, travel, booking",
   openGraph: {
-    title: "Ken Homestay - Your Perfect Vacation Stay",
+    title: "Kén Homestay - Your Perfect Vacation Stay",
     description:
       "Discover beautiful and comfortable homestays for your next adventure. Book directly for the best rates and authentic local experiences.",
     url: "https://ken-homestay.com",
-    siteName: "Ken Homestay",
+    siteName: "Kén Homestay",
     images: [
       {
         url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Ken Homestay",
+        alt: "Kén Homestay",
       },
     ],
     locale: "en_US",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ken Homestay - Your Perfect Vacation Stay",
+    title: "Kén Homestay - Your Perfect Vacation Stay",
     description:
       "Discover beautiful and comfortable homestays for your next adventure. Book directly for the best rates.",
     images: ["/images/og-image.jpg"],

@@ -437,7 +437,7 @@
       "organization": {
         "name": "Kén Homestay",
         "description": "Trải nghiệm homestay yên bình kết hợp giữa sự hiếu khách truyền thống và sự thoải mái hiện đại",
-        "address": "123 đường Main, Thành phố, Quốc gia",
+        "address": "80 Le Van Hien Street, Khue My, Ngu Hanh Son, Da Nang, Vietnam",
         "telephone": "+1234567890",
         "email": "info@kenhomestay.com"
       },
@@ -765,7 +765,7 @@
       "booking": "Booking",
       "email": "Email",
       "address": "Address",
-      "addressDetails": "123 Nguyen Van Linh Street, Hai Chau District, Da Nang, Vietnam",
+      "addressDetails": "80 Le Van Hien Street, Khue My, Ngu Hanh Son, Da Nang, Vietnam",
       "formTitle": "Contact Us",
       "formDescription": "Fill in the information below and we will respond as soon as possible",
       "fullname": "Enter your full name",

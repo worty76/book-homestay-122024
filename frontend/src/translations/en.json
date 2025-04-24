@@ -416,8 +416,8 @@
       "organization": {
         "name": "Kén Homestay",
         "description": "Experience a peaceful homestay that combines traditional hospitality with modern comfort",
-        "address": "123 Main Street, City, Country",
-        "telephone": "+1234567890",
+        "address": "80 Le Van Hien Street, Khue My, Ngu Hanh Son, Da Nang, Vietnam",
+        "telephone": "+84 905 868 868",
         "email": "info@kenhomestay.com"
       },
       "breadcrumbs": {
@@ -490,16 +490,16 @@
     },
     "story": {
       "title": "Our Story",
-      "paragraph1": "“Ken“ Homestay – like a cocoon gently embracing your soul, bringing a place of peace and tranquility amidst the hustle and bustle of everyday life. Here, you can immerse yourself in the simple, rustic rhythm of the locals, rediscover serenity and authentic experiences – feelings like coming “home“ in a new land. It is in these moments that your spirit, like butterfly wings after days of quiet metamorphosis, once again radiates with life.",
+      "paragraph1": "“Kén“ Homestay – like a cocoon gently embracing your soul, bringing a place of peace and tranquility amidst the hustle and bustle of everyday life. Here, you can immerse yourself in the simple, rustic rhythm of the locals, rediscover serenity and authentic experiences – feelings like coming “home“ in a new land. It is in these moments that your spirit, like butterfly wings after days of quiet metamorphosis, once again radiates with life.",
       "imageAlt": "Kén Homestay's story",
-      "paragraph2": "Not only that, “Ken“ is also inspired by the journey of Da Nang itself – a city that was once part of Quang Nam province, has gone through many stages of formation and development to become one of Vietnam's iconic destinations today. Like a cocoon nurturing transformation before revealing a new life, Da Nang has also undergone its own “metamorphosis“, leaving an impression of resilience, innovation and vibrant development."
+      "paragraph2": "Not only that, “Kén“ is also inspired by the journey of Da Nang itself – a city that was once part of Quang Nam province, has gone through many stages of formation and development to become one of Vietnam's iconic destinations today. Like a cocoon nurturing transformation before revealing a new life, Da Nang has also undergone its own “metamorphosis“, leaving an impression of resilience, innovation and vibrant development."
     },
     "visionMission": {
       "title": "Vision And Mission",
       "visionTitle": "Vision",
       "visionText": "To become the leading Boutique Homestay brand in Da Nang, providing customers with sophisticated accommodation spaces combined with unique experience activities, imbued with local cultural identity and traditions.",
       "missionTitle": "Mission",
-      "missionText": "“Ken” is committed to providing customers with a cozy, comfortable space like “home”, where you can immerse yourself in the simple lifestyle of the locals. We constantly bring authentic and unique experiences, while contributing to preserving and spreading the distinctive cultural values of the Central region."
+      "missionText": "“Kén” is committed to providing customers with a cozy, comfortable space like “home”, where you can immerse yourself in the simple lifestyle of the locals. We constantly bring authentic and unique experiences, while contributing to preserving and spreading the distinctive cultural values of the Central region."
     },
     "slogan": {
       "title": "Our Slogan",
@@ -735,16 +735,16 @@
     }
   },
   "contact": {
-    "title": "Liên hệ với chúng tôi",
-    "description": "Liên hệ với chúng tôi để nhận được sự hỗ trợ tốt nhất.",
-    "finalPage": "Liên hệ",
+    "title": "Contact Us",
+    "description": "Contact us for the best support.",
+    "finalPage": "Contact",
     "contactForm": {
       "homestayName": "Kén Homestay",
       "description": "Boutique Homestay in Da Nang, where traditional breath meets modern life. We bring you an elegant living space and memorable local experiences.",
       "booking": "Booking",
       "email": "Email",
       "address": "Address",
-      "addressDetails": "123 Nguyen Van Linh Street, Hai Chau District, Da Nang, Vietnam",
+      "addressDetails": "80 Le Van Hien Street, Khue My, Ngu Hanh Son, Da Nang, Vietnam",
       "formTitle": "Contact Us",
       "formDescription": "Fill in the information below and we will respond as soon as possible",
       "fullname": "Enter your full name",

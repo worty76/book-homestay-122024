@@ -204,7 +204,7 @@ export function ArticleJsonLd({
     },
     publisher: {
       "@type": "Organization",
-      name: "Ken Homestay",
+      name: "Kén Homestay",
       logo: {
         "@type": "ImageObject",
         url: "https://ken-homestay.com/images/logo.png",
