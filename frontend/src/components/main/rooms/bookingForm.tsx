@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Calendar as CalendarIcon, Users } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -61,6 +61,29 @@ export default function BookingForm({ room }: BookingFormProps) {
     from: checkInDate,
     to: checkOutDate,
   };
+
+  // Convert bookedDates to an array of disabled dates for the calendar
+  const getDisabledDates = useCallback(() => {
+    if (!room.bookedDates || room.bookedDates.length === 0) return [];
+
+    const disabledDates: Date[] = [];
+
+    room.bookedDates.forEach((booking) => {
+      if (booking.status === "confirmed" || booking.status === "pending") {
+        const start = new Date(booking.startAt);
+        const end = new Date(booking.endAt);
+
+        // Create a range of dates between start and end
+        const currentDate = new Date(start);
+        while (currentDate <= end) {
+          disabledDates.push(new Date(currentDate));
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+      }
+    });
+
+    return disabledDates;
+  }, [room.bookedDates]);
 
   return (
     <Card className="border-none shadow-md overflow-hidden">

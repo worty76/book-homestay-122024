@@ -14,6 +14,9 @@ import {
 interface BookingsDataTableProps {
   bookings: BookingWithDetails[];
   onViewDetails: (booking: BookingWithDetails) => void;
+  onConfirm?: (id: string) => void;
+  onCancel?: (id: string) => void;
+  loading?: string | null;
 }
 
 export function BookingsDataTable({
@@ -64,19 +67,25 @@ export function BookingsDataTable({
     createColumn<BookingWithDetails, string>(
       "status",
       "Status",
-      (props: any) => (
-        <Badge
-          variant={
-            props.row.original.status === "confirmed"
-              ? "default"
-              : props.row.original.status === "cancelled"
-              ? "destructive"
-              : "secondary"
-          }
-        >
-          {props.row.original.status}
-        </Badge>
-      )
+      (props: any) => {
+        const booking = props.row.original;
+
+        return (
+          <Badge
+            variant={
+              booking.status === "confirmed"
+                ? "default"
+                : booking.status === "cancelled"
+                ? "destructive"
+                : "secondary"
+            }
+          >
+            {booking.status === "pending_confirmation"
+              ? "pending"
+              : booking.status}
+          </Badge>
+        );
+      }
     ),
 
     createActionsColumn<BookingWithDetails>((row) => (

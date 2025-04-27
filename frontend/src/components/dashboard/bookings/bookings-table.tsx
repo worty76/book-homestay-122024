@@ -16,12 +16,16 @@ import { BookingWithDetails } from "@/types/booking";
 interface BookingsTableProps {
   bookings: BookingWithDetails[];
   onViewDetails: (booking: BookingWithDetails) => void;
+  onConfirm?: (id: string) => void;
+  onCancel?: (id: string) => void;
+  loading?: string | null;
   isLoading?: boolean;
 }
 
 export function BookingsTable({
   bookings,
   onViewDetails,
+  loading,
   isLoading = false,
 }: BookingsTableProps) {
   if (isLoading) {
@@ -85,7 +89,9 @@ export function BookingsTable({
                         : "secondary"
                     }
                   >
-                    {booking.status}
+                    {booking.status === "pending_confirmation"
+                      ? "pending"
+                      : booking.status}
                   </Badge>
                 </TableCell>
                 <TableCell>

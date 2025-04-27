@@ -41,9 +41,20 @@ export interface Room {
   shared?: boolean;
   bathroomAmenities?: string[];
   createdAt?: string;
-  bookedDates?: string[];
+  bookedDates?: BookedDate[];
   bookings?: any[];
   ratings?: any[];
+}
+
+interface BookedDate {
+  startAt: string | Date;
+  endAt: string | Date;
+  status: string;
+  user: {
+    username: string;
+    email: string;
+  };
+  paymentStatus: string;
 }
 
 export interface RoomCardProps {
@@ -196,6 +207,7 @@ export interface BookingFormRoom {
     count: number;
     _id: string;
   }[];
+  bookedDates: BookedDate[];
 }
 
 export interface SearchParams {
