@@ -29,35 +29,28 @@ export function BookingDetailsDialog({
   onConfirm,
   onCancel,
 }: BookingDetailsDialogProps) {
+  // Add handlers that will close the dialog after the action completes
+  const handleConfirm = async (id: string) => {
+    await onConfirm(id);
+    // Only close if the action completed successfully (loading is null after completion)
+    if (!loading) {
+      onClose();
+    }
+  };
+
+  const handleCancel = async (id: string) => {
+    await onCancel(id);
+    // Only close if the action completed successfully (loading is null after completion)
+    if (!loading) {
+      onClose();
+    }
+  };
+
   return (
     <Dialog open={!!selectedBooking} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl">
         <DialogHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
           <DialogTitle>Booking Details</DialogTitle>
-          {bookingDetails && bookingDetails.status === "pending" && (
-            <div className="flex gap-2">
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => onCancel(bookingDetails._id)}
-                disabled={loading === bookingDetails._id}
-              >
-                {loading === bookingDetails._id
-                  ? "Cancelling..."
-                  : "Cancel Booking"}
-              </Button>
-              <Button
-                variant="default"
-                size="sm"
-                onClick={() => onConfirm(bookingDetails._id)}
-                disabled={loading === bookingDetails._id}
-              >
-                {loading === bookingDetails._id
-                  ? "Confirming..."
-                  : "Confirm Booking"}
-              </Button>
-            </div>
-          )}
         </DialogHeader>
 
         {loadingDetails ? (
@@ -80,18 +73,46 @@ export function BookingDetailsDialog({
                   {bookingDetails.room?.location?.city ?? "No city"}
                 </p>
               </div>
-              <Badge
-                className="text-lg px-4 py-2"
-                variant={
-                  bookingDetails.status === "confirmed"
-                    ? "secondary"
-                    : bookingDetails.status === "cancelled"
-                    ? "destructive"
-                    : "default"
-                }
-              >
-                {bookingDetails.status.toUpperCase()}
-              </Badge>
+
+              {bookingDetails.status === "pending_confirmation" ? (
+                <div className="flex gap-2">
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => handleCancel(bookingDetails._id)}
+                    disabled={loading === bookingDetails._id}
+                  >
+                    {loading === bookingDetails._id
+                      ? "Cancelling..."
+                      : "Cancel Booking"}
+                  </Button>
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => handleConfirm(bookingDetails._id)}
+                    disabled={loading === bookingDetails._id}
+                  >
+                    {loading === bookingDetails._id
+                      ? "Confirming..."
+                      : "Confirm Booking"}
+                  </Button>
+                </div>
+              ) : (
+                <Badge
+                  className="text-lg px-4 py-2"
+                  variant={
+                    bookingDetails.status === "confirmed"
+                      ? "secondary"
+                      : bookingDetails.status === "cancelled"
+                      ? "destructive"
+                      : "default"
+                  }
+                >
+                  {bookingDetails.status === "pending_confirmation"
+                    ? "PENDING"
+                    : bookingDetails.status.toUpperCase()}
+                </Badge>
+              )}
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">

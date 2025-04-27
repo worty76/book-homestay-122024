@@ -177,7 +177,8 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
 
         <div className="flex items-center justify-between w-full mt-auto pt-1">
           <div className="flex items-center justify-between w-full gap-2">
-            <BookingModal
+            {/* Hide the direct booking from rooms page */}
+            {/* <BookingModal
               {...defaultBookingProps}
               trigger={
                 <Button
@@ -188,7 +189,7 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
                   {t("rooms.roomCard.bookRoom")}
                 </Button>
               }
-            />
+            /> */}
 
             <Link href={`/rooms/${room._id}`} legacyBehavior>
               <motion.a

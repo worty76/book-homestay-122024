@@ -231,7 +231,7 @@ export default function DashboardLayout({
               </div>
             </form> */}
           </div>
-          <LanguageSwitcher />
+          {/* <LanguageSwitcher /> */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">

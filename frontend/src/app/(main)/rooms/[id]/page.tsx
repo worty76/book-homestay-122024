@@ -47,6 +47,8 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
 
       const transformedRoom: Room = {
         ...data,
+        // Extract booked dates from the response if available
+        bookedDates: data.bookedDates || [],
       };
 
       setRoom(transformedRoom);
@@ -120,6 +122,8 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
         cleaningFee: room.pricing?.cleaningFee || 0,
         securityDeposit: room.pricing?.securityDeposit || 0,
       },
+      // Add booked dates to the booking form data
+      bookedDates: room.bookedDates || [],
       available: room.status === "available",
       description: room.description,
       type: mapRoomType(
