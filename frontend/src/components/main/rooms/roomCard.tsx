@@ -65,6 +65,7 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
         checkOutTime: "12:00",
       },
       bedsDescription: room.facilities?.bedsDescription || [],
+      bookedDates: room.bookedDates || [], // Add the missing bookedDates property
     },
     dateRange: {
       from: new Date(),
@@ -124,7 +125,7 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
           `}
         >
           <BookingModal
-            {...defaultBookingProps}
+            {...(defaultBookingProps as any)}
             trigger={
               <Button
                 size="sm"
