@@ -65,7 +65,7 @@ const AnotherHeader = ({
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <Link href="/" className="hover:text-white transition-colors">
-                Trang chủ
+                Homepage
               </Link>
               <span className="mx-1 sm:mx-2">&#9658;</span>
               <span className="text-white">{finalPage}</span>

@@ -8,6 +8,7 @@ import BlogSection from "@/components/main/blog-section";
 import AboutSection from "@/components/main/aboutSection";
 import FacilitiesGrid from "@/components/main/facilities-grid";
 import RoomList from "@/components/main/roomList";
+import ServiceBenefits from "@/components/main/ServiceBenefits";
 import {
   OrganizationJsonLd,
   AccommodationJsonLd,
@@ -38,6 +39,7 @@ function HomeContent() {
         <Hero />
       </div>
       <AboutSection />
+      <ServiceBenefits />
       <ApartmentGallery />
       <RoomList />
       <FacilitiesGrid />

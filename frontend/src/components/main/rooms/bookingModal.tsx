@@ -91,84 +91,123 @@ const DateRangeSelector = ({
   setCalendarOpen: (open: boolean) => void;
 }) => {
   const { t } = useTranslation();
+  const [checkInOpen, setCheckInOpen] = useState(false);
+  const [checkOutOpen, setCheckOutOpen] = useState(false);
 
   return (
-    <div>
-      <Label className="text-sm sm:text-base">
-        {t("rooms.bookingModal.dateLabel")}{" "}
-        <span className="text-red-500">*</span>
-      </Label>
-      <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className={cn(
-              "w-full justify-start text-left font-normal mt-1 text-sm sm:text-base",
-              !dateRange.to ? "border-amber-300" : ""
-            )}
-          >
-            <CalendarIcon className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-            {dateRange?.from ? (
-              dateRange.to ? (
-                <>
-                  {format(dateRange.from, "MM/dd/yyyy", { locale: enUS })} -{" "}
-                  {format(dateRange.to, "MM/dd/yyyy", { locale: enUS })}
-                </>
+    <div className="space-y-3">
+      <div>
+        <Label className="text-sm sm:text-base">
+          {t("rooms.bookingModal.checkIn")}{" "}
+          <span className="text-red-500">*</span>
+        </Label>
+        <Popover open={checkInOpen} onOpenChange={setCheckInOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              className={cn(
+                "w-full justify-start text-left font-normal mt-1 text-sm sm:text-base",
+                !dateRange.from ? "border-amber-300" : ""
+              )}
+            >
+              <CalendarIcon className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+              {dateRange.from ? (
+                format(dateRange.from, "MM/dd/yyyy", { locale: enUS })
               ) : (
-                <>
-                  {format(dateRange.from, "MM/dd/yyyy", { locale: enUS })} -{" "}
-                  <span className="text-muted-foreground">
-                    {t("rooms.bookingModal.chooseCheckout")}
-                  </span>
-                </>
-              )
-            ) : (
-              <span>{t("rooms.bookingModal.chooseDate")}</span>
-            )}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="center">
-          <Calendar
-            initialFocus
-            mode="range"
-            defaultMonth={dateRange.from || new Date()}
-            selected={dateRange}
-            onSelect={(range) => {
-              if (range) {
-                setDateRange(range);
+                <span>{t("rooms.bookingModal.chooseDate")}</span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              initialFocus
+              mode="single"
+              defaultMonth={dateRange.from || new Date()}
+              selected={dateRange.from}
+              onSelect={(date) => {
+                if (date) {
+                  setDateRange({
+                    from: date,
+                    to:
+                      dateRange.to && date < dateRange.to
+                        ? dateRange.to
+                        : undefined,
+                  });
+                  setCheckInOpen(false);
+                  if (!dateRange.to) {
+                    setCheckOutOpen(true);
+                  }
+                }
+              }}
+              locale={enUS}
+              disabled={(date: Date) => date < new Date()}
+              className="rounded-md border"
+              showOutsideDays={false}
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
+
+      <div>
+        <Label className="text-sm sm:text-base">
+          {t("rooms.bookingModal.checkOut")}{" "}
+          <span className="text-red-500">*</span>
+        </Label>
+        <Popover open={checkOutOpen} onOpenChange={setCheckOutOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              className={cn(
+                "w-full justify-start text-left font-normal mt-1 text-sm sm:text-base",
+                !dateRange.to ? "border-amber-300" : ""
+              )}
+            >
+              <CalendarIcon className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+              {dateRange.to ? (
+                format(dateRange.to, "MM/dd/yyyy", { locale: enUS })
+              ) : (
+                <span>{t("rooms.bookingModal.chooseCheckout")}</span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              initialFocus
+              mode="single"
+              defaultMonth={dateRange.from || new Date()}
+              selected={dateRange.to}
+              onSelect={(date) => {
+                if (date && dateRange.from) {
+                  if (date <= dateRange.from) {
+                    toast.error(t("rooms.bookingModal.minStay"));
+                    return;
+                  }
+                  setDateRange({ ...dateRange, to: date });
+                  setCheckOutOpen(false);
+                }
+              }}
+              locale={enUS}
+              disabled={(date: Date) =>
+                date < new Date() ||
+                (dateRange.from ? date <= dateRange.from : false)
               }
-            }}
-            numberOfMonths={window.innerWidth < 768 ? 1 : 2}
-            locale={enUS}
-            disabled={(date: Date) => date < new Date()}
-            className="rounded-md border"
-            showOutsideDays={false}
-          />
-          {dateRange.from && !dateRange.to && (
-            <div className="p-3 text-center text-sm text-muted-foreground bg-muted/20">
-              <AlertCircle className="w-4 h-4 inline-block mr-1 text-amber-500" />
-              {t("rooms.bookingModal.chooseCheckout")}
-            </div>
-          )}
-          {dateRange.from &&
-            dateRange.to &&
-            differenceInDays(dateRange.to, dateRange.from) < 1 && (
-              <div className="p-3 text-center text-sm text-muted-foreground bg-red-100">
-                <AlertCircle className="w-4 h-4 inline-block mr-1 text-red-500" />
-                {t("rooms.bookingModal.minStay")}
-              </div>
-            )}
-          {dateRange.from &&
-            dateRange.to &&
-            differenceInDays(dateRange.to, dateRange.from) >= 1 && (
-              <div className="p-3 text-center text-sm text-green-600 bg-green-50">
-                {t("rooms.bookingModal.stayDuration", {
-                  count: differenceInDays(dateRange.to, dateRange.from),
-                })}
-              </div>
-            )}
-        </PopoverContent>
-      </Popover>
+              className="rounded-md border"
+              showOutsideDays={false}
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
+
+      {dateRange.from && dateRange.to && (
+        <div className="text-center text-sm text-muted-foreground">
+          {differenceInDays(dateRange.to, dateRange.from)}{" "}
+          {differenceInDays(dateRange.to, dateRange.from) === 1
+            ? t("rooms.bookingForm.night")
+            : t("common.dates.night", {
+                count: differenceInDays(dateRange.to, dateRange.from),
+              })}
+        </div>
+      )}
     </div>
   );
 };

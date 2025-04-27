@@ -33,10 +33,9 @@ const socialLinks = [
   { Icon: WhatsappIcon, name: "Whatsapp", url: "tel:0925090669" },
 ];
 
-const carouselImages = [
-  "/images/img1.jpg",
-  "/images/img2.jpg",
-  "/images/img3.jpg",
+const carouselVideos = [
+  "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=GGVD02_y4crww&profile=cld-default&autoplay=true&muted=true&controls=false&loop=true&player_width=100%25&player_height=100%25",
+  "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=GGVD01_xjekti&profile=cld-default&autoplay=true&muted=true&controls=false&loop=true&player_width=100%25&player_height=100%25",
 ];
 
 export function Hero() {
@@ -50,7 +49,7 @@ export function Hero() {
 
   return (
     <>
-      <BackgroundCarousel images={carouselImages} />
+      <BackgroundCarousel videos={carouselVideos} />
       <Header />
 
       {/* Reservation Phone - Now hidden on lg and smaller */}

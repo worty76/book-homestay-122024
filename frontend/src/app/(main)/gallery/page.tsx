@@ -19,14 +19,21 @@ export default function GalleryPage() {
     const categories = [
       t("gallery.categories.exterior"),
       t("gallery.categories.rooms"),
+      "Experiences",
     ];
     const widths = [300, 350, 400, 450, 500];
     const heights = [200, 250, 300, 350, 400, 450, 500];
 
-    const imageFilenames = [
+    // Regular images
+    const regularImages = [
       "img1.jpg",
       "img2.jpg",
       "img3.jpg",
+      "bien.jpg",
+      "caurong.jpg",
+      "langque.jpg",
+      "langtruyenthong.jpg",
+      "nui.jpg",
       "view/1.png",
       "view/2.png",
       "view/3.png",
@@ -38,13 +45,51 @@ export default function GalleryPage() {
       "view/9.png",
     ];
 
+    // Experience images - using actual paths from the filesystem
+    const experienceImages = [
+      // Cooking class
+      "Experiences/Coooking class/004ce740e6d38eb0c254e5069b2d0d0c.jpg",
+      "Experiences/Coooking class/128f9c0e84048d5951387cc28ac188fa.jpg",
+      "Experiences/Coooking class/145.jpg",
+      "Experiences/Coooking class/5a33ea9a6d96da04b536a7dea2266cfb.jpg",
+      "Experiences/Coooking class/ec2aaa51433a5e48443780135bdc61ca.jpg",
+      "Experiences/Coooking class/How-to-Host-a-Cooking-Class-at-Your-Venue.jpg",
+      // Morning
+      "Experiences/Morning/2d9c75bc9ac24e79c721dc4e197efc8a.jpg",
+      "Experiences/Morning/4467e24c14e4b95305eb54c10555bb2a.jpg",
+      "Experiences/Morning/c91130edffd36ee470476e37aedaf5c4.jpg",
+      "Experiences/Morning/c919adf441d023add93113ab66ff4c87.jpg",
+      "Experiences/Morning/eb1ba279945f2111f7be7f3df4e49bf3.jpg",
+      // No tech
+      "Experiences/No tech/2814b5cda3ddf28319833759551c9844.jpg",
+      "Experiences/No tech/3a52ce11d076fa4a66c49c3c1038ea60.jpg",
+      "Experiences/No tech/5bafdca741e49ceef2eb9818d53a74b4.jpg",
+      "Experiences/No tech/7f30efea34a63f4e52a06964106212c3.jpg",
+      "Experiences/No tech/8cc996d2412421b12c32f4dc13d0b86d.jpg",
+      "Experiences/No tech/cd86dd136cf29c54f2aa5a90e1bacadc.jpg",
+    ];
+
+    // Combine all images
+    const imageFilenames = [...regularImages, ...experienceImages];
+
     return Array.from({ length: count }, (_, i) => {
       const id = startIndex + i;
-      const category =
-        categories[Math.floor(Math.random() * categories.length)];
+      let category = categories[Math.floor(Math.random() * categories.length)];
       const width = widths[Math.floor(Math.random() * widths.length)];
       const height = heights[Math.floor(Math.random() * heights.length)];
-      const imageFilename = imageFilenames[id % imageFilenames.length];
+
+      // Use modulo to cycle through all images
+      const imageIndex = id % imageFilenames.length;
+      const imageFilename = imageFilenames[imageIndex];
+
+      // Override category based on image path
+      if (imageFilename.startsWith("Experiences/")) {
+        category = "Experiences";
+      } else if (imageFilename.startsWith("view/")) {
+        category = t("gallery.categories.rooms");
+      } else {
+        category = t("gallery.categories.exterior");
+      }
 
       return {
         id,
@@ -71,6 +116,7 @@ export default function GalleryPage() {
     t("gallery.categories.all"),
     t("gallery.categories.exterior"),
     t("gallery.categories.rooms"),
+    "Experiences",
   ];
 
   const { ref, inView } = useInView({

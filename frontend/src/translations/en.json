@@ -267,7 +267,9 @@
         "confirmBooking": "Confirm booking",
         "processing": "Processing...",
         "payViaVnpay": "Pay via VNPAY"
-      }
+      },
+      "checkIn": "Check-in",
+      "checkOut": "Check-out"
     }
   },
   "profile": {
@@ -524,7 +526,7 @@
     },
     "team": {
       "title": "Our Team",
-      "subtitle": "The passionate people behind Kén Homestay's success",
+      "subtitle": "Bringing the most familiar and comfortable feeling to customers",
       "member1": {
         "name": "Nguyen Van A",
         "role": "Director",
@@ -615,6 +617,7 @@
       "title": "Vietnamese Morning Lifestyle",
       "subtitle": "Eat breakfast, drink Vietnamese tea, filter coffee",
       "description": "From 7:00 - 9:30 a.m every day, customers at the homestay will enjoy drinks that are indispensable in the daily lives of local people.",
+      "gallery": "Vietnamese Morning Lifestyle Gallery",
       "breakfast": {
         "title": "Breakfast Options:",
         "option1": {
@@ -666,6 +669,7 @@
       "availability": "Available daily",
       "time": "10:00 AM - 12:00 PM",
       "price": "350.000 VND/person",
+      "gallery": "Cooking Class Gallery",
       "procedure": {
         "title": "Procedure:",
         "step1": {
@@ -693,6 +697,7 @@
       "time": "7:00 PM - 9:00 PM",
       "days": "Tuesday, Thursday, Saturday",
       "price": "350.000 VND/person",
+      "gallery": "No-Tech Night Gallery",
       "experience": {
         "title": "Experience:",
         "feature1": {
