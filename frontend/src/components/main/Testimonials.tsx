@@ -11,22 +11,22 @@ const testimonials = [
   {
     id: 1,
     content:
-      "Tôi đã được chào đón bởi một đội ngũ nhân viên độc đáo và chu đáo có vài đồng nghiệp trong thành phố nộp đơn với các địa điểm tuyệt vời với dịch vụ mẫu mực. Đẹp và rất đặc biệt.",
-    author: "Nguyễn Anh",
+      "I was welcomed by a unique and attentive staff with colleagues in the city. The locations are excellent with exemplary service. Beautiful and very special.",
+    author: "Nguyen Anh",
     avatar: "/images/avatar.png",
   },
   {
     id: 2,
     content:
-      "Phòng ốc sạch sẽ, thoáng mát và rất tiện nghi. Nhân viên phục vụ nhiệt tình, chu đáo. Tôi sẽ quay lại đây trong chuyến du lịch tới.",
-    author: "Trần Minh",
+      "The rooms are clean, airy and very comfortable. The staff is enthusiastic and attentive. I will return here on my next trip.",
+    author: "Tran Minh",
     avatar: "/images/avatar.png",
   },
   {
     id: 3,
     content:
-      "Vị trí tuyệt vời, gần các điểm tham quan chính của thành phố. Bữa sáng ngon miệng với nhiều lựa chọn. Đáng giá từng đồng tiền bỏ ra.",
-    author: "Lê Hương",
+      "Great location, close to the main attractions of the city. Delicious breakfast with many options. Worth every penny spent.",
+    author: "Le Huong",
     avatar: "/images/avatar.png",
   },
 ];
@@ -55,10 +55,10 @@ export function Testimonials() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center relative">
           <span className="font-cursive text-[#8a9a5b] text-xl mb-2 block">
-            Giúp chúng tôi cải thiện
+            Help us improve
           </span>
           <h2 className="text-4xl font-bold text-[#F3ECDC] tracking-tight">
-            Ý KIẾN KHÁCH HÀNG
+            CUSTOMER TESTIMONIALS
           </h2>
         </div>
 

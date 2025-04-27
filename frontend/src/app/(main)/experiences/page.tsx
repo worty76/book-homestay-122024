@@ -17,6 +17,7 @@ import { Separator } from "@/components/ui/separator";
 import { useInView } from "react-intersection-observer";
 import AnotherHeader from "@/components/main/another-header";
 import { useTranslation } from "@/hooks/useTranslation";
+import ImageGallery from "@/components/main/ImageGallery";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -33,6 +34,36 @@ const staggerContainer = {
   },
 };
 
+// Images for each section
+const morningImages = [
+  "/images/Experiences/Morning/2d9c75bc9ac24e79c721dc4e197efc8a.jpg",
+  "/images/Experiences/Morning/4467e24c14e4b95305eb54c10555bb2a.jpg",
+  "/images/Experiences/Morning/c91130edffd36ee470476e37aedaf5c4.jpg",
+  "/images/Experiences/Morning/f09c1518655de4a0d50653a8b47c4ae1.jpg",
+  "/images/Experiences/Morning/eb1ba279945f2111f7be7f3df4e49bf3.jpg",
+  "/images/Experiences/Morning/c919adf441d023add93113ab66ff4c87.jpg",
+];
+
+const cookingClassImages = [
+  "/images/Experiences/Coooking class/How-to-Host-a-Cooking-Class-at-Your-Venue.jpg",
+  "/images/Experiences/Coooking class/128f9c0e84048d5951387cc28ac188fa.jpg",
+  "/images/Experiences/Coooking class/004ce740e6d38eb0c254e5069b2d0d0c.jpg",
+  "/images/Experiences/Coooking class/5a33ea9a6d96da04b536a7dea2266cfb.jpg",
+  "/images/Experiences/Coooking class/145.jpg",
+  "/images/Experiences/Coooking class/ec2aaa51433a5e48443780135bdc61ca.jpg",
+];
+
+const noTechImages = [
+  "/images/Experiences/No tech/484023453_632284226242758_3231998417472683352_n.jpg",
+  "/images/Experiences/No tech/5bafdca741e49ceef2eb9818d53a74b4.jpg",
+  "/images/Experiences/No tech/2814b5cda3ddf28319833759551c9844.jpg",
+  "/images/Experiences/No tech/3a52ce11d076fa4a66c49c3c1038ea60.jpg",
+  "/images/Experiences/No tech/8cc996d2412421b12c32f4dc13d0b86d.jpg",
+  "/images/Experiences/No tech/dc4c16a9e49768137fb512406977d661.jpg",
+  "/images/Experiences/No tech/cd86dd136cf29c54f2aa5a90e1bacadc.jpg",
+  "/images/Experiences/No tech/7f30efea34a63f4e52a06964106212c3.jpg",
+];
+
 export default function ExperiencesPage() {
   const { t } = useTranslation();
 
@@ -42,7 +73,7 @@ export default function ExperiencesPage() {
         title={t("experiences.pageHeader.title")}
         subtitle={t("experiences.pageHeader.subtitle")}
         description={t("experiences.pageHeader.description")}
-        image="/images/img3.jpg"
+        image="/images/Experiences/No tech/bia-15521991-6801.png"
         finalPage={t("experiences.pageHeader.finalPage")}
       />
       <div className="bg-[#f8f3e9]">
@@ -110,7 +141,7 @@ export default function ExperiencesPage() {
               </div>
               <div className="relative h-[400px] rounded-xl overflow-hidden shadow-lg">
                 <Image
-                  src="/images/img2.jpg"
+                  src="/images/Experiences/Morning/2d9c75bc9ac24e79c721dc4e197efc8a.jpg"
                   alt={t("experiences.morningLifestyle.title")}
                   fill
                   className="object-cover"
@@ -252,6 +283,12 @@ export default function ExperiencesPage() {
                 </ul>
               </motion.div>
             </div>
+
+            {/* Morning Image Gallery */}
+            <ImageGallery
+              images={morningImages}
+              title={t("experiences.morningLifestyle.gallery")}
+            />
           </Section>
 
           <Separator className="my-16 opacity-30 bg-[#9C6B4A]" />
@@ -264,7 +301,7 @@ export default function ExperiencesPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative h-[400px] rounded-xl overflow-hidden shadow-lg">
                 <Image
-                  src="/images/img1.jpg"
+                  src="/images/Experiences/Coooking class/How-to-Host-a-Cooking-Class-at-Your-Venue.jpg"
                   alt={t("experiences.cookingClass.title")}
                   fill
                   className="object-cover"
@@ -392,6 +429,12 @@ export default function ExperiencesPage() {
                 </div>
               </div>
             </div>
+
+            {/* Cooking Class Image Gallery */}
+            <ImageGallery
+              images={cookingClassImages}
+              title={t("experiences.cookingClass.gallery")}
+            />
           </Section>
 
           <Separator className="my-16 opacity-30 bg-[#9C6B4A]" />
@@ -541,7 +584,7 @@ export default function ExperiencesPage() {
 
               <div className="relative h-[400px] rounded-xl overflow-hidden shadow-lg">
                 <Image
-                  src="/images/img3.jpg"
+                  src="/images/Experiences/No tech/484023453_632284226242758_3231998417472683352_n.jpg"
                   alt={t("experiences.noTechNight.title")}
                   fill
                   className="object-cover"
@@ -575,6 +618,12 @@ export default function ExperiencesPage() {
                 </div>
               </div>
             </div>
+
+            {/* No Tech Night Image Gallery */}
+            <ImageGallery
+              images={noTechImages}
+              title={t("experiences.noTechNight.gallery")}
+            />
           </Section>
         </div>
       </div>
