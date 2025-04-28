@@ -105,19 +105,20 @@ export default function SearchBar() {
       variants={containerVariants}
       initial="hidden"
       animate="show"
-      className="flex flex-col sm:flex-row items-center justify-center bg-white/90 backdrop-blur-sm p-2 rounded-lg gap-2 max-w-3xl mx-auto shadow-md"
+      className="flex flex-col sm:flex-row items-center justify-center bg-white/90 backdrop-blur-sm p-2 rounded-lg gap-2 max-w-3xl mx-auto shadow-md w-full"
     >
       <motion.div
         variants={containerVariants}
         className="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full"
       >
         {/* Check-in */}
-        <motion.div variants={itemVariants}>
+        <motion.div variants={itemVariants} className="w-full">
           <Popover>
             <PopoverTrigger asChild>
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                className="w-full"
               >
                 <Button
                   variant="outline"
@@ -129,7 +130,7 @@ export default function SearchBar() {
               </motion.div>
             </PopoverTrigger>
             <AnimatePresence>
-              <PopoverContent className="w-auto p-0 sm:p-2">
+              <PopoverContent className="w-auto p-0 z-50">
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -154,12 +155,13 @@ export default function SearchBar() {
         </motion.div>
 
         {/* Check-out */}
-        <motion.div variants={itemVariants}>
+        <motion.div variants={itemVariants} className="w-full">
           <Popover>
             <PopoverTrigger asChild>
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                className="w-full"
               >
                 <Button
                   variant="outline"
@@ -173,7 +175,7 @@ export default function SearchBar() {
               </motion.div>
             </PopoverTrigger>
             <AnimatePresence>
-              <PopoverContent className="w-auto p-0 sm:p-2">
+              <PopoverContent className="w-auto p-0 z-50">
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -200,7 +202,7 @@ export default function SearchBar() {
         </motion.div>
 
         {/* Guests */}
-        <motion.div variants={itemVariants}>
+        <motion.div variants={itemVariants} className="w-full">
           <Popover>
             <PopoverTrigger asChild>
               <motion.div

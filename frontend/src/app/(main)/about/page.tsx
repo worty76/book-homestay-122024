@@ -57,7 +57,7 @@ export default function AboutPage() {
         title={t("about.header.title")}
         subtitle={t("about.header.subtitle")}
         description={t("about.header.description")}
-        image="/images/img2.jpg"
+        image="/images/3DKENHOME/floor1/01.png"
         finalPage={t("about.header.finalPage")}
       />
 

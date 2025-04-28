@@ -13,27 +13,27 @@ import { useTranslation } from "@/hooks/useTranslation";
 const apartmentImages = [
   {
     id: 1,
-    src: "/images/view/2.png",
+    src: "/images/3DKENHOME/floor1/08.png",
     alt: "Modern apartment living room with plants",
   },
   {
     id: 2,
-    src: "/images/view/3.png",
+    src: "/images/3DKENHOME/floor1/09.png",
     alt: "Bright living room with gallery wall",
   },
   {
     id: 3,
-    src: "/images/view/4.png",
+    src: "/images/3DKENHOME/floor1/02.png",
     alt: "Minimalist living room with natural light",
   },
   {
     id: 4,
-    src: "/images/view/5.png",
+    src: "/images/3DKENHOME/floor1/03 (1).png",
     alt: "Blue wall living room with orange sofa",
   },
   {
     id: 5,
-    src: "/images/view/6.png",
+    src: "/images/3DKENHOME/floor1/15.png",
     alt: "Reading nook with shelves",
   },
 ];
@@ -87,7 +87,7 @@ export default function ApartmentGallery() {
           >
             <div className="relative h-[500px] md:h-[500px] lg:h-full w-full group">
               <Image
-                src="/images/view/1.png"
+                src="/images/3DKENHOME/floor1/01.png"
                 alt="Modern apartment space"
                 fill
                 className="object-cover rounded-3xl transition-transform duration-500 group-hover:scale-105"

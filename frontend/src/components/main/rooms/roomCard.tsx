@@ -35,7 +35,7 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
       type: room.category,
       category: room.category,
       view: "",
-      maxCapacity: room.capacity?.maxGuests,
+      maxCapacity: room.maxCapacity,
       maxAdults: room.capacity?.maxAdults || room.capacity?.maxGuests,
       maxChildren: room.capacity?.maxChildren || 0,
       available: room.status === "available",
@@ -148,7 +148,7 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
           <div className="flex items-center gap-1">
             <Users className="h-3 w-3 sm:h-4 sm:w-4" />
             <span>
-              {room.capacity?.maxGuests || 2} {t("rooms.roomCard.people")}
+              {room.maxCapacity || 2} {t("rooms.roomCard.people")}
             </span>
           </div>
 

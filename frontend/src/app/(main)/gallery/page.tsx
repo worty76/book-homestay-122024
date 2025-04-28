@@ -6,7 +6,7 @@ import AnotherHero from "@/components/main/AnotherHero";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Search, X, Download, Heart, Plus, Loader2 } from "lucide-react";
+import { Search, X, Download, Heart, Plus, Loader2, Play } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 import { cn } from "@/lib/utils";
 import AnotherHeader from "@/components/main/another-header";
@@ -15,108 +15,266 @@ import { useTranslation } from "@/hooks/useTranslation";
 export default function GalleryPage() {
   const { t } = useTranslation();
 
-  const generateImages = (startIndex: number, count: number) => {
+  const generateMedia = (startIndex: number, count: number) => {
+    // Define categories based on the 3DKENHOME folder structure
     const categories = [
-      t("gallery.categories.exterior"),
-      t("gallery.categories.rooms"),
-      "Experiences",
+      "Floor 1",
+      "Kitchen",
+      "No Tech Night",
+      "Work Room",
+      "Hải Cầu Viên",
+      "Lụa Hội",
+      "Ngư Bình",
+      "Non Nước",
+      "Phong Nam",
+      "Video",
     ];
+
     const widths = [300, 350, 400, 450, 500];
     const heights = [200, 250, 300, 350, 400, 450, 500];
 
-    // Regular images
-    const regularImages = [
-      "img1.jpg",
-      "img2.jpg",
-      "img3.jpg",
-      "bien.jpg",
-      "caurong.jpg",
-      "langque.jpg",
-      "langtruyenthong.jpg",
-      "nui.jpg",
-      "view/1.png",
-      "view/2.png",
-      "view/3.png",
-      "view/4.png",
-      "view/5.png",
-      "view/6.png",
-      "view/7.png",
-      "view/8.png",
-      "view/9.png",
+    // Videos from Cloudinary
+    const videos = [
+      {
+        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd04_cswtwh&profile=cld-default",
+        thumbnail: "/images/3DKENHOME/floor1/01.png",
+        category: "Video",
+        title: "Video Tour 1",
+      },
+      {
+        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd01_is7gxq&profile=cld-default",
+        thumbnail: "/images/3DKENHOME/floor1/02.png",
+        category: "Video",
+        title: "Video Tour 2",
+      },
+      {
+        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd12_o2alk8&profile=cld-default",
+        thumbnail: "/images/3DKENHOME/floor1/03.png",
+        category: "Video",
+        title: "Video Tour 3",
+      },
+      {
+        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd02&profile=cld-default",
+        thumbnail: "/images/3DKENHOME/floor1/04.png",
+        category: "Video",
+        title: "Video Tour 4",
+      },
+      {
+        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd03&profile=cld-default",
+        thumbnail: "/images/3DKENHOME/floor1/05 (1).png",
+        category: "Video",
+        title: "Video Tour 5",
+      },
+      {
+        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd05&profile=cld-default",
+        thumbnail: "/images/3DKENHOME/TẦNG 02/Hải Cầu Viên/26.png",
+        category: "Video",
+        title: "Video Tour 6",
+      },
+      {
+        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd06&profile=cld-default",
+        thumbnail: "/images/3DKENHOME/TẦNG 02/Hải Cầu Viên/27.png",
+        category: "Video",
+        title: "Video Tour 7",
+      },
+      {
+        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd07&profile=cld-default",
+        thumbnail: "/images/3DKENHOME/TẦNG 02/Hải Cầu Viên/28.png",
+        category: "Video",
+        title: "Video Tour 8",
+      },
+      {
+        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd08&profile=cld-default",
+        thumbnail: "/images/3DKENHOME/TẦNG 02/Ngư Bình/19.png",
+        category: "Video",
+        title: "Video Tour 9",
+      },
+      {
+        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd09&profile=cld-default",
+        thumbnail: "/images/3DKENHOME/TẦNG 02/Ngư Bình/20.png",
+        category: "Video",
+        title: "Video Tour 10",
+      },
+      {
+        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd10&profile=cld-default",
+        thumbnail: "/images/3DKENHOME/TẦNG 02/Lụa Hội/24.png",
+        category: "Video",
+        title: "Video Tour 11",
+      },
+      {
+        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd11&profile=cld-default",
+        thumbnail: "/images/3DKENHOME/TẦNG 02/Phong Nam/25.png",
+        category: "Video",
+        title: "Video Tour 12",
+      },
+      {
+        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd13&profile=cld-default",
+        thumbnail: "/images/3DKENHOME/TẦNG 02/Non nước/TANG02-11.png",
+        category: "Video",
+        title: "Video Tour 13",
+      },
     ];
 
-    // Experience images - using actual paths from the filesystem
-    const experienceImages = [
-      // Cooking class
-      "Experiences/Coooking class/004ce740e6d38eb0c254e5069b2d0d0c.jpg",
-      "Experiences/Coooking class/128f9c0e84048d5951387cc28ac188fa.jpg",
-      "Experiences/Coooking class/145.jpg",
-      "Experiences/Coooking class/5a33ea9a6d96da04b536a7dea2266cfb.jpg",
-      "Experiences/Coooking class/ec2aaa51433a5e48443780135bdc61ca.jpg",
-      "Experiences/Coooking class/How-to-Host-a-Cooking-Class-at-Your-Venue.jpg",
-      // Morning
-      "Experiences/Morning/2d9c75bc9ac24e79c721dc4e197efc8a.jpg",
-      "Experiences/Morning/4467e24c14e4b95305eb54c10555bb2a.jpg",
-      "Experiences/Morning/c91130edffd36ee470476e37aedaf5c4.jpg",
-      "Experiences/Morning/c919adf441d023add93113ab66ff4c87.jpg",
-      "Experiences/Morning/eb1ba279945f2111f7be7f3df4e49bf3.jpg",
-      // No tech
-      "Experiences/No tech/2814b5cda3ddf28319833759551c9844.jpg",
-      "Experiences/No tech/3a52ce11d076fa4a66c49c3c1038ea60.jpg",
-      "Experiences/No tech/5bafdca741e49ceef2eb9818d53a74b4.jpg",
-      "Experiences/No tech/7f30efea34a63f4e52a06964106212c3.jpg",
-      "Experiences/No tech/8cc996d2412421b12c32f4dc13d0b86d.jpg",
-      "Experiences/No tech/cd86dd136cf29c54f2aa5a90e1bacadc.jpg",
+    // All images from the 3DKENHOME folder
+    const allImages = [
+      // Floor 1 main images
+      "3DKENHOME/floor1/01.png",
+      "3DKENHOME/floor1/01 (1).png",
+      "3DKENHOME/floor1/02.png",
+      "3DKENHOME/floor1/02(1).png",
+      "3DKENHOME/floor1/03.png",
+      "3DKENHOME/floor1/03 (1).png",
+      "3DKENHOME/floor1/04.png",
+      "3DKENHOME/floor1/04 (1).png",
+      "3DKENHOME/floor1/05 (1).png",
+      "3DKENHOME/floor1/30.png",
+      "3DKENHOME/floor1/D6.jpg",
+
+      // Floor 1 - Kitchen (Bếp)
+      "3DKENHOME/floor1/Bếp/19.png",
+      "3DKENHOME/floor1/Bếp/20.png",
+      "3DKENHOME/floor1/Bếp/21.png",
+
+      // Floor 1 - No tech night
+      "3DKENHOME/floor1/No tech night/10.png",
+      "3DKENHOME/floor1/No tech night/11.png",
+      "3DKENHOME/floor1/No tech night/12.png",
+      "3DKENHOME/floor1/No tech night/12 (1).png",
+      "3DKENHOME/floor1/No tech night/13 (1).png",
+      "3DKENHOME/floor1/No tech night/14 (1).png",
+      "3DKENHOME/floor1/No tech night/16.png",
+      "3DKENHOME/floor1/No tech night/17.png",
+
+      // Floor 1 - Work Room (Phòng làm việc)
+      "3DKENHOME/floor1/Phòng làm việc/13.png",
+      "3DKENHOME/floor1/Phòng làm việc/14.png",
+      "3DKENHOME/floor1/Phòng làm việc/31.png",
+      "3DKENHOME/floor1/Phòng làm việc/32.png",
+
+      // Floor 2 - Hải Cầu Viên
+      "3DKENHOME/TẦNG 02/Hải Cầu Viên/26.png",
+      "3DKENHOME/TẦNG 02/Hải Cầu Viên/27.png",
+      "3DKENHOME/TẦNG 02/Hải Cầu Viên/28.png",
+      "3DKENHOME/TẦNG 02/Hải Cầu Viên/29.png",
+      "3DKENHOME/TẦNG 02/Hải Cầu Viên/30.png",
+
+      // Floor 2 - Lụa Hội
+      "3DKENHOME/TẦNG 02/Lụa Hội/24.png",
+      "3DKENHOME/TẦNG 02/Lụa Hội/D2.jpg",
+      "3DKENHOME/TẦNG 02/Lụa Hội/BS-LUAHOI01.png",
+      "3DKENHOME/TẦNG 02/Lụa Hội/TANG02-08.png",
+
+      // Floor 2 - Ngư Bình
+      "3DKENHOME/TẦNG 02/Ngư Bình/19.png",
+      "3DKENHOME/TẦNG 02/Ngư Bình/20.png",
+      "3DKENHOME/TẦNG 02/Ngư Bình/21.png",
+      "3DKENHOME/TẦNG 02/Ngư Bình/22.png",
+      "3DKENHOME/TẦNG 02/Ngư Bình/23.png",
+      "3DKENHOME/TẦNG 02/Ngư Bình/D3.jpg",
+      "3DKENHOME/TẦNG 02/Ngư Bình/TANG02-21.png",
+
+      // Floor 2 - Non nước
+      "3DKENHOME/TẦNG 02/Non nước/D4.jpg",
+      "3DKENHOME/TẦNG 02/Non nước/D5.jpg",
+      "3DKENHOME/TẦNG 02/Non nước/D7.jpg",
+      "3DKENHOME/TẦNG 02/Non nước/D8.jpg",
+      "3DKENHOME/TẦNG 02/Non nước/TANG02-11.png",
+
+      // Floor 2 - Phong Nam
+      "3DKENHOME/TẦNG 02/Phong Nam/25.png",
+      "3DKENHOME/TẦNG 02/Phong Nam/D12.jpg",
+      "3DKENHOME/TẦNG 02/Phong Nam/D9.jpg",
+      "3DKENHOME/TẦNG 02/Phong Nam/TANG02-04.png",
     ];
 
-    // Combine all images
-    const imageFilenames = [...regularImages, ...experienceImages];
-
-    return Array.from({ length: count }, (_, i) => {
-      const id = startIndex + i;
-      let category = categories[Math.floor(Math.random() * categories.length)];
-      const width = widths[Math.floor(Math.random() * widths.length)];
-      const height = heights[Math.floor(Math.random() * heights.length)];
-
-      // Use modulo to cycle through all images
-      const imageIndex = id % imageFilenames.length;
-      const imageFilename = imageFilenames[imageIndex];
-
-      // Override category based on image path
-      if (imageFilename.startsWith("Experiences/")) {
-        category = "Experiences";
-      } else if (imageFilename.startsWith("view/")) {
-        category = t("gallery.categories.rooms");
-      } else {
-        category = t("gallery.categories.exterior");
-      }
-
+    // First, generate videos
+    const mediaItems = videos.map((video, index) => {
       return {
-        id,
-        url: `/images/${imageFilename}`,
-        alt: `Image ${id}`,
-        width,
-        height,
-        category,
-        photographer: `${t("gallery.photographer")} ${(id % 10) + 1}`,
+        id: `video-${startIndex + index}`, // Use string ID with prefix to avoid potential overlap
+        type: "video",
+        url: video.url,
+        thumbnailUrl: video.thumbnail,
+        alt: `Video ${index + 1}`,
+        width: 400,
+        height: 300,
+        category: video.category,
+        photographer: video.title,
       };
     });
+
+    // Then generate images if we need more items
+    if (count > videos.length) {
+      const remainingCount = count - videos.length;
+      const imageItems = Array.from({ length: remainingCount }, (_, i) => {
+        const id = `image-${startIndex + i}`; // Use string ID with prefix
+        const imageIndex = i % allImages.length; // Use i instead of id
+        const imagePath = allImages[imageIndex];
+        const width = widths[Math.floor(Math.random() * widths.length)];
+        const height = heights[Math.floor(Math.random() * heights.length)];
+
+        // Determine category based on image path
+        let category = "Floor 1"; // Default category
+        if (imagePath.includes("/floor1/Bếp/")) {
+          category = "Kitchen";
+        } else if (imagePath.includes("/floor1/No tech night/")) {
+          category = "No Tech Night";
+        } else if (imagePath.includes("/floor1/Phòng làm việc/")) {
+          category = "Work Room";
+        } else if (imagePath.includes("/floor1/")) {
+          category = "Floor 1";
+        } else if (imagePath.includes("/Hải Cầu Viên/")) {
+          category = "Hải Cầu Viên";
+        } else if (imagePath.includes("/Lụa Hội/")) {
+          category = "Lụa Hội";
+        } else if (imagePath.includes("/Ngư Bình/")) {
+          category = "Ngư Bình";
+        } else if (imagePath.includes("/Non nước/")) {
+          category = "Non Nước";
+        } else if (imagePath.includes("/Phong Nam/")) {
+          category = "Phong Nam";
+        }
+
+        return {
+          id,
+          type: "image",
+          url: `/images/${imagePath}`,
+          thumbnailUrl: `/images/${imagePath}`,
+          alt: `Image ${id}`,
+          width,
+          height,
+          category,
+          photographer: `${t("gallery.photographer")} ${(i % 10) + 1}`,
+        };
+      });
+
+      mediaItems.push(...imageItems);
+    }
+
+    return mediaItems;
   };
 
-  const [images, setImages] = useState<any[]>([]);
+  const [media, setMedia] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [selectedImage, setSelectedImage] = useState<any | null>(null);
+  const [selectedItem, setSelectedItem] = useState<any | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>(
     t("gallery.categories.all")
   );
 
+  // Updated categories based on folder structure
   const categories = [
     t("gallery.categories.all"),
-    t("gallery.categories.exterior"),
-    t("gallery.categories.rooms"),
-    "Experiences",
+    "Floor 1",
+    "Kitchen",
+    "No Tech Night",
+    "Work Room",
+    "Hải Cầu Viên",
+    "Lụa Hội",
+    "Ngư Bình",
+    "Non Nước",
+    "Phong Nam",
+    "Video",
   ];
 
   const { ref, inView } = useInView({
@@ -125,45 +283,46 @@ export default function GalleryPage() {
   });
 
   useEffect(() => {
-    setImages(generateImages(0, 20));
+    setMedia(generateMedia(0, 40)); // Load more items initially to ensure we have enough
   }, []);
 
   useEffect(() => {
-    if (inView && !isLoading) {
-      loadMoreImages();
+    if (inView && !isLoading && activeCategory !== "Video") {
+      // Only load more if not in Video category
+      loadMoreMedia();
     }
-  }, [inView]);
+  }, [inView, activeCategory]);
 
-  const loadMoreImages = useCallback(() => {
+  const loadMoreMedia = useCallback(() => {
     setIsLoading(true);
 
     setTimeout(() => {
-      const newImages = generateImages(images.length, 10);
-      setImages((prev) => [...prev, ...newImages]);
+      const newMedia = generateMedia(media.length, 10);
+      setMedia((prev) => [...prev, ...newMedia]);
       setPage((prev) => prev + 1);
       setIsLoading(false);
     }, 1000);
-  }, [images.length, isLoading]);
+  }, [media.length, isLoading]);
 
-  const filteredImages = images.filter((image) => {
+  const filteredMedia = media.filter((item) => {
     const matchesSearch =
       searchQuery === "" ||
-      image.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      image.photographer.toLowerCase().includes(searchQuery.toLowerCase());
+      item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.photographer.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesCategory =
       activeCategory === t("gallery.categories.all") ||
-      image.category === activeCategory;
+      item.category === activeCategory;
 
     return matchesSearch && matchesCategory;
   });
 
-  const handleImageClick = (image: any) => {
-    setSelectedImage(image);
+  const handleItemClick = (item: any) => {
+    setSelectedItem(item);
   };
 
   const closeModal = () => {
-    setSelectedImage(null);
+    setSelectedItem(null);
   };
 
   return (
@@ -172,6 +331,7 @@ export default function GalleryPage() {
         title={t("gallery.title")}
         description={t("gallery.description")}
         finalPage={t("gallery.finalPage")}
+        image="/images/3DKENHOME/floor1/01.png"
       />
 
       <section className="container mx-auto px-4 py-8">
@@ -198,33 +358,53 @@ export default function GalleryPage() {
       <section className="container mx-auto px-4 pb-16">
         <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
           <AnimatePresence>
-            {filteredImages.map((image, index) => (
+            {filteredMedia.map((item, index) => (
               <motion.div
-                key={image.id}
+                key={item.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3, delay: (index % 10) * 0.05 }}
                 className="break-inside-avoid relative group cursor-pointer rounded-xl overflow-hidden mb-4"
-                onClick={() => handleImageClick(image)}
+                onClick={() => handleItemClick(item)}
               >
                 <div className="relative">
-                  <Image
-                    src={image.url || "/placeholder.svg"}
-                    alt={image.alt}
-                    width={image.width}
-                    height={image.height}
-                    className="w-full h-auto object-cover rounded-xl"
-                    placeholder="blur"
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFdwI2QOQvhwAAAABJRU5ErkJggg=="
-                    priority={index < 4}
-                  />
+                  {item.type === "image" ? (
+                    <Image
+                      src={item.url || "/placeholder.svg"}
+                      alt={item.alt}
+                      width={item.width}
+                      height={item.height}
+                      className="w-full h-auto object-cover rounded-xl"
+                      placeholder="blur"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFdwI2QOQvhwAAAABJRU5ErkJggg=="
+                      priority={index < 4}
+                    />
+                  ) : (
+                    <div className="relative rounded-xl overflow-hidden aspect-video bg-gray-100">
+                      <Image
+                        src={
+                          item.thumbnailUrl || "/images/3DKENHOME/floor1/01.png"
+                        }
+                        alt={item.alt}
+                        width={400}
+                        height={300}
+                        className="w-full h-full object-cover"
+                        unoptimized={item.type === "video"}
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                        <div className="bg-white/80 rounded-full p-3">
+                          <Play className="h-8 w-8 text-[#8a9a5b]" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent text-white">
-                  <p className="font-medium text-sm">{image.photographer}</p>
+                  <p className="font-medium text-sm">{item.photographer}</p>
                   <p className="text-xs text-gray-300 capitalize">
-                    {image.category}
+                    {item.category}
                   </p>
                 </div>
               </motion.div>
@@ -245,7 +425,7 @@ export default function GalleryPage() {
       </section>
 
       <AnimatePresence>
-        {selectedImage && (
+        {selectedItem && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -269,22 +449,51 @@ export default function GalleryPage() {
                 <X className="h-5 w-5 text-white" />
               </Button>
 
-              <Image
-                src={selectedImage.url || "/placeholder.svg"}
-                alt={selectedImage.alt}
-                width={1200}
-                height={800}
-                className="max-h-[90vh] w-auto object-contain"
-              />
+              {selectedItem.type === "image" ? (
+                <Image
+                  src={selectedItem.url || "/placeholder.svg"}
+                  alt={selectedItem.alt}
+                  width={1200}
+                  height={800}
+                  className="max-h-[90vh] w-auto object-contain"
+                />
+              ) : (
+                <div className="w-full h-full min-h-[70vh] max-w-[90vw] bg-black">
+                  {/* <iframe
+                    src={selectedItem.url}
+                    className="w-full h-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe> */}
+                  <iframe
+                    src={selectedItem.url}
+                    width="1280"
+                    height="720"
+                    style={{
+                      height: "70vh",
+                      width: "100%",
+                      minWidth: "800px",
+                      aspectRatio: "16 / 9",
+                    }}
+                    allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                    frameBorder="0"
+                  ></iframe>
+                </div>
+              )}
 
-              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent text-white">
-                <h3 className="text-xl font-medium">
-                  {selectedImage.photographer}
-                </h3>
-                <p className="text-sm text-gray-300 capitalize">
-                  {selectedImage.category}
-                </p>
-              </div>
+              {selectedItem.type === "image" ? (
+                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent text-white">
+                  <h3 className="text-xl font-medium">
+                    {selectedItem.photographer}
+                  </h3>
+                  <p className="text-sm text-gray-300 capitalize">
+                    {selectedItem.category}
+                  </p>
+                </div>
+              ) : (
+                <></>
+              )}
             </motion.div>
           </motion.div>
         )}

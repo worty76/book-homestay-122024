@@ -12,7 +12,7 @@ export default function ContactPage() {
       <AnotherHeader
         subtitle={t("contact.title")}
         description={t("contact.description")}
-        image="/images/img2.jpg"
+        image="/images/3DKENHOME/floor1/09.png"
         finalPage={t("contact.finalPage")}
       />
       <Contact />

@@ -44,7 +44,17 @@ export default function BlogSection() {
             (a: BlogArticle, b: BlogArticle) =>
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           )
-          .slice(0, 6);
+          .slice(0, 6)
+          .map((article: any) => ({
+            ...article,
+            imageUrl: article.image
+              ? article.image.startsWith("http")
+                ? article.image
+                : `${API_URL}${article.image.startsWith("/") ? "" : "/"}${
+                    article.image
+                  }`
+              : "/images/placeholder.jpg",
+          }));
         setArticles(sortedArticles);
       } catch (error) {
         console.error("Error fetching blog articles:", error);

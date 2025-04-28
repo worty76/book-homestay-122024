@@ -54,7 +54,8 @@
       "pets": "Pets",
       "guest": "guest",
       "guests": "guests"
-    }
+    },
+    "loading": "Loading..."
   },
   "navigation": {
     "home": "Home",

@@ -22,7 +22,11 @@ async function getAllArticles(): Promise<BlogArticle[]> {
     // Map to ensure compatibility with existing components
     return blogs.map((blog) => ({
       ...blog,
-      imageUrl: blog.image || "", // Map image to imageUrl for backwards compatibility
+      imageUrl: blog.image
+        ? blog.image.startsWith("http")
+          ? blog.image
+          : `${API_URL}${blog.image.startsWith("/") ? "" : "/"}${blog.image}`
+        : "/images/placeholder.jpg", // Map image to imageUrl with proper URL construction
     }));
   } catch (error) {
     console.error("Error fetching blogs:", error);
@@ -119,7 +123,7 @@ export default async function BlogPage({
       <AnotherHeader
         subtitle={t("blog.title")}
         description={t("blog.subtitle")}
-        image="/images/img3.jpg"
+        image="/images/3DKENHOME/floor1/09.png"
         finalPage={t("blog.pageComponents.finalPage")}
       />
 

@@ -22,7 +22,9 @@ export function Footer() {
               height={70}
               className="text-center mb-6"
             />
-            <p className="mb-2">Phạm Hùng, Q.Nam Từ Liêm, Hà Nội</p>
+            <p className="mb-2">
+              80 Le Van Hien Street, Khue My, Ngu Hanh Son, Da Nang, Vietnam
+            </p>
             <p className="mb-2">
               Hotline ({t("footer.officialHours")}): 0925090669
             </p>
@@ -147,7 +149,9 @@ export function Footer() {
                     className="mb-6"
                   />
                 </div>
-                <p className="mb-2">Phạm Hùng, Q. Nam Từ Liêm, Hà Nội</p>
+                <p className="mb-2">
+                  80 Le Van Hien Street, Khue My, Ngu Hanh Son, Da Nang, Vietnam
+                </p>
                 <p className="mb-2">
                   {t("footer.hotline")} ({t("footer.officialHours")}):
                   0925090669
