@@ -15,7 +15,7 @@ interface EditBlogDialogProps {
   blog: Blog | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSave: (blog: Blog, files?: FileList) => Promise<void>;
+  onSave: (updatedBlog: Blog, file?: File) => Promise<void>;
 }
 
 export function EditBlogDialog({
@@ -24,144 +24,135 @@ export function EditBlogDialog({
   onOpenChange,
   onSave,
 }: EditBlogDialogProps) {
-  const [editedBlog, setEditedBlog] = useState<Blog | null>(null);
+  const [formData, setFormData] = useState<Blog | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [imageFiles, setImageFiles] = useState<FileList | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (blog) {
-      setEditedBlog(blog);
-      setPreview(blog.image || null);
+      setFormData({ ...blog });
+      setPreviewUrl(blog.image || null);
+      setSelectedFile(null);
     }
   }, [blog]);
-
-  if (!editedBlog) return null;
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setEditedBlog((prev) => {
-      if (!prev) return null;
-      return {
-        ...prev,
+    if (formData) {
+      setFormData({
+        ...formData,
         [name]: value,
-      };
-    });
+      });
+    }
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      setImageFiles(files);
-      setPreview(URL.createObjectURL(files[0]));
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      // Create a preview URL for the selected image
+      const objectUrl = URL.createObjectURL(file);
+      setPreviewUrl(objectUrl);
+
+      // Clean up the URL object when component unmounts or file changes
+      return () => {
+        URL.revokeObjectURL(objectUrl);
+      };
     }
   };
 
   const handleSubmit = async () => {
-    if (!editedBlog) return;
+    if (!formData) return;
 
+    setIsSubmitting(true);
     try {
-      setIsSubmitting(true);
-      await onSave(editedBlog, imageFiles || undefined);
-      setIsSubmitting(false);
+      await onSave(formData, selectedFile || undefined);
     } catch (error) {
-      console.error("Error in handleSubmit:", error);
+      console.error("Error saving blog:", error);
+    } finally {
       setIsSubmitting(false);
     }
   };
 
+  if (!formData) return null;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[625px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Edit Blog Post</DialogTitle>
+          <DialogTitle>Edit Blog</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
-            <Label htmlFor="edit-title">Title</Label>
+            <Label htmlFor="title">Title</Label>
             <Input
-              id="edit-title"
+              id="title"
               name="title"
-              value={editedBlog.title}
+              value={formData.title}
               onChange={handleInputChange}
             />
           </div>
-
           <div className="grid gap-2">
-            <Label htmlFor="edit-summary">Summary</Label>
+            <Label htmlFor="content">Content</Label>
             <Textarea
-              id="edit-summary"
-              name="summary"
-              value={editedBlog.summary}
-              onChange={handleInputChange}
-              rows={2}
-            />
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="edit-content">Content</Label>
-            <Textarea
-              id="edit-content"
+              id="content"
               name="content"
-              value={editedBlog.content}
+              rows={6}
+              value={formData.content}
               onChange={handleInputChange}
-              rows={10}
             />
           </div>
-
           <div className="grid gap-2">
-            <Label htmlFor="edit-category">Category</Label>
+            <Label htmlFor="category">Category</Label>
             <Input
-              id="edit-category"
+              id="category"
               name="category"
-              value={editedBlog.category}
+              value={formData.category || ""}
               onChange={handleInputChange}
             />
           </div>
-
           <div className="grid gap-2">
-            <Label htmlFor="edit-tags">Tags</Label>
+            <Label htmlFor="tags">Tags (comma separated)</Label>
             <Input
-              id="edit-tags"
+              id="tags"
               name="tags"
-              value={editedBlog.tags}
+              value={formData.tags || ""}
               onChange={handleInputChange}
             />
           </div>
-
           <div className="grid gap-2">
-            <Label htmlFor="edit-image">Cover Image</Label>
+            <Label htmlFor="image">Featured Image</Label>
             <Input
-              id="edit-image"
+              id="image"
               type="file"
               accept="image/*"
-              onChange={handleImageChange}
+              onChange={handleFileChange}
             />
-            {preview && (
+            {previewUrl && (
               <div className="mt-2">
                 <img
-                  src={preview}
+                  src={previewUrl}
                   alt="Preview"
-                  className="max-h-40 rounded-md object-cover"
+                  className="max-h-[200px] rounded object-cover"
                 />
               </div>
             )}
           </div>
-
-          <div className="flex justify-end gap-2">
-            <Button
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-              disabled={isSubmitting}
-            >
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit} disabled={isSubmitting}>
-              {isSubmitting ? "Saving..." : "Save Changes"}
-            </Button>
-          </div>
+        </div>
+        <div className="flex justify-end gap-3">
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            disabled={isSubmitting}
+          >
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} disabled={isSubmitting}>
+            {isSubmitting ? "Saving..." : "Save Changes"}
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

@@ -70,6 +70,7 @@ export const EditRoomDialog = memo(function EditRoomDialog({
 
     setIsSubmitting(true);
     try {
+      console.log(formData);
       await onSave(formData as Room, newImages || undefined);
       onOpenChange(false);
     } catch (error) {

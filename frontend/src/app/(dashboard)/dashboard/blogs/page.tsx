@@ -19,7 +19,6 @@ export default function BlogsPage() {
   const [preview, setPreview] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormDataBlog>({
     title: "",
-    summary: "",
     content: "",
     category: "",
     tags: "",
@@ -77,16 +76,19 @@ export default function BlogsPage() {
 
       const formDataToSend = new FormData();
 
+      // Add all form fields
       (Object.keys(formData) as Array<keyof FormDataBlog>).forEach((key) => {
         formDataToSend.append(key, formData[key]);
       });
 
+      // Add image with field name 'files' to match backend expectation
+      // The backend's formidable parses files into req.files.files
       if (image) {
         formDataToSend.append("files", image);
       }
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog/create`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog`,
         {
           method: "POST",
           headers: {
@@ -103,15 +105,11 @@ export default function BlogsPage() {
       const updatedBlogs = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog`
       ).then((res) => res.json());
-
       setBlogs(updatedBlogs);
-
       toast.success("Blog created");
-
       // Reset form
       setFormData({
         title: "",
-        summary: "",
         content: "",
         category: "",
         tags: "",
@@ -126,25 +124,27 @@ export default function BlogsPage() {
       setIsSubmitting(false);
     }
   };
-
   const handleEditBlog = (blog: Blog) => {
     setSelectedBlog(blog);
     setEditDialogOpen(true);
   };
-
-  const handleSaveBlog = async (updatedBlog: Blog, files?: FileList) => {
+  const handleSaveBlog = async (updatedBlog: Blog, file?: File) => {
     try {
       const formData = new FormData();
-      formData.append("blogData", JSON.stringify(updatedBlog));
-
-      if (files) {
-        Array.from(files).forEach((file) => {
-          formData.append("files", file);
-        });
+      // Add all blog fields directly to form data
+      Object.entries(updatedBlog).forEach(([key, value]) => {
+        // Skip undefined/null values and the image field which we'll handle separately
+        if (value !== undefined && value !== null && key !== "image") {
+          formData.append(key, String(value));
+        }
+      });
+      // Add image if a new one is selected - backend expects "files" for updateBlog
+      // The backend's formidable parses files into req.files.files
+      if (file) {
+        formData.append("files", file);
       }
-
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog/update/${updatedBlog._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog/${updatedBlog._id}`,
         {
           method: "PUT",
           headers: {
@@ -153,21 +153,16 @@ export default function BlogsPage() {
           body: formData,
         }
       );
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to update blog");
       }
-
       // Refresh blog list
       const updatedBlogs = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog`
       ).then((res) => res.json());
-
       setBlogs(updatedBlogs);
-
       toast.success("Blog updated");
-
       setEditDialogOpen(false);
     } catch (error) {
       console.error("Error updating blog:", error);
@@ -176,18 +171,15 @@ export default function BlogsPage() {
       );
     }
   };
-
   const handleDeleteBlog = (blog: Blog) => {
     setBlogToDelete(blog);
     setDeleteDialogOpen(true);
   };
-
   const confirmDelete = async () => {
     if (!blogToDelete) return;
-
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog/delete/${blogToDelete._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blog/${blogToDelete._id}`,
         {
           method: "DELETE",
           headers: {
@@ -195,17 +187,14 @@ export default function BlogsPage() {
           },
         }
       );
-
       if (!response.ok) {
         throw new Error("Failed to delete blog");
       }
-
       // Update blogs list
       const updatedBlogs = blogs.filter(
         (blog) => blog._id !== blogToDelete._id
       );
       setBlogs(updatedBlogs);
-
       toast.success("Blog deleted");
     } catch (error) {
       console.error("Error deleting blog:", error);
@@ -215,14 +204,12 @@ export default function BlogsPage() {
       setBlogToDelete(null);
     }
   };
-
   return (
     <div className="flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold md:text-2xl">Blogs</h1>
         <Button onClick={() => setOpen(true)}>Add Blog</Button>
       </div>
-
       {isLoading ? (
         <div className="flex items-center justify-center p-8">
           <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
@@ -238,7 +225,6 @@ export default function BlogsPage() {
           onDeleteBlog={handleDeleteBlog}
         />
       )}
-
       <AddBlogDialog
         open={open}
         setOpen={setOpen}
@@ -253,7 +239,7 @@ export default function BlogsPage() {
         blog={selectedBlog}
         open={editDialogOpen}
         onOpenChange={setEditDialogOpen}
-        onSave={handleSaveBlog}
+        onSave={(updatedBlog, file) => handleSaveBlog(updatedBlog, file)}
       />
       {/* Delete Confirmation Dialog */}
       {deleteDialogOpen && (
@@ -265,21 +251,18 @@ export default function BlogsPage() {
               undone.
             </p>
             <div className="flex justify-end gap-4">
-              <button
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+              <Button
+                variant="outline"
                 onClick={() => {
                   setDeleteDialogOpen(false);
                   setBlogToDelete(null);
                 }}
               >
                 Cancel
-              </button>
-              <button
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                onClick={confirmDelete}
-              >
+              </Button>
+              <Button variant="destructive" onClick={confirmDelete}>
                 Delete
-              </button>
+              </Button>
             </div>
           </div>
         </div>
