@@ -1,7 +1,6 @@
 export interface Blog {
   _id: string;
   title: string;
-  summary: string;
   content: string;
   category: string;
   tags: string;
@@ -13,7 +12,6 @@ export interface Blog {
 
 export interface FormDataBlog {
   title: string;
-  summary: string;
   content: string;
   category: string;
   tags: string;

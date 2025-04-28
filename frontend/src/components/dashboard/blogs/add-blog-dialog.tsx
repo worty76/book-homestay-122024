@@ -4,7 +4,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -51,18 +50,6 @@ export function AddBlogDialog({
               value={formData.title}
               onChange={handleInputChange}
               placeholder="Enter blog title"
-            />
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="summary">Summary</Label>
-            <Textarea
-              id="summary"
-              name="summary"
-              value={formData.summary}
-              onChange={handleInputChange}
-              placeholder="Enter a brief summary"
-              rows={2}
             />
           </div>
 

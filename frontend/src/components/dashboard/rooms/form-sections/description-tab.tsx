@@ -16,12 +16,14 @@ const DescriptionTab = memo(
           <Label>Description</Label>
           <Textarea
             value={formData?.description || ""}
-            onChange={(e) =>
+            onChange={(e) => {
+              const newValue = e.target.value;
               setFormData((prev) =>
-                prev ? { ...prev, description: e.target.value } : null
-              )
-            }
+                prev ? { ...prev, description: newValue } : null
+              );
+            }}
             rows={5}
+            placeholder="Enter room description..."
           />
         </div>
       </div>
