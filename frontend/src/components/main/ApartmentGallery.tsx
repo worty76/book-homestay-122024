@@ -18,22 +18,22 @@ const apartmentImages = [
   },
   {
     id: 2,
-    src: "/images/3DKENHOME/floor1/09.png",
+    src: "/images/3DKENHOME/floor1/KH09.png",
     alt: "Bright living room with gallery wall",
   },
   {
     id: 3,
-    src: "/images/3DKENHOME/floor1/02.png",
+    src: "/images/3DKENHOME/floor1/KH07.png",
     alt: "Minimalist living room with natural light",
   },
   {
     id: 4,
-    src: "/images/3DKENHOME/floor1/03 (1).png",
+    src: "/images/3DKENHOME/floor1/KH05.png",
     alt: "Blue wall living room with orange sofa",
   },
   {
     id: 5,
-    src: "/images/3DKENHOME/floor1/15.png",
+    src: "/images/3DKENHOME/floor1/KH13.png",
     alt: "Reading nook with shelves",
   },
 ];
