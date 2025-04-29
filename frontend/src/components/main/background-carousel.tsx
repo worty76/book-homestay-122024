@@ -60,10 +60,10 @@ export function BackgroundCarousel({ videos }: BackgroundCarouselProps) {
             ></iframe> */}
             <iframe
               src={videoUrl}
-              width="1920"
-              height="1080"
               style={{
-                aspectRatio: "16 / 9",
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
               }}
               allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
               allowFullScreen
