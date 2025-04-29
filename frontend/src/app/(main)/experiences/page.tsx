@@ -73,7 +73,7 @@ export default function ExperiencesPage() {
         title={t("experiences.pageHeader.title")}
         subtitle={t("experiences.pageHeader.subtitle")}
         description={t("experiences.pageHeader.description")}
-        image="/images/Experiences/No tech/bia-15521991-6801.png"
+        image="/images/3DKENHOME/floor1/09.png"
         finalPage={t("experiences.pageHeader.finalPage")}
       />
       <div className="bg-[#f8f3e9]">
@@ -584,7 +584,7 @@ export default function ExperiencesPage() {
 
               <div className="relative h-[400px] rounded-xl overflow-hidden shadow-lg">
                 <Image
-                  src="/images/Experiences/No tech/484023453_632284226242758_3231998417472683352_n.jpg"
+                  src="/images/Experiences/No tech/cd86dd136cf29c54f2aa5a90e1bacadc.jpg"
                   alt={t("experiences.noTechNight.title")}
                   fill
                   className="object-cover"

@@ -39,7 +39,7 @@ export default function AboutSection() {
               <div className="rounded-3xl overflow-hidden">
                 <Image
                   alt="Modern dining area"
-                  src="/images/view/4.png"
+                  src="/images/3DKENHOME/floor1/02(1).png"
                   width={600}
                   height={400}
                   className="w-full object-cover"
@@ -57,7 +57,7 @@ export default function AboutSection() {
             >
               <div className="rounded-3xl overflow-hidden p-3">
                 <Image
-                  src="/images/view/1.png"
+                  src="/images/3DKENHOME/floor1/01.png"
                   alt="Modern staircase"
                   width={600}
                   height={400}

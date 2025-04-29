@@ -142,7 +142,7 @@ export default function RoomsPage({
       <AnotherHeader
         subtitle={t("rooms.pageComponents.subtitle")}
         description={t("rooms.pageComponents.description")}
-        image="/images/img3.jpg"
+        image="/images/3DKENHOME/floor1/09.png"
         finalPage={t("rooms.pageComponents.finalPage")}
       />
       <div className="container mx-auto px-4 py-8">

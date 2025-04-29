@@ -76,6 +76,7 @@ export interface RoomCardProps {
       maxAdults?: number;
       maxChildren?: number;
     };
+    maxCapacity: number;
     pricing: {
       basePrice: number;
       cleaningFee: number;

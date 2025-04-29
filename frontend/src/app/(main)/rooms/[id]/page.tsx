@@ -193,7 +193,7 @@ export default function RoomDetailPage({ params }: { params: { id: string } }) {
       <AnotherHeader
         subtitle={t("rooms.roomDetail.roomDetailsFor", { roomName: room.name })}
         description={t("rooms.roomDetail.exploreOurRooms")}
-        image="/images/img3.jpg"
+        image="/images/3DKENHOME/floor1/09.png"
         finalPage={t("rooms.roomDetail.rooms")}
         detailPage={room.name}
       />

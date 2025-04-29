@@ -74,6 +74,7 @@ const BasicInfoTab = memo(({ formData, setFormData }: BasicInfoTabProps) => {
             <SelectItem value="deluxe">Deluxe</SelectItem>
             <SelectItem value="twin">Twin</SelectItem>
             <SelectItem value="double">Double</SelectItem>
+            <SelectItem value="dormitory">Dormitory</SelectItem>
           </SelectContent>
         </Select>
       </div>

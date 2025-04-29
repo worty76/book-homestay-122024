@@ -35,7 +35,6 @@ const socialLinks = [
 
 const carouselVideos = [
   "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=GGVD02_y4crww&profile=cld-default&autoplay=true&muted=true&controls=false&loop=true&player_width=100%25&player_height=100%25",
-  "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=GGVD01_xjekti&profile=cld-default&autoplay=true&muted=true&controls=false&loop=true&player_width=100%25&player_height=100%25",
 ];
 
 export function Hero() {
@@ -48,7 +47,7 @@ export function Hero() {
   };
 
   return (
-    <>
+    <div className="relative w-full h-screen overflow-hidden">
       <BackgroundCarousel videos={carouselVideos} />
       <Header />
 
@@ -161,7 +160,7 @@ export function Hero() {
         ></motion.div>
       </motion.div>
 
-      <main className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 py-16 sm:py-0">
+      <main className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 py-16 sm:py-0 z-0">
         <div className="space-y-4 w-full max-w-4xl mx-auto">
           <motion.p
             initial={{ y: -20, opacity: 0 }}
@@ -208,6 +207,6 @@ export function Hero() {
           </Button>
         </motion.div>
       </main>
-    </>
+    </div>
   );
 }

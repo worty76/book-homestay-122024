@@ -133,7 +133,7 @@ export function Header() {
   );
 
   return (
-    <div className="container mx-auto px-2 sm:px-4">
+    <div className="container mx-auto px-2 sm:px-4 z-[100]">
       <header className="relative z-10 flex items-center justify-between px-3 sm:px-6 md:px-8 py-2 bg-[rgba(249,245,227,1)] rounded-b-xl sm:rounded-b-2xl md:rounded-b-3xl shadow-sm">
         <Link href="/" className="flex-shrink-0">
           <Image

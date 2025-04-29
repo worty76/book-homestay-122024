@@ -63,8 +63,6 @@ export function BackgroundCarousel({ videos }: BackgroundCarouselProps) {
               width="1920"
               height="1080"
               style={{
-                height: "auto",
-                width: "100%",
                 aspectRatio: "16 / 9",
               }}
               allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
