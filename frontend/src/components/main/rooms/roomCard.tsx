@@ -65,7 +65,7 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
         checkOutTime: "12:00",
       },
       bedsDescription: room.facilities?.bedsDescription || [],
-      bookedDates: room.bookedDates || [], // Add the missing bookedDates property
+      bookedDates: room.bookedDates || [],
     },
     dateRange: {
       from: new Date(),
@@ -78,7 +78,7 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
 
   return (
     <motion.div
-      className="group rounded-lg overflow-hidden border bg-card text-card-foreground shadow-sm transition-all hover:shadow-md w-full h-full flex flex-col"
+      className="group rounded-lg overflow-hidden border bg-card text-card-foreground shadow-sm transition-all hover:shadow-md w-full h-[450px] flex flex-col"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -86,7 +86,7 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
       onHoverEnd={handleHoverEnd}
       layout
     >
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className="relative h-[200px] overflow-hidden">
         <div className="relative w-full h-full">
           {room.images?.[0] ? (
             <Image
@@ -140,11 +140,11 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
       </div>
 
       <div className="p-2 sm:p-3 md:p-4 flex flex-col flex-grow">
-        <h3 className="text-sm sm:text-base md:text-lg font-semibold mb-1 sm:mb-2 truncate">
+        <h3 className="text-sm sm:text-base md:text-lg font-semibold mb-1 sm:mb-2 truncate h-6 sm:h-7 md:h-8">
           {room.name}
         </h3>
 
-        <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs text-muted-foreground mb-2 sm:mb-3">
+        <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs text-muted-foreground mb-2 sm:mb-3 h-10 sm:h-12">
           <div className="flex items-center gap-1">
             <Users className="h-3 w-3 sm:h-4 sm:w-4" />
             <span>
@@ -170,28 +170,14 @@ const RoomCard = memo(({ room }: RoomCardProps) => {
           </div>
         </div>
 
-        <div className="min-h-[32px] sm:min-h-[40px] md:min-h-[60px] overflow-hidden mb-2 sm:mb-3 flex-grow">
-          <p className="text-muted-foreground text-xs sm:text-sm line-clamp-2 sm:line-clamp-3">
+        <div className="h-[80px] overflow-hidden mb-2 sm:mb-3">
+          <p className="text-muted-foreground text-xs sm:text-sm line-clamp-4">
             {room.description || ""}
           </p>
         </div>
 
         <div className="flex items-center justify-between w-full mt-auto pt-1">
           <div className="flex items-center justify-between w-full gap-2">
-            {/* Hide the direct booking from rooms page */}
-            {/* <BookingModal
-              {...defaultBookingProps}
-              trigger={
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-xs sm:text-sm bg-[#5a8d69] text-white hover:text-white hover:bg-[#35814c] shadow-sm px-1.5 sm:px-2 py-0.5 h-auto"
-                >
-                  {t("rooms.roomCard.bookRoom")}
-                </Button>
-              }
-            /> */}
-
             <Link href={`/rooms/${room._id}`} legacyBehavior>
               <motion.a
                 className="flex items-center text-[#5a8d69] text-xs sm:text-sm group cursor-pointer"
