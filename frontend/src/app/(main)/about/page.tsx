@@ -10,6 +10,14 @@ import { useInView } from "react-intersection-observer";
 import AnotherHeader from "@/components/main/another-header";
 import { useTranslation } from "@/hooks/useTranslation";
 import { OrganizationJsonLd, BreadcrumbJsonLd } from "@/components/SEO/JsonLd";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { useState, useEffect } from "react";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -279,30 +287,10 @@ export default function AboutPage() {
           subtitle={t("about.team.subtitle")}
           delayOffset={0.2}
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <AnimatedTeamCard
-              image="/images/img1.jpg"
-              name={t("about.team.member1.name")}
-              role={t("about.team.member1.role")}
-              bio={t("about.team.member1.bio")}
-              delay={0.3}
-            />
-
-            <AnimatedTeamCard
-              image="/images/img2.jpg"
-              name={t("about.team.member2.name")}
-              role={t("about.team.member2.role")}
-              bio={t("about.team.member2.bio")}
-              delay={0.4}
-            />
-
-            <AnimatedTeamCard
-              image="/images/img3.jpg"
-              name={t("about.team.member3.name")}
-              role={t("about.team.member3.role")}
-              bio={t("about.team.member3.bio")}
-              delay={0.5}
-            />
+          <div className="flex flex-col justify-center w-full gap-4">
+            <div className="overflow-hidden rounded-lg shadow-lg">
+              <TeamCarousel />
+            </div>
           </div>
         </Section>
 
@@ -645,55 +633,6 @@ function AnimatedImage({
   );
 }
 
-// Animated Team Card
-function AnimatedTeamCard({
-  image,
-  name,
-  role,
-  bio,
-  delay = 0,
-}: {
-  image: string;
-  name: string;
-  role: string;
-  bio: string;
-  delay?: number;
-}) {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
-
-  return (
-    <motion.div
-      ref={ref}
-      variants={fadeIn}
-      initial="hidden"
-      animate={inView ? "visible" : "hidden"}
-      transition={{ duration: 0.6, delay }}
-      className="bg-gradient-to-br from-card/90 to-card rounded-xl overflow-hidden border border-border/40 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
-    >
-      <div className="relative aspect-square">
-        <Image
-          src={image}
-          alt={name}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
-      </div>
-      <div className="p-6">
-        <h3 className="font-semibold text-lg text-foreground">
-          <span>{name}</span>
-        </h3>
-        <p className="text-primary text-sm mb-3">
-          <span>{role}</span>
-        </p>
-        <p className="text-muted-foreground">
-          <span>{bio}</span>
-        </p>
-      </div>
-    </motion.div>
-  );
-}
-
 // Animated Testimonial
 function AnimatedTestimonial({
   quote,
@@ -763,5 +702,82 @@ function AnimatedTestimonial({
         </div>
       </div>
     </motion.div>
+  );
+}
+
+// Team Carousel Component
+function TeamCarousel() {
+  const { t } = useTranslation();
+  const [api, setApi] = useState<any>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
+
+  const teamImages = [
+    {
+      src: "/images/Team/DSC05579.jpg",
+      caption:
+        t("about.team.carousel.image1") || "Team at the homestay entrance",
+    },
+    {
+      src: "/images/Team/DSC05581.jpg",
+      caption: t("about.team.carousel.image2") || "Our team serving guests",
+    },
+    {
+      src: "/images/Team/DSC05593.jpg",
+      caption: t("about.team.carousel.image3") || "Team handling reservations",
+    },
+    {
+      src: "/images/Team/DSC05597.jpg",
+      caption: t("about.team.carousel.image4") || "Our hospitality team",
+    },
+    {
+      src: "/images/Team/DSC05603.jpg",
+      caption: t("about.team.carousel.image5") || "Team preparing for guests",
+    },
+  ];
+
+  useEffect(() => {
+    if (!api) return;
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap());
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap());
+    });
+  }, [api]);
+
+  return (
+    <>
+      <Carousel
+        opts={{
+          loop: true,
+          align: "center",
+        }}
+        className="w-full"
+        setApi={setApi}
+      >
+        <CarouselContent>
+          {teamImages.map((image, index) => (
+            <CarouselItem key={index}>
+              <div className="relative group">
+                <img
+                  src={image.src}
+                  alt={`${t("about.team.imageAlt")} ${index + 1}`}
+                  className="w-full h-auto aspect-[16/9] object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 text-white transform translate-y-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                  <p className="text-sm md:text-base">{image.caption}</p>
+                </div>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <div className="absolute inset-0 flex items-center justify-between p-4">
+          <CarouselPrevious className="w-12 h-12 bg-[#8a9a5b] hover:bg-[#758a4b] text-white rounded-full shadow-md ml-2 absolute left-0"></CarouselPrevious>
+          <CarouselNext className="w-12 h-12 bg-[#8a9a5b] hover:bg-[#758a4b] text-white rounded-full shadow-md mr-2 absolute right-0"></CarouselNext>
+        </div>
+      </Carousel>
+    </>
   );
 }
