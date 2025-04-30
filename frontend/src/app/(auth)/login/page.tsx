@@ -55,7 +55,7 @@ function LoginContent() {
                 className="text-center relative z-10"
               >
                 <img
-                  src="/images/image4.png"
+                  src="/images/LogoKen-03.png"
                   alt="Kén Homestay Logo"
                   className="mx-auto max-w-[80%] drop-shadow-lg"
                 />
