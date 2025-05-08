@@ -17,6 +17,7 @@ import {
   Star,
   Wifi,
   CircleDollarSign,
+  Eye,
 } from "lucide-react";
 import {
   Card,
@@ -54,6 +55,7 @@ DetailItem.displayName = "DetailItem";
 // Main component with animation and improved responsiveness
 const RoomDetails = memo(({ room }: RoomDetailsProps) => {
   const { t } = useTranslation();
+  console.log(room);
 
   return (
     <Card className="mb-6 sm:mb-8 border-0">
@@ -74,19 +76,11 @@ const RoomDetails = memo(({ room }: RoomDetailsProps) => {
         </CardDescription>
       </CardHeader>
       <CardContent className="px-3 sm:px-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-6 mb-6 sm:mb-8">
           <DetailItem
-            icon={
-              <SquareUser className="h-4 w-4 sm:h-5 sm:w-5 text-[#5a8d69]" />
-            }
-            label={t("rooms.roomDetails.roomType")}
-            value={
-              room.category === "room"
-                ? t("rooms.roomDetails.standardRoom")
-                : room.category === "double"
-                ? t("rooms.roomDetails.doubleRoom")
-                : room.category
-            }
+            icon={<Eye className="h-4 w-4 sm:h-5 sm:w-5 text-[#5a8d69]" />}
+            label={t("rooms.roomDetails.view") || "View"}
+            value={room.name === "Ngư Bình" ? "Garden View" : "City View"}
           />
 
           <DetailItem
