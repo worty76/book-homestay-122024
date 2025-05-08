@@ -181,7 +181,8 @@
     "roomDetails": {
       "title": "Room Details",
       "subtitle": "Information about the room and amenities",
-      "roomType": "Room Type",
+      "roomType": "View",
+      "view": "View",
       "standardRoom": "Standard Room",
       "doubleRoom": "Double Room",
       "area": "Area",
