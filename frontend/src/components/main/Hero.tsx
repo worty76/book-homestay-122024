@@ -34,7 +34,7 @@ const socialLinks = [
 ];
 
 const carouselVideos = [
-  "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=GGVD02_y4crww&profile=cld-default&autoplay=true&muted=true&controls=false&loop=true&player_width=100%25&player_height=100%25",
+  "https://player.cloudinary.com/embed/?cloud_name=dfhtag7xs&public_id=GGVD02_lps2eb&profile=cld-default&autoplay=true&muted=true&controls=false&loop=true&player_width=100%25&player_height=100%25",
 ];
 
 export function Hero() {

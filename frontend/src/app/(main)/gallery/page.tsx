@@ -36,67 +36,67 @@ export default function GalleryPage() {
     // Videos from Cloudinary
     const videos = [
       {
-        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=KH07_kyujio&profile=cld-default",
+        url: "https://res.cloudinary.com/ddypjdqmq/video/upload/v1/KH07_kyujio",
         thumbnail: "/images/3DKENHOME/TẦNG 02/Lụa Hội/24.png",
         category: "Video",
         title: "Video Tour 11",
       },
       {
-        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=KH06_x0d89a&profile=cld-default",
+        url: "https://res.cloudinary.com/ddypjdqmq/video/upload/v1/KH06_x0d89a",
         thumbnail: "/images/3DKENHOME/floor1/02.png",
         category: "Video",
         title: "Video Tour 2",
       },
       {
-        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=KH08_px4kr9&profile=cld-default",
+        url: "https://res.cloudinary.com/ddypjdqmq/video/upload/v1/KH08_px4kr9",
         thumbnail: "/images/3DKENHOME/TẦNG 02/Phong Nam/25.png",
         category: "Video",
         title: "Video Tour 12",
       },
       {
-        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd08_kljroy&profile=cld-default",
+        url: "https://res.cloudinary.com/ddypjdqmq/video/upload/v1/vd08_kljroy",
         thumbnail: "/images/3DKENHOME/floor1/03.png",
         category: "Video",
         title: "Video Tour 3",
       },
       {
-        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd07_gc5ms3&profile=cld-default",
+        url: "https://res.cloudinary.com/ddypjdqmq/video/upload/v1/vd07_gc5ms3",
         thumbnail: "/images/3DKENHOME/floor1/03.png",
         category: "Video",
         title: "Video Tour 3",
       },
       {
-        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=vd09_xczj9q&profile=cld-default",
+        url: "https://res.cloudinary.com/ddypjdqmq/video/upload/v1/vd09_xczj9q",
         thumbnail: "/images/3DKENHOME/floor1/04.png",
         category: "Video",
         title: "Video Tour 4",
       },
       {
-        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=KH01_dkopku&profile=cld-default",
+        url: "https://res.cloudinary.com/ddypjdqmq/video/upload/v1/KH01_dkopku",
         thumbnail: "/images/3DKENHOME/floor1/05 (1).png",
         category: "Video",
         title: "Video Tour 5",
       },
       {
-        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=KH02_xxzqmx&profile=cld-default",
+        url: "https://res.cloudinary.com/ddypjdqmq/video/upload/v1/KH02_xxzqmx",
         thumbnail: "/images/3DKENHOME/TẦNG 02/Hải Cầu Viên/26.png",
         category: "Video",
         title: "Video Tour 6",
       },
       {
-        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=KH04_lknqha&profile=cld-default",
+        url: "https://res.cloudinary.com/ddypjdqmq/video/upload/v1/KH04_lknqha",
         thumbnail: "/images/3DKENHOME/TẦNG 02/Hải Cầu Viên/27.png",
         category: "Video",
         title: "Video Tour 7",
       },
       {
-        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=KH03_jgsbiw&profile=cld-default",
+        url: "https://res.cloudinary.com/ddypjdqmq/video/upload/v1/KH03_jgsbiw",
         thumbnail: "/images/3DKENHOME/TẦNG 02/Hải Cầu Viên/28.png",
         category: "Video",
         title: "Video Tour 8",
       },
       {
-        url: "https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=KH05_panwj3&profile=cld-default",
+        url: "https://res.cloudinary.com/ddypjdqmq/video/upload/v1/KH05_panwj3",
         thumbnail: "/images/3DKENHOME/TẦNG 02/Ngư Bình/19.png",
         category: "Video",
         title: "Video Tour 9",
@@ -380,6 +380,7 @@ export default function GalleryPage() {
                       placeholder="blur"
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFdwI2QOQvhwAAAABJRU5ErkJggg=="
                       priority={index < 4}
+                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     />
                   ) : (
                     <div className="relative rounded-xl overflow-hidden aspect-video bg-gray-100">
@@ -392,6 +393,7 @@ export default function GalleryPage() {
                         height={300}
                         className="w-full h-full object-cover"
                         unoptimized={item.type === "video"}
+                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                       />
                       <div className="absolute inset-0 flex items-center justify-center bg-black/30">
                         <div className="bg-white/80 rounded-full p-3">
@@ -457,29 +459,22 @@ export default function GalleryPage() {
                   width={1200}
                   height={800}
                   className="max-h-[90vh] w-auto object-contain"
+                  sizes="90vw"
                 />
               ) : (
                 <div className="w-full h-full min-h-[70vh] max-w-[90vw] bg-black">
-                  {/* <iframe
+                  <video
                     src={selectedItem.url}
+                    controls
+                    autoPlay
                     className="w-full h-full border-0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe> */}
-                  <iframe
-                    src={selectedItem.url}
-                    width="1280"
-                    height="720"
                     style={{
                       height: "70vh",
                       width: "100%",
                       minWidth: "800px",
                       aspectRatio: "16 / 9",
                     }}
-                    allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-                    allowFullScreen
-                    frameBorder="0"
-                  ></iframe>
+                  />
                 </div>
               )}
 

@@ -62,6 +62,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                       alt={`Gallery image ${index + 1}`}
                       fill
                       className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
                 </CarouselItem>
