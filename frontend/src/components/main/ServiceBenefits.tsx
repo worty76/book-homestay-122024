@@ -49,7 +49,7 @@ export default function ServiceBenefits() {
           >
             <div className="rounded-2xl overflow-hidden relative aspect-[4/3]">
               <iframe
-                src="https://player.cloudinary.com/embed/?cloud_name=ddypjdqmq&public_id=Intro_fryeta&profile=cld-default"
+                src="https://player.cloudinary.com/embed/?cloud_name=dfhtag7xs&public_id=GGVD01_gqzwgo&profile=cld-default"
                 className="absolute inset-0 w-full h-full"
                 frameBorder="0"
                 allow="autoplay; fullscreen; encrypted-media; picture-in-picture"

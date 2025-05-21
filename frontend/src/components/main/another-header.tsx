@@ -50,6 +50,7 @@ const AnotherHeader = ({
               fill
               className="object-cover"
               priority
+              sizes="100vw"
             />
           </motion.div>
           <div className="absolute inset-0 bg-gradient-overlay" />

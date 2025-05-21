@@ -8,6 +8,8 @@ const nextConfig = {
       "res.cloudinary.com",
       "localhost",
       "127.0.0.1",
+      "player.cloudinary.com",
+      "ddypjdqmq.cloudinary.com"
     ],
     remotePatterns: [
       {
@@ -19,6 +21,10 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "player.cloudinary.com",
       },
     ],
   },
